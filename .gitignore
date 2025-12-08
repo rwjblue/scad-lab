@@ -1,0 +1,14 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Generated stuff (uncomment if you don't want these tracked)
+# *.stl
+# *.3mf
+# *.png
