@@ -12,3 +12,6 @@ Thumbs.db
 # *.stl
 # *.3mf
 # *.png
+
+# Local personal info for luggage tags
+models/luggage_tag/luggage_tag_user.scad
