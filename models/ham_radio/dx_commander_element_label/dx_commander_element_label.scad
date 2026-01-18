@@ -15,7 +15,7 @@ corner_radius = 1.5; // mm (fillet radius on all edges)
 
 // Wire size
 wire_awg                = 19;  // used if wire_outer_d_mm <= 0
-wire_outer_d_mm          = 0;   // mm, set to measured OD to override AWG
+wire_outer_d_mm          = 2.36; // mm, set to measured OD to override AWG
 insulation_thickness_mm  = 0.5; // mm, added to bare diameter on each side
 hole_clearance_mm        = 0.4; // mm, extra clearance for easy threading
 
