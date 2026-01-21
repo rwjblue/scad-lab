@@ -3,10 +3,10 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Usage: scripts/generate_luggage_tag.sh --first "First" --last "Last" --phone "+123" --email "you@example.com"
+Usage: scripts/generate_luggage_tag.sh --first "First" --last "Last" --phone "+123" --email "you@example.com" [--stl-out path.stl]
 
 Generates models/luggage_tag/luggage_tag_user.scad with your personal info and includes the base model.
-Open models/luggage_tag/luggage_tag_user.scad in OpenSCAD to render/export.
+Also renders an STL via the OpenSCAD CLI.
 EOF
 }
 
@@ -15,6 +15,7 @@ last=""
 phone=""
 email=""
 out="models/luggage_tag/luggage_tag_user.scad"
+stl_out=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -23,6 +24,7 @@ while [[ $# -gt 0 ]]; do
     --phone) phone="${2:-}"; shift 2;;
     --email) email="${2:-}"; shift 2;;
     --out) out="${2:-}"; shift 2;;
+    --stl-out) stl_out="${2:-}"; shift 2;;
     -h|--help) usage; exit 0;;
     *) echo "Unknown argument: $1" >&2; usage; exit 1;;
   esac
@@ -61,3 +63,15 @@ with open(out, "w", encoding="utf-8") as f:
     f.write(f"  email_address={scad_str(email)}\n")
     f.write(");\n")
 PY
+
+if ! command -v openscad >/dev/null 2>&1; then
+  echo "openscad is not installed or not on PATH. Install OpenSCAD CLI first." >&2
+  exit 1
+fi
+
+if [[ -z "$stl_out" ]]; then
+  stl_out="${out%.scad}.stl"
+fi
+
+mkdir -p "$(dirname "$stl_out")"
+openscad -o "$stl_out" "$out"
