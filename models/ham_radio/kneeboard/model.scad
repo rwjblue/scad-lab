@@ -40,6 +40,7 @@ hinge_edge_finger_width = 18.18;
 hinge_edge_gap_width = 18.18;
 hinge_edge_gap_starts = [18.18, 54.54, 90.90, 127.26, 163.62];
 hinge_edge_tooth_starts = [0, 36.36, 72.72, 109.08, 145.44, 181.80];
+hinge_edge_barrel_radius = plate_thick / 2;
 
 edge_hole_d = 7;
 top_edge_hole_d = 6;
@@ -59,6 +60,8 @@ hinge_segment_width = 12.3;
 hinge_segment_height = 6;
 hinge_pin_d = 1.8;       // 1/16 in rod plus clearance
 hinge_pin_offset_y = 3.15;
+hinge_lobe_radius = plate_thick / 2;
+hinge_web_width = 3;
 hinge_flange_extra_width = 6;
 hinge_flange_drop = 2;
 
@@ -122,46 +125,66 @@ module selective_rounded_rect_2d(size, r, round_bottom = true, round_top = true)
     }
 }
 
-module hinge_edge_teeth_2d(edge = "bottom") {
-    y = edge == "bottom" ? 0 : plate_width - hinge_edge_finger_depth;
-
-    for (x = hinge_edge_tooth_starts) {
-        w = min(hinge_edge_finger_width, plate_length - x);
-        translate([x, y])
-            square([w, hinge_edge_finger_depth]);
-    }
-}
-
 module plate_outline_2d(hinge_edge = "none") {
     if (hinge_edge == "bottom") {
-        union() {
-            translate([0, hinge_edge_finger_depth])
-                selective_rounded_rect_2d(
-                    [plate_length, plate_width - hinge_edge_finger_depth],
-                    plate_corner_radius,
-                    round_bottom = false,
-                    round_top = true
-                );
-            hinge_edge_teeth_2d("bottom");
-        }
-    } else if (hinge_edge == "top") {
-        union() {
+        translate([0, hinge_edge_finger_depth])
             selective_rounded_rect_2d(
                 [plate_length, plate_width - hinge_edge_finger_depth],
                 plate_corner_radius,
-                round_bottom = true,
-                round_top = false
+                round_bottom = false,
+                round_top = true
             );
-            hinge_edge_teeth_2d("top");
-        }
+    } else if (hinge_edge == "top") {
+        selective_rounded_rect_2d(
+            [plate_length, plate_width - hinge_edge_finger_depth],
+            plate_corner_radius,
+            round_bottom = true,
+            round_top = false
+        );
     } else {
         selective_rounded_rect_2d([plate_length, plate_width], plate_corner_radius);
     }
 }
 
+module hinge_edge_tooth_3d(x, width, edge = "bottom") {
+    y_center = edge == "bottom"
+        ? hinge_edge_finger_depth / 2
+        : plate_width - hinge_edge_finger_depth / 2;
+
+    // Rectangular back half gives a strong attachment to the plate body.
+    if (edge == "bottom") {
+        translate([x, y_center, 0])
+            cube([width, hinge_edge_finger_depth / 2 + 0.2, plate_thick]);
+    } else {
+        translate([x, plate_width - hinge_edge_finger_depth - 0.2, 0])
+            cube([width, hinge_edge_finger_depth / 2 + 0.2, plate_thick]);
+    }
+
+    // Rounded outer half-barrel around the pin line. The Y radius is scaled
+    // to match the tooth depth while the Z radius matches plate thickness.
+    translate([x, y_center, plate_thick / 2])
+        scale([1, hinge_edge_finger_depth / plate_thick, 1])
+            rotate([0, 90, 0])
+                cylinder(r = hinge_edge_barrel_radius, h = width, center = false);
+}
+
+module hinge_edge_teeth_3d(edge = "bottom") {
+    for (x = hinge_edge_tooth_starts) {
+        w = min(hinge_edge_finger_width, plate_length - x);
+        hinge_edge_tooth_3d(x, w, edge);
+    }
+}
+
 module plate_prism(hinge_edge = "none") {
-    linear_extrude(height = plate_thick)
-        plate_outline_2d(hinge_edge);
+    union() {
+        linear_extrude(height = plate_thick)
+            plate_outline_2d(hinge_edge);
+
+        if (hinge_edge == "bottom")
+            hinge_edge_teeth_3d("bottom");
+        else if (hinge_edge == "top")
+            hinge_edge_teeth_3d("top");
+    }
 }
 
 module rounded_slot(size, h, center = true) {
@@ -341,10 +364,25 @@ module top_plate() {
 
 module hinge_body(length = hinge_segment_length, width = hinge_segment_width, height = hinge_segment_height) {
     // Corresponds to files/kneeboard_hinge.stl.
-    // Simplified as a rectangular hinge block with two 1/16 in rod bores:
-    // one for the bottom-plate hinge fingers and one for the top-plate fingers.
+    // Simplified as a double-barrel hinge block with two 1/16 in rod bores:
+    // one lobe for the bottom-plate teeth and one for the top-plate teeth.
     difference() {
-        rounded_prism([length, width, height], 1.2);
+        union() {
+            for (y = [hinge_pin_offset_y, width - hinge_pin_offset_y])
+                translate([0, y, height / 2])
+                    rotate([0, 90, 0])
+                        cylinder(r = hinge_lobe_radius, h = length, center = false);
+
+            translate([0, hinge_pin_offset_y, 0])
+                cube([
+                    length,
+                    width - 2 * hinge_pin_offset_y,
+                    height
+                ]);
+
+            translate([0, width / 2 - hinge_web_width / 2, 0])
+                cube([length, hinge_web_width, height]);
+        }
 
         for (y = [hinge_pin_offset_y, width - hinge_pin_offset_y])
             translate([length / 2, y, height / 2])

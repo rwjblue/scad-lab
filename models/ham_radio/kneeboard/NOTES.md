@@ -40,6 +40,8 @@ hinge-facing corners are intentionally square rather than rounded, while the
 non-hinge outside corners remain rounded. The separate hinge pieces sit in the
 gaps between teeth and are pinned with 1/16 inch rods. The OpenSCAD hinge blocks
 include the rod bores, and the plate teeth include matching bore cuts.
+The exposed hinge-facing side of each plate tooth is rounded like a hinge
+barrel, while the inner side remains square where it joins the plate.
 
 The OpenSCAD coordinate layout intentionally puts the bottom plate hinge edge at
 the top of the bottom plate and the top plate hinge edge at the bottom of the

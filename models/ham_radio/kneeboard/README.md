@@ -91,6 +91,8 @@ The top plate and hinge pieces are usable first-pass parametric versions. The
 main dimensions and hinge-edge fingers are measured, but some details are
 simplified: rounded edges, shallow cord grooves, and hinge profiles are not
 exact copies. The original large top pad/tray recess is intentionally omitted.
+The hinge teeth and hinge bodies use rounded barrel-like profiles around the
+rod line.
 
 ## Measurements To Improve Later
 
