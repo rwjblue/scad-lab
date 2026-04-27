@@ -46,6 +46,7 @@ top_edge_hole_d = 6;
 
 side_slot_width = 5;
 side_slot_length = 38.5;
+top_strap_relief_depth = plate_thick / 2;
 top_cord_groove_width = 9.5;
 top_cord_groove_depth = 4;
 top_edge_groove_depth = 3;
@@ -191,6 +192,22 @@ module cord_groove(pos, length, width, depth, angle = 0) {
             rounded_slot([length, width], depth + 0.2, center = false);
 }
 
+module edge_open_vertical_groove(pos, length, width, depth) {
+    x = pos[0];
+    y = pos[1];
+    z = plate_thick - depth;
+
+    cord_groove(pos, length, width, depth, 90);
+
+    if (x < plate_length / 2) {
+        translate([-0.2, y - length / 2, z])
+            cube([x + width / 2 + 0.2, length, depth + 0.2]);
+    } else {
+        translate([x - width / 2, y - length / 2, z])
+            cube([plate_length - x + width / 2 + 0.2, length, depth + 0.2]);
+    }
+}
+
 module rectangular_recess(center_xy, size_xy, depth, r) {
     translate([center_xy[0], center_xy[1], plate_thick - depth])
         linear_extrude(height = depth + 0.2)
@@ -275,13 +292,29 @@ module top_plate_holes_and_slots() {
             through_hole([x, plate_width - y], top_edge_hole_d);
 
     for (x = [7, plate_length - 7])
-        cord_groove(
+        edge_open_vertical_groove(
             [x, plate_width / 2],
             plate_width - 2 * top_cord_groove_margin,
             top_cord_groove_width,
-            top_cord_groove_depth,
-            90
+            top_cord_groove_depth
         );
+
+    // Half-depth reliefs matching the bottom plate's leg-strap slots. These
+    // let the wider elastic straps remain installed when the board closes.
+    for (x = [7, plate_length - 7]) {
+        edge_open_vertical_groove(
+            [x, plate_width - 44.70],
+            side_slot_length,
+            side_slot_width,
+            top_strap_relief_depth
+        );
+        edge_open_vertical_groove(
+            [x, plate_width - 96.90],
+            side_slot_length,
+            side_slot_width,
+            top_strap_relief_depth
+        );
+    }
 
     // Hinge-side cord groove.
     cord_groove(

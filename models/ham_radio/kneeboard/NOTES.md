@@ -78,5 +78,9 @@ the feature side upward. Hinges are likely printed flat in their STL orientation
 - Shallow top-plate cord channels are modeled as grooves, not through-slots,
   so cordage can remain installed when the board closes. The top side holes are
   aligned with these grooves and with the bottom plate's strap/cord line.
+- Half-depth top-plate relief slots are aligned with the bottom leg-strap slots
+  so the wider elastic straps can remain installed when the board closes. These
+  side recesses open to the left and right outside edges, while the horizontal
+  grooves remain inset.
 - Hinge geometry is simplified as a rectangular knuckle with a longitudinal
   1/16 inch rod bore plus clearance.

@@ -41,7 +41,10 @@ hinge blocks between the plates, so the preview stays readable. The bottom plate
 keeps through-slots for the leg strap. The top plate uses shallow cord grooves
 instead of through-slots so shock cord can stay installed while the board closes
 flat. Those grooves run nearly the full usable height and width of the top plate
-while leaving material near the edges.
+while leaving material near the edges. The top plate also has half-depth relief
+slots aligned with the bottom leg-strap slots so the wider elastic straps can
+stay installed when the board is folded. The left and right side recesses open
+to the outside edge; the horizontal top and hinge-side grooves remain inset.
 
 ## Rendering
 
@@ -93,6 +96,6 @@ exact copies. The original large top pad/tray recess is intentionally omitted.
 
 - Real steel plate length, width, thickness, and desired clearance
 - Exact plate corner radius
-- Exact side-slot radius, strap-slot dimensions, and top cord-groove clearance
+- Exact side-slot radius, strap-slot dimensions, and top relief/groove clearance
 - Hinge bore clearance around the two 1/16 inch rods
 - Hinge spacing in the assembled board
