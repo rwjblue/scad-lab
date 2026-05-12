@@ -82,7 +82,7 @@ existing PCB slot. Coordinate frame, cap-local:
 |---|---|---|
 | X (circumferential length) | 17.5 mm | slot 18.5 − 1.0 mm clearance |
 | Z (axial width) | 14.5 mm | standoff gap 15.0 − 0.5 mm clearance |
-| Y (total radial extent) | 18.0 mm | inner 5.9 mm sits in slot, outer 12.1 mm past disk OD; 1.5 mm air gap + 2.4 mm front wall past BNC tip |
+| Y (total radial extent) | 18.3 mm | inner 5.9 mm sits in slot, outer 12.4 mm past disk OD; derived from 8.5 mm BNC protrusion + 1.5 mm air gap + 2.4 mm front wall |
 
 ### Closed faces (walls)
 
@@ -93,19 +93,23 @@ existing PCB slot. Coordinate frame, cap-local:
 ### Open faces
 
 - Radially inward: BNC enters here
-- Both axial faces: open. The two PCB inside faces sit right against
-  these openings when installed and act as the missing walls
+- Both axial faces: open. The printed part has side/front wall material
+  spanning the inter-PCB gap, but no printed top/bottom skins closing the
+  BNC pocket. The two PCB inside faces sit right against these openings
+  when installed and act as the missing walls
 
 ### Internal features
 
-- **BNC pocket:** 12 mm (X) × 13.5 mm (Z) rectangular cavity, 15.5 mm
-  deep, centered. ~1 mm clearance on each side around the BNC body
-  (9.65 × ~13 mm). Bayonet face is round, but a square pocket prints
-  cleaner and the corners are unused space — fine.
+- **BNC pocket:** 12 mm (X) rectangular cavity, full-through in Z, 15.9 mm
+  deep, centered. The BNC body is ~9.65 mm wide and ~13 mm tall in the
+  15 mm inter-PCB gap; the full-through axial opening avoids thin printed
+  skins and lets the PCB faces provide the axial constraint. Bayonet face
+  is round, but a square pocket prints cleaner and the corners are unused
+  space — fine.
 - **Lead-in chamfer:** 0.5 mm × 45° on the four radially-inward edges,
   for self-alignment on installation.
-- **Tie groove:** 4 mm wide × 1.5 mm deep semicircular channel on the
-  outer face, running axially (Z) at the X centerline.
+- **Tie groove:** 4 mm diameter × 1.5 mm deep circular-segment channel on
+  the outer face, running axially (Z) at the X centerline.
 
 ### Stopping behavior
 
@@ -136,7 +140,7 @@ bnc_body_h           = 13.0;
 bnc_protrusion       = 8.5;    // past disk OD
 
 // cap
-clearance            = 0.5;
+clearance            = 0.5;     // X per-side clearance; Z total clearance
 wall                 = 2.4;
 side_wall            = 2.5;
 lead_in_chamfer      = 0.5;
@@ -164,11 +168,12 @@ front_air_gap        = 1.5;    // BNC tip to inside of front wall
 |---|---|---|---|
 | Cap X vs. slot X | 17.5 / 18.5 mm | 0.5 mm/side | FDM lateral overprint + slot wall variance |
 | Cap Z vs. PCB gap | 14.5 / 15.0 mm | 0.25 mm/side | Snug enough that PCBs hold cap axially |
-| Pocket vs. BNC body | 12 × 13.5 / 9.65 × 13 mm | ~1 mm/side X, 0.25 mm/side Z | Body fits without forcing |
+| Pocket vs. BNC body | 12 mm wide, full-through Z / 9.65 × ~13 mm body | ~1 mm/side X, ~0.75 mm total Z in a 14.5 mm cap | Body fits without forcing; PCBs constrain axial movement |
 | Front wall to BNC tip | ≥ 1.5 mm | — | Air-gap so cable plugged in (cap removed) doesn't damage front wall |
 | Lead-in chamfer | 0.5 × 45° | — | Self-aligning insertion |
 
-All driven from a single `clearance` parameter for retuning per-printer.
+The main slot/PCB clearances are driven from a single `clearance`
+parameter for retuning per-printer: per-side in X and total across Z.
 
 ## Print profile
 
@@ -216,7 +221,7 @@ matching OpenSCAD parameter if any value disagrees by more than ~0.3 mm.
 | Standoff length (clear gap between PCB inside faces) | 15.0 mm | `inter_pcb_gap` |
 | Slot opening width (between the two slot side walls in the disk) | 18.5 mm | `slot_width` |
 | Slot depth (radial, from disk OD inward to slot's inner wall) | 5.9 mm | `slot_depth` |
-| BNC body width (the rectangular footprint, axial direction) | 9.65 mm | `bnc_body_w` |
+| BNC body width (the rectangular footprint, circumferential direction) | 9.65 mm | `bnc_body_w` |
 | BNC body height above PCB inside face (axial) | 13.0 mm | `bnc_body_h` |
 | BNC bayonet face protrusion past disk OD (radial) | 8.5 mm | `bnc_protrusion` |
 
@@ -226,7 +231,8 @@ across all units.
 
 ## Source references
 
-All dimensions in this spec were derived from the
+All dimensions in this spec were derived from the local
+`/Users/rwjblue/src/github/modulo8/KO4HUI-Spooltenna` checkout of the
 [KO4HUI Spooltenna](https://github.com/modulo8/KO4HUI-Spooltenna) KiCad
 sources at commit `3699ed0` (current `main` as of 2026-05-12).
 
@@ -236,10 +242,10 @@ sources at commit `3699ed0` (current `main` as of 2026-05-12).
 | Ultra slot 18.5 × 5.9 mm | same | Edge.Cuts lines (140.75/159.25, 132.2 → 134.4) + 1 mm fillets |
 | Ultra BNC at (150, 119.7) on B.Cu | same | `(footprint "footprints:BNC_MOLEX_73100_PIPE_WIDE")` |
 | BNC body 9.65 × ~13 × ~22 mm | `footprints/BNC_MOLEX_73100.kicad_mod` | F.Fab outline (-4.825 .. 4.825) × (-4.75 .. -26.55) |
-| BNC protrusion 8.15 mm past disk | derived | BNC tip (Y=146.25) − disk OD chord (Y=138.1) |
+| BNC protrusion 8.15 mm past disk | derived | BNC tip (Y=146.25 from J2 at Y=119.7 plus footprint F.Fab end 26.55) − disk OD chord (Y=138.1) |
 | V1.3 disk OD 120 mm | `v1.3/Wire Spool Antenna V1.3/Wire Spool Antenna V1.3.kicad_pcb` | `gr_arc` center (100, 100), radius 60 mm |
 | V1.3 slot 18 × 9.6 mm | same | Edge.Cuts lines (91/109, 150.4 → 156.975) + 2 mm fillets |
-| V1.3 BNC at (100, 138, 180°) on F.Cu | same | `(footprint "footprints:BNC_MOLEX_73100_PIPE")` |
+| V1.3 BNC at (100, 138, 180°) on F.Cu | same | `(footprint "footprints:BNC_MOLEX_73100_PIPE")`; derived protrusion ~4.55 mm, rounded to 5.0 mm |
 
 Inter-PCB standoff length was *not* found in the KiCad sources — the
 boards have three 8.5 mm holes at 120° (centers (118.5, 100), (181.5, 100),
@@ -249,8 +255,9 @@ the actual antenna before final print**.
 
 ## Open questions deferred to first print
 
-- Bongo tie cross-section on this antenna's specific tie. The 4 × 1.5 mm
-  rectangular groove fits a typical ~3 mm rubber loop; if the loop is
+- Bongo tie cross-section on this antenna's specific tie. The 4 mm
+  diameter × 1.5 mm deep circular-segment groove fits a typical ~3 mm
+  rubber loop; if the loop is
   thicker, bump `tie_groove_w` and/or `tie_groove_d`.
 - Whether the front face needs a small text/label (e.g., "BNC") — out of
   scope for v1, easy add later via `linear_extrude(text(...))`.

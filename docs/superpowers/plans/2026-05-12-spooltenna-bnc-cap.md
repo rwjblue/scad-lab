@@ -4,7 +4,7 @@
 
 **Goal:** Build a parameterized OpenSCAD model for a 3D-printed PETG protective cap that drops into the existing BNC slot on a Spooltenna Ultra (v1.5/v1.6) wire spool antenna and is retained by the antenna's bongo tie.
 
-**Architecture:** Single-file OpenSCAD model under `models/ham_radio/spooltenna_bnc_cap/`, parameters at the top, a `model = "ULTRA_V1_6"` preset switch that resolves a small struct of stack/slot/BNC dimensions, then a `cap()` module that builds the part as one block with a subtractive BNC pocket and tie groove plus lead-in chamfers. Stretch preset for v1.3 wired in at the end.
+**Architecture:** Single-file OpenSCAD model under `models/ham_radio/spooltenna_bnc_cap/`, parameters at the top, a `model = "ULTRA_V1_6"` preset switch that resolves a small struct of stack/slot/BNC dimensions, then a `cap()` module that builds the part as one block with a subtractive full-through axial BNC pocket, circular-segment tie groove, and lead-in chamfers. Stretch preset for v1.3 wired in at the end.
 
 **Tech Stack:** OpenSCAD (CLI + GUI), bash for the render script, PETG / FDM for the print target. No external libraries beyond `lib/rounded_cube.scad` already in this repo (and only if useful — current design doesn't strictly need it).
 
@@ -20,7 +20,9 @@ every command is spelled out below. To pick up cold:
 1. Clone or pull `scad-lab` (this repo) on the new machine.
 2. Read `docs/superpowers/specs/2026-05-12-spooltenna-bnc-cap-design.md`
    end to end, including the "Source references" and "Pre-print
-   measurements" appendices.
+   measurements" appendices. The source Spooltenna checkout used for
+   those measurements is `/Users/rwjblue/src/github/modulo8/KO4HUI-Spooltenna`
+   at commit `3699ed0`.
 3. Install OpenSCAD CLI:
    - macOS: `brew install --cask openscad` (puts the GUI app at
      `/Applications/OpenSCAD.app`); add the CLI to PATH with
@@ -162,17 +164,16 @@ disk_radius     = preset_disk_radius;
 
 // BNC body (Molex 73100 / Winconn 364A2x95 family)
 bnc_body_w      = 9.65;    // X (circumferential)
-bnc_body_h      = 13.0;    // Z (axial, above PCB)
+bnc_body_h      = 13.0;    // Z (axial height inside the inter-PCB gap)
 bnc_protrusion  = preset_bnc_protrusion;
 
 // Cap geometry
-clearance       = 0.5;     // generic per-side clearance
+clearance       = 0.5;     // X per-side clearance; Z total clearance
 wall            = 2.4;     // front wall (radial-outermost)
 side_wall       = 2.5;     // circumferential side walls
 lead_in_chamfer = 0.5;     // chamfer on radially-inward edges
 front_air_gap   = 1.5;     // BNC tip to inside of front wall
 pocket_x_clear  = 1.0;     // each-side clearance around BNC body in X
-pocket_z_clear  = 0.25;    // each-side clearance around BNC body in Z
 
 // Bongo tie groove
 tie_groove_w    = 4.0;
@@ -184,12 +185,11 @@ tie_groove_d    = 1.5;
 
 // Cap outer footprint (X = circumferential, Y = radial, Z = axial)
 cap_x = slot_width      - 2 * clearance;                  // 17.5 mm @ Ultra defaults
-cap_z = inter_pcb_gap   - 2 * clearance;                  // 14.5 mm @ 15 mm gap
+cap_z = inter_pcb_gap   - clearance;                      // 14.5 mm @ 15 mm gap
 cap_y = slot_depth + bnc_protrusion + front_air_gap + wall;  // 18.3 mm @ Ultra defaults
 
 // BNC pocket (interior cavity)
 pocket_x = bnc_body_w + 2 * pocket_x_clear;               // 11.65 mm
-pocket_z = bnc_body_h + 2 * pocket_z_clear;               // 13.5 mm
 pocket_y = cap_y - wall;                                  // depth from inner face
 
 // Sanity asserts (OpenSCAD will halt with these messages on bad params)
@@ -198,8 +198,8 @@ assert(cap_z > 0,            "cap_z must be positive");
 assert(cap_y > 0,            "cap_y must be positive");
 assert(pocket_x < cap_x - 2 * side_wall,
        "BNC pocket too wide for cap_x given side_wall");
-assert(pocket_z < cap_z,
-       "BNC pocket too thick for cap_z (axial)");
+assert(bnc_body_h < cap_z,
+       "BNC body too tall for cap_z (axial)");
 assert(pocket_y > slot_depth,
        "Pocket must reach past the slot into the body");
 
@@ -224,7 +224,7 @@ openscad -D 'model="V1_3"' \
   -o /tmp/spooltenna_cap_v13.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: exits 0. Placeholder box dimensions become 17.0 × 16.1 × 14.5 mm.
+Expected: exits 0. Placeholder box dimensions become 17.0 × 18.5 × 14.5 mm.
 
 - [ ] **Step 4: Commit (jj)**
 
@@ -241,7 +241,7 @@ jj new
 **Files:**
 - Modify: `models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad`
 
-The cap will be built centered on X, with Y=0 at the radially-inward face (the open back) and Z centered on 0. This puts the BNC pocket opening on the −Y face and the front wall on the +Y face — natural for the install direction.
+The cap will be built centered on X, with Y=0 at the radially-inward face (the open back) and Z centered on 0. This puts the BNC pocket opening on the Y=0 face and the front wall on the Y=cap_y face -- natural for the install direction.
 
 - [ ] **Step 1: Add the `cap_solid()` module and replace the placeholder render**
 
@@ -297,12 +297,13 @@ After the `cap_solid()` module and before the top-level render, add:
 
 ```scad
 // BNC pocket: a rectangular cavity that opens on the radially-inward
-// face (Y = 0) and extends Y forward to within `wall` of the front face.
-// Centered on X and Z.
+// face (Y = 0), extends Y forward to within `wall` of the front face,
+// and cuts fully through Z so the PCB faces act as the axial walls.
+// Centered on X.
 module bnc_pocket() {
     eps = 0.01;  // overlap into the open face so the boolean is clean
-    translate([-pocket_x / 2, -eps, -pocket_z / 2])
-        cube([pocket_x, pocket_y + eps, pocket_z]);
+    translate([-pocket_x / 2, -eps, -cap_z / 2 - eps])
+        cube([pocket_x, pocket_y + eps, cap_z + 2 * eps]);
 }
 ```
 
@@ -326,7 +327,7 @@ openscad -o /tmp/spooltenna_cap_t4.stl \
 ```
 Expected: exits 0. Open the STL in OpenSCAD GUI (or `open /tmp/spooltenna_cap_t4.stl`) and confirm:
 - A roughly 18 mm tall block.
-- A rectangular cavity of ~12 × 13.5 mm cross-section opens on one face (the −Y face), going ~15.5 mm deep, leaving ~2.4 mm of front wall.
+- A rectangular cavity about 12 mm wide opens on the Y=0 face, cuts fully through Z, goes about 15.9 mm deep, and leaves about 2.4 mm of front wall.
 
 - [ ] **Step 4: Commit (jj)**
 
@@ -343,23 +344,22 @@ jj new
 **Files:**
 - Modify: `models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad`
 
-A simple rectangular channel running axially (Z direction) across the front face (+Y), centered on X. Rectangular keeps the math trivial and prints fine in PETG; if a half-round profile turns out to be more comfortable for the tie, we can swap in a cylinder later.
+A circular-segment channel running axially (Z direction) across the front face (Y=cap_y), centered on X. The groove uses a 4 mm diameter cylinder offset so it cuts 1.5 mm into the front face; this matches the spec's rounded bongo-tie seat without adding support requirements.
 
 - [ ] **Step 1: Add the `tie_groove()` module**
 
 After `bnc_pocket()`, add:
 
 ```scad
-// Bongo tie groove: rectangular channel across the front face,
+// Bongo tie groove: circular-segment channel across the front face,
 // running axially (along Z), centered on X.
 module tie_groove() {
     eps = 0.01;
-    translate([-tie_groove_w / 2,
-               cap_y - tie_groove_d,
+    r = tie_groove_w / 2;
+    translate([0,
+               cap_y + r - tie_groove_d,
                -cap_z / 2 - eps])
-        cube([tie_groove_w,
-              tie_groove_d + eps,
-              cap_z + 2 * eps]);
+        cylinder(r = r, h = cap_z + 2 * eps);
 }
 ```
 
@@ -382,7 +382,7 @@ Run:
 openscad -o /tmp/spooltenna_cap_t5.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: exits 0. Open the STL; confirm a rectangular groove `tie_groove_w` (4 mm) wide × `tie_groove_d` (1.5 mm) deep is recessed into the +Y face, running all the way across Z, centered on X.
+Expected: exits 0. Open the STL; confirm a rounded groove about `tie_groove_w` (4 mm) wide × `tie_groove_d` (1.5 mm) deep is recessed into the Y=cap_y face, running all the way across Z, centered on X.
 
 - [ ] **Step 4: Commit (jj)**
 
@@ -399,7 +399,7 @@ jj new
 **Files:**
 - Modify: `models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad`
 
-The cap should self-align as it drops into the slot. Chamfer the four edges of the −Y face (the four edges of the cap's open mouth that approach the disk first). Each chamfer is a triangular prism subtracted from one edge.
+The cap should self-align as it drops into the slot. Chamfer the four edges of the Y=0 face (the four edges of the cap's open mouth that approach the disk first). Each chamfer is a triangular prism subtracted from one edge.
 
 A small helper module makes the four placements obvious. Each chamfer is a triangular prism of cross-section `c × c` running along the edge.
 
@@ -418,7 +418,7 @@ module _chamfer_prism(length, c) {
             polygon([[0, 0], [c, 0], [0, c]]);
 }
 
-// Lead-in chamfer on the four edges of the radially-inward (−Y) face.
+// Lead-in chamfer on the four edges of the radially-inward (Y=0) face.
 // At each edge, place a chamfer prism so the triangle's right-angle
 // corner sits exactly on the cap edge and the hypotenuse cuts inward.
 module lead_in_chamfers() {
@@ -427,22 +427,22 @@ module lead_in_chamfers() {
     L_x = cap_x + 2 * eps;
     L_z = cap_z + 2 * eps;
 
-    // −Y / +Z edge (top of mouth, runs along +X)
+    // Y=0 / +Z edge (top of mouth, runs along +X)
     translate([-cap_x / 2 - eps, 0, cap_z / 2 - c])
         _chamfer_prism(L_x, c);
 
-    // −Y / −Z edge (bottom of mouth, runs along +X) — mirror across X-Y
+    // Y=0 / -Z edge (bottom of mouth, runs along +X) -- mirror across X-Y
     translate([-cap_x / 2 - eps, 0, -cap_z / 2])
         mirror([0, 0, 1])
             translate([0, 0, -c])
                 _chamfer_prism(L_x, c);
 
-    // −Y / +X edge (right side of mouth, runs along +Z)
+    // Y=0 / +X edge (right side of mouth, runs along +Z)
     translate([cap_x / 2 - c, 0, -cap_z / 2 - eps])
         rotate([0, 0, 90])
             _chamfer_prism(L_z, c);
 
-    // −Y / −X edge (left side of mouth, runs along +Z) — mirror across Y-Z
+    // Y=0 / -X edge (left side of mouth, runs along +Z) -- mirror across Y-Z
     translate([-cap_x / 2, 0, -cap_z / 2 - eps])
         mirror([1, 0, 0])
             translate([-c, 0, 0])
@@ -472,11 +472,11 @@ openscad -o /tmp/spooltenna_cap_t6.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
 Open the STL. Confirm:
-- All four edges around the open (−Y) mouth have a 0.5 mm × 45° chamfer.
+- All four edges around the open Y=0 mouth have a 0.5 mm × 45° chamfer.
 - No other edges are chamfered.
 - The chamfer cuts the cap exterior, not the BNC pocket interior.
 
-If the chamfer ends up on the wrong face (e.g., it cuts the +Y / front face instead of −Y / back), the most likely cause is an off-by-one in the `mirror` / `translate` pair — flip the sign on the inner `translate` and re-render. Iterate until the visual matches.
+If the chamfer ends up on the wrong face (e.g., it cuts the Y=cap_y / front face instead of Y=0 / back), the most likely cause is an off-by-one in the `mirror` / `translate` pair -- flip the sign on the inner `translate` and re-render. Iterate until the visual matches.
 
 - [ ] **Step 4: Commit (jj)**
 
@@ -564,8 +564,8 @@ Expected: exits 0; non-empty STL. The V1_3 variant should be ~16 mm radial (vs. 
 
 Open both STLs; confirm:
 - Ultra: 17.5 × 18.3 × 14.5 mm bounding box.
-- V1.3: 17.0 × 16.1 × 14.5 mm bounding box.
-- Both have the BNC pocket on the −Y face, tie groove on +Y, chamfers on the four −Y edges.
+- V1.3: 17.0 × 18.5 × 14.5 mm bounding box.
+- Both have the BNC pocket on the Y=0 face, tie groove on Y=cap_y, chamfers on the four Y=0 edges.
 
 - [ ] **Step 4: Decide whether to keep the rendered STLs in the repo**
 
@@ -664,7 +664,7 @@ without widening the spool over the wire winding.
 - **Infill:** 30 % gyroid
 - **Temps:** 240 °C nozzle / 75 °C bed
 - **Cooling:** ~30 %
-- **Orientation:** Front face (the closed +Y face, the part that takes
+- **Orientation:** Front face (the closed Y=cap_y face, the part that takes
   bag hits) on the build plate; open inner face up. Layers stack
   radially. No supports needed.
 
@@ -690,16 +690,16 @@ with 15 mm M3 standoffs.
 | `bnc_protrusion` | 8.5 | bayonet length past disk OD |
 | `bnc_body_w` | 9.65 | BNC body width (X) |
 | `bnc_body_h` | 13.0 | BNC body height (Z) |
-| `clearance` | 0.5 | per-side clearance to slot/PCBs |
+| `clearance` | 0.5 | X per-side clearance; Z total clearance |
 | `wall` | 2.4 | front wall (radial-outermost) |
 | `side_wall` | 2.5 | circumferential side walls |
-| `lead_in_chamfer` | 0.5 | chamfer on the −Y open edges |
+| `lead_in_chamfer` | 0.5 | chamfer on the Y=0 open edges |
 | `front_air_gap` | 1.5 | inside front wall to BNC tip |
 | `tie_groove_w` | 4.0 | bongo tie channel width |
 | `tie_groove_d` | 1.5 | bongo tie channel depth |
 
 If the first print is slightly tight or loose at the slot or against
-the PCB faces, bump `clearance` by ±0.2 mm and reprint — that single
+the PCB faces, bump `clearance` by ±0.2 mm and reprint -- that single
 parameter drives both interfaces.
 
 ## Render
@@ -811,7 +811,7 @@ Expected: exits 0; both STLs present in `models/ham_radio/spooltenna_bnc_cap/`.
 
 Open each STL and confirm by eye:
 - Ultra (default): bounding box ~17.5 × 18.3 × 14.5 mm; pocket on one face; tie groove on opposite face; chamfers on the four pocket-side edges.
-- V1.3: bounding box ~17.0 × 16.1 × 14.5 mm; same internal features.
+- V1.3: bounding box ~17.0 × 18.5 × 14.5 mm; same internal features.
 
 - [ ] **Step 4: Sanity-check assertions trigger on bad inputs**
 
@@ -821,7 +821,7 @@ openscad -D 'inter_pcb_gap=5' \
   -o /tmp/spooltenna_cap_bad.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: non-zero exit. The output should mention an `assert` failure (likely "BNC pocket too thick for cap_z (axial)" because the gap is too small for the BNC body).
+Expected: non-zero exit. The output should mention an `assert` failure (likely "BNC body too tall for cap_z (axial)" because the gap is too small for the BNC body).
 
 - [ ] **Step 5: Final jj describe**
 
