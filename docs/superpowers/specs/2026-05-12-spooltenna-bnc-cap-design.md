@@ -86,7 +86,7 @@ existing PCB slot. Coordinate frame, cap-local:
 
 ### Closed faces (walls)
 
-- Radially outward (front bumper): 2.4 mm wall, with axial tie groove
+- Radially outward (front bumper): 2.4 mm wall
 - Both circumferential sides: 2.5 mm walls — these transfer side hits
   into the slot walls in the disk material
 
@@ -106,10 +106,11 @@ existing PCB slot. Coordinate frame, cap-local:
   skins and lets the PCB faces provide the axial constraint. Bayonet face
   is round, but a square pocket prints cleaner and the corners are unused
   space — fine.
-- **Lead-in chamfer:** 0.5 mm × 45° on the four radially-inward edges,
+- **Lead-in chamfer:** 1.0 mm × 45° on the four radially-inward edges,
   for self-alignment on installation.
 - **Tie groove:** 4 mm diameter × 1.5 mm deep circular-segment channel on
-  the outer face, running axially (Z) at the X centerline.
+  the top (+Z) face, running circumferentially across X from prong to
+  prong.
 
 ### Stopping behavior
 
@@ -143,7 +144,7 @@ bnc_protrusion       = 8.5;    // past disk OD
 clearance            = 0.5;     // X per-side clearance; Z total clearance
 wall                 = 2.4;
 side_wall            = 2.5;
-lead_in_chamfer      = 0.5;
+lead_in_chamfer      = 1.0;
 tie_groove_w         = 4.0;
 tie_groove_d         = 1.5;
 front_air_gap        = 1.5;    // BNC tip to inside of front wall
@@ -159,7 +160,8 @@ front_air_gap        = 1.5;    // BNC tip to inside of front wall
    Cap bottoms when its radially-inward face seats against the slot's
    inner wall.
 3. Wrap the bongo tie around the spool's center as today. The tie
-   crosses the cap's outer face and seats in the groove. Pull tight.
+   crosses the cap's top face and seats in the prong-to-prong groove.
+   Pull tight.
 4. Removal: unhook tie, lift cap straight off radially.
 
 ## Tolerances
@@ -170,7 +172,7 @@ front_air_gap        = 1.5;    // BNC tip to inside of front wall
 | Cap Z vs. PCB gap | 14.5 / 15.0 mm | 0.25 mm/side | Snug enough that PCBs hold cap axially |
 | Pocket vs. BNC body | 12 mm wide, full-through Z / 9.65 × ~13 mm body | ~1 mm/side X, ~0.75 mm total Z in a 14.5 mm cap | Body fits without forcing; PCBs constrain axial movement |
 | Front wall to BNC tip | ≥ 1.5 mm | — | Air-gap so cable plugged in (cap removed) doesn't damage front wall |
-| Lead-in chamfer | 0.5 × 45° | — | Self-aligning insertion |
+| Lead-in chamfer | 1.0 × 45° | — | Self-aligning insertion |
 
 The main slot/PCB clearances are driven from a single `clearance`
 parameter for retuning per-printer: per-side in X and total across Z.

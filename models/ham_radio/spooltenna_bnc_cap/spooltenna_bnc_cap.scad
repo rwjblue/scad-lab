@@ -61,7 +61,7 @@ bnc_protrusion  = preset_bnc_protrusion;
 clearance       = 0.5;     // X per-side clearance; Z total clearance
 wall            = 2.4;     // front wall (radial-outermost)
 side_wall       = 2.5;     // circumferential side walls
-lead_in_chamfer = 0.5;     // chamfer on radially-inward edges
+lead_in_chamfer = 1.0;     // chamfer on radially-inward edges
 front_air_gap   = 1.5;     // BNC tip to inside of front wall
 pocket_x_clear  = 1.0;     // each-side clearance around BNC body in X
 
@@ -77,6 +77,7 @@ tie_groove_d    = 1.5;
 cap_x = slot_width - 2 * clearance;                         // 17.5 mm @ Ultra defaults
 cap_z = inter_pcb_gap - clearance;                          // 14.5 mm @ 15 mm gap
 cap_y = slot_depth + bnc_protrusion + front_air_gap + wall;  // 18.3 mm @ Ultra defaults
+tie_groove_y = cap_y / 2;
 
 // BNC pocket (interior cavity)
 pocket_x = bnc_body_w + 2 * pocket_x_clear;  // 11.65 mm
@@ -114,13 +115,16 @@ module bnc_pocket() {
         cube([pocket_x, pocket_y + eps, cap_z + 2 * eps]);
 }
 
-// Bongo tie groove: circular-segment channel across the front face,
-// running axially (along Z), centered on X.
+// Bongo tie groove: circular-segment channel across the top face,
+// running across X from prong to prong.
 module tie_groove() {
     eps = 0.01;
     r = tie_groove_w / 2;
-    translate([0, cap_y + r - tie_groove_d, -cap_z / 2 - eps])
-        cylinder(r = r, h = cap_z + 2 * eps);
+    translate([-cap_x / 2 - eps,
+               tie_groove_y,
+               cap_z / 2 + r - tie_groove_d])
+        rotate([0, 90, 0])
+            cylinder(r = r, h = cap_x + 2 * eps);
 }
 
 // One triangular-prism cutter: a c x c right triangle extruded along its

@@ -23,7 +23,8 @@ widening the spool over the wire winding.
   faces, so the PCB inside surfaces complete the box. Default 15 mm
   standoff gap; tunable.
 - Bongo tie wraps around the spool's center as today and seats in the
-  groove on the cap's outer face, pulling the cap radially inward.
+  top groove that runs from prong to prong, pulling the cap radially
+  inward.
 
 ## Print
 
@@ -63,7 +64,7 @@ with 15 mm M3 standoffs.
 | `clearance` | 0.5 | X per-side clearance; Z total clearance |
 | `wall` | 2.4 | front wall (radial-outermost) |
 | `side_wall` | 2.5 | circumferential side walls |
-| `lead_in_chamfer` | 0.5 | chamfer on the Y=0 open edges |
+| `lead_in_chamfer` | 1.0 | chamfer on the Y=0 open edges |
 | `front_air_gap` | 1.5 | inside front wall to BNC tip |
 | `tie_groove_w` | 4.0 | bongo tie channel width |
 | `tie_groove_d` | 1.5 | bongo tie channel depth |
@@ -99,8 +100,8 @@ default STLs.
    axial direction matching the spool axis. Chamfered edges find the slot;
    the BNC enters the pocket. Cap bottoms when its inner face seats
    against the slot's inner wall.
-3. Wrap the bongo tie around the spool's center; it seats in the groove on
-   the cap's outer face.
+3. Wrap the bongo tie around the spool's center; it seats in the top
+   groove running from prong to prong.
 
 ## Design rationale
 
