@@ -21,3 +21,12 @@ the top, then:
 
 You can also use the `openscad` CLI and the scripts in `scripts/` to
 batch-generate STLs if desired.
+
+## Models in this repo
+
+- `models/ham_radio/dx_commander_element_label/` - element label tags
+- `models/ham_radio/spooltenna_bnc_cap/` - BNC connector protector for
+  the KO4HUI Spooltenna (Ultra v1.5/v1.6 + V1.3)
+- `models/ham_radio/vertical_dipole_spacer/` - 6 m vertical dipole center
+- `models/luggage_tag/` - customizable QR luggage tag
+- `models/mechanical/spacer_m3/` - configurable M3 spacer

@@ -15,3 +15,11 @@ fi
 openscad \
   -o "${REPO_ROOT}/models/mechanical/spacer_m3/spacer_m3.stl" \
   "${REPO_ROOT}/models/mechanical/spacer_m3/spacer_m3.scad"
+
+openscad \
+  -o "${REPO_ROOT}/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap_ultra_v1_6.stl" \
+  "${REPO_ROOT}/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad"
+
+openscad -D 'model="V1_3"' \
+  -o "${REPO_ROOT}/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap_v1_3.stl" \
+  "${REPO_ROOT}/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad"
