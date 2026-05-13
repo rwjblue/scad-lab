@@ -68,7 +68,7 @@ lead_in_chamfer = 1.0;     // chamfer on radially-inward edges
 front_air_gap   = 1.5;     // BNC tip to inside of front wall
 pocket_x_clear  = 1.0;     // each-side clearance around BNC body in X
 disk_slot_depth = slot_depth + 0.5;
-side_glance_w   = 2.0;     // added side armor outside the PCB slot
+side_glance_w   = 3.0;     // side fairing width outside each leg
 
 // Bongo tie groove
 tie_groove_w    = 4.0;
@@ -110,26 +110,29 @@ module cap_solid() {
         cube([cap_x, cap_y, cap_z]);
 }
 
-// Side armor starts at the PCB disk edge and ramps outward toward the
-// front bumper, so side impacts glance into the disk wall instead of
-// catching a square leg.
+// Side armor fairings on the outer faces of the two legs. In front view
+// these form sloped shoulders that are attached to the side walls.
 module side_glance_armor() {
-    right = [
-        [cap_x / 2, slot_depth],
-        [cap_x / 2, cap_y],
-        [cap_x / 2 + side_glance_w, cap_y]
+    eps = 0.01;
+    y0 = slot_depth;
+    y_len = cap_y - y0;
+    right_profile = [
+        [cap_x / 2, -cap_z / 2],
+        [cap_x / 2, cap_z / 2],
+        [cap_x / 2 + side_glance_w, -cap_z / 2]
     ];
-    left = [
-        [-cap_x / 2, slot_depth],
-        [-cap_x / 2 - side_glance_w, cap_y],
-        [-cap_x / 2, cap_y]
+    left_profile = [
+        [-cap_x / 2, -cap_z / 2],
+        [-cap_x / 2 - side_glance_w, -cap_z / 2],
+        [-cap_x / 2, cap_z / 2]
     ];
 
-    translate([0, 0, -cap_z / 2])
-        linear_extrude(height = cap_z) {
-            polygon(right);
-            polygon(left);
-        }
+    translate([0, y0, 0])
+        rotate([-90, 0, 0])
+            linear_extrude(height = y_len + eps) {
+                polygon(right_profile);
+                polygon(left_profile);
+            }
 }
 
 // BNC pocket: a rectangular cavity that opens on the radially-inward

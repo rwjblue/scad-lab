@@ -70,7 +70,7 @@ with 15 mm M3 standoffs.
 | `lead_in_chamfer` | 1.0 | chamfer on the Y=0 open edges |
 | `front_air_gap` | 1.5 | inside front wall to BNC tip |
 | `disk_slot_depth` | `slot_depth + 0.5` | radial depth of the disk-edge slots |
-| `side_glance_w` | 2.0 | side armor width outside the PCB slot |
+| `side_glance_w` | 3.0 | side fairing width outside each leg |
 | `tie_groove_w` | 4.0 | bongo tie channel width |
 | `tie_groove_d` | 1.5 | bongo tie channel depth |
 
