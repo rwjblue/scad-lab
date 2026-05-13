@@ -46,6 +46,7 @@ preset_bnc_protrusion =
 
 // Stack
 inter_pcb_gap   = 15.0;    // standoff length between the two PCBs
+pcb_thickness   = 1.6;     // each PCB disk thickness
 
 // Slot (resolved from preset)
 slot_width      = preset_slot_width;
@@ -58,7 +59,7 @@ bnc_body_h      = 13.0;    // Z (axial height inside the inter-PCB gap)
 bnc_protrusion  = preset_bnc_protrusion;
 
 // Cap geometry
-clearance       = 0.5;     // X per-side clearance; Z total clearance
+clearance       = 0.5;     // X per-side clearance to the slot
 wall            = 2.4;     // front wall (radial-outermost)
 side_wall       = 2.5;     // circumferential side walls
 lead_in_chamfer = 1.0;     // chamfer on radially-inward edges
@@ -75,9 +76,8 @@ tie_groove_d    = 1.5;
 
 // Cap outer footprint (X = circumferential, Y = radial, Z = axial)
 cap_x = slot_width - 2 * clearance;                         // 17.5 mm @ Ultra defaults
-cap_z = inter_pcb_gap - clearance;                          // 14.5 mm @ 15 mm gap
+cap_z = inter_pcb_gap + 2 * pcb_thickness;                  // 18.2 mm @ 15 mm gap
 cap_y = slot_depth + bnc_protrusion + front_air_gap + wall;  // 18.3 mm @ Ultra defaults
-tie_groove_y = cap_y / 2;
 
 // BNC pocket (interior cavity)
 pocket_x = bnc_body_w + 2 * pocket_x_clear;  // 11.65 mm
@@ -89,8 +89,8 @@ assert(cap_z > 0, "cap_z must be positive");
 assert(cap_y > 0, "cap_y must be positive");
 assert(pocket_x < cap_x - 2 * side_wall,
        "BNC pocket too wide for cap_x given side_wall");
-assert(bnc_body_h < cap_z,
-       "BNC body too tall for cap_z (axial)");
+assert(bnc_body_h < inter_pcb_gap,
+       "BNC body too tall for inter_pcb_gap (axial)");
 assert(pocket_y > slot_depth,
        "Pocket must reach past the slot into the body");
 

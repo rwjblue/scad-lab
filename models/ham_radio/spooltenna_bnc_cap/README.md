@@ -19,9 +19,9 @@ widening the spool over the wire winding.
 
 - Drops into the existing 18.5 mm x 5.9 mm slot at the bottom of the
   Ultra disk, or 18 mm x 9.6 mm on V1.3.
-- Lands between the two PCBs. The BNC pocket is open through the axial
-  faces, so the PCB inside surfaces complete the box. Default 15 mm
-  standoff gap; tunable.
+- Spans both PCB disks outside-to-outside. The BNC pocket is open through
+  the axial faces, so the two disks sit inside the cap's span. Default
+  15 mm standoff gap and 1.6 mm PCB thickness; tunable.
 - Bongo tie wraps around the spool's center as today and seats in the
   front groove that runs from prong to prong, pulling the cap radially
   inward.
@@ -58,10 +58,11 @@ with 15 mm M3 standoffs.
 |---|---|---|
 | `model` | `"ULTRA_V1_6"` | preset switch |
 | `inter_pcb_gap` | 15.0 | standoff length between PCBs |
+| `pcb_thickness` | 1.6 | each PCB disk thickness |
 | `bnc_protrusion` | 8.5 | bayonet length past disk OD |
 | `bnc_body_w` | 9.65 | BNC body width (X) |
 | `bnc_body_h` | 13.0 | BNC body height (Z) |
-| `clearance` | 0.5 | X per-side clearance; Z total clearance |
+| `clearance` | 0.5 | X per-side clearance to the slot |
 | `wall` | 2.4 | front wall (radial-outermost) |
 | `side_wall` | 2.5 | circumferential side walls |
 | `lead_in_chamfer` | 1.0 | chamfer on the Y=0 open edges |

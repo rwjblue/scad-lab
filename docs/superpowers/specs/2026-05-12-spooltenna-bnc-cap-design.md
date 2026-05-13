@@ -81,7 +81,7 @@ existing PCB slot. Coordinate frame, cap-local:
 | Axis | Value | Source |
 |---|---|---|
 | X (circumferential length) | 17.5 mm | slot 18.5 − 1.0 mm clearance |
-| Z (axial width) | 14.5 mm | standoff gap 15.0 − 0.5 mm clearance |
+| Z (axial width) | 18.2 mm | 15.0 mm inter-PCB gap + 2 × 1.6 mm PCB thickness; spans both disks |
 | Y (total radial extent) | 18.3 mm | inner 5.9 mm sits in slot, outer 12.4 mm past disk OD; derived from 8.5 mm BNC protrusion + 1.5 mm air gap + 2.4 mm front wall |
 
 ### Closed faces (walls)
@@ -94,9 +94,9 @@ existing PCB slot. Coordinate frame, cap-local:
 
 - Radially inward: BNC enters here
 - Both axial faces: open. The printed part has side/front wall material
-  spanning the inter-PCB gap, but no printed top/bottom skins closing the
-  BNC pocket. The two PCB inside faces sit right against these openings
-  when installed and act as the missing walls
+  spanning the outside-to-outside PCB stack, but no printed top/bottom
+  skins closing the BNC pocket. The two PCB disks sit inside this span and
+  help locate the cap axially
 
 ### Internal features
 
@@ -110,16 +110,16 @@ existing PCB slot. Coordinate frame, cap-local:
   for self-alignment on installation.
 - **Tie groove:** 4 mm diameter × 1.5 mm deep circular-segment channel on
   the front (+Y) face, running circumferentially across X from prong to
-  prong.
+  prong at Z=0, centered in the open space between the two spool disks.
 
 ### Stopping behavior
 
-The cap is a single 17.5 × 14.5 × 18 mm block — no distinct "lip" or
+The cap is a single 17.5 × 18.2 × 18.3 mm block — no distinct "lip" or
 step, since the cap and any tongue we'd cut for it would both end up at
 the same 17.5 mm width to fit the slot. The cap bottoms when its
 radially-inward face seats against the slot's inner wall (5.9 mm into
-the disk). The slot's side walls hold X; the two PCB faces hold Z; the
-bongo tie holds Y inward.
+the disk). The slot's side walls hold X; the two PCB disks sit within the
+cap's Z span; the bongo tie holds Y inward.
 
 ## Parameters (OpenSCAD)
 
@@ -128,7 +128,7 @@ model                = "ULTRA_V1_6";   // ULTRA_V1_5 | ULTRA_V1_6 | V1_3
 
 // stack
 inter_pcb_gap        = 15.0;   // standoff length
-pcb_thickness        = 1.6;    // (reference)
+pcb_thickness        = 1.6;    // each PCB disk thickness
 
 // disk / slot
 slot_width           = 18.5;   // notch width
@@ -141,7 +141,7 @@ bnc_body_h           = 13.0;
 bnc_protrusion       = 8.5;    // past disk OD
 
 // cap
-clearance            = 0.5;     // X per-side clearance; Z total clearance
+clearance            = 0.5;     // X per-side clearance
 wall                 = 2.4;
 side_wall            = 2.5;
 lead_in_chamfer      = 1.0;
@@ -169,13 +169,13 @@ front_air_gap        = 1.5;    // BNC tip to inside of front wall
 | Interface | Nominal | Clearance | Why |
 |---|---|---|---|
 | Cap X vs. slot X | 17.5 / 18.5 mm | 0.5 mm/side | FDM lateral overprint + slot wall variance |
-| Cap Z vs. PCB gap | 14.5 / 15.0 mm | 0.25 mm/side | Snug enough that PCBs hold cap axially |
-| Pocket vs. BNC body | 12 mm wide, full-through Z / 9.65 × ~13 mm body | ~1 mm/side X, ~0.75 mm total Z in a 14.5 mm cap | Body fits without forcing; PCBs constrain axial movement |
+| Cap Z vs. PCB stack | 18.2 mm / 18.2 mm nominal | measure/tune `pcb_thickness` if needed | Spans both white PCB disks instead of only sitting between them |
+| Pocket vs. BNC body | 12 mm wide, full-through Z / 9.65 × ~13 mm body | ~1 mm/side X; full-through Z | Body fits without forcing; PCB disks constrain axial movement |
 | Front wall to BNC tip | ≥ 1.5 mm | — | Air-gap so cable plugged in (cap removed) doesn't damage front wall |
 | Lead-in chamfer | 1.0 × 45° | — | Self-aligning insertion |
 
-The main slot/PCB clearances are driven from a single `clearance`
-parameter for retuning per-printer: per-side in X and total across Z.
+The main slot clearance is driven from `clearance` for retuning per-printer
+in X. The axial span is driven by `inter_pcb_gap` and `pcb_thickness`.
 
 ## Print profile
 

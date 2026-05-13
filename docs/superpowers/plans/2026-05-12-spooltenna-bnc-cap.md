@@ -156,6 +156,7 @@ preset_bnc_protrusion =
 
 // Stack
 inter_pcb_gap   = 15.0;    // standoff length between the two PCBs
+pcb_thickness   = 1.6;     // each PCB disk thickness
 
 // Slot (resolved from preset)
 slot_width      = preset_slot_width;
@@ -168,7 +169,7 @@ bnc_body_h      = 13.0;    // Z (axial height inside the inter-PCB gap)
 bnc_protrusion  = preset_bnc_protrusion;
 
 // Cap geometry
-clearance       = 0.5;     // X per-side clearance; Z total clearance
+clearance       = 0.5;     // X per-side clearance to the slot
 wall            = 2.4;     // front wall (radial-outermost)
 side_wall       = 2.5;     // circumferential side walls
 lead_in_chamfer = 1.0;     // chamfer on radially-inward edges
@@ -185,9 +186,8 @@ tie_groove_d    = 1.5;
 
 // Cap outer footprint (X = circumferential, Y = radial, Z = axial)
 cap_x = slot_width      - 2 * clearance;                  // 17.5 mm @ Ultra defaults
-cap_z = inter_pcb_gap   - clearance;                      // 14.5 mm @ 15 mm gap
+cap_z = inter_pcb_gap + 2 * pcb_thickness;                // 18.2 mm @ 15 mm gap
 cap_y = slot_depth + bnc_protrusion + front_air_gap + wall;  // 18.3 mm @ Ultra defaults
-tie_groove_y = cap_y / 2;
 
 // BNC pocket (interior cavity)
 pocket_x = bnc_body_w + 2 * pocket_x_clear;               // 11.65 mm
@@ -199,8 +199,8 @@ assert(cap_z > 0,            "cap_z must be positive");
 assert(cap_y > 0,            "cap_y must be positive");
 assert(pocket_x < cap_x - 2 * side_wall,
        "BNC pocket too wide for cap_x given side_wall");
-assert(bnc_body_h < cap_z,
-       "BNC body too tall for cap_z (axial)");
+assert(bnc_body_h < inter_pcb_gap,
+       "BNC body too tall for inter_pcb_gap (axial)");
 assert(pocket_y > slot_depth,
        "Pocket must reach past the slot into the body");
 
@@ -215,7 +215,7 @@ Run:
 openscad -o /tmp/spooltenna_cap_params.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: command exits 0, no assertion errors. The placeholder STL is a 17.5 × 18.3 × 14.5 mm box.
+Expected: command exits 0, no assertion errors. The placeholder STL is a 17.5 × 18.3 × 18.2 mm box.
 
 - [ ] **Step 3: Sanity-check the V1_3 preset**
 
@@ -225,7 +225,7 @@ openscad -D 'model="V1_3"' \
   -o /tmp/spooltenna_cap_v13.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: exits 0. Placeholder box dimensions become 17.0 × 18.5 × 14.5 mm.
+Expected: exits 0. Placeholder box dimensions become 17.0 × 18.5 × 18.2 mm.
 
 - [ ] **Step 4: Commit (jj)**
 
@@ -275,7 +275,7 @@ openscad --camera=0,0,0,55,0,25,80 --imgsize=800,600 \
   -o /tmp/spooltenna_cap_t3.png \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: exits 0; STL is a 17.5 × 18.3 × 14.5 mm box centered on X and Z at 0, Y from 0 to 18.3.
+Expected: exits 0; STL is a 17.5 × 18.3 × 18.2 mm box centered on X and Z at 0, Y from 0 to 18.3.
 
 - [ ] **Step 3: Commit (jj)**
 
@@ -345,7 +345,7 @@ jj new
 **Files:**
 - Modify: `models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad`
 
-A circular-segment channel running circumferentially (X direction) across the front face (Y=cap_y), centered in Z. The groove uses a 4 mm diameter cylinder offset so it cuts 1.5 mm into the front face; this matches the bongo tie path from prong to prong without adding support requirements.
+A circular-segment channel running circumferentially (X direction) across the front face (Y=cap_y), centered at Z=0 in the open space between the two spool disks. The groove uses a 4 mm diameter cylinder offset so it cuts 1.5 mm into the front face; this matches the bongo tie path from prong to prong without adding support requirements.
 
 - [ ] **Step 1: Add the `tie_groove()` module**
 
@@ -572,8 +572,8 @@ Expected: exits 0; non-empty STL. The V1_3 variant should be ~16 mm radial (vs. 
 - [ ] **Step 3: Visual diff in the OpenSCAD GUI (optional but recommended)**
 
 Open both STLs; confirm:
-- Ultra: 17.5 × 18.3 × 14.5 mm bounding box.
-- V1.3: 17.0 × 18.5 × 14.5 mm bounding box.
+- Ultra: 17.5 × 18.3 × 18.2 mm bounding box.
+- V1.3: 17.0 × 18.5 × 18.2 mm bounding box.
 - Both have the BNC pocket on the Y=0 face, tie groove on the Y=cap_y front face running across X, and chamfers on the four Y=0 edges.
 
 - [ ] **Step 4: Decide whether to keep the rendered STLs in the repo**
@@ -697,10 +697,11 @@ with 15 mm M3 standoffs.
 |---|---|---|
 | `model` | `"ULTRA_V1_6"` | preset switch |
 | `inter_pcb_gap` | 15.0 | standoff length between PCBs |
+| `pcb_thickness` | 1.6 | each PCB disk thickness |
 | `bnc_protrusion` | 8.5 | bayonet length past disk OD |
 | `bnc_body_w` | 9.65 | BNC body width (X) |
 | `bnc_body_h` | 13.0 | BNC body height (Z) |
-| `clearance` | 0.5 | X per-side clearance; Z total clearance |
+| `clearance` | 0.5 | X per-side clearance to the slot |
 | `wall` | 2.4 | front wall (radial-outermost) |
 | `side_wall` | 2.5 | circumferential side walls |
 | `lead_in_chamfer` | 1.0 | chamfer on the Y=0 open edges |
@@ -820,8 +821,8 @@ Expected: exits 0; both STLs present in `models/ham_radio/spooltenna_bnc_cap/`.
 - [ ] **Step 3: Visually inspect both STLs in OpenSCAD GUI**
 
 Open each STL and confirm by eye:
-- Ultra (default): bounding box ~17.5 × 18.3 × 14.5 mm; pocket on one face; tie groove on the top face running across X; chamfers on the four pocket-side edges.
-- V1.3: bounding box ~17.0 × 18.5 × 14.5 mm; same internal features.
+- Ultra (default): bounding box ~17.5 × 18.3 × 18.2 mm; pocket on one face; tie groove on the front face running across X; chamfers on the four pocket-side edges.
+- V1.3: bounding box ~17.0 × 18.5 × 18.2 mm; same internal features.
 
 - [ ] **Step 4: Sanity-check assertions trigger on bad inputs**
 
@@ -831,7 +832,7 @@ openscad -D 'inter_pcb_gap=5' \
   -o /tmp/spooltenna_cap_bad.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: non-zero exit. The output should mention an `assert` failure (likely "BNC body too tall for cap_z (axial)" because the gap is too small for the BNC body).
+Expected: non-zero exit. The output should mention an `assert` failure (likely "BNC body too tall for inter_pcb_gap (axial)" because the gap is too small for the BNC body).
 
 - [ ] **Step 5: Final jj describe**
 
