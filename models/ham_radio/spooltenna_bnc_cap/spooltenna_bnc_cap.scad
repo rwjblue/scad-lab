@@ -131,6 +131,17 @@ module _chamfer_prism(length, c) {
             polygon([[0, 0], [c, 0], [0, c]]);
 }
 
+// Triangular-prism cutter extruded along +Z for the vertical mouth edges.
+module _right_edge_chamfer_prism(length, c) {
+    linear_extrude(height = length)
+        polygon([[0, 0], [-c, 0], [0, c]]);
+}
+
+module _left_edge_chamfer_prism(length, c) {
+    linear_extrude(height = length)
+        polygon([[0, 0], [c, 0], [0, c]]);
+}
+
 // Lead-in chamfer on the four edges of the radially-inward (Y=0) face.
 module lead_in_chamfers() {
     c = lead_in_chamfer;
@@ -149,16 +160,12 @@ module lead_in_chamfers() {
                 _chamfer_prism(L_x, c);
 
     // Y=0 / +X edge (right side of mouth, runs along +Z)
-    translate([cap_x / 2 - c, 0, -cap_z / 2 - eps])
-        rotate([0, 0, 90])
-            _chamfer_prism(L_z, c);
+    translate([cap_x / 2, 0, -cap_z / 2 - eps])
+        _right_edge_chamfer_prism(L_z, c);
 
     // Y=0 / -X edge (left side of mouth, runs along +Z)
     translate([-cap_x / 2, 0, -cap_z / 2 - eps])
-        mirror([1, 0, 0])
-            translate([-c, 0, 0])
-                rotate([0, 0, 90])
-                    _chamfer_prism(L_z, c);
+        _left_edge_chamfer_prism(L_z, c);
 }
 
 // ---------------------------------------------------------------
