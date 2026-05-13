@@ -157,6 +157,8 @@ preset_bnc_protrusion =
 // Stack
 inter_pcb_gap   = 15.0;    // standoff length between the two PCBs
 pcb_thickness   = 1.6;     // each PCB disk thickness
+pcb_slot_clear  = 0.3;     // extra Z clearance for disk-edge slots
+disk_outer_wall = 1.2;     // plastic outside each PCB edge slot
 
 // Slot (resolved from preset)
 slot_width      = preset_slot_width;
@@ -175,6 +177,7 @@ side_wall       = 2.5;     // circumferential side walls
 lead_in_chamfer = 1.0;     // chamfer on radially-inward edges
 front_air_gap   = 1.5;     // BNC tip to inside of front wall
 pocket_x_clear  = 1.0;     // each-side clearance around BNC body in X
+disk_slot_depth = slot_depth + 0.5;
 
 // Bongo tie groove
 tie_groove_w    = 4.0;
@@ -186,12 +189,13 @@ tie_groove_d    = 1.5;
 
 // Cap outer footprint (X = circumferential, Y = radial, Z = axial)
 cap_x = slot_width      - 2 * clearance;                  // 17.5 mm @ Ultra defaults
-cap_z = inter_pcb_gap + 2 * pcb_thickness;                // 18.2 mm @ 15 mm gap
+cap_z = inter_pcb_gap + 2 * (pcb_thickness + disk_outer_wall);  // 20.6 mm @ defaults
 cap_y = slot_depth + bnc_protrusion + front_air_gap + wall;  // 18.3 mm @ Ultra defaults
 
 // BNC pocket (interior cavity)
 pocket_x = bnc_body_w + 2 * pocket_x_clear;               // 11.65 mm
 pocket_y = cap_y - wall;                                  // depth from inner face
+pcb_slot_h = pcb_thickness + pcb_slot_clear;
 
 // Sanity asserts (OpenSCAD will halt with these messages on bad params)
 assert(cap_x > 0,            "cap_x must be positive");
@@ -215,7 +219,7 @@ Run:
 openscad -o /tmp/spooltenna_cap_params.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: command exits 0, no assertion errors. The placeholder STL is a 17.5 × 18.3 × 18.2 mm box.
+Expected: command exits 0, no assertion errors. The placeholder STL is a 17.5 × 18.3 × 20.6 mm box.
 
 - [ ] **Step 3: Sanity-check the V1_3 preset**
 
@@ -225,7 +229,7 @@ openscad -D 'model="V1_3"' \
   -o /tmp/spooltenna_cap_v13.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: exits 0. Placeholder box dimensions become 17.0 × 18.5 × 18.2 mm.
+Expected: exits 0. Placeholder box dimensions become 17.0 × 18.5 × 20.6 mm.
 
 - [ ] **Step 4: Commit (jj)**
 
@@ -275,7 +279,7 @@ openscad --camera=0,0,0,55,0,25,80 --imgsize=800,600 \
   -o /tmp/spooltenna_cap_t3.png \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: exits 0; STL is a 17.5 × 18.3 × 18.2 mm box centered on X and Z at 0, Y from 0 to 18.3.
+Expected: exits 0; STL is a 17.5 × 18.3 × 20.6 mm box centered on X and Z at 0, Y from 0 to 18.3.
 
 - [ ] **Step 3: Commit (jj)**
 
@@ -364,6 +368,62 @@ module tie_groove() {
             cylinder(r = r, h = cap_x + 2 * eps);
 }
 ```
+
+## Task 5a: Add the PCB disk-edge slots
+
+**Files:**
+- Modify: `models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad`
+
+The cap spans both white PCB disks, so the legs need slots that fit the
+disk edges. Cut two Y-running channels from the open side, one for each
+disk, sized to `pcb_thickness + pcb_slot_clear`.
+
+- [ ] **Step 1: Add the `pcb_edge_slots()` module**
+
+After `tie_groove()`, add:
+
+```scad
+// Slots that let the two PCB disk edges slide into the side legs. These
+// are what locate the cap axially while the bongo tie holds it inward.
+module pcb_edge_slots() {
+    eps = 0.01;
+    y_depth = disk_slot_depth + eps;
+
+    translate([-cap_x / 2 - eps,
+               -eps,
+               inter_pcb_gap / 2 - pcb_slot_clear / 2])
+        cube([cap_x + 2 * eps, y_depth, pcb_slot_h + eps]);
+
+    translate([-cap_x / 2 - eps,
+               -eps,
+               -inter_pcb_gap / 2 - pcb_thickness - pcb_slot_clear / 2])
+        cube([cap_x + 2 * eps, y_depth, pcb_slot_h + eps]);
+}
+```
+
+- [ ] **Step 2: Add the slots to the top-level difference**
+
+Update the top-level render block to include `pcb_edge_slots()`:
+
+```scad
+difference() {
+    cap_solid();
+    bnc_pocket();
+    pcb_edge_slots();
+    tie_groove();
+}
+```
+
+- [ ] **Step 3: Render and verify**
+
+Run:
+```bash
+openscad -o /tmp/spooltenna_cap_t5a.stl \
+  /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
+```
+Expected: exits 0. Open the STL; confirm each side leg has two
+Y-running slots from the open side, aligned with the two PCB disk
+positions.
 
 - [ ] **Step 2: Add the groove to the top-level difference**
 
@@ -572,8 +632,8 @@ Expected: exits 0; non-empty STL. The V1_3 variant should be ~16 mm radial (vs. 
 - [ ] **Step 3: Visual diff in the OpenSCAD GUI (optional but recommended)**
 
 Open both STLs; confirm:
-- Ultra: 17.5 × 18.3 × 18.2 mm bounding box.
-- V1.3: 17.0 × 18.5 × 18.2 mm bounding box.
+- Ultra: 17.5 × 18.3 × 20.6 mm bounding box.
+- V1.3: 17.0 × 18.5 × 20.6 mm bounding box.
 - Both have the BNC pocket on the Y=0 face, tie groove on the Y=cap_y front face running across X, and chamfers on the four Y=0 edges.
 
 - [ ] **Step 4: Decide whether to keep the rendered STLs in the repo**
@@ -698,6 +758,7 @@ with 15 mm M3 standoffs.
 | `model` | `"ULTRA_V1_6"` | preset switch |
 | `inter_pcb_gap` | 15.0 | standoff length between PCBs |
 | `pcb_thickness` | 1.6 | each PCB disk thickness |
+| `disk_outer_wall` | 1.2 | plastic outside each PCB edge slot |
 | `bnc_protrusion` | 8.5 | bayonet length past disk OD |
 | `bnc_body_w` | 9.65 | BNC body width (X) |
 | `bnc_body_h` | 13.0 | BNC body height (Z) |
@@ -821,8 +882,8 @@ Expected: exits 0; both STLs present in `models/ham_radio/spooltenna_bnc_cap/`.
 - [ ] **Step 3: Visually inspect both STLs in OpenSCAD GUI**
 
 Open each STL and confirm by eye:
-- Ultra (default): bounding box ~17.5 × 18.3 × 18.2 mm; pocket on one face; tie groove on the front face running across X; chamfers on the four pocket-side edges.
-- V1.3: bounding box ~17.0 × 18.5 × 18.2 mm; same internal features.
+- Ultra (default): bounding box ~17.5 × 18.3 × 20.6 mm; pocket on one face; tie groove on the front face running across X; chamfers on the four pocket-side edges.
+- V1.3: bounding box ~17.0 × 18.5 × 20.6 mm; same internal features.
 
 - [ ] **Step 4: Sanity-check assertions trigger on bad inputs**
 

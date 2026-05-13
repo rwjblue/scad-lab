@@ -59,6 +59,8 @@ with 15 mm M3 standoffs.
 | `model` | `"ULTRA_V1_6"` | preset switch |
 | `inter_pcb_gap` | 15.0 | standoff length between PCBs |
 | `pcb_thickness` | 1.6 | each PCB disk thickness |
+| `pcb_slot_clear` | 0.3 | extra Z clearance for disk-edge slots |
+| `disk_outer_wall` | 1.2 | plastic outside each PCB edge slot |
 | `bnc_protrusion` | 8.5 | bayonet length past disk OD |
 | `bnc_body_w` | 9.65 | BNC body width (X) |
 | `bnc_body_h` | 13.0 | BNC body height (Z) |
@@ -67,6 +69,7 @@ with 15 mm M3 standoffs.
 | `side_wall` | 2.5 | circumferential side walls |
 | `lead_in_chamfer` | 1.0 | chamfer on the Y=0 open edges |
 | `front_air_gap` | 1.5 | inside front wall to BNC tip |
+| `disk_slot_depth` | `slot_depth + 0.5` | radial depth of the disk-edge slots |
 | `tie_groove_w` | 4.0 | bongo tie channel width |
 | `tie_groove_d` | 1.5 | bongo tie channel depth |
 

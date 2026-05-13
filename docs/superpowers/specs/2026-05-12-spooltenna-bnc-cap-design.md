@@ -81,7 +81,7 @@ existing PCB slot. Coordinate frame, cap-local:
 | Axis | Value | Source |
 |---|---|---|
 | X (circumferential length) | 17.5 mm | slot 18.5 − 1.0 mm clearance |
-| Z (axial width) | 18.2 mm | 15.0 mm inter-PCB gap + 2 × 1.6 mm PCB thickness; spans both disks |
+| Z (axial width) | 20.6 mm | 15.0 mm inter-PCB gap + 2 × (1.6 mm PCB thickness + 1.2 mm outer wall); spans both disks with slots around their edges |
 | Y (total radial extent) | 18.3 mm | inner 5.9 mm sits in slot, outer 12.4 mm past disk OD; derived from 8.5 mm BNC protrusion + 1.5 mm air gap + 2.4 mm front wall |
 
 ### Closed faces (walls)
@@ -108,13 +108,18 @@ existing PCB slot. Coordinate frame, cap-local:
   space — fine.
 - **Lead-in chamfer:** 1.0 mm × 45° on the four radially-inward edges,
   for self-alignment on installation.
+- **PCB edge slots:** Two Y-running slots cut into the legs at the two
+  disk Z positions. Each slot is `pcb_thickness + 0.3 mm` tall and
+  extends `slot_depth + 0.5 mm` inward from the open side, with 1.2 mm of
+  printed plastic outside each disk edge. The white disk edges locate the
+  cap axially.
 - **Tie groove:** 4 mm diameter × 1.5 mm deep circular-segment channel on
   the front (+Y) face, running circumferentially across X from prong to
   prong at Z=0, centered in the open space between the two spool disks.
 
 ### Stopping behavior
 
-The cap is a single 17.5 × 18.2 × 18.3 mm block — no distinct "lip" or
+The cap is a single 17.5 × 20.6 × 18.3 mm block — no distinct "lip" or
 step, since the cap and any tongue we'd cut for it would both end up at
 the same 17.5 mm width to fit the slot. The cap bottoms when its
 radially-inward face seats against the slot's inner wall (5.9 mm into
@@ -129,6 +134,8 @@ model                = "ULTRA_V1_6";   // ULTRA_V1_5 | ULTRA_V1_6 | V1_3
 // stack
 inter_pcb_gap        = 15.0;   // standoff length
 pcb_thickness        = 1.6;    // each PCB disk thickness
+pcb_slot_clear       = 0.3;    // extra Z clearance for disk-edge slots
+disk_outer_wall      = 1.2;    // plastic outside each PCB edge slot
 
 // disk / slot
 slot_width           = 18.5;   // notch width
@@ -148,6 +155,7 @@ lead_in_chamfer      = 1.0;
 tie_groove_w         = 4.0;
 tie_groove_d         = 1.5;
 front_air_gap        = 1.5;    // BNC tip to inside of front wall
+disk_slot_depth      = slot_depth + 0.5;
 ```
 
 ## Install / use flow
@@ -169,7 +177,7 @@ front_air_gap        = 1.5;    // BNC tip to inside of front wall
 | Interface | Nominal | Clearance | Why |
 |---|---|---|---|
 | Cap X vs. slot X | 17.5 / 18.5 mm | 0.5 mm/side | FDM lateral overprint + slot wall variance |
-| Cap Z vs. PCB stack | 18.2 mm / 18.2 mm nominal | measure/tune `pcb_thickness` if needed | Spans both white PCB disks instead of only sitting between them |
+| Cap Z vs. PCB stack | 20.6 mm cap over 18.2 mm nominal PCB stack | 1.2 mm outside each disk edge | Spans both white PCB disks and provides outer material for the edge slots |
 | Pocket vs. BNC body | 12 mm wide, full-through Z / 9.65 × ~13 mm body | ~1 mm/side X; full-through Z | Body fits without forcing; PCB disks constrain axial movement |
 | Front wall to BNC tip | ≥ 1.5 mm | — | Air-gap so cable plugged in (cap removed) doesn't damage front wall |
 | Lead-in chamfer | 1.0 × 45° | — | Self-aligning insertion |
