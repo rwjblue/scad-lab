@@ -89,6 +89,9 @@ existing PCB slot. Coordinate frame, cap-local:
 - Radially outward (front bumper): 2.4 mm wall
 - Both circumferential sides: 2.5 mm walls — these transfer side hits
   into the slot walls in the disk material
+- Side glance armor: 2.0 mm triangular ramp material on each side,
+  starting at the PCB slot depth and growing toward the front bumper so
+  side hits glance into the disk wall instead of catching a square leg
 
 ### Open faces
 
@@ -156,6 +159,7 @@ tie_groove_w         = 4.0;
 tie_groove_d         = 1.5;
 front_air_gap        = 1.5;    // BNC tip to inside of front wall
 disk_slot_depth      = slot_depth + 0.5;
+side_glance_w        = 2.0;    // side armor width outside the PCB slot
 ```
 
 ## Install / use flow

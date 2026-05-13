@@ -68,6 +68,7 @@ lead_in_chamfer = 1.0;     // chamfer on radially-inward edges
 front_air_gap   = 1.5;     // BNC tip to inside of front wall
 pocket_x_clear  = 1.0;     // each-side clearance around BNC body in X
 disk_slot_depth = slot_depth + 0.5;
+side_glance_w   = 2.0;     // added side armor outside the PCB slot
 
 // Bongo tie groove
 tie_groove_w    = 4.0;
@@ -109,6 +110,28 @@ module cap_solid() {
         cube([cap_x, cap_y, cap_z]);
 }
 
+// Side armor starts at the PCB disk edge and ramps outward toward the
+// front bumper, so side impacts glance into the disk wall instead of
+// catching a square leg.
+module side_glance_armor() {
+    right = [
+        [cap_x / 2, slot_depth],
+        [cap_x / 2, cap_y],
+        [cap_x / 2 + side_glance_w, cap_y]
+    ];
+    left = [
+        [-cap_x / 2, slot_depth],
+        [-cap_x / 2 - side_glance_w, cap_y],
+        [-cap_x / 2, cap_y]
+    ];
+
+    translate([0, 0, -cap_z / 2])
+        linear_extrude(height = cap_z) {
+            polygon(right);
+            polygon(left);
+        }
+}
+
 // BNC pocket: a rectangular cavity that opens on the radially-inward
 // face (Y = 0), extends Y forward to within `wall` of the front face,
 // and cuts fully through Z so the PCB faces act as the axial walls.
@@ -124,11 +147,11 @@ module bnc_pocket() {
 module tie_groove() {
     eps = 0.01;
     r = tie_groove_w / 2;
-    translate([-cap_x / 2 - eps,
+    translate([-cap_x / 2 - side_glance_w - eps,
                cap_y + r - tie_groove_d,
                0])
         rotate([0, 90, 0])
-            cylinder(r = r, h = cap_x + 2 * eps);
+            cylinder(r = r, h = cap_x + 2 * side_glance_w + 2 * eps);
 }
 
 // Slots that let the two PCB disk edges slide into the side legs. These
@@ -198,7 +221,10 @@ module lead_in_chamfers() {
 // ---------------------------------------------------------------
 module cap() {
     difference() {
-        cap_solid();
+        union() {
+            cap_solid();
+            side_glance_armor();
+        }
         bnc_pocket();
         pcb_edge_slots();
         tie_groove();
