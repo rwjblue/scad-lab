@@ -89,10 +89,10 @@ existing PCB slot. Coordinate frame, cap-local:
 - Radially outward (front bumper): 2.4 mm wall
 - Both circumferential sides: 2.5 mm walls — these transfer side hits
   into the slot walls in the disk material
-- Side glance armor: triangular fairing material on each leg's outer face,
-  flaring outward near the open disk side and tapering back into the front
-  wall so side hits glance into the stronger body instead of catching a
-  square leg
+- Side glance armor: curved fairing material on each leg's outer face,
+  flaring outward near the open disk side and smoothly tapering back into
+  the front wall so side hits glance into the stronger body instead of
+  catching a square leg
 
 ### Open faces
 
@@ -160,7 +160,8 @@ tie_groove_w         = 4.0;
 tie_groove_d         = 1.5;
 front_air_gap        = 1.5;    // BNC tip to inside of front wall
 disk_slot_depth      = slot_depth + 0.5;
-side_glance_w        = 3.0;    // side fairing width outside each leg
+side_glance_w        = 6.0;    // side fairing width outside each leg
+side_glance_steps    = 8;      // curve samples for the side fairings
 ```
 
 ## Install / use flow
