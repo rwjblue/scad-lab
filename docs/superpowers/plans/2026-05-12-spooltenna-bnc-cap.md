@@ -265,29 +265,26 @@ module cap_solid() {
         cube([cap_x, cap_y, cap_z]);
 }
 
-// Side armor fairings on the outer faces of the two legs. In front view
-// these form sloped shoulders that are attached to the side walls.
+// Side armor fairings on the outer faces of the two legs. In plan view
+// these flare out at the disk side, then taper into the front wall so a
+// side impact glances into the stronger body instead of the straight leg.
 module side_glance_armor() {
-    eps = 0.01;
-    y0 = slot_depth;
-    y_len = cap_y - y0;
     right_profile = [
-        [cap_x / 2, -cap_z / 2],
-        [cap_x / 2, cap_z / 2],
-        [cap_x / 2 + side_glance_w, -cap_z / 2]
+        [cap_x / 2, 0],
+        [cap_x / 2, cap_y],
+        [cap_x / 2 + side_glance_w, 0]
     ];
     left_profile = [
-        [-cap_x / 2, -cap_z / 2],
-        [-cap_x / 2 - side_glance_w, -cap_z / 2],
-        [-cap_x / 2, cap_z / 2]
+        [-cap_x / 2, 0],
+        [-cap_x / 2 - side_glance_w, 0],
+        [-cap_x / 2, cap_y]
     ];
 
-    translate([0, y0, 0])
-        rotate([-90, 0, 0])
-            linear_extrude(height = y_len + eps) {
-                polygon(right_profile);
-                polygon(left_profile);
-            }
+    translate([0, 0, -cap_z / 2])
+        linear_extrude(height = cap_z) {
+            polygon(right_profile);
+            polygon(left_profile);
+        }
 }
 
 // Top-level render
@@ -415,15 +412,19 @@ module pcb_edge_slots() {
     eps = 0.01;
     y_depth = disk_slot_depth + eps;
 
-    translate([-cap_x / 2 - eps,
+    translate([-cap_x / 2 - side_glance_w - eps,
                -eps,
                inter_pcb_gap / 2 - pcb_slot_clear / 2])
-        cube([cap_x + 2 * eps, y_depth, pcb_slot_h + eps]);
+        cube([cap_x + 2 * side_glance_w + 2 * eps,
+              y_depth,
+              pcb_slot_h + eps]);
 
-    translate([-cap_x / 2 - eps,
+    translate([-cap_x / 2 - side_glance_w - eps,
                -eps,
                -inter_pcb_gap / 2 - pcb_thickness - pcb_slot_clear / 2])
-        cube([cap_x + 2 * eps, y_depth, pcb_slot_h + eps]);
+        cube([cap_x + 2 * side_glance_w + 2 * eps,
+              y_depth,
+              pcb_slot_h + eps]);
 }
 ```
 

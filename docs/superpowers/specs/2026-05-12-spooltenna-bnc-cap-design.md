@@ -90,9 +90,9 @@ existing PCB slot. Coordinate frame, cap-local:
 - Both circumferential sides: 2.5 mm walls — these transfer side hits
   into the slot walls in the disk material
 - Side glance armor: triangular fairing material on each leg's outer face,
-  starting near the PCB disk-edge slots and ramping upward toward the cap
-  top so side hits glance into the disk wall instead of catching a square
-  leg
+  flaring outward near the open disk side and tapering back into the front
+  wall so side hits glance into the stronger body instead of catching a
+  square leg
 
 ### Open faces
 
