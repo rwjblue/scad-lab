@@ -115,14 +115,14 @@ module bnc_pocket() {
         cube([pocket_x, pocket_y + eps, cap_z + 2 * eps]);
 }
 
-// Bongo tie groove: circular-segment channel across the top face,
+// Bongo tie groove: circular-segment channel across the front Y face,
 // running across X from prong to prong.
 module tie_groove() {
     eps = 0.01;
     r = tie_groove_w / 2;
     translate([-cap_x / 2 - eps,
-               tie_groove_y,
-               cap_z / 2 + r - tie_groove_d])
+               cap_y + r - tie_groove_d,
+               0])
         rotate([0, 90, 0])
             cylinder(r = r, h = cap_x + 2 * eps);
 }

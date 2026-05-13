@@ -4,7 +4,7 @@
 
 **Goal:** Build a parameterized OpenSCAD model for a 3D-printed PETG protective cap that drops into the existing BNC slot on a Spooltenna Ultra (v1.5/v1.6) wire spool antenna and is retained by the antenna's bongo tie.
 
-**Architecture:** Single-file OpenSCAD model under `models/ham_radio/spooltenna_bnc_cap/`, parameters at the top, a `model = "ULTRA_V1_6"` preset switch that resolves a small struct of stack/slot/BNC dimensions, then a `cap()` module that builds the part as one block with a subtractive full-through axial BNC pocket, top-face circular-segment tie groove, and lead-in chamfers. Stretch preset for v1.3 wired in at the end.
+**Architecture:** Single-file OpenSCAD model under `models/ham_radio/spooltenna_bnc_cap/`, parameters at the top, a `model = "ULTRA_V1_6"` preset switch that resolves a small struct of stack/slot/BNC dimensions, then a `cap()` module that builds the part as one block with a subtractive full-through axial BNC pocket, front-face circular-segment tie groove, and lead-in chamfers. Stretch preset for v1.3 wired in at the end.
 
 **Tech Stack:** OpenSCAD (CLI + GUI), bash for the render script, PETG / FDM for the print target. No external libraries beyond `lib/rounded_cube.scad` already in this repo (and only if useful — current design doesn't strictly need it).
 
@@ -345,21 +345,21 @@ jj new
 **Files:**
 - Modify: `models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad`
 
-A circular-segment channel running circumferentially (X direction) across the top face (Z=cap_z/2), centered at the radial midpoint of the cap. The groove uses a 4 mm diameter cylinder offset so it cuts 1.5 mm into the top face; this matches the bongo tie path from prong to prong without adding support requirements.
+A circular-segment channel running circumferentially (X direction) across the front face (Y=cap_y), centered in Z. The groove uses a 4 mm diameter cylinder offset so it cuts 1.5 mm into the front face; this matches the bongo tie path from prong to prong without adding support requirements.
 
 - [ ] **Step 1: Add the `tie_groove()` module**
 
 After `bnc_pocket()`, add:
 
 ```scad
-// Bongo tie groove: circular-segment channel across the top face,
+// Bongo tie groove: circular-segment channel across the front Y face,
 // running across X from prong to prong.
 module tie_groove() {
     eps = 0.01;
     r = tie_groove_w / 2;
     translate([-cap_x / 2 - eps,
-               tie_groove_y,
-               cap_z / 2 + r - tie_groove_d])
+               cap_y + r - tie_groove_d,
+               0])
         rotate([0, 90, 0])
             cylinder(r = r, h = cap_x + 2 * eps);
 }
@@ -384,7 +384,7 @@ Run:
 openscad -o /tmp/spooltenna_cap_t5.stl \
   /Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/spooltenna_bnc_cap/spooltenna_bnc_cap.scad
 ```
-Expected: exits 0. Open the STL; confirm a rounded groove about `tie_groove_w` (4 mm) wide × `tie_groove_d` (1.5 mm) deep is recessed into the Z=cap_z/2 top face, running across X from prong to prong.
+Expected: exits 0. Open the STL; confirm a rounded groove about `tie_groove_w` (4 mm) wide × `tie_groove_d` (1.5 mm) deep is recessed into the Y=cap_y front face, running across X from prong to prong.
 
 - [ ] **Step 4: Commit (jj)**
 
@@ -574,7 +574,7 @@ Expected: exits 0; non-empty STL. The V1_3 variant should be ~16 mm radial (vs. 
 Open both STLs; confirm:
 - Ultra: 17.5 × 18.3 × 14.5 mm bounding box.
 - V1.3: 17.0 × 18.5 × 14.5 mm bounding box.
-- Both have the BNC pocket on the Y=0 face, tie groove on the Z=cap_z/2 top face running across X, and chamfers on the four Y=0 edges.
+- Both have the BNC pocket on the Y=0 face, tie groove on the Y=cap_y front face running across X, and chamfers on the four Y=0 edges.
 
 - [ ] **Step 4: Decide whether to keep the rendered STLs in the repo**
 

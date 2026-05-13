@@ -109,7 +109,7 @@ existing PCB slot. Coordinate frame, cap-local:
 - **Lead-in chamfer:** 1.0 mm × 45° on the four radially-inward edges,
   for self-alignment on installation.
 - **Tie groove:** 4 mm diameter × 1.5 mm deep circular-segment channel on
-  the top (+Z) face, running circumferentially across X from prong to
+  the front (+Y) face, running circumferentially across X from prong to
   prong.
 
 ### Stopping behavior
@@ -160,8 +160,8 @@ front_air_gap        = 1.5;    // BNC tip to inside of front wall
    Cap bottoms when its radially-inward face seats against the slot's
    inner wall.
 3. Wrap the bongo tie around the spool's center as today. The tie
-   crosses the cap's top face and seats in the prong-to-prong groove.
-   Pull tight.
+   crosses the cap's front (+Y) face and seats in the prong-to-prong
+   groove. Pull tight.
 4. Removal: unhook tie, lift cap straight off radially.
 
 ## Tolerances
