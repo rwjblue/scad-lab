@@ -25,6 +25,8 @@ batch-generate STLs if desired.
 ## Models in this repo
 
 - `models/ham_radio/dx_commander_element_label/` - element label tags
+- `models/ham_radio/dx_commander_hitch_base_puck/` - soft bottom puck for
+  protecting a DX Commander Expedition mast base in a hitch-mounted holder
 - `models/ham_radio/dx_commander_hitch_sleeve/` - sleeve adapter for a
   DX Commander Expedition mast in a hitch-mounted flag pole holder
 - `models/ham_radio/spooltenna_bnc_cap/` - BNC connector protector for
