@@ -8,8 +8,8 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Generated stuff (uncomment if you don't want these tracked)
-# *.stl
+# Generated stuff
+*.stl
 # *.3mf
 # *.png
 

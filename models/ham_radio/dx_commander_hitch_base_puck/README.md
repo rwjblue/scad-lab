@@ -10,15 +10,17 @@ hitch-mounted flag pole holder.
 | Bottom cup ID | 50.56 mm |
 | Lower plug OD | 50.2 mm |
 | Lower plug height | 5 mm |
+| Full-width floor thickness | 1.2 mm |
 | Mast base measured OD | 50.85 mm |
 | Mast base pocket ID | 51.2 mm |
 | Upper guide OD | 58.5 mm |
 | Upper guide height | 10 mm |
-| Total height | 15 mm |
+| Total height | 16.2 mm |
 
-The lower plug fits into the small bottom cup. The mast base rests on the 5 mm
-thick TPU floor at the top of the lower plug, while the upper guide surrounds
-the mast base to limit side-to-side movement and prevent abrasion.
+The lower plug fits into the small bottom cup. A 1.2 mm full-width TPU floor
+sits above that plug and bonds the upper guide ring to the base. The mast base
+rests on that flat floor, while the upper guide surrounds the mast base to limit
+side-to-side movement and prevent abrasion.
 
 ## Printing
 

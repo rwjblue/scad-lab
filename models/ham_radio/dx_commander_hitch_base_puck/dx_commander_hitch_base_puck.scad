@@ -13,19 +13,22 @@ mast_base_outer_d = 50.85; // measured mast base OD
 mast_base_bore_d  = 51.2;  // shallow pocket for mast base
 
 lower_plug_h  = 5;
+floor_h       = 1.2;
 upper_guide_h = 10;
 
 chamfer = 1;
 $fn = 160;
 
 eps = 0.02;
-total_h = lower_plug_h + upper_guide_h;
+pocket_start_h = lower_plug_h + floor_h;
+total_h = pocket_start_h + upper_guide_h;
 
 assert(lower_plug_d < cup_inner_d, "lower_plug_d must be smaller than cup_inner_d");
 assert(upper_guide_d < holder_inner_d, "upper_guide_d must be smaller than holder_inner_d");
 assert(mast_base_bore_d > mast_base_outer_d, "mast_base_bore_d must be larger than mast_base_outer_d");
 assert(mast_base_bore_d < upper_guide_d, "mast_base_bore_d must be smaller than upper_guide_d");
 assert(lower_plug_h > 0, "lower_plug_h must be positive");
+assert(floor_h > 0, "floor_h must be positive");
 assert(upper_guide_h > 0, "upper_guide_h must be positive");
 assert(chamfer > 0, "chamfer must be positive");
 assert(chamfer * 2 < lower_plug_h, "chamfer must be less than half lower_plug_h");
@@ -46,7 +49,7 @@ module top_chamfered_cylinder(d, h, c) {
 }
 
 module mast_base_pocket() {
-    translate([0, 0, lower_plug_h])
+    translate([0, 0, pocket_start_h])
         cylinder(d = mast_base_bore_d, h = upper_guide_h + eps, center = false);
 
     translate([0, 0, total_h - chamfer])
@@ -63,6 +66,9 @@ module puck_solid() {
         bottom_chamfered_cylinder(d = lower_plug_d, h = lower_plug_h, c = chamfer);
 
         translate([0, 0, lower_plug_h])
+            cylinder(h = floor_h, d = upper_guide_d, center = false);
+
+        translate([0, 0, pocket_start_h])
             top_chamfered_cylinder(d = upper_guide_d, h = upper_guide_h, c = chamfer);
     }
 }
