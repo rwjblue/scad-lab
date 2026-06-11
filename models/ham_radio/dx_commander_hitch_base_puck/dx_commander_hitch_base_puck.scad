@@ -11,6 +11,7 @@ holder_inner_d    = 59;    // larger flag pole holder tube ID
 upper_guide_d     = 58.5;  // guide OD above the bottom cup
 mast_base_outer_d = 50.85; // measured mast base OD
 mast_base_bore_d  = 51.2;  // shallow pocket for mast base
+floor_outer_d     = 53.2;  // small floor shoulder before the outer taper
 
 lower_plug_h  = 10;
 upper_guide_h = 10;
@@ -20,16 +21,21 @@ $fn = 160;
 
 eps = 0.02;
 total_h = lower_plug_h + upper_guide_h;
+taper_h = (upper_guide_d - floor_outer_d) / 2;
+upper_wall_h = upper_guide_h - taper_h;
 
 assert(lower_plug_d < cup_inner_d, "lower_plug_d must be smaller than cup_inner_d");
 assert(upper_guide_d < holder_inner_d, "upper_guide_d must be smaller than holder_inner_d");
 assert(mast_base_bore_d > mast_base_outer_d, "mast_base_bore_d must be larger than mast_base_outer_d");
 assert(mast_base_bore_d < upper_guide_d, "mast_base_bore_d must be smaller than upper_guide_d");
+assert(floor_outer_d > mast_base_bore_d, "floor_outer_d must be larger than mast_base_bore_d");
+assert(floor_outer_d < upper_guide_d, "floor_outer_d must be smaller than upper_guide_d");
 assert(lower_plug_h > 0, "lower_plug_h must be positive");
 assert(upper_guide_h > 0, "upper_guide_h must be positive");
 assert(chamfer > 0, "chamfer must be positive");
 assert(chamfer * 2 < lower_plug_h, "chamfer must be less than half lower_plug_h");
 assert(chamfer * 2 < upper_guide_h, "chamfer must be less than half upper_guide_h");
+assert(upper_wall_h > chamfer, "upper guide needs vertical wall above the taper");
 
 module bottom_chamfered_cylinder(d, h, c) {
     cylinder(h = c, d1 = d - 2 * c, d2 = d, center = false);
@@ -38,7 +44,7 @@ module bottom_chamfered_cylinder(d, h, c) {
         cylinder(h = h - c, d = d, center = false);
 }
 
-module top_chamfered_cylinder(d, h, c) {
+module top_chamfered_wall(d, h, c) {
     cylinder(h = h - c, d = d, center = false);
 
     translate([0, 0, h - c])
@@ -63,7 +69,10 @@ module puck_solid() {
         bottom_chamfered_cylinder(d = lower_plug_d, h = lower_plug_h, c = chamfer);
 
         translate([0, 0, lower_plug_h])
-            top_chamfered_cylinder(d = upper_guide_d, h = upper_guide_h, c = chamfer);
+            cylinder(h = taper_h, d1 = floor_outer_d, d2 = upper_guide_d, center = false);
+
+        translate([0, 0, lower_plug_h + taper_h])
+            top_chamfered_wall(d = upper_guide_d, h = upper_wall_h, c = chamfer);
     }
 }
 
