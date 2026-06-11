@@ -13,7 +13,7 @@ mast_base_outer_d = 50.85; // measured mast base OD
 mast_base_bore_d  = 51.2;  // shallow pocket for mast base
 floor_outer_d     = 53.2;  // small floor shoulder before the outer taper
 
-lower_plug_h  = 10;
+lower_plug_h  = 5;
 upper_guide_h = 10;
 
 chamfer = 1;
