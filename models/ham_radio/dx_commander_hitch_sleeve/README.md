@@ -22,8 +22,10 @@ When installed, the 68 mm flange rests on the holder rim. The sleeve extends
 
 ## Printing
 
-Print upright in PETG. The model uses chamfers at the entry edges and should not
-need supports.
+Print upright in PETG. Enable supports for the underside of the stop flange. The
+supported underside is not a precision fit surface; the important fit surfaces
+are the sleeve body OD, mast bore ID, and the flat lower face of the flange that
+rests on the holder rim.
 
 ## Fit Tuning
 

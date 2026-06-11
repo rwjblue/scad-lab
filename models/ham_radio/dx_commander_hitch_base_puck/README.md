@@ -12,7 +12,6 @@ hitch-mounted flag pole holder.
 | Lower plug height | 5 mm |
 | Mast base measured OD | 50.85 mm |
 | Mast base pocket ID | 51.2 mm |
-| Floor shoulder OD | 53.2 mm |
 | Upper guide OD | 58.5 mm |
 | Upper guide height | 10 mm |
 | Total height | 15 mm |
@@ -23,10 +22,10 @@ the mast base to limit side-to-side movement and prevent abrasion.
 
 ## Printing
 
-Print upright in TPU with the lower plug on the build plate. The upper guide is
-wider than the lower plug, but the outside transition is tapered to reduce or
-avoid support under the shoulder. The flat internal floor for the mast base is
-unchanged.
+Print upright in TPU with the lower plug on the build plate. Enable supports:
+the upper guide has a square outside shoulder where it widens from the lower
+plug, and that overhang is expected to need support. The supported area is not a
+precision fit surface.
 
 ## Fit Tuning
 
@@ -38,5 +37,3 @@ The main fit parameters are at the top of
   it below `cup_inner_d`.
 - If the mast base is too tight in the pocket, increase `mast_base_bore_d`.
 - If the mast base wiggles too much, reduce `mast_base_bore_d`.
-- If the slicer still adds unwanted support under the small floor shoulder,
-  reduce `floor_outer_d`; keep it larger than `mast_base_bore_d`.
