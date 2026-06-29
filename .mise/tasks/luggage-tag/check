@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Verify luggage-tag MeCard payloads, QR density, and generated tag export"
+set -euo pipefail
+exec bash tests/luggage_tag_mecard_test.sh

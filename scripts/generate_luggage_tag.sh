@@ -39,7 +39,7 @@ fi
 FIRST="$first" LAST="$last" PHONE="$phone" EMAIL="$email" OUT="$out" python - <<'PY'
 import json
 import os
-import sys
+import re
 
 first = os.environ["FIRST"]
 last = os.environ["LAST"]
@@ -51,6 +51,10 @@ def scad_str(value: str) -> str:
     # JSON encoding gives us a safely-escaped double-quoted string.
     return json.dumps(value)
 
+def qr_phone(value: str) -> str:
+    prefix = "+" if value.strip().startswith("+") else ""
+    return prefix + re.sub(r"\D", "", value)
+
 os.makedirs(os.path.dirname(out), exist_ok=True)
 with open(out, "w", encoding="utf-8") as f:
     f.write("// Auto-generated. Do not edit.\n")
@@ -60,7 +64,8 @@ with open(out, "w", encoding="utf-8") as f:
     f.write(f"  first_name={scad_str(first)},\n")
     f.write(f"  last_name={scad_str(last)},\n")
     f.write(f"  phone_number={scad_str(phone)},\n")
-    f.write(f"  email_address={scad_str(email)}\n")
+    f.write(f"  email_address={scad_str(email)},\n")
+    f.write(f"  qr_phone_number={scad_str(qr_phone(phone))}\n")
     f.write(");\n")
 PY
 

@@ -4,7 +4,7 @@
 // Original link: https://makerworld.com/en/models/710726
 //
 // This variant keeps only: first name, last name, phone number, email,
-// and a vCard QR code. See models/luggage_tag/README.md for usage.
+// and a MeCard QR code. See models/luggage_tag/README.md for usage.
 //
 // License: CC BY-NC-ND 4.0
 // https://creativecommons.org/licenses/by-nc-nd/4.0/
@@ -81,11 +81,28 @@ module create_tag_shape(outer_path, inner_path) {
     }
 }
 
-module CreateBaseTag(first_name, last_name, phone_number, email_address) {
+// MeCard uses backslash escapes for field delimiters and omits line breaks.
+function luggage_tag_mecard_escape(value, i=0, result="") =
+    i >= len(value) ? result :
+    let(ch=value[i])
+    luggage_tag_mecard_escape(value, i+1, str(result,
+        ch == "\n" || ch == "\r" ? "" :
+        str(ch == "\\" || ch == ";" || ch == ":" ? "\\" : "", ch)));
+
+function luggage_tag_qr_message(first_name, last_name, phone_number, email_address, qr_phone_number="") =
+    str(
+        "MECARD:N:", luggage_tag_mecard_escape(last_name), ",",
+        luggage_tag_mecard_escape(first_name),
+        ";TEL:", luggage_tag_mecard_escape(qr_phone_number == "" ? phone_number : qr_phone_number),
+        email_address == "" ? "" : str(";EMAIL:", luggage_tag_mecard_escape(email_address)),
+        ";;"
+    );
+
+module CreateBaseTag(first_name, last_name, phone_number, email_address, qr_phone_number) {
     create_tag_shape(S_OUTER_PATH, S_INNER_PATH);
 
     // Add QR
-    translate([3, -98, QR_Z_POS]) { CreateQR(first_name, last_name, phone_number, email_address); }
+    translate([3, -98, QR_Z_POS]) { CreateQR(first_name, last_name, phone_number, email_address, qr_phone_number); }
 
     // Add text lines
     TextExtrude(3, -25, LINES_Z_POS, first_name, TEXT_COLOR, 33, FONT, 1);
@@ -93,13 +110,8 @@ module CreateBaseTag(first_name, last_name, phone_number, email_address) {
     TextExtrude(3, -41, LINES_Z_POS, phone_number, TEXT_COLOR, 24, FONT, 1);
 }
 
-module CreateQR(first_name, last_name, phone_number, email_address){
-    QrMessage = qr_vcard(
-        lastname=last_name,
-        firstname=first_name,
-        email=email_address,
-        phone=phone_number
-    );
+module CreateQR(first_name, last_name, phone_number, email_address, qr_phone_number){
+    QrMessage = luggage_tag_qr_message(first_name, last_name, phone_number, email_address, qr_phone_number);
 
     color(QR_COLOR) qr(QrMessage, error_correction="L", width=QR_SIZE, height=QR_SIZE, thickness=QR_EXTRUDE, center=false, mask_pattern=0, encoding="UTF-8");
 }
@@ -112,8 +124,8 @@ module TextExtrude(X, Y, Z, Text, Color, FontSize, FontFamily, TextSpacing){
 }
 
 // Create Tag
-module luggage_tag(first_name="First", last_name="Last", phone_number="+1234567890", email_address="name@example.com") {
-    translate([-28, 50]) { CreateBaseTag(first_name, last_name, phone_number, email_address); }
+module luggage_tag(first_name="First", last_name="Last", phone_number="+1234567890", email_address="name@example.com", qr_phone_number="") {
+    translate([-28, 50]) { CreateBaseTag(first_name, last_name, phone_number, email_address, qr_phone_number); }
 }
 
 if (is_undef(LUGGAGE_TAG_NO_AUTORUN) || !LUGGAGE_TAG_NO_AUTORUN) {

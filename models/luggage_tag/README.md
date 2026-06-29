@@ -17,4 +17,10 @@ scripts/generate_luggage_tag.sh --first "Ada" --last "Lovelace" --phone "+155512
 
 - `models/luggage_tag/luggage_tag_user.scad` is ignored by git.
 - The base model is `models/luggage_tag/luggage_tag.scad` and reads the values from the wrapper.
-- The email address is only embedded in the QR vCard and is not printed as text.
+- The email address is only embedded in the QR MeCard and is not printed as text.
+- The printed phone number keeps your formatting, while the QR uses a compact
+  digits-only phone number for better scan reliability.
+- The QR phone number retains a leading + for international dialing.
+- MeCard field delimiters are escaped, and line breaks are omitted from QR values.
+- Scan a finished test print before printing a batch; longer contact details
+  produce denser QR codes.
