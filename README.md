@@ -29,6 +29,8 @@ batch-generate STLs if desired.
   protecting a DX Commander Expedition mast base in a hitch-mounted holder
 - `models/ham_radio/dx_commander_hitch_sleeve/` - sleeve adapter for a
   DX Commander Expedition mast in a hitch-mounted flag pole holder
+- `models/ham_radio/lightweight_balanced_feedline/` - parameterized snap-on
+  feedline spacers plus continuous-wire and terminalized doublet centers
 - `models/ham_radio/spooltenna_bnc_cap/` - BNC connector protector for
   the KO4HUI Spooltenna (Ultra v1.5/v1.6 + V1.3)
 - `models/ham_radio/vertical_dipole_spacer/` - 6 m vertical dipole center
