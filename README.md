@@ -24,6 +24,8 @@ batch-generate STLs if desired.
 
 ## Models in this repo
 
+- `models/ham_radio/dipole_center/` - coax-fed dipole center with a downward
+  BNC shelf, M3 wire terminals, and internal root reinforcement
 - `models/ham_radio/dx_commander_element_label/` - element label tags
 - `models/ham_radio/dx_commander_hitch_base_puck/` - soft bottom puck for
   protecting a DX Commander Expedition mast base in a hitch-mounted holder
