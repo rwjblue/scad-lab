@@ -1,0 +1,1082 @@
+{
+  "evidence": "Analytic spherical proxies only; no physical hand, glove or flexible-wire validation",
+  "assumptions": {
+    "pad_y": 16.9,
+    "pad_stroke": 3.15,
+    "finger_diameter": 18,
+    "preset": "40m",
+    "winder_offset": 26.0,
+    "emit_scad": false
+  },
+  "seat_mm": 13,
+  "tail_diameter_mm": 1.02,
+  "tail_joint_extension_mm": 0.03,
+  "source_sha256": {
+    "modular_dipole.scad": "17e3d060e6e264a9381bb8a1cd4c6de52ca942bfa63711bda25f96b3258888b9",
+    "mockups.scad": "ec2741f9e99dea2885a749d6c53909713efb3d7199049030e9ccda69a052a3a8"
+  },
+  "contact_modes": {
+    "mid_face": [
+      {
+        "name": "left_hook",
+        "role": "18 mm middle-fingertip approach beneath fixed bridge",
+        "radius_mm": 9,
+        "center_min_mm": [
+          -76,
+          0,
+          4
+        ],
+        "center_max_mm": [
+          -50,
+          0,
+          4
+        ],
+        "corners_mm": [
+          [
+            -50,
+            0,
+            4
+          ],
+          [
+            -76,
+            0,
+            4
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": -1,
+          "segment_index": 0,
+          "clearance_mm": 3.7515479798677713,
+          "wire_center_mm": [
+            -40.28426395939086,
+            5.031725888324871,
+            11.493654822335024
+          ],
+          "finger_center_mm": [
+            -50,
+            0,
+            4
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 12.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 12.0
+          }
+        ]
+      },
+      {
+        "name": "left_lower",
+        "role": "mid_face thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          -76,
+          -25.9,
+          15
+        ],
+        "center_max_mm": [
+          -46,
+          -22.75,
+          15
+        ],
+        "corners_mm": [
+          [
+            -46,
+            -25.9,
+            15
+          ],
+          [
+            -46,
+            -22.75,
+            15
+          ],
+          [
+            -76,
+            -25.9,
+            15
+          ],
+          [
+            -76,
+            -22.75,
+            15
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": -1,
+          "segment_index": 0,
+          "clearance_mm": 15.860643689999135,
+          "wire_center_mm": [
+            -38.9899241455628,
+            1.4722914002977068,
+            12.205541719940458
+          ],
+          "finger_center_mm": [
+            -46,
+            -22.75,
+            15
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": -4.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 35.034787384521344
+          }
+        ]
+      },
+      {
+        "name": "left_upper",
+        "role": "mid_face thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          -76,
+          22.75,
+          15
+        ],
+        "center_max_mm": [
+          -46,
+          25.9,
+          15
+        ],
+        "corners_mm": [
+          [
+            -46,
+            25.9,
+            15
+          ],
+          [
+            -46,
+            22.75,
+            15
+          ],
+          [
+            -76,
+            25.9,
+            15
+          ],
+          [
+            -76,
+            22.75,
+            15
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": -1,
+          "segment_index": 2,
+          "clearance_mm": 1.815867329177166,
+          "wire_center_mm": [
+            -60.57039711191335,
+            13.222924187725631,
+            8.875451263537908
+          ],
+          "finger_center_mm": [
+            -60.57039711191335,
+            22.75,
+            15
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 35.034787384521344
+          },
+          {
+            "row": 1,
+            "clearance_mm": -4.0
+          }
+        ]
+      },
+      {
+        "name": "right_hook",
+        "role": "18 mm middle-fingertip approach beneath fixed bridge",
+        "radius_mm": 9,
+        "center_min_mm": [
+          50,
+          0,
+          4
+        ],
+        "center_max_mm": [
+          76,
+          0,
+          4
+        ],
+        "corners_mm": [
+          [
+            50,
+            0,
+            4
+          ],
+          [
+            76,
+            0,
+            4
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": 1,
+          "segment_index": 0,
+          "clearance_mm": 3.0871981934196135,
+          "wire_center_mm": [
+            40.531820697288325,
+            -3.8613724405091276,
+            11.357498616491423
+          ],
+          "finger_center_mm": [
+            50,
+            0,
+            4
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 12.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 12.0
+          }
+        ]
+      },
+      {
+        "name": "right_lower",
+        "role": "mid_face thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          46,
+          -25.9,
+          15
+        ],
+        "center_max_mm": [
+          76,
+          -22.75,
+          15
+        ],
+        "corners_mm": [
+          [
+            46,
+            -25.9,
+            15
+          ],
+          [
+            46,
+            -22.75,
+            15
+          ],
+          [
+            76,
+            -25.9,
+            15
+          ],
+          [
+            76,
+            -22.75,
+            15
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": 1,
+          "segment_index": 2,
+          "clearance_mm": 1.815867329177166,
+          "wire_center_mm": [
+            60.57039711191335,
+            -13.222924187725631,
+            8.875451263537908
+          ],
+          "finger_center_mm": [
+            60.57039711191335,
+            -22.75,
+            15
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": -4.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 35.034787384521344
+          }
+        ]
+      },
+      {
+        "name": "right_upper",
+        "role": "mid_face thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          46,
+          22.75,
+          15
+        ],
+        "center_max_mm": [
+          76,
+          25.9,
+          15
+        ],
+        "corners_mm": [
+          [
+            46,
+            25.9,
+            15
+          ],
+          [
+            46,
+            22.75,
+            15
+          ],
+          [
+            76,
+            25.9,
+            15
+          ],
+          [
+            76,
+            22.75,
+            15
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": 1,
+          "segment_index": 0,
+          "clearance_mm": 13.012881801276903,
+          "wire_center_mm": [
+            38.99185086435675,
+            1.528521974751389,
+            12.20448202460379
+          ],
+          "finger_center_mm": [
+            46,
+            22.75,
+            15
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 35.034787384521344
+          },
+          {
+            "row": 1,
+            "clearance_mm": -4.0
+          }
+        ]
+      }
+    ],
+    "upper_edge": [
+      {
+        "name": "left_hook",
+        "role": "18 mm middle-fingertip approach beneath fixed bridge",
+        "radius_mm": 9,
+        "center_min_mm": [
+          -76,
+          0,
+          4
+        ],
+        "center_max_mm": [
+          -50,
+          0,
+          4
+        ],
+        "corners_mm": [
+          [
+            -50,
+            0,
+            4
+          ],
+          [
+            -76,
+            0,
+            4
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": -1,
+          "segment_index": 0,
+          "clearance_mm": 3.7515479798677713,
+          "wire_center_mm": [
+            -40.28426395939086,
+            5.031725888324871,
+            11.493654822335024
+          ],
+          "finger_center_mm": [
+            -50,
+            0,
+            4
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 12.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 12.0
+          }
+        ]
+      },
+      {
+        "name": "left_lower",
+        "role": "upper_edge thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          -76,
+          -25.385281374238566,
+          20.0
+        ],
+        "center_max_mm": [
+          -46,
+          -22.235281374238568,
+          20.0
+        ],
+        "corners_mm": [
+          [
+            -46,
+            -25.385281374238566,
+            20.0
+          ],
+          [
+            -46,
+            -22.235281374238568,
+            20.0
+          ],
+          [
+            -76,
+            -25.385281374238566,
+            20.0
+          ],
+          [
+            -76,
+            -22.235281374238568,
+            20.0
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": -1,
+          "segment_index": 0,
+          "clearance_mm": 16.411877829827176,
+          "wire_center_mm": [
+            -38.9899241455628,
+            1.4722914002977068,
+            12.205541719940458
+          ],
+          "finger_center_mm": [
+            -46,
+            -22.235281374238568,
+            20.0
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 1.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 35.37667805852056
+          }
+        ]
+      },
+      {
+        "name": "left_upper",
+        "role": "upper_edge thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          -76,
+          22.235281374238568,
+          20.0
+        ],
+        "center_max_mm": [
+          -46,
+          25.385281374238566,
+          20.0
+        ],
+        "corners_mm": [
+          [
+            -46,
+            25.385281374238566,
+            20.0
+          ],
+          [
+            -46,
+            22.235281374238568,
+            20.0
+          ],
+          [
+            -76,
+            25.385281374238566,
+            20.0
+          ],
+          [
+            -76,
+            22.235281374238568,
+            20.0
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": -1,
+          "segment_index": 2,
+          "clearance_mm": 4.443091373229057,
+          "wire_center_mm": [
+            -57.97338462529593,
+            12.492514425864481,
+            10.01164422643303
+          ],
+          "finger_center_mm": [
+            -57.97338462529593,
+            22.235281374238568,
+            20.0
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 35.37667805852056
+          },
+          {
+            "row": 1,
+            "clearance_mm": 1.0
+          }
+        ]
+      },
+      {
+        "name": "right_hook",
+        "role": "18 mm middle-fingertip approach beneath fixed bridge",
+        "radius_mm": 9,
+        "center_min_mm": [
+          50,
+          0,
+          4
+        ],
+        "center_max_mm": [
+          76,
+          0,
+          4
+        ],
+        "corners_mm": [
+          [
+            50,
+            0,
+            4
+          ],
+          [
+            76,
+            0,
+            4
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": 1,
+          "segment_index": 0,
+          "clearance_mm": 3.0871981934196135,
+          "wire_center_mm": [
+            40.531820697288325,
+            -3.8613724405091276,
+            11.357498616491423
+          ],
+          "finger_center_mm": [
+            50,
+            0,
+            4
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 12.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 12.0
+          }
+        ]
+      },
+      {
+        "name": "right_lower",
+        "role": "upper_edge thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          46,
+          -25.385281374238566,
+          20.0
+        ],
+        "center_max_mm": [
+          76,
+          -22.235281374238568,
+          20.0
+        ],
+        "corners_mm": [
+          [
+            46,
+            -25.385281374238566,
+            20.0
+          ],
+          [
+            46,
+            -22.235281374238568,
+            20.0
+          ],
+          [
+            76,
+            -25.385281374238566,
+            20.0
+          ],
+          [
+            76,
+            -22.235281374238568,
+            20.0
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": 1,
+          "segment_index": 2,
+          "clearance_mm": 4.443091373229057,
+          "wire_center_mm": [
+            57.97338462529593,
+            -12.492514425864481,
+            10.01164422643303
+          ],
+          "finger_center_mm": [
+            57.97338462529593,
+            -22.235281374238568,
+            20.0
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 1.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 35.37667805852056
+          }
+        ]
+      },
+      {
+        "name": "right_upper",
+        "role": "upper_edge thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          46,
+          22.235281374238568,
+          20.0
+        ],
+        "center_max_mm": [
+          76,
+          25.385281374238566,
+          20.0
+        ],
+        "corners_mm": [
+          [
+            46,
+            25.385281374238566,
+            20.0
+          ],
+          [
+            46,
+            22.235281374238568,
+            20.0
+          ],
+          [
+            76,
+            25.385281374238566,
+            20.0
+          ],
+          [
+            76,
+            22.235281374238568,
+            20.0
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": 1,
+          "segment_index": 0,
+          "clearance_mm": 13.698923707065637,
+          "wire_center_mm": [
+            38.99185086435675,
+            1.528521974751389,
+            12.20448202460379
+          ],
+          "finger_center_mm": [
+            46,
+            22.235281374238568,
+            20.0
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 35.37667805852056
+          },
+          {
+            "row": 1,
+            "clearance_mm": 1.0
+          }
+        ]
+      }
+    ],
+    "raised_face": [
+      {
+        "name": "left_hook",
+        "role": "18 mm middle-fingertip approach beneath fixed bridge",
+        "radius_mm": 9,
+        "center_min_mm": [
+          -76,
+          0,
+          4
+        ],
+        "center_max_mm": [
+          -50,
+          0,
+          4
+        ],
+        "corners_mm": [
+          [
+            -50,
+            0,
+            4
+          ],
+          [
+            -76,
+            0,
+            4
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": -1,
+          "segment_index": 0,
+          "clearance_mm": 3.7515479798677713,
+          "wire_center_mm": [
+            -40.28426395939086,
+            5.031725888324871,
+            11.493654822335024
+          ],
+          "finger_center_mm": [
+            -50,
+            0,
+            4
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 12.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 12.0
+          }
+        ]
+      },
+      {
+        "name": "left_lower",
+        "role": "raised_face thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          -76,
+          -25.9,
+          21
+        ],
+        "center_max_mm": [
+          -46,
+          -22.75,
+          21
+        ],
+        "corners_mm": [
+          [
+            -46,
+            -25.9,
+            21
+          ],
+          [
+            -46,
+            -22.75,
+            21
+          ],
+          [
+            -76,
+            -25.9,
+            21
+          ],
+          [
+            -76,
+            -22.75,
+            21
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": -1,
+          "segment_index": 0,
+          "clearance_mm": 17.19586191467348,
+          "wire_center_mm": [
+            -38.9899241455628,
+            1.4722914002977068,
+            12.205541719940458
+          ],
+          "finger_center_mm": [
+            -46,
+            -22.75,
+            21
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 2.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 36.11166700533244
+          }
+        ]
+      },
+      {
+        "name": "left_upper",
+        "role": "raised_face thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          -76,
+          22.75,
+          21
+        ],
+        "center_max_mm": [
+          -46,
+          25.9,
+          21
+        ],
+        "corners_mm": [
+          [
+            -46,
+            25.9,
+            21
+          ],
+          [
+            -46,
+            22.75,
+            21
+          ],
+          [
+            -76,
+            25.9,
+            21
+          ],
+          [
+            -76,
+            22.75,
+            21
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": -1,
+          "segment_index": 2,
+          "clearance_mm": 5.521965038213763,
+          "wire_center_mm": [
+            -57.97338462529593,
+            12.492514425864481,
+            10.01164422643303
+          ],
+          "finger_center_mm": [
+            -57.97338462529593,
+            22.75,
+            21
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 36.11166700533244
+          },
+          {
+            "row": 1,
+            "clearance_mm": 2.0
+          }
+        ]
+      },
+      {
+        "name": "right_hook",
+        "role": "18 mm middle-fingertip approach beneath fixed bridge",
+        "radius_mm": 9,
+        "center_min_mm": [
+          50,
+          0,
+          4
+        ],
+        "center_max_mm": [
+          76,
+          0,
+          4
+        ],
+        "corners_mm": [
+          [
+            50,
+            0,
+            4
+          ],
+          [
+            76,
+            0,
+            4
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": 1,
+          "segment_index": 0,
+          "clearance_mm": 3.0871981934196135,
+          "wire_center_mm": [
+            40.531820697288325,
+            -3.8613724405091276,
+            11.357498616491423
+          ],
+          "finger_center_mm": [
+            50,
+            0,
+            4
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 12.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 12.0
+          }
+        ]
+      },
+      {
+        "name": "right_lower",
+        "role": "raised_face thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          46,
+          -25.9,
+          21
+        ],
+        "center_max_mm": [
+          76,
+          -22.75,
+          21
+        ],
+        "corners_mm": [
+          [
+            46,
+            -25.9,
+            21
+          ],
+          [
+            46,
+            -22.75,
+            21
+          ],
+          [
+            76,
+            -25.9,
+            21
+          ],
+          [
+            76,
+            -22.75,
+            21
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": 1,
+          "segment_index": 2,
+          "clearance_mm": 5.521965038213763,
+          "wire_center_mm": [
+            57.97338462529593,
+            -12.492514425864481,
+            10.01164422643303
+          ],
+          "finger_center_mm": [
+            57.97338462529593,
+            -22.75,
+            21
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 2.0
+          },
+          {
+            "row": 1,
+            "clearance_mm": 36.11166700533244
+          }
+        ]
+      },
+      {
+        "name": "right_upper",
+        "role": "raised_face thumb/index approach and inward stroke",
+        "radius_mm": 9.0,
+        "center_min_mm": [
+          46,
+          22.75,
+          21
+        ],
+        "center_max_mm": [
+          76,
+          25.9,
+          21
+        ],
+        "corners_mm": [
+          [
+            46,
+            25.9,
+            21
+          ],
+          [
+            46,
+            22.75,
+            21
+          ],
+          [
+            76,
+            25.9,
+            21
+          ],
+          [
+            76,
+            22.75,
+            21
+          ]
+        ],
+        "closest_wire": {
+          "tail_exit_side": 1,
+          "segment_index": 0,
+          "clearance_mm": 14.507210919235499,
+          "wire_center_mm": [
+            38.99185086435675,
+            1.528521974751389,
+            12.20448202460379
+          ],
+          "finger_center_mm": [
+            46,
+            22.75,
+            21
+          ]
+        },
+        "wire_reserve_clearances": [
+          {
+            "row": -1,
+            "clearance_mm": 36.11166700533244
+          },
+          {
+            "row": 1,
+            "clearance_mm": 2.0
+          }
+        ]
+      }
+    ]
+  }
+}

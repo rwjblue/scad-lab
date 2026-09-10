@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Render paired inward releases, parked-open pose and print layout"
+set -euo pipefail
+exec python3 models/ham_radio/modular_dipole/render.py

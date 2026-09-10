@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Build four-catch modular dipole STLs and verify geometry and sequential release"
+set -euo pipefail
+exec uv run --no-project --with trimesh --with shapely --with scipy \
+  --with networkx --with manifold3d --with rtree \
+  python models/ham_radio/modular_dipole/validate.py "$@"

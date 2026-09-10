@@ -1,0 +1,4653 @@
+{
+  "status": "passed",
+  "revision": "modular-dipole-bnc-10p1",
+  "evidence": "CAD only; printing, hand use, gloves, fatigue and loaded payout untested",
+  "presets": {
+    "40m": {
+      "center": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -52.0,
+            -2.0,
+            0.0
+          ],
+          [
+            52.0,
+            41.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          104.0,
+          43.0,
+          23.0
+        ],
+        "volume_mm3": 13819.949134501649,
+        "estimated_solid_petg_g_at_1p27": 17.551335400817095
+      },
+      "winder": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -70.0,
+            -16.543563842773438,
+            0.0
+          ],
+          [
+            70.0,
+            37.5,
+            20.0
+          ]
+        ],
+        "size_mm": [
+          140.0,
+          54.04356384277344,
+          20.0
+        ],
+        "volume_mm3": 12776.896966697963,
+        "estimated_solid_petg_g_at_1p27": 16.226659147706414
+      },
+      "preserved_geometry": {
+        "unexpected_removed_volume_mm3": 6.238462211927143e-06,
+        "removed_for_docking_sockets_mm3": 2.90016307502583e-06,
+        "bnc_panel_symmetric_difference_mm3": 0.0,
+        "original_holes": {
+          "z_axis_holes_preserved": 9,
+          "sections_checked": 7,
+          "maximum_added_material_in_hole_mm2": 3.0203498353795137e-06
+        },
+        "bnc_cutout": {
+          "clearance_per_side_mm": 0.2,
+          "section_measurements": [
+            {
+              "panel_y_mm": 0.1,
+              "diameter_mm": 10.100000381469727,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "top_flat_z_mm": 18.200000762939453
+            },
+            {
+              "panel_y_mm": 1.5,
+              "diameter_mm": 10.100000381469727,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "top_flat_z_mm": 18.200000762939453
+            },
+            {
+              "panel_y_mm": 2.9,
+              "diameter_mm": 10.100000381469727,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "top_flat_z_mm": 18.200000762939453
+            }
+          ]
+        }
+      },
+      "free_flexure_clearance": {
+        "outside_root_fillet_abs_x_mm": 16.6,
+        "samples": [
+          {
+            "paddle_travel_mm": 0.0,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 0.39375,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 0.7875,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 1.18125,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 1.575,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 1.96875,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 2.3625,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 2.75625,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 3.15,
+            "fixed_intersection_mm3": 0.0
+          }
+        ]
+      },
+      "capture_and_release": [
+        {
+          "row": -1,
+          "locked_intersection_after_1p1mm_pull_mm3": 1.8056322512574148,
+          "both_ends_pinched_straight_path": [
+            {
+              "drop_mm": 0,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.25,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.5,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.8,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 1.1,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 2,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 3,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 4,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 5,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 6,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 7,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 12,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 30,
+              "intersection_mm3": 0.0
+            }
+          ]
+        },
+        {
+          "row": 1,
+          "locked_intersection_after_1p1mm_pull_mm3": 1.805632696979913,
+          "both_ends_pinched_straight_path": [
+            {
+              "drop_mm": 0,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.25,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.5,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.8,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 1.1,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 2,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 3,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 4,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 5,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 6,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 7,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 12,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 30,
+              "intersection_mm3": 0.0
+            }
+          ]
+        }
+      ],
+      "lateral_capture": [
+        {
+          "admissible_poses": [
+            {
+              "translation_mm": [
+                -0.3,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056299951289636,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.793419289725197e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.793419464532829e-08,
+                  "minimum_opposite_head_capture_mm3": 1.023189985095332
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.793419464532829e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953319
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.2
+              ],
+              "pull_intersection_mm3": 2.3983110910820096,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.4729084543441936e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 1.481767386199949e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894784
+                },
+                "right": {
+                  "maximum_intersection_mm3": 1.481767386199949e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894789
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.15
+              ],
+              "pull_intersection_mm3": 2.247089994715922,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 7.287464902361318e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894784
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894789
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0
+              ],
+              "pull_intersection_mm3": 1.805629925690909,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.2771901591879242e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953317
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.023189985095332
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.15
+              ],
+              "pull_intersection_mm3": 1.3844577643482174,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.86843335142828e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407069
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407072
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.2
+              ],
+              "pull_intersection_mm3": 1.249010212598546,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.431400349545319e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.707772242046564
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077722420465642
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.2
+              ],
+              "pull_intersection_mm3": 2.3983110910826015,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 4.905472729410665e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 1.481767399752476e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894784
+                },
+                "right": {
+                  "maximum_intersection_mm3": 1.481767399752476e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894789
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.15
+              ],
+              "pull_intersection_mm3": 2.247089994715923,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.3288151232571793e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894784
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894789
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056299256909074,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 5.594483210025203e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.023189985095332
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953323
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.15
+              ],
+              "pull_intersection_mm3": 1.3844577643482188,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.4297374048566347e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407078
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407074
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.2
+              ],
+              "pull_intersection_mm3": 1.249010212598547,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 6.938893903907228e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077722420465639
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077722420465641
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.3
+              ],
+              "pull_intersection_mm3": 0.9864353617224715,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.7934194617281e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.793419497013539e-08,
+                  "minimum_opposite_head_capture_mm3": 0.5589798317192803
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.793419497013539e-08,
+                  "minimum_opposite_head_capture_mm3": 0.5589798317192802
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.2
+              ],
+              "pull_intersection_mm3": 2.3983110910831953,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 4.485738257893005e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 1.481767386199949e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894784
+                },
+                "right": {
+                  "maximum_intersection_mm3": 1.481767386199949e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894789
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.15
+              ],
+              "pull_intersection_mm3": 2.2470899947159237,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.5400146395904155e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894784
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894789
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056299256909083,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.9246756965962675e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953323
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953325
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.15
+              ],
+              "pull_intersection_mm3": 1.3844577643482185,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.1549602380321886e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407073
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.784525831740707
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.2
+              ],
+              "pull_intersection_mm3": 1.2490102125985458,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.6200383985471145e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.707772242046564
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077722420465642
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056299951289645,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.793419621345686e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.793419513333373e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953328
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.793419513333373e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953323
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.3,
+              "pull_intersection_mm3": 1.8216463607021596,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.3258708367325234e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7253021693333447
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894789
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.2,
+              "pull_intersection_mm3": 1.812728501559759,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.4328815911568427e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.8223978472974264
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.232027173137593
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.1,
+              "pull_intersection_mm3": 1.8073692023235421,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.7976210757729714e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.9217047871693379
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.1266463626152197
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.1,
+              "pull_intersection_mm3": 1.8073692023235421,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.0800279941214352e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.1266463626152192
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.9217047871693377
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.2,
+              "pull_intersection_mm3": 1.812728501559758,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.4157783018858838e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2320271731375936
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.8223978472974265
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.3,
+              "pull_intersection_mm3": 1.82164636070216,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 5.515336451433761e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894784
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7253021693333442
+                }
+              }
+            }
+          ],
+          "excluded_colliding_poses": [
+            {
+              "translation_mm": [
+                -1.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 18.415536238346572
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 16.661389141941168
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 15.934515234868172
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0
+              ],
+              "seated_intersection_mm3": 14.400019193305866
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 13.955699296504559
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 14.061841621397885
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 14.362176357843849
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.3
+              ],
+              "seated_intersection_mm3": 5.848648944310285
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.2
+              ],
+              "seated_intersection_mm3": 3.9622787062474636
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.15
+              ],
+              "seated_intersection_mm3": 3.3717814100365953
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0
+              ],
+              "seated_intersection_mm3": 3.0339258927890707
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.15
+              ],
+              "seated_intersection_mm3": 3.2853927401743492
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.2
+              ],
+              "seated_intersection_mm3": 3.478685212133863
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.3
+              ],
+              "seated_intersection_mm3": 4.02075474092378
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 1.8367091324099292
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 0.329592181136429
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 0.1516659320246927
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 0.15166596938252125
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 0.3295381631678605
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.9123789513253446
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.3
+              ],
+              "seated_intersection_mm3": 1.0995392698731368
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.32953807661736456
+            },
+            {
+              "translation_mm": [
+                0,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.6911742066784706
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.3
+              ],
+              "seated_intersection_mm3": 1.099539270207574
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.32953807588307754
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 1.8367091366901096
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 0.3295921805425766
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 0.15166593236694573
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 0.15166596900607832
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 0.32953816390211194
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.9123789513253602
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.3
+              ],
+              "seated_intersection_mm3": 5.848648944506148
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.2
+              ],
+              "seated_intersection_mm3": 3.962278704593913
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.15
+              ],
+              "seated_intersection_mm3": 3.371781410937898
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0
+              ],
+              "seated_intersection_mm3": 3.033925892947977
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.15
+              ],
+              "seated_intersection_mm3": 3.2853927403826364
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.2
+              ],
+              "seated_intersection_mm3": 3.4786852124565724
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.3
+              ],
+              "seated_intersection_mm3": 4.0207547407279165
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 18.415536238346572
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 16.661389141941164
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 15.934515234868172
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0
+              ],
+              "seated_intersection_mm3": 14.400019193303748
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 13.955699296504559
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 14.06184162139789
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 14.362176357843843
+            },
+            {
+              "rotation_about_midpoint_deg": -0.4,
+              "seated_intersection_mm3": 0.1224376986540126
+            },
+            {
+              "rotation_about_midpoint_deg": 0.4,
+              "seated_intersection_mm3": 0.12243769865401385
+            }
+          ],
+          "alignment_path": "Each admitted initial translation/yaw relaxes continuously to centered over the first 1 degree of peel",
+          "angle_step_deg": 0.05,
+          "evidence_limit": "Feasible continuous clearance path; friction, automatic centering, print tolerances and one-hand forces are not simulated"
+        },
+        {
+          "admissible_poses": [
+            {
+              "translation_mm": [
+                -0.3,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056304504792184,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.38395912014689e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.383958938570555e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779106
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.383958938570555e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779112
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.2
+              ],
+              "pull_intersection_mm3": 2.3983117043585764,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 4.649969476036141e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429703
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.15
+              ],
+              "pull_intersection_mm3": 2.24709057241444,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.433101001710131e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429703
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056303821897135,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.3123321833684596e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.023190243777911
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779115
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.15
+              ],
+              "pull_intersection_mm3": 1.3844580831009912,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.0184995208328829e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672243
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672251
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.2
+              ],
+              "pull_intersection_mm3": 1.2490104814781888,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.1820900680580334e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116487
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116486
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.2
+              ],
+              "pull_intersection_mm3": 2.398311704358578,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.6898917161445315e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429703
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.15
+              ],
+              "pull_intersection_mm3": 2.24709057241444,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 4.355385816541199e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429703
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056303821897133,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.061761757633846e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779115
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779115
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.15
+              ],
+              "pull_intersection_mm3": 1.3844580831009923,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.48435473182529e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672244
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672245
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.2
+              ],
+              "pull_intersection_mm3": 1.249010481478188,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.447965875146396e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116486
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116486
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.3
+              ],
+              "pull_intersection_mm3": 0.986435760489925,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.1335656886345246e-07,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 2.9845353014231035e-07,
+                  "minimum_opposite_head_capture_mm3": 0.5589799233448172
+                },
+                "right": {
+                  "maximum_intersection_mm3": 2.9845353014231035e-07,
+                  "minimum_opposite_head_capture_mm3": 0.558979923344817
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.2
+              ],
+              "pull_intersection_mm3": 2.3983117043585795,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.598923451731347e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429703
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.15
+              ],
+              "pull_intersection_mm3": 2.247090572414442,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.896649070437517e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429703
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056303821897135,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.796577209917105e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779112
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779106
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.15
+              ],
+              "pull_intersection_mm3": 1.3844580831009916,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 5.459500039550758e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672245
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672246
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.2
+              ],
+              "pull_intersection_mm3": 1.2490104814781886,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.898480521743146e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116489
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116487
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056304504792173,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.383958552401578e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.38395893376036e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779117
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.38395893376036e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779112
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.3,
+              "pull_intersection_mm3": 1.8216468038714906,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.94093872918355e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7253023286748086
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.2,
+              "pull_intersection_mm3": 1.8127289521381555,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.0357925454840267e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2320274901994581
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.8223980408909247
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.1,
+              "pull_intersection_mm3": 1.8073696566527022,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 7.730158201914306e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.1266466505000912
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.9217050141906928
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.1,
+              "pull_intersection_mm3": 1.8073696566527004,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 6.006480035569695e-17,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.9217050141906933
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.126646650500091
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.2,
+              "pull_intersection_mm3": 1.8127289521381544,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 4.3117636197576026e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.8223980408909246
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2320274901994588
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.3,
+              "pull_intersection_mm3": 1.8216468038714901,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.8175158643732314e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7253023286748089
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429703
+                }
+              }
+            }
+          ],
+          "excluded_colliding_poses": [
+            {
+              "translation_mm": [
+                -1.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 18.415540890361328
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 16.66139420796817
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 15.934520044023541
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0
+              ],
+              "seated_intersection_mm3": 14.400023030381016
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 13.95569453081587
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 14.061836419391584
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 14.362170580698196
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.3
+              ],
+              "seated_intersection_mm3": 5.848644339571481
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.2
+              ],
+              "seated_intersection_mm3": 3.962276570510339
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.15
+              ],
+              "seated_intersection_mm3": 3.371780869353427
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0
+              ],
+              "seated_intersection_mm3": 3.033922820250425
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.15
+              ],
+              "seated_intersection_mm3": 3.285388161810572
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.2
+              ],
+              "seated_intersection_mm3": 3.4786798305527498
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.3
+              ],
+              "seated_intersection_mm3": 4.020750006031443
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 1.8366985435148826
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 0.32958992740372856
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 0.15166440621466587
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 0.15166404919324922
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 0.32953533215868697
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.9123753264249902
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.3
+              ],
+              "seated_intersection_mm3": 1.0995280759141532
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.32953487100594575
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.6911640392471629
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.3
+              ],
+              "seated_intersection_mm3": 1.0995280759593984
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.32953487096071726
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 1.8366985427666511
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 0.3295899275574368
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 0.1516644059784451
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 0.15166404942948974
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 0.32953533200497803
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.9123753271731501
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.3
+              ],
+              "seated_intersection_mm3": 5.84864433937472
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.2
+              ],
+              "seated_intersection_mm3": 3.962276571495092
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.15
+              ],
+              "seated_intersection_mm3": 3.371780867857192
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0
+              ],
+              "seated_intersection_mm3": 3.033922820250426
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.15
+              ],
+              "seated_intersection_mm3": 3.2853881633068047
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.2
+              ],
+              "seated_intersection_mm3": 3.4786798295680064
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.3
+              ],
+              "seated_intersection_mm3": 4.020750006228202
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 18.415540890361324
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 16.661394207968176
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 15.934520044023541
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0
+              ],
+              "seated_intersection_mm3": 14.40002303038102
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 13.955694530815876
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 14.06183641939157
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 14.362170580698198
+            },
+            {
+              "rotation_about_midpoint_deg": -0.4,
+              "seated_intersection_mm3": 0.12243423762344204
+            },
+            {
+              "rotation_about_midpoint_deg": 0.4,
+              "seated_intersection_mm3": 0.12243423762344019
+            }
+          ],
+          "alignment_path": "Each admitted initial translation/yaw relaxes continuously to centered over the first 1 degree of peel",
+          "angle_step_deg": 0.05,
+          "evidence_limit": "Feasible continuous clearance path; friction, automatic centering, print tolerances and one-hand forces are not simulated"
+        }
+      ],
+      "load_proxies": {
+        "tie_to_center_mm3": 0.0,
+        "tie_to_hardware_mm3": 0.0,
+        "hardware_to_wire_reserve_mm3": [
+          0.0,
+          0.0
+        ],
+        "tail_to_center_mm3": 0.0,
+        "remaining_gap_above_tie_mm": 1.0,
+        "evidence_limit": "Schematic connector and tie dimensions; flexible tails are a static route, not a dynamics model"
+      },
+      "raised_finger_proxy": {
+        "assumptions": {
+          "pad_y": 16.9,
+          "pad_stroke": 3.15,
+          "finger_diameter": 18,
+          "preset": "40m",
+          "winder_offset": 26.0,
+          "emit_scad": false
+        },
+        "minimum_tail_gap_mm": 3.0871981934196135,
+        "minimum_wire_reserve_gap_mm": 2.0,
+        "evidence_limit": "Analytic spherical proxies only; no physical hand, glove or flexible-wire validation"
+      },
+      "sequential_release": {
+        "status": "passed",
+        "orders": [
+          {
+            "first_end": "right",
+            "individual_stud_capture": {
+              "-1,-1": {
+                "locked_mm3": 0.9028161256287071,
+                "one_end_pinched_mm3": 0.9028161256287071
+              },
+              "-1,1": {
+                "locked_mm3": 0.9028163484899565,
+                "one_end_pinched_mm3": 0.9028163484899565
+              },
+              "1,-1": {
+                "locked_mm3": 0.9028161256287076,
+                "one_end_pinched_mm3": 0.0
+              },
+              "1,1": {
+                "locked_mm3": 0.9028163484899577,
+                "one_end_pinched_mm3": 0.0
+              }
+            },
+            "peel_angle_samples_deg": [
+              0.0,
+              0.09999999999999999,
+              0.19999999999999998,
+              0.3,
+              0.39999999999999997,
+              0.49999999999999994,
+              0.6,
+              0.7,
+              0.7999999999999999,
+              0.8999999999999999,
+              0.9999999999999999,
+              1.0999999999999999,
+              1.2,
+              1.2999999999999998,
+              1.4,
+              1.4999999999999998,
+              1.5999999999999999,
+              1.7,
+              1.7999999999999998,
+              1.9,
+              1.9999999999999998,
+              2.0999999999999996,
+              2.1999999999999997,
+              2.3,
+              2.4,
+              2.5,
+              2.5999999999999996,
+              2.6999999999999997,
+              2.8,
+              2.9,
+              2.9999999999999996,
+              3.0999999999999996,
+              3.1999999999999997,
+              3.3,
+              3.4,
+              3.4999999999999996,
+              3.5999999999999996,
+              3.6999999999999997,
+              3.8,
+              3.8999999999999995,
+              3.9999999999999996,
+              4.1,
+              4.199999999999999,
+              4.3,
+              4.3999999999999995,
+              4.5,
+              4.6,
+              4.699999999999999,
+              4.8,
+              4.8999999999999995,
+              5.0,
+              5.1,
+              5.199999999999999,
+              5.3,
+              5.3999999999999995,
+              5.499999999999999,
+              5.6
+            ],
+            "peel_max_intersection_mm3": 0.0,
+            "parked_angle_deg": 4.651718720591068,
+            "park_support_contact_growth": {
+              "-1,-1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 0.00010817777459333951
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 0.0006290606947824037
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.003567061204180081
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.03215064959252415
+                }
+              ],
+              "-1,1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 0.00010817878318421005
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 0.0006290628455865033
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0035670492932113143
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.0321506369517246
+                }
+              ],
+              "1,-1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 7.086203926229967e-06
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 4.322601460038378e-05
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.00029115270387229203
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.003792808891962559
+                }
+              ],
+              "1,1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 7.086246991283805e-06
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 4.3227322908211595e-05
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0002911533655112856
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.003792821185272984
+                }
+              ]
+            },
+            "reclosing_0p05deg_blocked_mm3": 0.015533114851738828,
+            "opposite_end_capture_after_1p1mm_lift_mm3": 3.8665861859293456,
+            "second_end_leveling_max_intersection_mm3": 3.48682001084788e-08,
+            "leveling_pivot_mm": [
+              36,
+              0,
+              19
+            ],
+            "leveling_rotation_samples_deg": [
+              0.0,
+              0.1938216133579612,
+              0.3876432267159224,
+              0.5814648400738835,
+              0.7752864534318448,
+              0.969108066789806,
+              1.162929680147767,
+              1.3567512935057284,
+              1.5505729068636895,
+              1.7443945202216506,
+              1.938216133579612,
+              2.132037746937573,
+              2.325859360295534,
+              2.5196809736534953,
+              2.713502587011457,
+              2.907324200369418,
+              3.101145813727379,
+              3.29496742708534,
+              3.4887890404433013,
+              3.682610653801263,
+              3.876432267159224,
+              4.070253880517185,
+              4.264075493875146,
+              4.457897107233108,
+              4.651718720591068
+            ],
+            "second_end_exit_max_intersection_mm3": 0.0,
+            "second_end_exit_samples_mm": [
+              0.0,
+              0.25,
+              0.5,
+              0.75,
+              1.0,
+              1.25,
+              1.5,
+              1.75,
+              2.0,
+              2.25,
+              2.5,
+              2.75,
+              3.0,
+              3.25,
+              3.5,
+              3.75,
+              4.0,
+              4.25,
+              4.5,
+              4.75,
+              5.0,
+              5.25,
+              5.5,
+              5.75,
+              6.0,
+              6.25,
+              6.5,
+              6.75,
+              7.0,
+              7.25,
+              7.5,
+              7.75,
+              8.0,
+              8.25,
+              8.5,
+              8.75,
+              9.0,
+              9.25,
+              9.5,
+              9.75,
+              10.0,
+              10.25,
+              10.5,
+              10.75,
+              11.0,
+              11.25,
+              11.5,
+              11.75,
+              12.0
+            ]
+          },
+          {
+            "first_end": "left",
+            "individual_stud_capture": {
+              "-1,-1": {
+                "locked_mm3": 0.9028161256287071,
+                "one_end_pinched_mm3": 0.0
+              },
+              "-1,1": {
+                "locked_mm3": 0.9028163484899565,
+                "one_end_pinched_mm3": 0.0
+              },
+              "1,-1": {
+                "locked_mm3": 0.9028161256287076,
+                "one_end_pinched_mm3": 0.9028161256287076
+              },
+              "1,1": {
+                "locked_mm3": 0.9028163484899577,
+                "one_end_pinched_mm3": 0.9028163484899577
+              }
+            },
+            "peel_angle_samples_deg": [
+              0.0,
+              0.09999999999999999,
+              0.19999999999999998,
+              0.3,
+              0.39999999999999997,
+              0.49999999999999994,
+              0.6,
+              0.7,
+              0.7999999999999999,
+              0.8999999999999999,
+              0.9999999999999999,
+              1.0999999999999999,
+              1.2,
+              1.2999999999999998,
+              1.4,
+              1.4999999999999998,
+              1.5999999999999999,
+              1.7,
+              1.7999999999999998,
+              1.9,
+              1.9999999999999998,
+              2.0999999999999996,
+              2.1999999999999997,
+              2.3,
+              2.4,
+              2.5,
+              2.5999999999999996,
+              2.6999999999999997,
+              2.8,
+              2.9,
+              2.9999999999999996,
+              3.0999999999999996,
+              3.1999999999999997,
+              3.3,
+              3.4,
+              3.4999999999999996,
+              3.5999999999999996,
+              3.6999999999999997,
+              3.8,
+              3.8999999999999995,
+              3.9999999999999996,
+              4.1,
+              4.199999999999999,
+              4.3,
+              4.3999999999999995,
+              4.5,
+              4.6,
+              4.699999999999999,
+              4.8,
+              4.8999999999999995,
+              5.0,
+              5.1,
+              5.199999999999999,
+              5.3,
+              5.3999999999999995,
+              5.499999999999999,
+              5.6
+            ],
+            "peel_max_intersection_mm3": 0.0,
+            "parked_angle_deg": 4.651718720591068,
+            "park_support_contact_growth": {
+              "-1,-1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 7.086203926229967e-06
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 4.322709293049879e-05
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0002911529572593395
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.003792807363541928
+                }
+              ],
+              "-1,1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 7.086246991283805e-06
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 4.322624598129127e-05
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0002911525500564523
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.0037928253770517784
+                }
+              ],
+              "1,-1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 0.00010817878318422162
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 0.0006290628455859112
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0035670500668705807
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.0321506532647055
+                }
+              ],
+              "1,1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 0.00010818975376155708
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 0.0006290836060093563
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.003567014193830024
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.03215083635067447
+                }
+              ]
+            },
+            "reclosing_0p05deg_blocked_mm3": 0.01553312000344768,
+            "opposite_end_capture_after_1p1mm_lift_mm3": 3.8665861859274075,
+            "second_end_leveling_max_intersection_mm3": 3.48682001084788e-08,
+            "leveling_pivot_mm": [
+              -36,
+              0,
+              19
+            ],
+            "leveling_rotation_samples_deg": [
+              0.0,
+              0.1938216133579612,
+              0.3876432267159224,
+              0.5814648400738835,
+              0.7752864534318448,
+              0.969108066789806,
+              1.162929680147767,
+              1.3567512935057284,
+              1.5505729068636895,
+              1.7443945202216506,
+              1.938216133579612,
+              2.132037746937573,
+              2.325859360295534,
+              2.5196809736534953,
+              2.713502587011457,
+              2.907324200369418,
+              3.101145813727379,
+              3.29496742708534,
+              3.4887890404433013,
+              3.682610653801263,
+              3.876432267159224,
+              4.070253880517185,
+              4.264075493875146,
+              4.457897107233108,
+              4.651718720591068
+            ],
+            "second_end_exit_max_intersection_mm3": 0.0,
+            "second_end_exit_samples_mm": [
+              0.0,
+              0.25,
+              0.5,
+              0.75,
+              1.0,
+              1.25,
+              1.5,
+              1.75,
+              2.0,
+              2.25,
+              2.5,
+              2.75,
+              3.0,
+              3.25,
+              3.5,
+              3.75,
+              4.0,
+              4.25,
+              4.5,
+              4.75,
+              5.0,
+              5.25,
+              5.5,
+              5.75,
+              6.0,
+              6.25,
+              6.5,
+              6.75,
+              7.0,
+              7.25,
+              7.5,
+              7.75,
+              8.0,
+              8.25,
+              8.5,
+              8.75,
+              9.0,
+              9.25,
+              9.5,
+              9.75,
+              10.0,
+              10.25,
+              10.5,
+              10.75,
+              11.0,
+              11.25,
+              11.5,
+              11.75,
+              12.0
+            ]
+          }
+        ],
+        "evidence_limit": "Nominal sampled rigid poses plus modeled elastic deflection; no physical hand, force or fatigue test"
+      },
+      "bare_packet_size_mm": [
+        140.0,
+        127.0,
+        36.0
+      ],
+      "wire_reserve_packet_size_without_hardware_mm": [
+        150,
+        137,
+        41.0
+      ],
+      "estimated_three_parts_solid_PETG_g": 50.00465369622992,
+      "print_layout": {
+        "watertight": true,
+        "connected_solids": 3,
+        "bounds_mm": [
+          [
+            -70.0,
+            -66.54356384277344,
+            0.0
+          ],
+          [
+            70.0,
+            113.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          140.0,
+          179.54356384277344,
+          23.0
+        ],
+        "volume_mm3": 39373.74322474303,
+        "estimated_solid_petg_g_at_1p27": 50.00465389542366
+      }
+    },
+    "80m": {
+      "center": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -52.0,
+            -2.0,
+            0.0
+          ],
+          [
+            52.0,
+            41.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          104.0,
+          43.0,
+          23.0
+        ],
+        "volume_mm3": 13819.949134501649,
+        "estimated_solid_petg_g_at_1p27": 17.551335400817095
+      },
+      "winder": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -70.0,
+            -16.543563842773438,
+            0.0
+          ],
+          [
+            70.0,
+            37.5,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          140.0,
+          54.04356384277344,
+          23.0
+        ],
+        "volume_mm3": 13132.52254122562,
+        "estimated_solid_petg_g_at_1p27": 16.678303627356538
+      },
+      "preserved_geometry": {
+        "unexpected_removed_volume_mm3": 6.238462211927143e-06,
+        "removed_for_docking_sockets_mm3": 2.90016307502583e-06,
+        "bnc_panel_symmetric_difference_mm3": 0.0,
+        "original_holes": {
+          "z_axis_holes_preserved": 9,
+          "sections_checked": 7,
+          "maximum_added_material_in_hole_mm2": 3.0203498353795137e-06
+        },
+        "bnc_cutout": {
+          "clearance_per_side_mm": 0.2,
+          "section_measurements": [
+            {
+              "panel_y_mm": 0.1,
+              "diameter_mm": 10.100000381469727,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "top_flat_z_mm": 18.200000762939453
+            },
+            {
+              "panel_y_mm": 1.5,
+              "diameter_mm": 10.100000381469727,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "top_flat_z_mm": 18.200000762939453
+            },
+            {
+              "panel_y_mm": 2.9,
+              "diameter_mm": 10.100000381469727,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "top_flat_z_mm": 18.200000762939453
+            }
+          ]
+        }
+      },
+      "center_symmetric_difference_from_40m_mm3": 0.0,
+      "free_flexure_clearance": {
+        "outside_root_fillet_abs_x_mm": 16.6,
+        "samples": [
+          {
+            "paddle_travel_mm": 0.0,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 0.39375,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 0.7875,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 1.18125,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 1.575,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 1.96875,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 2.3625,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 2.75625,
+            "fixed_intersection_mm3": 0.0
+          },
+          {
+            "paddle_travel_mm": 3.15,
+            "fixed_intersection_mm3": 0.0
+          }
+        ]
+      },
+      "capture_and_release": [
+        {
+          "row": -1,
+          "locked_intersection_after_1p1mm_pull_mm3": 1.8056322512574148,
+          "both_ends_pinched_straight_path": [
+            {
+              "drop_mm": 0,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.25,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.5,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.8,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 1.1,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 2,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 3,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 4,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 5,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 6,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 7,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 12,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 30,
+              "intersection_mm3": 0.0
+            }
+          ]
+        },
+        {
+          "row": 1,
+          "locked_intersection_after_1p1mm_pull_mm3": 1.805632696979913,
+          "both_ends_pinched_straight_path": [
+            {
+              "drop_mm": 0,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.25,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.5,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 0.8,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 1.1,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 2,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 3,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 4,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 5,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 6,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 7,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 12,
+              "intersection_mm3": 0.0
+            },
+            {
+              "drop_mm": 30,
+              "intersection_mm3": 0.0
+            }
+          ]
+        }
+      ],
+      "lateral_capture": [
+        {
+          "admissible_poses": [
+            {
+              "translation_mm": [
+                -0.3,
+                0
+              ],
+              "pull_intersection_mm3": 1.805629995128964,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.793419237786721e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.793419476132203e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953317
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.793419476132203e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953317
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.2
+              ],
+              "pull_intersection_mm3": 2.3983110910820087,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.1563024639887377e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 1.481767386199949e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894787
+                },
+                "right": {
+                  "maximum_intersection_mm3": 1.481767386199949e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894795
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.15
+              ],
+              "pull_intersection_mm3": 2.2470899947159224,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 6.022743068156977e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894787
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894795
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056299256909085,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 6.852157730108388e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953328
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953319
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.15
+              ],
+              "pull_intersection_mm3": 1.3844577643482183,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.1826477297471882e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407071
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407076
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.2
+              ],
+              "pull_intersection_mm3": 1.2490102125985452,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.776418044785677e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077722420465642
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077722420465641
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.2
+              ],
+              "pull_intersection_mm3": 2.3983110910826015,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 7.92009687000661e-17,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 1.481767399752476e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894787
+                },
+                "right": {
+                  "maximum_intersection_mm3": 1.481767399752476e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894795
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.15
+              ],
+              "pull_intersection_mm3": 2.247089994715923,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.3348293784475338e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894787
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894795
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056299256909076,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.0930926302998856e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.023189985095332
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.023189985095332
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.15
+              ],
+              "pull_intersection_mm3": 1.3844577643482192,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.336064907272679e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407076
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407074
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.2
+              ],
+              "pull_intersection_mm3": 1.2490102125985463,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 7.654467337747661e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077722420465636
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.707772242046564
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.3
+              ],
+              "pull_intersection_mm3": 0.9864353617224709,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.793419219709319e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.793419497346595e-08,
+                  "minimum_opposite_head_capture_mm3": 0.5589798317192801
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.793419497346595e-08,
+                  "minimum_opposite_head_capture_mm3": 0.55897983171928
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.2
+              ],
+              "pull_intersection_mm3": 2.3983110910831935,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 8.56435012968823e-18,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 1.481767386199949e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894787
+                },
+                "right": {
+                  "maximum_intersection_mm3": 1.481767386199949e-12,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894795
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.15
+              ],
+              "pull_intersection_mm3": 2.2470899947159224,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.368710696337706e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894787
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894795
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0
+              ],
+              "pull_intersection_mm3": 1.805629925690909,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 5.169475958410885e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231899850953312
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.023189985095332
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.15
+              ],
+              "pull_intersection_mm3": 1.3844577643482183,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.174543961037557e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407076
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845258317407073
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.2
+              ],
+              "pull_intersection_mm3": 1.2490102125985456,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.4132463159032914e-17,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077722420465639
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.707772242046564
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056299951289643,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.793419567854428e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.79341950689163e-08,
+                  "minimum_opposite_head_capture_mm3": 1.023189985095333
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.79341950689163e-08,
+                  "minimum_opposite_head_capture_mm3": 1.023189985095332
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.3,
+              "pull_intersection_mm3": 1.8216463607021596,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.958069123508821e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7253021693333442
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894795
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.2,
+              "pull_intersection_mm3": 1.812728501559758,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 6.936725499562257e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.8223978472974263
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2320271731375931
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.1,
+              "pull_intersection_mm3": 1.807369202323542,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.4452553697151824e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.9217047871693371
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.1266463626152199
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.1,
+              "pull_intersection_mm3": 1.807369202323542,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.4262137477960568e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.126646362615219
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.9217047871693371
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.2,
+              "pull_intersection_mm3": 1.8127285015597576,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.5362331632490234e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2320271731375934
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.8223978472974264
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.3,
+              "pull_intersection_mm3": 1.82164636070216,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 7.835529100552741e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356915223894787
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7253021693333442
+                }
+              }
+            }
+          ],
+          "excluded_colliding_poses": [
+            {
+              "translation_mm": [
+                -1.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 18.41553623834657
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 16.661389141941168
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 15.93451523486817
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0
+              ],
+              "seated_intersection_mm3": 14.400019193305866
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 13.95569929650456
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 14.061841621397885
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 14.362176357843849
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.3
+              ],
+              "seated_intersection_mm3": 5.848648944310285
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.2
+              ],
+              "seated_intersection_mm3": 3.962278706247463
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.15
+              ],
+              "seated_intersection_mm3": 3.371781410036595
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0
+              ],
+              "seated_intersection_mm3": 3.033925892789074
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.15
+              ],
+              "seated_intersection_mm3": 3.2853927401743457
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.2
+              ],
+              "seated_intersection_mm3": 3.4786852121338656
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.3
+              ],
+              "seated_intersection_mm3": 4.020754740923779
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 1.8367091324099292
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 0.3295921811364296
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 0.15166593202469433
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 0.1516659693825217
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 0.32953816316786
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.9123789513253476
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.3
+              ],
+              "seated_intersection_mm3": 1.0995392698731354
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.3295380766173651
+            },
+            {
+              "translation_mm": [
+                0,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.6911742066784694
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.3
+              ],
+              "seated_intersection_mm3": 1.0995392702075708
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.3295380758830811
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 1.8367091366901107
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 0.32959218054257855
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 0.15166593236694645
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 0.15166596900607612
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 0.3295381639021098
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.9123789513253604
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.3
+              ],
+              "seated_intersection_mm3": 5.84864894450615
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.2
+              ],
+              "seated_intersection_mm3": 3.962278704593916
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.15
+              ],
+              "seated_intersection_mm3": 3.3717814109378983
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0
+              ],
+              "seated_intersection_mm3": 3.0339258929479804
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.15
+              ],
+              "seated_intersection_mm3": 3.285392740382637
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.2
+              ],
+              "seated_intersection_mm3": 3.4786852124565746
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.3
+              ],
+              "seated_intersection_mm3": 4.020754740727921
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 18.415536238346572
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 16.661389141941164
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 15.93451523486817
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0
+              ],
+              "seated_intersection_mm3": 14.400019193303748
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 13.95569929650456
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 14.06184162139789
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 14.36217635784384
+            },
+            {
+              "rotation_about_midpoint_deg": -0.4,
+              "seated_intersection_mm3": 0.12243769865401484
+            },
+            {
+              "rotation_about_midpoint_deg": 0.4,
+              "seated_intersection_mm3": 0.12243769865401206
+            }
+          ],
+          "alignment_path": "Each admitted initial translation/yaw relaxes continuously to centered over the first 1 degree of peel",
+          "angle_step_deg": 0.05,
+          "evidence_limit": "Feasible continuous clearance path; friction, automatic centering, print tolerances and one-hand forces are not simulated"
+        },
+        {
+          "admissible_poses": [
+            {
+              "translation_mm": [
+                -0.3,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056304504792189,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.383959199787961e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.383958968456148e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779106
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.383958968456148e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779112
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.2
+              ],
+              "pull_intersection_mm3": 2.3983117043585773,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.3099585852920162e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.15
+              ],
+              "pull_intersection_mm3": 2.2470905724144417,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 7.73307199525286e-17,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0
+              ],
+              "pull_intersection_mm3": 1.805630382189714,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.0987304815968102e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779117
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779121
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.15
+              ],
+              "pull_intersection_mm3": 1.3844580831009905,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.9483113039564515e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672245
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.784526012367225
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.2
+              ],
+              "pull_intersection_mm3": 1.2490104814781893,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.5142347683242573e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116484
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116483
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.2
+              ],
+              "pull_intersection_mm3": 2.3983117043585764,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.6716367833301558e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.15
+              ],
+              "pull_intersection_mm3": 2.247090572414439,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 6.16873089068215e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056303821897133,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.8707505123071186e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.023190243777912
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779117
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.15
+              ],
+              "pull_intersection_mm3": 1.3844580831009916,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.264938674638838e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672252
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672253
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.2
+              ],
+              "pull_intersection_mm3": 1.2490104814781882,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.0674651227126084e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116483
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116483
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0,
+                0.3
+              ],
+              "pull_intersection_mm3": 0.9864357604899247,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.133565696556519e-07,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 2.984535306001418e-07,
+                  "minimum_opposite_head_capture_mm3": 0.5589799233448172
+                },
+                "right": {
+                  "maximum_intersection_mm3": 2.984535306001418e-07,
+                  "minimum_opposite_head_capture_mm3": 0.5589799233448173
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.2
+              ],
+              "pull_intersection_mm3": 2.3983117043585773,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.1415992498288114e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.15
+              ],
+              "pull_intersection_mm3": 2.2470905724144403,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.1890722701488627e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0
+              ],
+              "pull_intersection_mm3": 1.8056303821897133,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.4224190401923575e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779121
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779112
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.15
+              ],
+              "pull_intersection_mm3": 1.3844580831009903,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.583288180064592e-17,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672244
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7845260123672246
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.2
+              ],
+              "pull_intersection_mm3": 1.249010481478189,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 1.5372325033081058e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116484
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7077723944116482
+                }
+              }
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0
+              ],
+              "pull_intersection_mm3": 1.805630450479218,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 9.38395894894817e-08,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 9.383958945605637e-08,
+                  "minimum_opposite_head_capture_mm3": 1.0231902437779117
+                },
+                "right": {
+                  "maximum_intersection_mm3": 9.383958945605637e-08,
+                  "minimum_opposite_head_capture_mm3": 1.023190243777911
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.3,
+              "pull_intersection_mm3": 1.8216468038714906,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 8.213915658750182e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.725302328674809
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.2,
+              "pull_intersection_mm3": 1.812728952138156,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 3.010287331906003e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2320274901994583
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.8223980408909255
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": -0.1,
+              "pull_intersection_mm3": 1.8073696566527022,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 8.583493074296178e-17,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.1266466505000903
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.9217050141906923
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.1,
+              "pull_intersection_mm3": 1.807369656652701,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 2.388605806202815e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.9217050141906927
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.1266466505000912
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.2,
+              "pull_intersection_mm3": 1.812728952138155,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 4.0467846088021453e-16,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.822398040890925
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2320274901994597
+                }
+              }
+            },
+            {
+              "rotation_about_midpoint_deg": 0.3,
+              "pull_intersection_mm3": 1.82164680387149,
+              "unused_four_catch_vertical_path_max_intersection_mm3": 4.532520734602807e-15,
+              "actual_first_end_peel_max_intersections_mm3": {
+                "left": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 0.7253023286748095
+                },
+                "right": {
+                  "maximum_intersection_mm3": 0.0,
+                  "minimum_opposite_head_capture_mm3": 1.2356918367429708
+                }
+              }
+            }
+          ],
+          "excluded_colliding_poses": [
+            {
+              "translation_mm": [
+                -1.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 18.41554089036133
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 16.661394207968172
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 15.934520044023547
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0
+              ],
+              "seated_intersection_mm3": 14.400023030381018
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 13.955694530815864
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 14.061836419391579
+            },
+            {
+              "translation_mm": [
+                -1.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 14.362170580698196
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.3
+              ],
+              "seated_intersection_mm3": 5.848644339571481
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.2
+              ],
+              "seated_intersection_mm3": 3.962276570510342
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                -0.15
+              ],
+              "seated_intersection_mm3": 3.371780869353426
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0
+              ],
+              "seated_intersection_mm3": 3.0339228202504223
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.15
+              ],
+              "seated_intersection_mm3": 3.285388161810571
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.2
+              ],
+              "seated_intersection_mm3": 3.4786798305527498
+            },
+            {
+              "translation_mm": [
+                -0.6,
+                0.3
+              ],
+              "seated_intersection_mm3": 4.020750006031447
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 1.8366985435148786
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 0.32958992740373
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 0.151664406214668
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 0.15166404919325585
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 0.3295353321586849
+            },
+            {
+              "translation_mm": [
+                -0.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.9123753264249904
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                -0.3
+              ],
+              "seated_intersection_mm3": 1.0995280759141508
+            },
+            {
+              "translation_mm": [
+                -0.2,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.329534871005949
+            },
+            {
+              "translation_mm": [
+                0,
+                -0.3
+              ],
+              "seated_intersection_mm3": 0.6911640392471595
+            },
+            {
+              "translation_mm": [
+                0.2,
+                -0.3
+              ],
+              "seated_intersection_mm3": 1.0995280759593964
+            },
+            {
+              "translation_mm": [
+                0.2,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.32953487096071854
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 1.8366985427666531
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 0.32958992755743544
+            },
+            {
+              "translation_mm": [
+                0.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 0.15166440597844608
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 0.1516640494294894
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 0.3295353320049815
+            },
+            {
+              "translation_mm": [
+                0.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 0.9123753271731541
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.3
+              ],
+              "seated_intersection_mm3": 5.84864433937472
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.2
+              ],
+              "seated_intersection_mm3": 3.9622765714950874
+            },
+            {
+              "translation_mm": [
+                0.6,
+                -0.15
+              ],
+              "seated_intersection_mm3": 3.3717808678571934
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0
+              ],
+              "seated_intersection_mm3": 3.033922820250423
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.15
+              ],
+              "seated_intersection_mm3": 3.285388163306806
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.2
+              ],
+              "seated_intersection_mm3": 3.4786798295680086
+            },
+            {
+              "translation_mm": [
+                0.6,
+                0.3
+              ],
+              "seated_intersection_mm3": 4.0207500062282024
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.3
+              ],
+              "seated_intersection_mm3": 18.415540890361328
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.2
+              ],
+              "seated_intersection_mm3": 16.661394207968176
+            },
+            {
+              "translation_mm": [
+                1.3,
+                -0.15
+              ],
+              "seated_intersection_mm3": 15.934520044023538
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0
+              ],
+              "seated_intersection_mm3": 14.400023030381016
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.15
+              ],
+              "seated_intersection_mm3": 13.955694530815872
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.2
+              ],
+              "seated_intersection_mm3": 14.061836419391568
+            },
+            {
+              "translation_mm": [
+                1.3,
+                0.3
+              ],
+              "seated_intersection_mm3": 14.362170580698203
+            },
+            {
+              "rotation_about_midpoint_deg": -0.4,
+              "seated_intersection_mm3": 0.12243423762343883
+            },
+            {
+              "rotation_about_midpoint_deg": 0.4,
+              "seated_intersection_mm3": 0.12243423762344012
+            }
+          ],
+          "alignment_path": "Each admitted initial translation/yaw relaxes continuously to centered over the first 1 degree of peel",
+          "angle_step_deg": 0.05,
+          "evidence_limit": "Feasible continuous clearance path; friction, automatic centering, print tolerances and one-hand forces are not simulated"
+        }
+      ],
+      "load_proxies": {
+        "tie_to_center_mm3": 0.0,
+        "tie_to_hardware_mm3": 0.0,
+        "hardware_to_wire_reserve_mm3": [
+          0.0,
+          0.0
+        ],
+        "tail_to_center_mm3": 0.0,
+        "remaining_gap_above_tie_mm": 1.0,
+        "evidence_limit": "Schematic connector and tie dimensions; flexible tails are a static route, not a dynamics model"
+      },
+      "raised_finger_proxy": {
+        "assumptions": {
+          "pad_y": 16.9,
+          "pad_stroke": 3.15,
+          "finger_diameter": 18,
+          "preset": "80m",
+          "winder_offset": 26.0,
+          "emit_scad": false
+        },
+        "minimum_tail_gap_mm": 3.0871981934196135,
+        "minimum_wire_reserve_gap_mm": 2.0,
+        "evidence_limit": "Analytic spherical proxies only; no physical hand, glove or flexible-wire validation"
+      },
+      "sequential_release": {
+        "status": "passed",
+        "orders": [
+          {
+            "first_end": "right",
+            "individual_stud_capture": {
+              "-1,-1": {
+                "locked_mm3": 0.9028161256287071,
+                "one_end_pinched_mm3": 0.9028161256287071
+              },
+              "-1,1": {
+                "locked_mm3": 0.9028163484899565,
+                "one_end_pinched_mm3": 0.9028163484899565
+              },
+              "1,-1": {
+                "locked_mm3": 0.9028161256287076,
+                "one_end_pinched_mm3": 0.0
+              },
+              "1,1": {
+                "locked_mm3": 0.9028163484899577,
+                "one_end_pinched_mm3": 0.0
+              }
+            },
+            "peel_angle_samples_deg": [
+              0.0,
+              0.09999999999999999,
+              0.19999999999999998,
+              0.3,
+              0.39999999999999997,
+              0.49999999999999994,
+              0.6,
+              0.7,
+              0.7999999999999999,
+              0.8999999999999999,
+              0.9999999999999999,
+              1.0999999999999999,
+              1.2,
+              1.2999999999999998,
+              1.4,
+              1.4999999999999998,
+              1.5999999999999999,
+              1.7,
+              1.7999999999999998,
+              1.9,
+              1.9999999999999998,
+              2.0999999999999996,
+              2.1999999999999997,
+              2.3,
+              2.4,
+              2.5,
+              2.5999999999999996,
+              2.6999999999999997,
+              2.8,
+              2.9,
+              2.9999999999999996,
+              3.0999999999999996,
+              3.1999999999999997,
+              3.3,
+              3.4,
+              3.4999999999999996,
+              3.5999999999999996,
+              3.6999999999999997,
+              3.8,
+              3.8999999999999995,
+              3.9999999999999996,
+              4.1,
+              4.199999999999999,
+              4.3,
+              4.3999999999999995,
+              4.5,
+              4.6,
+              4.699999999999999,
+              4.8,
+              4.8999999999999995,
+              5.0,
+              5.1,
+              5.199999999999999,
+              5.3,
+              5.3999999999999995,
+              5.499999999999999,
+              5.6
+            ],
+            "peel_max_intersection_mm3": 0.0,
+            "parked_angle_deg": 4.651718720591068,
+            "park_support_contact_growth": {
+              "-1,-1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 0.00010818650599579242
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 0.0006290601027073017
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.003567061333984989
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.03215107503263189
+                }
+              ],
+              "-1,1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 0.00010818647094263296
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 0.0006290623420618924
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0035670503475121462
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.03215111817631663
+                }
+              ],
+              "1,-1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 7.086203926229967e-06
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 4.322601460038378e-05
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.00029115270387229203
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.003792808891962559
+                }
+              ],
+              "1,1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 7.086246991283805e-06
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 4.3227322908211595e-05
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0002911533655112856
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.003792821185272984
+                }
+              ]
+            },
+            "reclosing_0p05deg_blocked_mm3": 0.015533114851738828,
+            "opposite_end_capture_after_1p1mm_lift_mm3": 3.8665861859293456,
+            "second_end_leveling_max_intersection_mm3": 3.48682001084788e-08,
+            "leveling_pivot_mm": [
+              36,
+              0,
+              22
+            ],
+            "leveling_rotation_samples_deg": [
+              0.0,
+              0.1938216133579612,
+              0.3876432267159224,
+              0.5814648400738835,
+              0.7752864534318448,
+              0.969108066789806,
+              1.162929680147767,
+              1.3567512935057284,
+              1.5505729068636895,
+              1.7443945202216506,
+              1.938216133579612,
+              2.132037746937573,
+              2.325859360295534,
+              2.5196809736534953,
+              2.713502587011457,
+              2.907324200369418,
+              3.101145813727379,
+              3.29496742708534,
+              3.4887890404433013,
+              3.682610653801263,
+              3.876432267159224,
+              4.070253880517185,
+              4.264075493875146,
+              4.457897107233108,
+              4.651718720591068
+            ],
+            "second_end_exit_max_intersection_mm3": 0.0,
+            "second_end_exit_samples_mm": [
+              0.0,
+              0.25,
+              0.5,
+              0.75,
+              1.0,
+              1.25,
+              1.5,
+              1.75,
+              2.0,
+              2.25,
+              2.5,
+              2.75,
+              3.0,
+              3.25,
+              3.5,
+              3.75,
+              4.0,
+              4.25,
+              4.5,
+              4.75,
+              5.0,
+              5.25,
+              5.5,
+              5.75,
+              6.0,
+              6.25,
+              6.5,
+              6.75,
+              7.0,
+              7.25,
+              7.5,
+              7.75,
+              8.0,
+              8.25,
+              8.5,
+              8.75,
+              9.0,
+              9.25,
+              9.5,
+              9.75,
+              10.0,
+              10.25,
+              10.5,
+              10.75,
+              11.0,
+              11.25,
+              11.5,
+              11.75,
+              12.0
+            ]
+          },
+          {
+            "first_end": "left",
+            "individual_stud_capture": {
+              "-1,-1": {
+                "locked_mm3": 0.9028161256287071,
+                "one_end_pinched_mm3": 0.0
+              },
+              "-1,1": {
+                "locked_mm3": 0.9028163484899565,
+                "one_end_pinched_mm3": 0.0
+              },
+              "1,-1": {
+                "locked_mm3": 0.9028161256287076,
+                "one_end_pinched_mm3": 0.9028161256287076
+              },
+              "1,1": {
+                "locked_mm3": 0.9028163484899577,
+                "one_end_pinched_mm3": 0.9028163484899577
+              }
+            },
+            "peel_angle_samples_deg": [
+              0.0,
+              0.09999999999999999,
+              0.19999999999999998,
+              0.3,
+              0.39999999999999997,
+              0.49999999999999994,
+              0.6,
+              0.7,
+              0.7999999999999999,
+              0.8999999999999999,
+              0.9999999999999999,
+              1.0999999999999999,
+              1.2,
+              1.2999999999999998,
+              1.4,
+              1.4999999999999998,
+              1.5999999999999999,
+              1.7,
+              1.7999999999999998,
+              1.9,
+              1.9999999999999998,
+              2.0999999999999996,
+              2.1999999999999997,
+              2.3,
+              2.4,
+              2.5,
+              2.5999999999999996,
+              2.6999999999999997,
+              2.8,
+              2.9,
+              2.9999999999999996,
+              3.0999999999999996,
+              3.1999999999999997,
+              3.3,
+              3.4,
+              3.4999999999999996,
+              3.5999999999999996,
+              3.6999999999999997,
+              3.8,
+              3.8999999999999995,
+              3.9999999999999996,
+              4.1,
+              4.199999999999999,
+              4.3,
+              4.3999999999999995,
+              4.5,
+              4.6,
+              4.699999999999999,
+              4.8,
+              4.8999999999999995,
+              5.0,
+              5.1,
+              5.199999999999999,
+              5.3,
+              5.3999999999999995,
+              5.499999999999999,
+              5.6
+            ],
+            "peel_max_intersection_mm3": 0.0,
+            "parked_angle_deg": 4.651718720591068,
+            "park_support_contact_growth": {
+              "-1,-1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 7.086203926229967e-06
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 4.322709293049879e-05
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0002911529572593395
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.003792807363541928
+                }
+              ],
+              "-1,1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 7.086246991283805e-06
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 4.322624598129127e-05
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0002911525500564523
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.0037928253770517784
+                }
+              ],
+              "1,-1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 0.00010818647094265148
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 0.0006290623420612818
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.003567051121173855
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.032151134489300785
+                }
+              ],
+              "1,1": [
+                {
+                  "down_mm": 0.005,
+                  "blocking_mm3": 0.00010818997581004779
+                },
+                {
+                  "down_mm": 0.01,
+                  "blocking_mm3": 0.0006290612248454064
+                },
+                {
+                  "down_mm": 0.02,
+                  "blocking_mm3": 0.0035670105776095897
+                },
+                {
+                  "down_mm": 0.05,
+                  "blocking_mm3": 0.03215088246769308
+                }
+              ]
+            },
+            "reclosing_0p05deg_blocked_mm3": 0.01553312000344768,
+            "opposite_end_capture_after_1p1mm_lift_mm3": 3.8665861859274075,
+            "second_end_leveling_max_intersection_mm3": 3.48682001084788e-08,
+            "leveling_pivot_mm": [
+              -36,
+              0,
+              22
+            ],
+            "leveling_rotation_samples_deg": [
+              0.0,
+              0.1938216133579612,
+              0.3876432267159224,
+              0.5814648400738835,
+              0.7752864534318448,
+              0.969108066789806,
+              1.162929680147767,
+              1.3567512935057284,
+              1.5505729068636895,
+              1.7443945202216506,
+              1.938216133579612,
+              2.132037746937573,
+              2.325859360295534,
+              2.5196809736534953,
+              2.713502587011457,
+              2.907324200369418,
+              3.101145813727379,
+              3.29496742708534,
+              3.4887890404433013,
+              3.682610653801263,
+              3.876432267159224,
+              4.070253880517185,
+              4.264075493875146,
+              4.457897107233108,
+              4.651718720591068
+            ],
+            "second_end_exit_max_intersection_mm3": 0.0,
+            "second_end_exit_samples_mm": [
+              0.0,
+              0.25,
+              0.5,
+              0.75,
+              1.0,
+              1.25,
+              1.5,
+              1.75,
+              2.0,
+              2.25,
+              2.5,
+              2.75,
+              3.0,
+              3.25,
+              3.5,
+              3.75,
+              4.0,
+              4.25,
+              4.5,
+              4.75,
+              5.0,
+              5.25,
+              5.5,
+              5.75,
+              6.0,
+              6.25,
+              6.5,
+              6.75,
+              7.0,
+              7.25,
+              7.5,
+              7.75,
+              8.0,
+              8.25,
+              8.5,
+              8.75,
+              9.0,
+              9.25,
+              9.5,
+              9.75,
+              10.0,
+              10.25,
+              10.5,
+              10.75,
+              11.0,
+              11.25,
+              11.5,
+              11.75,
+              12.0
+            ]
+          }
+        ],
+        "evidence_limit": "Nominal sampled rigid poses plus modeled elastic deflection; no physical hand, force or fatigue test"
+      },
+      "bare_packet_size_mm": [
+        140.0,
+        127.0,
+        39.0
+      ],
+      "wire_reserve_packet_size_without_hardware_mm": [
+        150,
+        137,
+        47.0
+      ],
+      "estimated_three_parts_solid_PETG_g": 50.90794265553017,
+      "print_layout": {
+        "watertight": true,
+        "connected_solids": 3,
+        "bounds_mm": [
+          [
+            -70.0,
+            -66.54356384277344,
+            0.0
+          ],
+          [
+            70.0,
+            113.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          140.0,
+          179.54356384277344,
+          23.0
+        ],
+        "volume_mm3": 40084.99438509025,
+        "estimated_solid_petg_g_at_1p27": 50.90794286906462
+      }
+    }
+  },
+  "fit_coupon": {
+    "watertight": true,
+    "connected_solids": 2,
+    "bounds_mm": [
+      [
+        -23.0,
+        -1.5,
+        0.0
+      ],
+      [
+        41.0,
+        41.0,
+        19.0
+      ]
+    ],
+    "size_mm": [
+      64.0,
+      42.5,
+      19.0
+    ],
+    "volume_mm3": 7618.121272227239,
+    "estimated_solid_petg_g_at_1p27": 9.675014015728594
+  },
+  "bnc_fit_coupon": {
+    "watertight": true,
+    "connected_solids": 1,
+    "bounds_mm": [
+      [
+        -33.0,
+        0.0,
+        0.0
+      ],
+      [
+        33.0,
+        8.0,
+        23.0
+      ]
+    ],
+    "size_mm": [
+      66.0,
+      8.0,
+      23.0
+    ],
+    "volume_mm3": 4482.482590642259,
+    "estimated_solid_petg_g_at_1p27": 5.69275289011567
+  },
+  "native_winding_region": {
+    "source_sha256": "d023e8ecb8b5e7718d9f2c8431a90b2c823550a700396df8e0421103dbf5ad0d",
+    "symmetric_difference_area_mm2": 0.00019288154157921547
+  },
+  "input_sha256": {
+    "models/ham_radio/modular_dipole/modular_dipole.scad": "17e3d060e6e264a9381bb8a1cd4c6de52ca942bfa63711bda25f96b3258888b9",
+    "models/ham_radio/modular_dipole/mockups.scad": "ec2741f9e99dea2885a749d6c53909713efb3d7199049030e9ccda69a052a3a8",
+    "models/ham_radio/modular_dipole/hardware_mockups.scad": "8e7b475f58ecb30fe2329e8e0c0bb228e2beb15dd323588d0bf470a06b7e5e44",
+    "models/ham_radio/modular_dipole/native_profile.scad": "850593d0b8f673577d8cd47ad0c3a5c170a441f4a82d0b721c72726f2adc92a6",
+    "models/ham_radio/dipole_winder/frame_bevel.scad": "135b1a8ad351b3a3c0e651effe5593c6916f7e6cc3948f3857ed460f867b1791",
+    "models/ham_radio/dipole_center/dipole_center.scad": "93806e56d14dd6712f054b99e95cfd6ddd5a626749093a512ef12fa8d283d0e0",
+    "models/ham_radio/modular_dipole/validate.py": "5e30f3ce9475a27bff482b1c1e196602c50ae8639d174bf9f8d32030ed654926",
+    "models/ham_radio/modular_dipole/validation_helpers.py": "cff8ab642215e5ce8fa4836e21340c324bcf1dbfe44405863a7441f61c8097ca",
+    "models/ham_radio/modular_dipole/review/parked_audit.json": "c2d45ed7f1c29795d5aa55123f9c65baabca4339e25534792d8ae07cd3073086",
+    "models/ham_radio/modular_dipole/review/parked_audit.py": "b95c6de24cc6efa4f2acebcb602f335cf3035d70430e187071bc9bf494493ae1",
+    "models/ham_radio/modular_dipole/review/hand_clearance.py": "23e4922938bb43ad1f515455276bb16f6e8978e37faa5a7fec06826706807701"
+  },
+  "independent_parked_pose_audit": {
+    "status": "passed",
+    "report": "models/ham_radio/modular_dipole/review/parked_audit.json",
+    "source_sha256": "17e3d060e6e264a9381bb8a1cd4c6de52ca942bfa63711bda25f96b3258888b9"
+  },
+  "output_sha256": {
+    "center.stl": "a47aa3ac29ae8c13490623a7b02e3f9af2f621aeed66d84ebcf61837168b2ec8",
+    "winder.stl": "0e7a38619e7caa2ccf0eb128eef20e65b09c2eb77f662b2c17cbee79deab14ad",
+    "print_layout.stl": "c4a515fa079c82a24ab0c1e62c08269429e394d8d4bbb59b69dd7283332ce015",
+    "winder_80m.stl": "c05eb554236e30a50322b2210379d4fa76b6dce9aaa93b768882d129ce07d278",
+    "print_layout_80m.stl": "cab2ffa1618c2710763f6ce6094bd75daf0b5af398acb4c5cdb6f46f3fd433be",
+    "fit_coupon.stl": "740c0be1360d40d571eda1f60d9e5d28df3bf15274e00f48b9e7c4565602461f",
+    "bnc_fit_coupon.stl": "5630e2842bfb67eaa7631dfea666e9e8b52a88ae86eb9a5b8d65df413386090a"
+  }
+}

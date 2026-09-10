@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Package the current validated modular dipole STL set"
+set -euo pipefail
+exec python3 models/ham_radio/modular_dipole/package.py

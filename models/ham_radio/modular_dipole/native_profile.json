@@ -1,0 +1,16 @@
+{
+  "source_sha256": "d023e8ecb8b5e7718d9f2c8431a90b2c823550a700396df8e0421103dbf5ad0d",
+  "source_url": "https://www.printables.com/model/383037-k6ark-wire-antenna-winder-ul-wireframe-model",
+  "transform": "X=source_X-62.5; Y=source_Y; original one-sided profile",
+  "bounds_xy_mm": [
+    -70.0,
+    -16.543564,
+    70.0,
+    37.5
+  ],
+  "native_openings": 5,
+  "optional_filled_small_window_ids": [],
+  "outer_boundary_max_deviation_mm": 2.4827955756771727e-06,
+  "area_symmetric_difference_mm2": 0.00025886690512799156,
+  "native_projected_area_mm2": 2287.2922492593443
+}
