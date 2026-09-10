@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Export toroid winder and verify mesh, core/strap fit, BNC clearance, retained horns and support"
+set -euo pipefail
+exec uv run --no-project --with trimesh --with shapely --with scipy \
+  --with networkx --with manifold3d python models/ham_radio/toroid_dipole_winder/validate.py "$@"

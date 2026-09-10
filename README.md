@@ -37,6 +37,9 @@ batch-generate STLs if desired.
 - `models/ham_radio/dipole_winder/` - mirrored K6ARK winder with a compact
   BNC shelf, direct-solder dipole connections, and printable STL
   ([Printables](https://www.printables.com/model/1838087-bnc-dipole-center-on-winder))
+- `models/ham_radio/toroid_dipole_winder/` - open-mount variant with a
+  heatshrunk mix 31 bifilar 1:1 current balun, printable carrier and
+  [winding/build notes](models/ham_radio/toroid_dipole_winder/README.md)
 - `models/ham_radio/dipole_center/` - coax-fed dipole center with a downward
   BNC shelf, M3 wire terminals, and internal root reinforcement
   ([Printables](https://www.printables.com/model/1838086-bnc-dipole-center))

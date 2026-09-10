@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Render the toroid dipole winder and assembly references"
+set -euo pipefail
+exec python3 models/ham_radio/toroid_dipole_winder/render.py

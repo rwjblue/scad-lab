@@ -27,6 +27,8 @@ models/ham_radio/modular_dipole/review/generated/
 !models/ham_radio/modular_dipole/bnc_fit_coupon.stl
 # Keep the accepted dipole winder export available directly from the repository.
 !models/ham_radio/dipole_winder/dipole_winder.stl
+!models/ham_radio/toroid_dipole_winder/toroid_dipole_winder.stl
+!models/ham_radio/toroid_dipole_winder/toroid_mount_test.stl
 __pycache__/
 *.py[cod]
 # *.3mf
