@@ -9,18 +9,9 @@ import sys
 HERE = Path(__file__).resolve().parent
 VIEWS = [
     ("images/assembled.png", "mockups.scad", ['view="assembled"'], "170,-230,250,0,0,5"),
-    ("images/top.png", "mockups.scad", ['view="assembled"'], "0,0,250,0,0,0"),
     ("images/loaded.png", "mockups.scad", ['view="loaded"'], "170,-230,210,0,0,5"),
     ("images/exploded.png", "mockups.scad", ['view="exploded"'], "170,-230,250,0,0,0"),
-    ("images/release_right.png", "mockups.scad", ['view="pinch_right"'], "0,-230,180,0,0,10"),
-    ("images/parked_right.png", "mockups.scad", ['view="parked_right"'], "0,-230,180,0,0,10"),
-    ("images/release_left.png", "mockups.scad", ['view="pinch_left"'], "0,-230,180,0,0,10"),
-    ("images/level.png", "release_sequence.scad", [], "0,-230,180,0,0,10"),
-    ("images/removed.png", "mockups.scad", ['view="removed"'], "0,-230,180,0,0,10"),
-    ("images/latch_locked.png", "mockups.scad", ['view="detail_locked"'], "78,60,70,40,0,16"),
-    ("images/latch_released.png", "mockups.scad", ['view="detail_squeezed"'], "78,60,70,40,0,16"),
     ("images/print_layout.png", "modular_dipole.scad", ['part="print_layout"'], "170,-250,300,0,20,0"),
-    ("images/fit_coupon.png", "modular_dipole.scad", ['part="fit_coupon"'], "80,-100,130,0,10,0"),
     ("images/retention_coupon.png", "modular_dipole.scad", ['part="retention_coupon"'], "80,-100,130,0,10,0"),
 ]
 

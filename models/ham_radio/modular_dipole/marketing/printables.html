@@ -1,0 +1,24 @@
+<p><strong>Walk it out. Pack it together.</strong> A portable BNC dipole center with two removable figure-eight winders. Each leg gets its own winder for walking out from the mast; clip the three pieces together for packing.</p>
+<p>Current files use revised retaining heads, <strong>4 mm standoffs</strong> and a <strong>10.1 mm BNC cutout</strong>. This is a prototype: the revised retention and compact fit with wound wire still need physical testing. CAD illustrations shown.</p>
+<h3>Hardware</h3>
+<ul>
+<li>1 × <a href="https://www.digikey.com/en/products/detail/amphenol-rf/31-221-RFX/100648">Amphenol RF 31-221-RFX BNC connector</a></li>
+<li>2 × M3 × 16 mm screws, 4 M3 nuts, 8 M3 washers; two compact ring terminals matched to your wire</li>
+<li>Antenna wire, two short insulated jumpers, suspension cord and two short silicone cable ties</li>
+</ul>
+<h3>Printing</h3>
+<p>Print <strong>center.stl once and winder.stl twice</strong>, or print the complete three-piece <strong>print_layout.stl</strong>. Use all three parts from this revision. Both winders must use the same standoff height.</p>
+<p>Start with <strong>retention_coupon.stl</strong>: its two separate stud feet should stay captured when pulled and rocked, then release when pinched. The optional <strong>bnc_fit_coupon.stl</strong> checks connector fit.</p>
+<p>Suggested starting settings: PETG, 0.20 mm layers, five walls, 100% infill, at 100% scale. Print broad backs down as supplied; these are separate parts, not print-in-place. Inspect the slots and flat undersides of the heads. The complete plate occupies about 140 × 180 mm before a brim.</p>
+<h3>Assembly and use</h3>
+<p>Fit the BNC and terminal posts as described in the <a href="https://www.printables.com/model/1838086-bnc-dipole-center">BNC Dipole Center</a> instructions. Weave each leg through its three strain-relief holes and leave slack to the posts. Check continuity to the separate legs and no center-to-shell short.</p>
+<ol>
+<li><strong>Release:</strong> support the tied winders. Pinch one end's upper/lower tabs inward and lift by the fixed outer bridge. Let that end rest on the stud tops, then pinch and lift the other end until level. Lift the center clear; either end can go first.</li>
+<li><strong>Deploy:</strong> secure the center low at the mast. Open one tie and unwind as you walk that leg out. Repeat, then hoist. Unwind both legs fully before operating.</li>
+<li><strong>Pack:</strong> wind from each tip toward the center in a figure eight. Tie each coil around the winder's central brace. Align the studs, pinch to seat each end, then release the catches beneath the heads. Keep wire clear of the clips and gently pull-check both ends.</li>
+</ol>
+<p>Test retention and one-hand handling with your actual wire and ties, including glove access. If the lowered center presses on a coil or the grip is cramped, increase the standoff. An outer silicone tie can secure the whole bundle.</p>
+<h3>Customize and learn more</h3>
+<p>The editable-source ZIP includes the OpenSCAD model and its dependencies. Adjust <strong>standoff</strong> directly in millimeters (default 4), wing length, winding span, strain-relief spacing and hole sizes. The 40 m / 80 m presets only show estimated wire space; they do not change the supplied STLs or guarantee capacity.</p>
+<p>The attached <strong>modular-dipole-flyer.pdf</strong> is a one-page overview of the idea and field sequence. <a href="https://github.com/rwjblue/scad-lab/tree/main/models/ham_radio/modular_dipole">Source, detailed fit checks and parameter guide</a>.</p>
+<p>Based on <a href="https://www.printables.com/model/383037-k6ark-wire-antenna-winder-ul-wireframe-model">Adam Kimmerly (K6ARK)'s Wire Antenna Winder</a> and the BNC Dipole Center. License: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>; see the source archive's NOTICE files for modifications and attribution.</p>
