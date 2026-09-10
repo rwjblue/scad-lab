@@ -1,0 +1,75 @@
+{
+  "source_path": "/Users/rwjblue/Downloads/K6ARK_Wire_Winder.stl",
+  "source_sha256": "d023e8ecb8b5e7718d9f2c8431a90b2c823550a700396df8e0421103dbf5ad0d",
+  "transform": "new_x=source_y, new_y=source_x-62.5; union with reflection new_x=-new_x",
+  "scale_factor": 1,
+  "frame_extent_mm": [
+    75,
+    140,
+    5
+  ],
+  "horns_relocated": false,
+  "original_outer_boundary_preserved": true,
+  "filled_region": "upper native openings at new_y>=25",
+  "eye_center_mm": [
+    0.0,
+    63.0
+  ],
+  "eye_bore_mm": 6,
+  "right_relief_centers_mm": [
+    [
+      20.0,
+      55.050156773381225
+    ],
+    [
+      26.26972940309961,
+      58.163112476874005
+    ],
+    [
+      32.53945880619922,
+      61.27606818036678
+    ]
+  ],
+  "left_relief_centers_mm": [
+    [
+      -20.0,
+      55.050156773381225
+    ],
+    [
+      -26.26972940309961,
+      58.163112476874005
+    ],
+    [
+      -32.53945880619922,
+      61.27606818036678
+    ]
+  ],
+  "termination": "direct solder to BNC center cup and shell tag",
+  "stud_centers_mm": [],
+  "wire_bore_mm": 3.2,
+  "chamfer_mm": 0.5,
+  "chamfer_mouth_mm": 4.2,
+  "relief_pitch_mm": 7.0,
+  "inter_chamfer_web_mm": 2.8,
+  "relief_outer_ligaments_mm": [
+    4.876353389093204,
+    4.876353614871071,
+    2.8235024175088532
+  ],
+  "bnc_shelf_top_y_mm": 43.050156773381225,
+  "bnc_shelf_thickness_mm": 3,
+  "bnc_rear_projection_assumed_mm": 12.0,
+  "bnc_contact_target_y_mm": 55.050156773381225,
+  "bnc_shelf_relation": "shelf_top_y = target_contact_y - measured_rear_projection",
+  "bnc_axis_z_proposed_mm": 15.0,
+  "shelf_depth_proposed_mm": 24.0,
+  "bnc_axis_to_front_plate_face_mm": 10.0,
+  "bnc_hardware_keepout_diameter_mm": 18.0,
+  "bnc_hardware_keepout_to_front_plate_mm": 1.0,
+  "bnc_barrel_diameter_for_clearance_mm": 12.7,
+  "bnc_barrel_to_front_plate_mm": 3.6500000000000004,
+  "bnc_axis_reduction_from_a4_mm": 6.0,
+  "shelf_depth_reduction_from_a4_mm": 6.0,
+  "connector_status": "12 mm rear projection estimated from reference drawing, not directly dimensioned; verify actual part and hardware before CAD fit signoff",
+  "strain_relief_status": "Geometry fits; grip must be checked with actual wire. 7 mm pitch is not a tested load rating."
+}

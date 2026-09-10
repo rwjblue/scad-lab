@@ -10,6 +10,10 @@ Thumbs.db
 
 # Generated stuff
 *.stl
+# Keep the accepted dipole winder export available directly from the repository.
+!models/ham_radio/dipole_winder/dipole_winder.stl
+__pycache__/
+*.py[cod]
 # *.3mf
 # *.png
 

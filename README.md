@@ -24,6 +24,8 @@ batch-generate STLs if desired.
 
 ## Models in this repo
 
+- `models/ham_radio/dipole_winder/` - mirrored K6ARK winder with a compact
+  BNC shelf, direct-solder dipole connections, and printable STL
 - `models/ham_radio/dipole_center/` - coax-fed dipole center with a downward
   BNC shelf, M3 wire terminals, and internal root reinforcement
 - `models/ham_radio/dx_commander_element_label/` - element label tags

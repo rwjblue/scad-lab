@@ -1,0 +1,96 @@
+{
+  "status": "passed",
+  "stl_sha256": "f13b94520870f6e3d0a33d1a1e2bf4d68d5747e0506b27f8bcfae32039fb1a00",
+  "scad_sha256": "17c53bdf5a11c1be25cd082904bdfe4829fb6661bb71d59257f236ae5b0f8407",
+  "reference_profile_sha256": "f080966027b526a83b9e89d7fff1a452f7920a96d0decb4fe3e132e9e50d531e",
+  "accepted_layout_sha256": "7f3ed84f143755ad34d2150832fd13c92f2ed5db81ec0ee6ecf5f10c8d16bd09",
+  "mesh": {
+    "watertight": true,
+    "consistent_winding": true,
+    "connected_bodies": 1,
+    "triangles": 6954,
+    "bounds_mm": [
+      [
+        -37.5,
+        -70.0,
+        0.0
+      ],
+      [
+        37.5,
+        70.0,
+        24.0
+      ]
+    ],
+    "volume_mm3": 22459.97911436335
+  },
+  "frame": {
+    "native_windows": 11,
+    "added_holes": 7,
+    "m3_holes": 0,
+    "section_z_mm": [
+      0.001,
+      2.5,
+      4.999
+    ],
+    "maximum_native_frame_boundary_error_mm": 4.868708720264636e-09,
+    "maximum_combined_frame_and_shelf_boundary_error_mm": 3.126574864148273e-06,
+    "shelf_base_added_area_outside_native_frame_mm2": 8.950062201368755,
+    "maximum_bore_or_chamfer_boundary_error_mm": 0.0018752122872857757,
+    "relief_pitch_measured_mm": [
+      7.000000056695585,
+      6.999999810061196,
+      7.000000056695604,
+      6.999999810061217
+    ],
+    "measured_hole_centers_mm": [
+      [
+        -19.999999999999996,
+        55.05015684482376
+      ],
+      [
+        -26.26972952314552,
+        58.16311243402441
+      ],
+      [
+        -32.53945873201199,
+        61.27606810160843
+      ],
+      [
+        20.000000000000004,
+        55.050156844823746
+      ],
+      [
+        26.26972952314553,
+        58.16311243402444
+      ],
+      [
+        32.539458732012,
+        61.276068101608494
+      ],
+      [
+        -2.4098375986008815e-18,
+        62.99999980625272
+      ]
+    ],
+    "all_seven_hole_axes_clear": true
+  },
+  "bnc": {
+    "measured_diameter_mm": 9.899999618530273,
+    "measured_flat_height_mm": 9.050000190734863,
+    "measured_flat_bridge_mm": 5.544252623450482,
+    "panel_thickness_mm": 3.0,
+    "maximum_d_hole_boundary_error_mm": 0.0026505711936088577,
+    "connector_axis_clear_through_panel": true
+  },
+  "reinforcement": {
+    "minimum_distance_to_bnc_axis_mm": 8.999999997867702,
+    "hardware_keepout_radius_mm": 9.0,
+    "clearance_checked_below_panel_y_mm": 40.05005677338122,
+    "profile_overrun_area_mm2": 0.0
+  },
+  "original_source": {
+    "sha256": "d023e8ecb8b5e7718d9f2c8431a90b2c823550a700396df8e0421103dbf5ad0d",
+    "maximum_outer_boundary_error_mm": 2.3189504535684903e-06,
+    "maximum_all_boundaries_error_mm": 2.3189504535684903e-06
+  }
+}

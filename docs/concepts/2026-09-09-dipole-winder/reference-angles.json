@@ -1,0 +1,172 @@
+{
+  "reference_listing": "https://www.printables.com/model/383037-k6ark-wire-antenna-winder-ul-wireframe-model",
+  "provenance": "Measured from the two user-supplied STL meshes. The supplied file identity is authoritative; angles are measured mesh geometry, not recovered or claimed native CAD parameters.",
+  "method": "Binary STL vertices and face normals; repeated long rounded-side facet normals projected into XY identify the arm direction. Collinear Z=0 exterior contour edges recover the bay-facing straight run endpoints. All nondegenerate XY facet projections are unioned for the plotted silhouettes, retaining interior holes.",
+  "angle_convention": "Original long spine is parallel to X. The original arms extend toward positive Y and splay away from the X midpoint: left root-to-tip travels left/up, right travels right/up. Angle to spine is the acute angle to X. Sweep is its complement, measured from perpendicular to the spine.",
+  "solid_alignment_translation_mm": [
+    0,
+    66.0,
+    0
+  ],
+  "meshes": {
+    "wireframe": {
+      "path": "/private/tmp/codex-remote-attachments/01a08886-f7ec-7d82-941d-5a6de1dcc7be/D2D7AC20-C5D8-440A-A0F6-5BD54D94FFC9/1-newWinder_wireframe.stl",
+      "sha256": "d023e8ecb8b5e7718d9f2c8431a90b2c823550a700396df8e0421103dbf5ad0d",
+      "bytes": 362984,
+      "facets": 7258,
+      "bounds_min_mm": [
+        -7.5,
+        -16.543563842773438,
+        -2.5
+      ],
+      "bounds_max_mm": [
+        132.5,
+        37.5,
+        2.5
+      ],
+      "extents_mm": [
+        140.0,
+        54.04356384277344,
+        5.0
+      ],
+      "arms": {
+        "left": {
+          "angle_to_long_spine_deg": 63.57566978812979,
+          "sweep_from_perpendicular_deg": 26.424330211870213,
+          "root_to_tip_heading_from_positive_x_deg": 116.42433021187021,
+          "external_straight_run_root_mm": [
+            20.04985809326172,
+            10.332338333129883,
+            0.0
+          ],
+          "external_straight_run_tip_mm": [
+            8.34196949005127,
+            33.892601013183594,
+            0.0
+          ],
+          "external_straight_run_length_mm": 26.30894587584833,
+          "projected_unit_side_normal_xy": [
+            0.8955228691914808,
+            0.44501549496063375
+          ],
+          "supporting_long_side_facets": 64,
+          "example_stl_face_normal_xyz": [
+            0.8878615498542786,
+            0.4412083327770233,
+            -0.13052618503570557
+          ]
+        },
+        "right": {
+          "angle_to_long_spine_deg": 63.595344503994575,
+          "sweep_from_perpendicular_deg": 26.404655496005425,
+          "root_to_tip_heading_from_positive_x_deg": 63.595344503994575,
+          "external_straight_run_root_mm": [
+            104.96308898925781,
+            10.336183547973633,
+            0.0
+          ],
+          "external_straight_run_tip_mm": [
+            116.65798950195312,
+            33.890602111816406,
+            0.0
+          ],
+          "external_straight_run_length_mm": 26.297933985059398,
+          "projected_unit_side_normal_xy": [
+            0.8956756573364213,
+            -0.44470790059877463
+          ],
+          "supporting_long_side_facets": 64,
+          "example_stl_face_normal_xyz": [
+            0.8880130052566528,
+            -0.44090336561203003,
+            -0.13052618503570557
+          ]
+        }
+      },
+      "projected_area_mm2": 2287.2922621426533
+    },
+    "solid": {
+      "path": "/private/tmp/codex-remote-attachments/01a08886-f7ec-7d82-941d-5a6de1dcc7be/D2D7AC20-C5D8-440A-A0F6-5BD54D94FFC9/2-newWinder_noClip_5mm.stl",
+      "sha256": "859765f92baead2ab86f8d229ce79eb8585862edf6b6f0cd0c634af001c63218",
+      "bytes": 270184,
+      "facets": 5402,
+      "bounds_min_mm": [
+        -7.5,
+        -82.54356384277344,
+        -2.5
+      ],
+      "bounds_max_mm": [
+        132.5,
+        -28.5,
+        2.5
+      ],
+      "extents_mm": [
+        140.0,
+        54.04356384277344,
+        5.0
+      ],
+      "arms": {
+        "left": {
+          "angle_to_long_spine_deg": 63.57567163665074,
+          "sweep_from_perpendicular_deg": 26.42432836334926,
+          "root_to_tip_heading_from_positive_x_deg": 116.42432836334926,
+          "external_straight_run_root_mm": [
+            20.04985809326172,
+            -55.66766357421875,
+            -2.0192736371882347e-11
+          ],
+          "external_straight_run_tip_mm": [
+            8.34196949005127,
+            -32.107398986816406,
+            -2.0194956817931597e-11
+          ],
+          "external_straight_run_length_mm": 26.308947583922663,
+          "projected_unit_side_normal_xy": [
+            0.8955228714423802,
+            0.44501549043105704
+          ],
+          "supporting_long_side_facets": 46,
+          "example_stl_face_normal_xyz": [
+            0.8273552656173706,
+            0.41114071011543274,
+            -0.3826834261417389
+          ]
+        },
+        "right": {
+          "angle_to_long_spine_deg": 63.595346352011546,
+          "sweep_from_perpendicular_deg": 26.404653647988454,
+          "root_to_tip_heading_from_positive_x_deg": 63.595346352011546,
+          "external_straight_run_root_mm": [
+            104.96308898925781,
+            -55.663818359375,
+            1.8118839761882555e-12
+          ],
+          "external_straight_run_tip_mm": [
+            116.65798950195312,
+            -32.109397888183594,
+            -1.773026170326375e-11
+          ],
+          "external_straight_run_length_mm": 26.2979356934251,
+          "projected_unit_side_normal_xy": [
+            0.8956756629631081,
+            -0.4447078892661977
+          ],
+          "supporting_long_side_facets": 46,
+          "example_stl_face_normal_xyz": [
+            -0.8274964094161987,
+            0.4108565151691437,
+            -0.3826834261417389
+          ]
+        }
+      },
+      "projected_area_mm2": 3219.925299553146
+    }
+  },
+  "symmetric_average_sweep_from_perpendicular_deg": 26.41449285393782,
+  "local_download_identity": {
+    "path": "/Users/rwjblue/Downloads/K6ARK_Wire_Winder.stl",
+    "sha256": "d023e8ecb8b5e7718d9f2c8431a90b2c823550a700396df8e0421103dbf5ad0d",
+    "bytes": 362984,
+    "byte_identical_to_supplied_wireframe": true
+  }
+}
