@@ -1,4 +1,9 @@
-# Lightweight Balanced Feedline Parts
+# Doublet Center and Feedline Spacers
+
+**Download on Printables:**
+
+- [Doublet Center](https://www.printables.com/model/1838095-doublet-center) — continuous-wire and terminal versions
+- [Doublet Feedline Spacers](https://www.printables.com/model/1838096-doublet-feedline-spacers) — matching snap-on spacers
 
 Three parameterized OpenSCAD parts for lightweight portable doublets:
 
@@ -16,6 +21,14 @@ committing to a large print batch.
 The 12.7 mm spacing is a mechanical geometry target, not a promise of an exact
 characteristic impedance. Actual impedance depends on conductor diameter,
 jacket dielectric, and how consistently the line hangs in use.
+
+For a quick start, choose the continuous-wire center for the lightest assembly,
+or the terminal version for removable radiator pairs. Print flat in PETG at
+100% scale, without supports; start with 0.20 mm layers and four walls.
+Try two or three spacers on your wire before printing a batch, and check that
+the center's wire weaves carry tension while the connection tails stay slack.
+
+See the [wire-routing guide](wiring_guide.svg) for both center versions.
 
 ## Feedline Spacer
 
@@ -104,10 +117,11 @@ The center is a 60 × 38 × 4 mm T-shaped plate with:
 
 The wire-path holes default to `wire_od + 0.80 mm`, giving room to thread the
 long conductors. Their diameter and edge chamfer are parameterized separately
-from the tighter snap-fit channels in the spacer. Assertions preserve at least
-2.0 mm of plastic outside every face-side hole chamfer when dimensions or hole
-positions change. The same checks retain at least 2.0 mm between adjacent
-face-side chamfers.
+from the tighter snap-fit channels in the spacer. The default layout leaves at
+least 2.0 mm of plastic outside each face-side hole chamfer and between adjacent
+chamfers. Assertions check the specified edge clearances and hole spacing,
+including the top edge above the radiator holes; they do not fully validate
+arbitrary combinations of body dimensions and hole positions.
 
 ### Threading Each Continuous Conductor
 
@@ -327,3 +341,7 @@ openscad --hardwarnings -D 'render_mode="radiator_fit_test"' \
   -o /tmp/doublet_center_terminal_radiator_fit_test.stl \
   models/ham_radio/lightweight_balanced_feedline/doublet_center_terminal_strain_relief.scad
 ```
+
+## License
+
+These original models are shared under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

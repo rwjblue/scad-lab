@@ -97,7 +97,8 @@ radiator_fit_notch_d     = 3.0;
 wire_hole_d = wire_od + wire_hole_clearance;
 stud_hole_d = stud_nominal_d + stud_hole_clearance;
 crossbar_center_y = crossbar_bottom_y + crossbar_height / 2;
-overall_height = max(stem_height, crossbar_bottom_y + crossbar_height);
+crossbar_top_y = crossbar_bottom_y + crossbar_height;
+overall_height = max(stem_height, crossbar_top_y);
 
 function chamfered_hole_face_radius(diameter, chamfer) =
     diameter / 2 + chamfer;
@@ -317,9 +318,14 @@ module doublet_center_terminal_strain_relief() {
     assert(feedline_relief_y > feedline_lower_y,
            "feedline relief holes must be above the feedline exits");
 
-    assert(overall_height - hoist_hole_y - hoist_face_r
+    assert(crossbar_top_y - hoist_hole_y - hoist_face_r
            >= minimum_edge_wall,
            "insufficient wall above the hoist hole");
+    // Preserve the snap channel above its round seat; only the intended
+    // narrow slot should reach the top edge, not the round seat itself.
+    assert(crossbar_top_y - radiator_outer_y - wire_face_r
+           >= minimum_edge_wall,
+           "insufficient material above an outer radiator channel");
     assert(crossbar_width / 2 - radiator_outer_x - wire_face_r
            >= minimum_edge_wall,
            "insufficient wall outside a radiator entry hole");
@@ -334,6 +340,9 @@ module doublet_center_terminal_strain_relief() {
     assert(terminal_y - hardware_r - crossbar_bottom_y
            >= minimum_edge_wall,
            "terminal washer is too close to the crossbar bottom edge");
+    assert(crossbar_top_y - terminal_y - hardware_r
+           >= minimum_edge_wall,
+           "terminal washer is too close to the crossbar top edge");
     assert(terminal_spacing - terminal_hardware_od
            >= minimum_hole_ligament,
            "insufficient space between terminal hardware stacks");

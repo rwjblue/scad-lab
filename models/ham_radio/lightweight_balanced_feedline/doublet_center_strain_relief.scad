@@ -54,7 +54,8 @@ feedline_hole_y      = 6.5;
 
 wire_hole_d = wire_od + wire_hole_clearance;
 crossbar_center_y = crossbar_bottom_y + crossbar_height / 2;
-overall_height = max(stem_height, crossbar_bottom_y + crossbar_height);
+crossbar_top_y = crossbar_bottom_y + crossbar_height;
+overall_height = max(stem_height, crossbar_top_y);
 
 function chamfered_hole_face_radius(diameter, chamfer) =
     diameter / 2 + chamfer;
@@ -174,9 +175,13 @@ module doublet_center_strain_relief() {
            && relief_hole_y > feedline_hole_y,
            "wire holes must progress downward toward the feedline exits");
 
-    assert(overall_height - hoist_hole_y - hoist_face_r
+    assert(crossbar_top_y - hoist_hole_y - hoist_face_r
            >= minimum_edge_wall,
            "insufficient wall above the hoist hole");
+    // Both wire rows lie in the crossbar; the radiator row is uppermost.
+    assert(crossbar_top_y - radiator_hole_y - wire_face_r
+           >= minimum_edge_wall,
+           "insufficient wall above a radiator hole");
     assert(crossbar_width / 2 - radiator_hole_x - wire_face_r
            >= minimum_edge_wall,
            "insufficient wall outside a radiator hole");

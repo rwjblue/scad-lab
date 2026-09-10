@@ -37,6 +37,8 @@ batch-generate STLs if desired.
   DX Commander Expedition mast in a hitch-mounted flag pole holder
 - `models/ham_radio/lightweight_balanced_feedline/` - parameterized snap-on
   feedline spacers plus continuous-wire and terminalized doublet centers
+  ([centers on Printables](https://www.printables.com/model/1838095-doublet-center),
+  [spacers on Printables](https://www.printables.com/model/1838096-doublet-feedline-spacers))
 - `models/ham_radio/spooltenna_bnc_cap/` - BNC connector protector for
   the KO4HUI Spooltenna (Ultra v1.5/v1.6 + V1.3)
 - `models/ham_radio/vertical_dipole_spacer/` - 6 m vertical dipole center
