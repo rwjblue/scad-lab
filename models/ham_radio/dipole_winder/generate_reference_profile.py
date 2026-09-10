@@ -14,7 +14,9 @@ native exterior, arm positions, and remaining genuine openings are retained.
 
 Cleanup removes holes smaller than 1e-8 mm² caused by floating-point overlay,
 simplifies collinear mesh noise within 0.00001 mm, and writes coordinates to
-six decimal places. It does not smooth, scale, or relocate the original horns.
+six decimal places. The default does not smooth, scale, or relocate the original
+horns. An optional horizontal arm extension translates only the rounded tips
+along their measured sweeps; straight sides lengthen while the roots stay put.
 """
 
 from __future__ import annotations
@@ -164,27 +166,46 @@ def emit_scad(rings: list, metadata: dict) -> str:
         "// Maximum outer-boundary deviation: "
         f"{metadata['outer_boundary_max_deviation_mm']:.9f} mm.",
         "// Bounds: X +/-37.5, Y +/-70 mm. Reference extrusion thickness: 5 mm.",
+        "// arm_extension adds horizontal reach per side; zero reproduces the source.",
+        "// Only rounded tips translate along the native sweep; roots/radii stay fixed.",
         "",
-        "module reference_frame_2d(fill_small_windows=false) {",
+        "function reference_arm_sweep(y) =",
+        "    y >= 0 ? 26.40465549589185 : 26.424330211870213;",
+        "",
+        "function reference_points(arm_extension=0) =",
+        "    let(",
         "        points = [",
     ]
     for index, ring in enumerate(rings):
         lines.append(f"            // {'Exterior' if index == 0 else f'Native opening {index}' }")
         for x, y in ring:
             lines.append(f"            [{format_number(x)}, {format_number(y)}],")
-    lines.extend(["        ];", "        paths = ["])
+    lines.extend([
+        "        ]",
+        "    ) [for(p=points)",
+        "        abs(p[0]) > 20 && abs(p[1]) > 40 ?",
+        "            [p[0]+sign(p[0])*arm_extension,",
+        "             p[1]+sign(p[1])*arm_extension*tan(reference_arm_sweep(p[1]))] : p];",
+        "",
+        "function reference_paths(fill_small_windows=false) =",
+        "    let(",
+        "        paths = [",
+    ])
     offset = 0
     for ring in rings:
         path = ", ".join(str(index) for index in range(offset, offset + len(ring)))
         lines.append(f"            [{path}],")
         offset += len(ring)
     lines.extend([
-        "        ];",
-        "    // Optional ergonomic fill: tiny central openings can trap fine wire.",
-        f"    suppressed_paths = {SMALL_WINDOW_IDS};",
-        "    polygon(points=points,",
-        "        paths=[for(i=[0:len(paths)-1])",
-        "            if(!fill_small_windows || len(search(i,suppressed_paths)) == 0) paths[i]],",
+        "        ],",
+        "        // Optional ergonomic fill: tiny central openings can trap fine wire.",
+        f"        suppressed_paths = {SMALL_WINDOW_IDS}",
+        "    ) [for(i=[0:len(paths)-1])",
+        "        if(!fill_small_windows || len(search(i,suppressed_paths)) == 0) paths[i]];",
+        "",
+        "module reference_frame_2d(fill_small_windows=false, arm_extension=0) {",
+        "    polygon(points=reference_points(arm_extension),",
+        "        paths=reference_paths(fill_small_windows),",
         "        convexity=12);",
         "}", "",
     ])

@@ -1,0 +1,478 @@
+{
+  "status": "passed",
+  "scad_sha256": "f755bf0984c6f20dc06ae731dbfe822db8db74c736e76d96bcc09728e7a32f80",
+  "reference_profile_sha256": "9d7613468a63ef29bdd2ee9ab1137cdc53c0f2937f0e61300e7eceb9aa4f13a4",
+  "valid_variants": {
+    "longer_arms_and_wider_relief": {
+      "parameters": {
+        "arm_length": 42,
+        "relief_pitch": 8
+      },
+      "mesh": {
+        "watertight": true,
+        "consistent_winding": true,
+        "connected_bodies": 1,
+        "through_openings": 14,
+        "bounds_mm": [
+          [
+            -42.0,
+            -70.0,
+            0.0
+          ],
+          [
+            42.0,
+            70.0,
+            24.0
+          ]
+        ],
+        "volume_mm3": 23542.433704567247
+      },
+      "frame": {
+        "measured_thickness_mm": 5.0,
+        "measured_hole_centers_mm": [
+          [
+            -19.999999999999993,
+            55.05015684482377
+          ],
+          [
+            -27.165405115354794,
+            58.60782051080754
+          ],
+          [
+            -34.330810131205226,
+            62.16548413095326
+          ],
+          [
+            20.0,
+            55.050156844823746
+          ],
+          [
+            27.165405115354783,
+            58.60782051080753
+          ],
+          [
+            34.3308101312052,
+            62.16548413095322
+          ],
+          [
+            1.0032931620034892e-16,
+            62.999999806252724
+          ]
+        ],
+        "relief_pitch_mm": [
+          8.000000076713366,
+          7.999999967205178,
+          8.000000076713354,
+          7.9999999672051505
+        ],
+        "minimum_exterior_ligament_mm": 2.4774867553711033,
+        "minimum_relief_web_mm": 3.802032689992844,
+        "maximum_bore_chamfer_error_mm": 0.0018752122872857757,
+        "unchanged_waist_error_mm": 1.1206392315235109e-06,
+        "all_hole_axes_clear": true
+      },
+      "bnc": {
+        "measured_diameter_mm": 10.100000381469727,
+        "measured_flat_to_opposite_mm": 9.250000953674316,
+        "panel_y_mm": [
+          40.050156773381225,
+          43.050156773381225
+        ],
+        "axis_z_mm": 15.0,
+        "measured_shelf_width_mm": 26.0,
+        "maximum_boundary_error_mm": 0.002704139659539377,
+        "hole_axis_clear": true
+      }
+    },
+    "thin_frame_small_holes": {
+      "parameters": {
+        "frame_t": 4,
+        "wire_hole_d": 2.6,
+        "wire_chamfer": 0.3,
+        "hang_hole_d": 5,
+        "hang_chamfer": 0.3,
+        "eye_y": 62
+      },
+      "mesh": {
+        "watertight": true,
+        "consistent_winding": true,
+        "connected_bodies": 1,
+        "through_openings": 14,
+        "bounds_mm": [
+          [
+            -37.5,
+            -70.0,
+            0.0
+          ],
+          [
+            37.5,
+            70.0,
+            23.0
+          ]
+        ],
+        "volume_mm3": 18259.160342294203
+      },
+      "frame": {
+        "measured_thickness_mm": 4.0,
+        "measured_hole_centers_mm": [
+          [
+            -19.999999999999993,
+            55.05015691828543
+          ],
+          [
+            -26.269729344672943,
+            58.1631126403808
+          ],
+          [
+            -32.53945876564619,
+            61.276068025016535
+          ],
+          [
+            20.000000000000007,
+            55.0501569182854
+          ],
+          [
+            26.26972934467299,
+            58.1631126403809
+          ],
+          [
+            32.5394587656462,
+            61.276068025016485
+          ],
+          [
+            1.3559428930397056e-16,
+            62.000000171182734
+          ]
+        ],
+        "relief_pitch_mm": [
+          6.999999955941386,
+          6.9999998742107215,
+          6.999999955941472,
+          6.9999998742106255
+        ],
+        "minimum_exterior_ligament_mm": 2.8263322068117893,
+        "minimum_relief_web_mm": 3.802021222526997,
+        "maximum_bore_chamfer_error_mm": 0.0015001067366880439,
+        "unchanged_waist_error_mm": 1.1206392315235109e-06,
+        "all_hole_axes_clear": true
+      },
+      "bnc": {
+        "measured_diameter_mm": 10.100000381469727,
+        "measured_flat_to_opposite_mm": 9.250000953674316,
+        "panel_y_mm": [
+          40.050156773381225,
+          43.050156773381225
+        ],
+        "axis_z_mm": 14.0,
+        "measured_shelf_width_mm": 26.0,
+        "maximum_boundary_error_mm": 0.002704139659539377,
+        "hole_axis_clear": true
+      }
+    },
+    "round_bnc_and_larger_mount": {
+      "parameters": {
+        "bnc_hole_d": 10.2,
+        "bnc_flat_depth": 0,
+        "bnc_axis_from_frame": 12,
+        "bnc_rear_projection": 14,
+        "shelf_t": 3.2,
+        "shelf_w": 29,
+        "hardware_keepout_d": 20,
+        "rib_t": 3.5,
+        "rib_run": 8
+      },
+      "mesh": {
+        "watertight": true,
+        "consistent_winding": true,
+        "connected_bodies": 1,
+        "through_openings": 14,
+        "bounds_mm": [
+          [
+            -37.5,
+            -70.0,
+            0.0
+          ],
+          [
+            37.5,
+            70.0,
+            27.0
+          ]
+        ],
+        "volume_mm3": 22873.859620345906
+      },
+      "frame": {
+        "measured_thickness_mm": 5.0,
+        "measured_hole_centers_mm": [
+          [
+            -20.000000000000004,
+            55.05015684482379
+          ],
+          [
+            -26.269729523145518,
+            58.16311243402437
+          ],
+          [
+            -32.53945873201197,
+            61.27606810160843
+          ],
+          [
+            20.000000000000004,
+            55.05015684482374
+          ],
+          [
+            26.269729523145507,
+            58.16311243402439
+          ],
+          [
+            32.53945873201198,
+            61.27606810160844
+          ],
+          [
+            1.0032931620034892e-16,
+            62.999999806252724
+          ]
+        ],
+        "relief_pitch_mm": [
+          7.000000056695544,
+          6.999999810061205,
+          7.000000056695566,
+          6.999999810061214
+        ],
+        "minimum_exterior_ligament_mm": 2.326422115635573,
+        "minimum_relief_web_mm": 2.8020395822842445,
+        "maximum_bore_chamfer_error_mm": 0.0018752122872857757,
+        "unchanged_waist_error_mm": 1.1206392315235109e-06,
+        "all_hole_axes_clear": true
+      },
+      "bnc": {
+        "measured_diameter_mm": 10.199999809265137,
+        "measured_flat_to_opposite_mm": 10.200000762939453,
+        "panel_y_mm": [
+          37.85015677338122,
+          41.050156773381225
+        ],
+        "axis_z_mm": 17.0,
+        "measured_shelf_width_mm": 29.0,
+        "maximum_boundary_error_mm": 0.002730932529601493,
+        "hole_axis_clear": true
+      }
+    },
+    "shifted_relief_and_long_arms": {
+      "parameters": {
+        "arm_length": 45,
+        "relief_pitch": 9,
+        "relief_start_x": 21
+      },
+      "mesh": {
+        "watertight": true,
+        "consistent_winding": true,
+        "connected_bodies": 1,
+        "through_openings": 14,
+        "bounds_mm": [
+          [
+            -45.0,
+            -71.2726058959961,
+            0.0
+          ],
+          [
+            45.0,
+            71.2646713256836,
+            24.0
+          ]
+        ],
+        "volume_mm3": 24330.956281180876
+      },
+      "frame": {
+        "measured_thickness_mm": 5.0,
+        "measured_hole_centers_mm": [
+          [
+            -21.000000000000004,
+            55.54666258212844
+          ],
+          [
+            -29.061080739978863,
+            59.5490339122953
+          ],
+          [
+            -37.1221611815661,
+            63.551405418472754
+          ],
+          [
+            21.000000000000004,
+            55.54666258212847
+          ],
+          [
+            29.061080739978884,
+            59.54903391229529
+          ],
+          [
+            37.12216118156611,
+            63.551405418472825
+          ],
+          [
+            1.0032931620034892e-16,
+            62.999999806252724
+          ]
+        ],
+        "relief_pitch_mm": [
+          8.999999942277764,
+          8.999999753288966,
+          8.999999942277766,
+          8.999999753288995
+        ],
+        "minimum_exterior_ligament_mm": 2.4774867553711033,
+        "minimum_relief_web_mm": 4.802028311641626,
+        "maximum_bore_chamfer_error_mm": 0.0018752122872857757,
+        "unchanged_waist_error_mm": 1.1206392315235109e-06,
+        "all_hole_axes_clear": true
+      },
+      "bnc": {
+        "measured_diameter_mm": 10.100000381469727,
+        "measured_flat_to_opposite_mm": 9.250000953674316,
+        "panel_y_mm": [
+          40.54666236450583,
+          43.54666236450583
+        ],
+        "axis_z_mm": 15.0,
+        "measured_shelf_width_mm": 26.0,
+        "maximum_boundary_error_mm": 0.002704139659539377,
+        "hole_axis_clear": true
+      }
+    }
+  },
+  "coupon_variants": {
+    "adaptive_bnc_coupon": {
+      "parameters": {
+        "part": "coupon",
+        "bnc_hole_d": 10.2,
+        "bnc_flat_depth": 0.9,
+        "frame_t": 6,
+        "shelf_t": 3.2
+      },
+      "mesh": {
+        "watertight": true,
+        "consistent_winding": true,
+        "connected_bodies": 1,
+        "through_openings": 3,
+        "bounds_mm": [
+          [
+            -33.0,
+            0.0,
+            0.0
+          ],
+          [
+            33.0,
+            8.0,
+            25.0
+          ]
+        ],
+        "volume_mm3": 5688.243135339617
+      },
+      "cutouts": {
+        "centers_xz_mm": [
+          [
+            -22,
+            16.0
+          ],
+          [
+            0,
+            16.0
+          ],
+          [
+            22,
+            16.0
+          ]
+        ],
+        "measured": [
+          {
+            "diameter_mm": 9.799999237060547,
+            "flat_to_opposite_mm": 8.899999618530273
+          },
+          {
+            "diameter_mm": 10.0,
+            "flat_to_opposite_mm": 9.100000381469727
+          },
+          {
+            "diameter_mm": 10.200000762939453,
+            "flat_to_opposite_mm": 9.30000114440918
+          }
+        ],
+        "all_axes_clear": true,
+        "maximum_boundary_error_mm": 0.00273104491976034
+      }
+    },
+    "adaptive_relief_coupon": {
+      "parameters": {
+        "part": "relief_coupon",
+        "arm_length": 45,
+        "relief_pitch": 9,
+        "relief_start_x": 21,
+        "frame_t": 4,
+        "wire_hole_d": 2.6,
+        "wire_chamfer": 0.3
+      },
+      "mesh": {
+        "watertight": true,
+        "consistent_winding": true,
+        "connected_bodies": 1,
+        "through_openings": 3,
+        "bounds_mm": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            33.0,
+            23.26466941833496,
+            4.0
+          ]
+        ],
+        "volume_mm3": 1770.870111584065
+      },
+      "cutouts": {
+        "centers_xy_mm": [
+          [
+            9.0,
+            7.546662364505828
+          ],
+          [
+            17.061080661136003,
+            11.549033983266277
+          ],
+          [
+            25.122161322272007,
+            15.551405602026719
+          ]
+        ],
+        "all_axes_clear": true,
+        "maximum_bore_chamfer_error_mm": 0.0008567372231333713,
+        "expanded_crop_preserves_wing_tip": true
+      }
+    }
+  },
+  "rejected_variants": {
+    "relief_past_arm_tip": {
+      "parameters": {
+        "arm_length": 35,
+        "relief_pitch": 12
+      },
+      "assertion": "ERROR: Assertion '(inside_frame(p) && (face_ligament(p, wire_hole_d, wire_chamfer) >= 2))' failed: \"Relief hole 2 needs 2 mm to the beveled frame/window edge: lengthen arms, shorten the row, or reduce hole/chamfer size\" in file dipole_winder.scad, line 140"
+    },
+    "thin_web_between_relief_mouths": {
+      "parameters": {
+        "wire_hole_d": 4,
+        "wire_chamfer": 1,
+        "relief_pitch": 6.5
+      },
+      "assertion": "ERROR: Assertion '(((relief_pitch - wire_hole_d) - (2 * wire_chamfer)) >= 2)' failed: \"Keep at least 2 mm between wire-hole mouths: increase pitch or reduce hole/chamfer size\" in file dipole_winder.scad, line 127"
+    },
+    "hardware_hits_frame": {
+      "parameters": {
+        "hardware_keepout_d": 20,
+        "bnc_axis_from_frame": 10
+      },
+      "assertion": "ERROR: Assertion '(((bnc_z - hardware_keepout_r) - frame_t) >= 1)' failed: \"Increase BNC axis distance to leave 1 mm behind the hardware envelope\" in file dipole_winder.scad, line 129"
+    }
+  }
+}

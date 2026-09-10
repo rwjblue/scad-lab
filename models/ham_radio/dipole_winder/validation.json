@@ -1,8 +1,8 @@
 {
   "status": "passed",
-  "stl_sha256": "c9baed7902c9a07a5415bff4190a8fe1264cd1c9d2d44cebf7551e4c38f0f54d",
-  "scad_sha256": "10e402e25f7eaec706b8732576353cc91e218cc6596dd580384a00c1049dfeb9",
-  "reference_profile_sha256": "14912b5b5b57f48dfe223f476ad2c99a109fb539c3339e800733ee63929baab1",
+  "stl_sha256": "10a0dc2c5f1b023d38e6c372985b8b9279cfa2d654b2b7cbb11bbe435a7931b1",
+  "scad_sha256": "f755bf0984c6f20dc06ae731dbfe822db8db74c736e76d96bcc09728e7a32f80",
+  "reference_profile_sha256": "9d7613468a63ef29bdd2ee9ab1137cdc53c0f2937f0e61300e7eceb9aa4f13a4",
   "frame_bevel_sha256": "135b1a8ad351b3a3c0e651effe5593c6916f7e6cc3948f3857ed460f867b1791",
   "accepted_layout_sha256": "7f3ed84f143755ad34d2150832fd13c92f2ed5db81ec0ee6ecf5f10c8d16bd09",
   "mesh": {
@@ -23,7 +23,7 @@
         24.0
       ]
     ],
-    "volume_mm3": 22353.771828199184
+    "volume_mm3": 22353.771833122086
   },
   "frame": {
     "native_windows": 6,

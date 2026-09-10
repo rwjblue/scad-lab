@@ -6,7 +6,7 @@
 
   K6ARK source-derived profile by Adam Kimmerly; see NOTICE.md.
   reference_profile.scad embeds the measured outline: no external STL needed.
-  The source horns remain at scale 1 in their original positions.
+  Default horns match the source; arm length moves tips along their sweep.
 
   Three chamfered wire holes per arm; direct solder to the BNC cup/tag.
   No M3 terminals. Thread wire through the relief before soldering.
@@ -22,58 +22,126 @@ use <frame_bevel.scad>
 part = "winder"; // [winder,coupon,relief_coupon,frame]
 show_hardware = false; // Translucent reference in F5 only; never in an STL
 
-/* [Fits] */
-bnc_clearance = 0.20; // [0:0.05:0.25] Extra clearance PER SIDE; default 10.1 mm D-hole
-wire_hole_d = 3.2; // [2.6:0.1:3.6] Check actual insulated wire diameter
-wire_chamfer = 0.5; // [0.2:0.1:0.6] 45-degree chamfer, both faces
-hang_hole_d = 6.0; // [4:0.5:6]
+/* [Winder] */
+// Horizontal reach from the centerline to each wing tip; tips keep their radii.
+arm_length = 37.5; // [35:0.5:55]
+frame_t = 5; // [4:0.5:7]
+// Bevel on both broad faces, including the retained window rims.
+frame_edge_bevel = 0.5; // [0:0.1:0.5]
+close_snag_windows = true; // Fill five tiny openings; retain six larger windows
 
-/* [Handling] */
-frame_edge_bevel = 0.5; // [0:0.1:0.5] Both broad-face perimeter edges
-close_snag_windows = true; // Fill five tiny central openings; retain six larger windows
+/* [Wire strain relief] */
+// Center-to-center distance along the arm. Longer rows may need longer arms.
+relief_pitch = 7; // [6.5:0.5:12]
+// X position of the innermost hole; its Y position follows the native sweep.
+relief_start_x = 20; // [17:0.5:24]
+wire_hole_d = 3.2; // [2:0.1:4]
+// Chamfer depth at each face. Check the actual insulated wire diameter.
+wire_chamfer = 0.5; // [0:0.1:1]
 
-/* [Connector position] */
-bnc_rear_projection = 12.0; // [8:0.5:16] Measured above the installed panel
-bnc_axis_from_frame = 10.0; // [10:0.5:14] Axis distance from the front face
-shelf_t = 3.0; // [2.8:0.1:3.3] Independent of the 5 mm frame
+/* [Hoisting eye] */
+hang_hole_d = 6.0; // [3:0.5:8]
+hang_chamfer = 0.5; // [0:0.1:1]
+eye_y = 63; // [60:0.5:65]
+
+/* [BNC cutout] */
+// Finished cutout diameter, including print allowance. Nominal hardware: 9.7.
+bnc_hole_d = 10.1; // [9.7:0.05:10.2]
+// Cap removed from the circle: flat-to-opposite = diameter minus this depth.
+// Zero makes a round hole. The owned connector's nominal cap depth is 0.85.
+bnc_flat_depth = 0.85; // [0:0.05:1.2]
+shelf_t = 3.0; // [2.8:0.1:3.3]
+
+/* [Connector position and support] */
+// Installed rear projection above the shelf; 12 mm is still an estimate.
+bnc_rear_projection = 12.0; // [8:0.5:16]
+bnc_axis_from_frame = 10.0; // [10:0.5:14]
+// Reserved diameter for hardware and access, also sets shelf depth.
+hardware_keepout_d = 18; // [16:0.5:20]
+shelf_w = 26; // [24:1:32]
+rib_t = 3; // [2.5:0.5:4]
+rib_run = 10; // [8:1:14]
 
 /* [Hidden] */
 $fn = 96;
 eps = 0.02;
-frame_t = 5;
-eye_y = 63;
-relief_pitch = 7;
-relief_sweep = 26.40465549589185;
-relief_inner = [20,55.050156773381225];
-shelf_w = 26;
+arm_extension = arm_length-37.5;
+relief_sweep = reference_arm_sweep(1);
+relief_inner = [relief_start_x,
+    55.050156773381225+(relief_start_x-20)*tan(relief_sweep)];
 bnc_z = frame_t+bnc_axis_from_frame;
-shelf_depth = bnc_z+9;
+hardware_keepout_r = hardware_keepout_d/2;
+shelf_depth = bnc_z+hardware_keepout_r;
 contact_y = relief_inner[1];
 shelf_top_y = contact_y-bnc_rear_projection;
 shelf_bottom_y = shelf_top_y-shelf_t;
-hardware_keepout_r = 9;
-rib_x = 10.5;
-rib_t = 3;
-rib_run = 10;
-rib_rise = 10;
+rib_x = hardware_keepout_r+rib_t/2;
+rib_rise = bnc_axis_from_frame;
 root_ramp = 2;
+outline_points = reference_points(arm_extension);
+outline_paths = reference_paths(close_snag_windows);
 
 function relief_center(i, side=1) =
     [side*(relief_inner[0]+i*relief_pitch*cos(relief_sweep)),
      relief_inner[1]+i*relief_pitch*sin(relief_sweep)];
 
+function clamp(value, low, high) = min(high,max(low,value));
+function segment_distance(p,a,b) =
+    let(v=b-a, t=clamp(((p-a)*v)/(v*v),0,1)) norm(p-(a+t*v));
+function inside_ring(p,path) = len([
+    for(i=[0:len(path)-1])
+        let(a=outline_points[path[i]], b=outline_points[path[(i+1)%len(path)]])
+        if((a[1]>p[1]) != (b[1]>p[1]))
+            if(p[0] < a[0]+(p[1]-a[1])*(b[0]-a[0])/(b[1]-a[1])) 1
+    ]) % 2 == 1;
+function inside_frame(p) = inside_ring(p,outline_paths[0]) &&
+    len([for(i=[1:len(outline_paths)-1]) if(inside_ring(p,outline_paths[i])) 1]) == 0;
+function contour_distance(p) = min([
+    for(path=outline_paths, i=[0:len(path)-1])
+        segment_distance(p,outline_points[path[i]],outline_points[path[(i+1)%len(path)]])
+    ]);
+// Allow for both the hole mouth and the retreat of the frame's face bevel.
+function face_ligament(p,d,chamfer) = contour_distance(p)-d/2-chamfer-frame_edge_bevel;
+
 assert(part == "winder" || part == "coupon" || part == "relief_coupon" || part == "frame", "Unknown part");
-assert(bnc_clearance >= 0 && bnc_clearance <= 0.25, "Use 0–0.25 mm per-side allowance");
+assert(arm_length >= 35 && arm_length <= 55, "Use 35–55 mm center-to-tip arm reach");
+assert(frame_t >= 4 && frame_t <= 7, "Use a 4–7 mm frame thickness");
+assert(relief_pitch >= 6.5 && relief_pitch <= 12, "Use 6.5–12 mm relief pitch");
+assert(relief_start_x >= 17 && relief_start_x <= 24, "Use 17–24 mm for the inner hole's X position");
+assert(bnc_hole_d >= 9.7 && bnc_hole_d <= 10.2, "Use a 9.7–10.2 mm BNC cutout for this connector");
+assert(bnc_flat_depth >= 0 && bnc_flat_depth <= 1.2, "Use 0–1.2 mm BNC flat depth; zero is round");
 assert(shelf_t >= 2.8 && shelf_t <= 3.3, "Connector panel must be 2.8–3.3 mm");
+assert(shelf_w >= 24 && shelf_w <= 32, "Use a 24–32 mm shelf width");
 assert(bnc_rear_projection >= 8 && bnc_rear_projection <= 16, "Rear projection outside head layout");
-assert(bnc_axis_from_frame >= 10 && bnc_axis_from_frame <= 14, "Retain hardware-to-frame clearance");
-assert(wire_hole_d >= 2.6 && wire_hole_d <= 3.6, "Use 2.6–3.6 mm wire holes");
-assert(wire_chamfer >= 0.2 && wire_chamfer <= 0.6, "Use 0.2–0.6 mm wire chamfers");
-assert(hang_hole_d >= 4 && hang_hole_d <= 6, "Keep the suspension eye 4–6 mm");
+assert(bnc_axis_from_frame >= 10 && bnc_axis_from_frame <= 14, "Use 10–14 mm axis distance from the frame");
+assert(hardware_keepout_d >= 16 && hardware_keepout_d <= 20, "Use a 16–20 mm hardware envelope");
+assert(rib_t >= 2.5 && rib_t <= 4 && rib_run >= 8 && rib_run <= 14, "Use 2.5–4 mm rib thickness and 8–14 mm run");
+assert(wire_hole_d >= 2 && wire_hole_d <= 4, "Use 2–4 mm wire holes");
+assert(wire_chamfer >= 0 && wire_chamfer <= 1, "Use 0–1 mm wire chamfers");
+assert(hang_hole_d >= 3 && hang_hole_d <= 8, "Use a 3–8 mm hoisting hole");
+assert(hang_chamfer >= 0 && hang_chamfer <= 1, "Use 0–1 mm hoisting chamfers");
+assert(eye_y >= 60 && eye_y <= 65, "Keep the hoisting eye between Y60 and Y65");
 assert(frame_edge_bevel >= 0 && frame_edge_bevel <= 0.5, "Keep edge bevel at 0–0.5 mm");
-assert(relief_pitch-wire_hole_d-2*wire_chamfer >= 2, "Keep material between chamfer mouths");
-assert(bnc_z-hardware_keepout_r-frame_t >= 1, "Keep 1 mm behind the hardware envelope");
-assert(shelf_bottom_y-rib_run >= 25, "Ribs must attach to the filled upper frame");
+assert(2*max(wire_chamfer,hang_chamfer,frame_edge_bevel) < frame_t,
+       "Chamfers and bevels must leave a straight bore and full-thickness middle band");
+assert(relief_pitch-wire_hole_d-2*wire_chamfer >= 2,
+       "Keep at least 2 mm between wire-hole mouths: increase pitch or reduce hole/chamfer size");
+assert(bnc_z-hardware_keepout_r-frame_t >= 1,
+       "Increase BNC axis distance to leave 1 mm behind the hardware envelope");
+assert(shelf_w >= hardware_keepout_d+2*rib_t+2,
+       "Widen the shelf for the hardware envelope and ribs (diameter + 2*rib thickness + 2 mm)");
+assert(hardware_keepout_r-bnc_hole_d/2+bnc_flat_depth >= 3,
+       "Keep at least 3 mm above the BNC cutout");
+assert(shelf_bottom_y-rib_run >= 25, "Shorten ribs or raise the shelf to attach to the filled upper frame");
+assert(eye_y-hang_hole_d/2-hang_chamfer-contact_y >= 2,
+       "Keep 2 mm between the hoisting-hole mouth and the estimated BNC contact height");
+for(side=[-1,1], i=[0:2]) {
+    p = relief_center(i,side);
+    assert(inside_frame(p) && face_ligament(p,wire_hole_d,wire_chamfer) >= 2,
+           str("Relief hole ",i+1," needs 2 mm to the beveled frame/window edge: lengthen arms, shorten the row, or reduce hole/chamfer size"));
+}
+assert(inside_frame([0,eye_y]) && face_ligament([0,eye_y],hang_hole_d,hang_chamfer) >= 2,
+       "Hoisting hole needs 2 mm to the beveled edge: reduce hole/chamfer size or move the eye inward");
 
 module plate_hole(d, chamfer) {
     translate([0,0,-eps]) cylinder(d=d,h=frame_t+2*eps);
@@ -84,13 +152,13 @@ module plate_hole(d, chamfer) {
 }
 
 module frame_outline() {
-    reference_frame_2d(fill_small_windows=close_snag_windows);
+    reference_frame_2d(fill_small_windows=close_snag_windows,arm_extension=arm_extension);
 }
 
 module frame() {
     difference() {
         beveled_frame(height=frame_t,bevel=frame_edge_bevel) frame_outline();
-        translate([0,eye_y,0]) plate_hole(hang_hole_d,wire_chamfer);
+        translate([0,eye_y,0]) plate_hole(hang_hole_d,hang_chamfer);
         for(side=[-1,1], i=[0:2]) {
             p = relief_center(i,side);
             translate([p[0],p[1],0]) plate_hole(wire_hole_d,wire_chamfer);
@@ -104,11 +172,11 @@ module extrude_y(thickness) {
         mirror([0,1,0]) children();
 }
 
-module bnc_d_profile(clearance) {
+module bnc_d_profile(diameter=bnc_hole_d) {
     // Top flat gives a short printable bridge: approximately 5.61 mm by default.
     intersection() {
-        circle(r=4.85+clearance);
-        translate([-20,-20]) square([40,24+clearance]);
+        circle(d=diameter);
+        translate([-20,-20]) square([40,20+diameter/2-bnc_flat_depth]);
     }
 }
 
@@ -118,11 +186,11 @@ module shelf_profile(width=shelf_w) {
              [-width/2+2,shelf_depth],[-width/2,shelf_depth-2]]);
 }
 
-module shelf(clearance=bnc_clearance) {
+module shelf() {
     translate([0,shelf_bottom_y,0]) difference() {
         extrude_y(shelf_t) shelf_profile();
         translate([0,-eps,bnc_z]) extrude_y(shelf_t+2*eps)
-            bnc_d_profile(clearance);
+            bnc_d_profile();
     }
 }
 
@@ -173,7 +241,8 @@ module winder() {
 
 module fit_coupon() {
     // Same upright D-hole, shelf thickness, and print orientation as the part.
-    // Left to right: nominal 9.7, intermediate 9.9, default 10.1 mm.
+    // Left to right: selected diameter minus 0.4, minus 0.2, and selected size.
+    // Defaults remain 9.7, 9.9, and 10.1 mm; all share the selected flat depth.
     difference() {
         union() {
             translate([-33,0,0]) cube([66,8,frame_t]);
@@ -182,9 +251,9 @@ module fit_coupon() {
         }
         for(i=[0:2]) {
             translate([(i-1)*22,-eps,bnc_z])
-                extrude_y(shelf_t+2*eps) bnc_d_profile(i*0.10);
-            translate([(i-1)*22,-eps,6.8]) extrude_y(0.4+eps)
-                text(str(9.7+i*0.2),size=2.5,font="Liberation Sans",
+                extrude_y(shelf_t+2*eps) bnc_d_profile(bnc_hole_d-0.4+i*0.2);
+            translate([(i-1)*22,-eps,frame_t+1.8]) extrude_y(0.4+eps)
+                text(str(bnc_hole_d-0.4+i*0.2),size=2.5,font="Liberation Sans",
                      halign="center",valign="center");
         }
     }
@@ -193,9 +262,15 @@ module fit_coupon() {
 module relief_coupon() {
     // A literal upper-arm section: same holes, edge bevel and wire-bearing edge.
     // The two straight crop edges are held by hand, not used to anchor the wire.
-    translate([-12,-48,0]) intersection() {
+    // Follow longer tips and shifted relief rows without scaling the sample.
+    crop_x = min(12,relief_inner[0]-8);
+    crop_y = min(48,relief_inner[1]-7);
+    crop_top = max(72,max([for(p=outline_points) p[1]])+2);
+    crop_right = max(40,arm_length+2.5);
+    translate([-crop_x,-crop_y,0]) intersection() {
         frame();
-        translate([12,48,-eps]) cube([28,24,frame_t+2*eps]);
+        translate([crop_x,crop_y,-eps])
+            cube([crop_right-crop_x,crop_top-crop_y,frame_t+2*eps]);
     }
 }
 
@@ -212,7 +287,7 @@ module hardware_reference() {
     }
     color([0.2,0.7,0.8,0.3])
         translate([0,shelf_top_y,bnc_z]) extrude_y(3)
-            difference() { circle(d=18); circle(d=9.7); }
+            difference() { circle(d=hardware_keepout_d); circle(d=9.7); }
     color([0.75,0.75,0.7,0.85])
         translate([0,shelf_top_y+0.4,bnc_z]) extrude_y(0.5)
             difference() {
@@ -224,10 +299,10 @@ module hardware_reference() {
                 translate([0,12.7]) circle(d=2.5);
             }
     color([0.8,0.15,0.08,0.85])
-        relaxed_lead([20,contact_y,frame_t+0.5], [12,contact_y-3,bnc_z-5],
+        relaxed_lead([relief_inner[0],contact_y,frame_t+0.5], [12,contact_y-3,bnc_z-5],
                      [5,contact_y+3,bnc_z+1], [0,contact_y,bnc_z]);
     color([0.12,0.25,0.55,0.85])
-        relaxed_lead([-20,contact_y,frame_t+0.5], [-12,contact_y-3,bnc_z-2],
+        relaxed_lead([-relief_inner[0],contact_y,frame_t+0.5], [-12,contact_y-3,bnc_z-2],
                      [-7,shelf_top_y+6,bnc_z+7], [0,shelf_top_y+0.7,bnc_z+12.7]);
 }
 
