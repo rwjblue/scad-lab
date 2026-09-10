@@ -1,9 +1,24 @@
-# Dipole center
+# BNC Dipole Center
+
+**Download on Printables:** [BNC Dipole Center](https://www.printables.com/model/1838086-bnc-dipole-center).
 
 A compact coax-fed dipole center with a downward-facing BNC, two M3 terminal
 posts, and three strain-relief holes for each antenna leg. Linking happens in
 the antenna wire, so this center is useful for both linked and ordinary dipoles.
 It contains no balun; use a separate feedpoint choke as needed.
+
+## Quick start
+
+Print the supplied STL from Printables at 100% scale, broad back flat on the bed
+and BNC shelf upright. Suggested starting settings: PETG, 0.20 mm layers,
+5 walls, 100% infill. Use the
+[Amphenol RF 31-221-RFX](https://www.digikey.com/en/products/detail/amphenol-rf/31-221-RFX/100648),
+small ring terminals such as Panduit P22-6R-M, and M3 washers about 7 mm in diameter.
+The front is the BNC shelf side. Weave the wire before attaching its ring, leave
+slack at the terminal, and tug-check the weave. Dry-fit the connector and check
+continuity from center to one leg and shell to the other, with no short between them.
+
+For integrated wire storage, see [BNC Dipole Center on Winder](https://www.printables.com/model/1838087-bnc-dipole-center-on-winder).
 
 **Status, 9 September 2026:** the original design printed successfully and felt
 sturdy during handling. BNC and terminal hardware fit remains pending. This
@@ -161,3 +176,5 @@ Referenced manufacturer drawings retain their own terms.
 This is an open feedpoint with no established weatherproofing, mechanical load,
 or RF power rating. Successful printing and mesh checks do not establish those
 properties.
+
+The original model is shared under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

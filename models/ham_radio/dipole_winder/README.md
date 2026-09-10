@@ -1,10 +1,25 @@
-# Mirrored dipole winder
+# BNC Dipole Center on Winder
+
+**Download on Printables:** [BNC Dipole Center on Winder](https://www.printables.com/model/1838087-bnc-dipole-center-on-winder).
 
 A direct-solder dipole center and two-sided wire winder based on the accepted
 [A5 layout](../../../docs/concepts/2026-09-09-dipole-winder/layout-a5.png).
 The default retains the native K6ARK horn positions and dimensions, with a compact
 perpendicular shelf for the Amphenol RF **31-221-RFX** BNC bulkhead connector.
 Each antenna leg has three chamfered strain-relief holes; there are no M3 studs.
+
+## Quick start
+
+Print at 100% scale, broad back flat on the bed and BNC shelf upright. Suggested
+starting settings: PETG, 0.20 mm layers, 5 walls, 100% infill. Use the
+[Amphenol RF 31-221-RFX](https://www.digikey.com/en/products/detail/amphenol-rf/31-221-RFX/100648).
+The front is the BNC shelf side. Weave each wire from outside inward, leaving a
+relaxed tail to the center cup or outward-facing shell solder tag. Dry-fit the
+connector and tug-check the weave before soldering. Check continuity from center
+to one leg and shell to the other, with no short between them. Fully unwind both
+legs before operating.
+
+For a smaller feedpoint with screw terminals, see [BNC Dipole Center](https://www.printables.com/model/1838086-bnc-dipole-center).
 
 **Print file:** [dipole_winder.stl](dipole_winder.stl).
 **Editable model:** [dipole_winder.scad](dipole_winder.scad), with the adjacent
