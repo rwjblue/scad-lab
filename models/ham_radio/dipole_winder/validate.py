@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the exported default winder against the accepted A5 geometry.
+"""Check the ergonomic revision against the accepted A5 dimensions and fits.
 
 From the repository root:
 
@@ -9,7 +9,9 @@ From the repository root:
 Add --source /path/to/newWinder_wireframe.stl to compare with the original
 supplied STL as well. Normal validation needs no external source STL. OpenSCAD
 must be on PATH; isolated frame and reinforcement exports use a temporary folder.
-The default output is validation.json beside this script.
+The default output is validation.json beside this script. The revision fills
+five small native windows and bevels the two frame faces by 0.5 mm; its middle
+section must still preserve the original exterior and six larger openings.
 """
 
 from __future__ import annotations
@@ -33,6 +35,8 @@ from shapely.geometry import MultiPoint, Point, Polygon, box
 HERE = Path(__file__).resolve().parent
 A5_PATH = HERE.parents[2] / "docs/concepts/2026-09-09-dipole-winder/layout-a5.json"
 TOLERANCE_MM = 0.02
+FRAME_BEVEL_MM = 0.5
+FILLED_NATIVE_WINDOW_IDS = (4, 5, 6, 9, 10)
 
 
 def require(condition: bool, message: str) -> None:
@@ -61,10 +65,20 @@ def embedded_profile(path: Path) -> Polygon:
     rings = [[points[index] for index in path] for path in paths]
     profile = Polygon(rings[0], rings[1:])
     require(profile.is_valid, "Embedded reference profile is invalid")
+    require(len(profile.interiors) == 11, "Expected all eleven native windows in the embedded source data")
     return profile
 
 
-def section(mesh: trimesh.Trimesh, axis: int, position: float) -> Polygon:
+def ergonomic_profile(native: Polygon) -> Polygon:
+    """Explicitly remove only the five reviewed small windows, by source ID."""
+    return Polygon(native.exterior, [
+        ring for index, ring in enumerate(native.interiors, 1)
+        if index not in FILLED_NATIVE_WINDOW_IDS
+    ])
+
+
+def section(mesh: trimesh.Trimesh, axis: int, position: float,
+            allow_disconnected: bool = False):
     origin, normal = np.zeros(3), np.zeros(3)
     origin[axis], normal[axis] = position, 1
     path = mesh.section(plane_origin=origin, plane_normal=normal)
@@ -81,7 +95,8 @@ def section(mesh: trimesh.Trimesh, axis: int, position: float) -> Polygon:
     result = Polygon()
     for ring in sorted(rings, key=lambda polygon: polygon.area, reverse=True):
         result = result.symmetric_difference(ring)
-    require(result.geom_type == "Polygon", "Section has disconnected material")
+    allowed = ("Polygon", "MultiPolygon") if allow_disconnected else ("Polygon",)
+    require(result.geom_type in allowed, "Section has disconnected material")
     return result
 
 
@@ -144,7 +159,7 @@ def temporary_export(part: str) -> trimesh.Trimesh:
         return trimesh.load(exported, force="mesh")
 
 
-def check_reinforcement(profile: Polygon, a5: dict) -> dict:
+def check_reinforcement(profile: Polygon, a5: dict) -> tuple[dict, trimesh.Trimesh]:
     ribs = temporary_export("reinforcement")
     require(ribs.is_watertight and ribs.volume > 0, "Reinforcement is not a closed positive solid")
     axis = Point(0, a5["bnc_axis_z_proposed_mm"])
@@ -163,7 +178,31 @@ def check_reinforcement(profile: Polygon, a5: dict) -> dict:
     return {"minimum_distance_to_bnc_axis_mm": nearest,
             "hardware_keepout_radius_mm": radius,
             "clearance_checked_below_panel_y_mm": panel_bottom - 0.0001,
-            "profile_overrun_area_mm2": overrun}
+            "profile_overrun_area_mm2": overrun}, ribs
+
+
+def check_reinforcement_layer_support(mesh: trimesh.Trimesh, frame_t: float) -> dict:
+    """Prevent rib bases from appearing outside the material below the top bevel.
+
+    A base starting at the original top face produced a 0.299 mm ledge across
+    a 0.2 mm print layer after the face was beveled. Across this transition the
+    complete part's successive sections should only retreat, including where
+    the frame disappears and the shelf/ribs continue upward.
+    """
+    planes = [frame_t + offset for offset in [-0.601, -0.401, -0.201, -0.001, 0.001, 0.199]]
+    support_tolerance = 0.001
+    sections = [section(mesh, 2, z) for z in planes]
+    maximum_growth_area = 0.0
+    for low, high, previous, following in zip(planes, planes[1:], sections, sections[1:]):
+        growth = following.difference(previous)
+        maximum_growth_area = max(maximum_growth_area, growth.area)
+        unsupported = following.difference(previous.buffer(support_tolerance))
+        require(unsupported.area < 1e-7,
+                f"Rib/heel material starts beyond its supporting layer between Z={low} and Z={high}")
+    return {"section_z_mm": planes,
+            "outward_growth_tolerance_mm": support_tolerance,
+            "maximum_unbuffered_growth_area_mm2": maximum_growth_area,
+            "successive_sections_supported": True}
 
 
 def validate(stl: Path, source: Path | None) -> dict:
@@ -176,45 +215,84 @@ def validate(stl: Path, source: Path | None) -> dict:
     require(components == 1, f"STL has {components} disconnected bodies")
     require(np.allclose(mesh.bounds, [[-37.5, -70, 0], [37.5, 70, 24]], atol=0.0001),
             "STL bounds differ from the accepted 75 × 140 × 24 mm print orientation")
-    profile = embedded_profile(HERE / "reference_profile.scad")
+    native_profile = embedded_profile(HERE / "reference_profile.scad")
+    profile = ergonomic_profile(native_profile)
+    require(len(profile.interiors) == 6, "Expected six retained native windows")
+    require(mesh.euler_number == -26, "Full winder must have fourteen through openings")
     top = a5["bnc_shelf_top_y_mm"]
     bottom = top - a5["bnc_shelf_thickness_mm"]
     # The A5 drawing adds a 26 mm perpendicular shelf to the native frame.
     # Its bed-supported base slightly widens the local outline; the horns and
     # the separate frame must retain the source dimensions and contours.
-    composite_profile = profile.union(box(-13, bottom, 13, top))
+    shelf_profile = box(-13, bottom, 13, top)
     wire_centers = a5["left_relief_centers_mm"] + a5["right_relief_centers_mm"]
     centers = wire_centers + [a5["eye_center_mm"]]
     diameters = [a5["wire_bore_mm"]] * 6 + [a5["eye_bore_mm"]]
     frame_t = a5["frame_extent_mm"][2]
     chamfer = a5["chamfer_mm"]
-    samples = [0.001, frame_t / 2, frame_t - 0.001]
-    maximum_hole_error, maximum_profile_error = 0.0, 0.0
+    samples = [0.001, 0.25, 0.499, frame_t / 2, frame_t-0.499, frame_t-0.25, frame_t-0.001]
+    maximum_hole_error, maximum_profile_error, maximum_frame_error = 0.0, 0.0, 0.0
+    minimum_eye_ligament, minimum_relief_ligament = float("inf"), float("inf")
     restored_mid = None
+    native_restored = None
     measured_centers = []
+    reinforcement, ribs = check_reinforcement(profile, a5)
+    reinforcement["base_layer_support"] = check_reinforcement_layer_support(mesh, frame_t)
+    frame = temporary_export("frame")
+    require(frame.is_watertight and frame.is_winding_consistent and frame.volume > 0,
+            "Isolated frame is not a closed positive solid")
+    require(len(frame.split(only_watertight=False)) == 1 and frame.euler_number == -24,
+            "Isolated frame must be one body with thirteen through openings")
     for z in samples:
         material = section(mesh, 2, z)
+        frame_material = section(frame, 2, z)
         require(len(material.interiors) == len(profile.interiors) + 7,
                 "Frame contains extra or missing holes (including possible M3 holes)")
+        require(len(frame_material.interiors) == 13, "Isolated frame has an extra or missing opening")
         new_holes = []
+        frame_holes = []
         for center, diameter in zip(centers, diameters):
             actual = hole_at(material, center)
+            frame_hole = hole_at(frame_material, center)
             radius = diameter / 2 + max(0, chamfer - min(z, frame_t - z))
             expected = Point(center).buffer(radius, quad_segs=256)
-            error = actual.boundary.hausdorff_distance(expected.boundary)
+            error = max(actual.boundary.hausdorff_distance(expected.boundary),
+                        frame_hole.boundary.hausdorff_distance(expected.boundary))
             require(error < 0.006, f"Incorrect bore or chamfer at {center}, Z={z}")
             require(actual.centroid.distance(Point(center)) < 0.0001,
                     f"Hole center differs from accepted A5 coordinates: {center}")
             maximum_hole_error = max(maximum_hole_error, error)
             new_holes.append(actual)
+            frame_holes.append(frame_hole)
+            ligament = frame_hole.boundary.distance(frame_material.exterior)
+            if center == a5["eye_center_mm"]:
+                minimum_eye_ligament = min(minimum_eye_ligament, ligament)
+            else:
+                minimum_relief_ligament = min(minimum_relief_ligament, ligament)
             if z == frame_t / 2:
                 measured_centers.append(list(actual.centroid.coords[0]))
         restored = union_all([material] + new_holes)
-        error = restored.boundary.hausdorff_distance(composite_profile.boundary)
-        require(error < TOLERANCE_MM, "Actual contour differs from the native frame plus the A5 shelf")
+        restored_frame = union_all([frame_material] + frame_holes)
+        inset = max(0, FRAME_BEVEL_MM - min(z, frame_t-z))
+        expected_frame = profile.buffer(-inset, quad_segs=256) if inset else profile
+        frame_error = restored_frame.boundary.hausdorff_distance(expected_frame.boundary)
+        require(frame_error < TOLERANCE_MM,
+                f"Isolated frame differs from the intended 0.5 mm face bevel at Z={z}")
+        maximum_frame_error = max(maximum_frame_error, frame_error)
+        expected_composite = expected_frame.union(shelf_profile)
+        # Structural roots begin in the full-width middle band, below the top
+        # bevel. Their separately checked sections replace the local bevel.
+        if ribs.bounds[0, 2] < z < ribs.bounds[1, 2]:
+            expected_composite = expected_composite.union(section(ribs, 2, z, allow_disconnected=True))
+        error = restored.boundary.hausdorff_distance(expected_composite.boundary)
+        require(error < TOLERANCE_MM,
+                f"Actual contour differs from the beveled frame, shelf and reinforcement at Z={z}")
         maximum_profile_error = max(maximum_profile_error, error)
         if z == frame_t / 2:
             restored_mid = restored
+            native_restored = restored_frame
+    require(minimum_eye_ligament >= 2.45, "Beveled eye has less than 2.45 mm of surrounding material")
+    require(minimum_relief_ligament >= 2.30, "Beveled relief hole has less than 2.30 mm of exterior material")
     pitches = [float(np.linalg.norm(np.subtract(row[i + 1], row[i])))
                for row in (measured_centers[:3], measured_centers[3:6]) for i in range(2)]
     require(all(abs(pitch - 7) < 0.0001 for pitch in pitches), "Relief pitch differs from 7 mm")
@@ -237,32 +315,34 @@ def validate(stl: Path, source: Path | None) -> dict:
     flat_points = flat_points[np.abs(flat_points[:, 1] - d_hole.bounds[3]) < 0.0001]
     bridge = float(np.ptp(flat_points[:, 0]))
     require(abs(bridge - 5.55) < 0.02, "The D-hole top bridge differs from 5.55 mm")
-    reinforcement = check_reinforcement(profile, a5)
-    frame = temporary_export("frame")
-    require(frame.is_watertight and frame.is_winding_consistent and frame.volume > 0,
-            "Isolated frame is not a closed positive solid")
-    frame_section = section(frame, 2, frame_t / 2)
-    native_restored = union_all([frame_section] + [hole_at(frame_section, center) for center in centers])
     native_error = native_restored.boundary.hausdorff_distance(profile.boundary)
-    require(native_error < TOLERANCE_MM, "Isolated frame differs from the native mirrored profile")
+    require(native_error < TOLERANCE_MM, "Middle section differs from the native exterior and six retained windows")
 
     result = {
         "status": "passed",
         "stl_sha256": digest(stl),
         "scad_sha256": digest(HERE / "dipole_winder.scad"),
         "reference_profile_sha256": digest(HERE / "reference_profile.scad"),
+        "frame_bevel_sha256": digest(HERE / "frame_bevel.scad"),
         "accepted_layout_sha256": digest(A5_PATH),
         "mesh": {"watertight": True, "consistent_winding": True,
                  "connected_bodies": components, "triangles": len(mesh.faces),
+                 "through_openings": 14,
                  "bounds_mm": mesh.bounds.tolist(), "volume_mm3": float(mesh.volume)},
         "frame": {"native_windows": len(profile.interiors), "added_holes": 7,
+                  "filled_native_window_ids": list(FILLED_NATIVE_WINDOW_IDS),
+                  "filled_window_area_mm2": profile.area-native_profile.area,
+                  "face_bevel_mm": FRAME_BEVEL_MM,
                   "m3_holes": 0, "section_z_mm": samples,
                   "maximum_native_frame_boundary_error_mm": native_error,
+                  "maximum_beveled_frame_boundary_error_mm": maximum_frame_error,
                   "maximum_combined_frame_and_shelf_boundary_error_mm": maximum_profile_error,
                   "shelf_base_added_area_outside_native_frame_mm2": restored_mid.difference(profile).area,
                   "maximum_bore_or_chamfer_boundary_error_mm": maximum_hole_error,
                   "relief_pitch_measured_mm": pitches,
                   "measured_hole_centers_mm": measured_centers,
+                  "minimum_eye_exterior_ligament_mm": minimum_eye_ligament,
+                  "minimum_relief_exterior_ligament_mm": minimum_relief_ligament,
                   "all_seven_hole_axes_clear": True},
         "bnc": {"measured_diameter_mm": width, "measured_flat_height_mm": height,
                 "measured_flat_bridge_mm": bridge, "panel_thickness_mm": top - bottom,
@@ -272,12 +352,21 @@ def validate(stl: Path, source: Path | None) -> dict:
     }
     if source is not None:
         original = raw_source_profile(source)
+        filled_regions = [Polygon(native_profile.interiors[index-1])
+                          for index in FILLED_NATIVE_WINDOW_IDS]
+        kept_original_windows = [ring for ring in original.interiors
+                                 if not any(region.covers(Polygon(ring).representative_point())
+                                            for region in filled_regions)]
+        require(len(original.interiors)-len(kept_original_windows) == 5,
+                "Original source comparison must ignore exactly the five intentionally filled windows")
+        revised_original = Polygon(original.exterior, kept_original_windows)
         outer_error = Polygon(native_restored.exterior).boundary.hausdorff_distance(original.exterior)
-        all_error = native_restored.boundary.hausdorff_distance(original.boundary)
-        require(all_error < TOLERANCE_MM, "Actual frame differs from the original source by over 0.02 mm")
+        all_error = native_restored.boundary.hausdorff_distance(revised_original.boundary)
+        require(all_error < TOLERANCE_MM, "Retained native boundaries differ from the original source by over 0.02 mm")
         result["original_source"] = {"sha256": digest(source),
+                                     "intentionally_filled_native_windows": 5,
                                      "maximum_outer_boundary_error_mm": outer_error,
-                                     "maximum_all_boundaries_error_mm": all_error}
+                                     "maximum_retained_boundaries_error_mm": all_error}
     return result
 
 

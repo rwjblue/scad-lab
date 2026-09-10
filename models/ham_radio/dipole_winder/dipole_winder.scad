@@ -1,5 +1,5 @@
 /*
-  N1RWJ mirrored dipole winder — accepted A5 layout, 2026-09-09.
+  N1RWJ mirrored dipole winder — A5 ergonomic revision, 2026-09-09.
   Units: mm. Default export is PRINT orientation: broad back at Z=0.
   In service +Y is up, +Z is forward, and the BNC mates toward -Y.
   Frame: 75 W x 140 H x 5 thick. Default overall depth: 24.
@@ -16,9 +16,10 @@
 */
 
 use <reference_profile.scad>
+use <frame_bevel.scad>
 
 /* [Output] */
-part = "winder"; // [winder,coupon,frame]
+part = "winder"; // [winder,coupon,relief_coupon,frame]
 show_hardware = false; // Translucent reference in F5 only; never in an STL
 
 /* [Fits] */
@@ -26,6 +27,10 @@ bnc_clearance = 0.10; // [0:0.05:0.25] Extra clearance PER SIDE
 wire_hole_d = 3.2; // [2.6:0.1:3.6] Check actual insulated wire diameter
 wire_chamfer = 0.5; // [0.2:0.1:0.6] 45-degree chamfer, both faces
 hang_hole_d = 6.0; // [4:0.5:6]
+
+/* [Handling] */
+frame_edge_bevel = 0.5; // [0:0.1:0.5] Both broad-face perimeter edges
+close_snag_windows = true; // Fill five tiny central openings; retain six larger windows
 
 /* [Connector position] */
 bnc_rear_projection = 12.0; // [8:0.5:16] Measured above the installed panel
@@ -57,7 +62,7 @@ function relief_center(i, side=1) =
     [side*(relief_inner[0]+i*relief_pitch*cos(relief_sweep)),
      relief_inner[1]+i*relief_pitch*sin(relief_sweep)];
 
-assert(part == "winder" || part == "coupon" || part == "frame", "Unknown part");
+assert(part == "winder" || part == "coupon" || part == "relief_coupon" || part == "frame", "Unknown part");
 assert(bnc_clearance >= 0 && bnc_clearance <= 0.25, "Use 0–0.25 mm per-side allowance");
 assert(shelf_t >= 2.8 && shelf_t <= 3.3, "Connector panel must be 2.8–3.3 mm");
 assert(bnc_rear_projection >= 8 && bnc_rear_projection <= 16, "Rear projection outside head layout");
@@ -65,6 +70,7 @@ assert(bnc_axis_from_frame >= 10 && bnc_axis_from_frame <= 14, "Retain hardware-
 assert(wire_hole_d >= 2.6 && wire_hole_d <= 3.6, "Use 2.6–3.6 mm wire holes");
 assert(wire_chamfer >= 0.2 && wire_chamfer <= 0.6, "Use 0.2–0.6 mm wire chamfers");
 assert(hang_hole_d >= 4 && hang_hole_d <= 6, "Keep the suspension eye 4–6 mm");
+assert(frame_edge_bevel >= 0 && frame_edge_bevel <= 0.5, "Keep edge bevel at 0–0.5 mm");
 assert(relief_pitch-wire_hole_d-2*wire_chamfer >= 2, "Keep material between chamfer mouths");
 assert(bnc_z-hardware_keepout_r-frame_t >= 1, "Keep 1 mm behind the hardware envelope");
 assert(shelf_bottom_y-rib_run >= 25, "Ribs must attach to the filled upper frame");
@@ -77,9 +83,13 @@ module plate_hole(d, chamfer) {
         cylinder(d1=d,d2=d+2*(chamfer+eps),h=chamfer+eps);
 }
 
+module frame_outline() {
+    reference_frame_2d(fill_small_windows=close_snag_windows);
+}
+
 module frame() {
     difference() {
-        linear_extrude(height=frame_t,convexity=30) reference_frame_2d();
+        beveled_frame(height=frame_t,bevel=frame_edge_bevel) frame_outline();
         translate([0,eye_y,0]) plate_hole(hang_hole_d,wire_chamfer);
         for(side=[-1,1], i=[0:2]) {
             p = relief_center(i,side);
@@ -123,22 +133,25 @@ module extrude_x(thickness) {
 }
 
 module reinforcement() {
+    // Start inside the unchanged middle band, so the front-face bevel cannot
+    // leave the rib/heel bases suspended over an inset preceding layer.
+    base_z = frame_t-frame_edge_bevel-eps;
     difference() {
         intersection() {
             // Every rib/heel layer starts over the native footprint; avoid a
             // 1.3 mm unsupported heel lip beside the narrowing spine.
-            linear_extrude(height=shelf_depth,convexity=30) reference_frame_2d();
+            linear_extrude(height=shelf_depth,convexity=30) frame_outline();
             union() {
                 // Flanking ribs BELOW the shelf, not across the connector axis.
                 for(x=[-rib_x,rib_x])
                     translate([x-rib_t/2,0,0]) extrude_x(rib_t)
-                        polygon([[shelf_bottom_y+eps,frame_t-eps],
-                                 [shelf_bottom_y-rib_run,frame_t-eps],
+                        polygon([[shelf_bottom_y+eps,base_z],
+                                 [shelf_bottom_y-rib_run,base_z],
                                  [shelf_bottom_y+eps,frame_t+rib_rise]]);
                 // Continuous heel; the keepout below trims its central part.
                 translate([-shelf_w/2,0,0]) extrude_x(shelf_w)
-                    polygon([[shelf_bottom_y+eps,frame_t-eps],
-                             [shelf_bottom_y-root_ramp,frame_t-eps],
+                    polygon([[shelf_bottom_y+eps,base_z],
+                             [shelf_bottom_y-root_ramp,base_z],
                              [shelf_bottom_y+eps,frame_t+root_ramp]]);
             }
         }
@@ -177,9 +190,19 @@ module fit_coupon() {
     }
 }
 
+module relief_coupon() {
+    // A literal upper-arm section: same holes, edge bevel and wire-bearing edge.
+    // The two straight crop edges are held by hand, not used to anchor the wire.
+    translate([-12,-48,0]) intersection() {
+        frame();
+        translate([12,48,-eps]) cube([28,24,frame_t+2*eps]);
+    }
+}
+
 module hardware_reference() {
     // Schematic only: body, barrel, rear pin and reserved mounting stack.
-    // The actual shell tag must point away from the plate; it is not modeled.
+    // Tag points away from the frame. Lug width/hole and wire paths illustrate
+    // orientation, not a fit-verified manufacturer model or fixed wire lengths.
     color([0.65,0.70,0.72,0.6]) {
         translate([0,shelf_bottom_y-11.9,bnc_z])
             extrude_y(11.9) circle(d=12.7);
@@ -190,9 +213,35 @@ module hardware_reference() {
     color([0.2,0.7,0.8,0.3])
         translate([0,shelf_top_y,bnc_z]) extrude_y(3)
             difference() { circle(d=18); circle(d=9.7); }
+    color([0.75,0.75,0.7,0.85])
+        translate([0,shelf_top_y+0.4,bnc_z]) extrude_y(0.5)
+            difference() {
+                hull() {
+                    circle(d=12.7);
+                    translate([0,12.7]) circle(d=4.8);
+                }
+                circle(d=9.7);
+                translate([0,12.7]) circle(d=2.5);
+            }
+    color([0.8,0.15,0.08,0.85])
+        relaxed_lead([20,contact_y,frame_t+0.5], [12,contact_y-3,bnc_z-5],
+                     [5,contact_y+3,bnc_z+1], [0,contact_y,bnc_z]);
+    color([0.12,0.25,0.55,0.85])
+        relaxed_lead([-20,contact_y,frame_t+0.5], [-12,contact_y-3,bnc_z-2],
+                     [-7,shelf_top_y+6,bnc_z+7], [0,shelf_top_y+0.7,bnc_z+12.7]);
+}
+
+module relaxed_lead(a,b,c,d) {
+    function point(t) = (1-t)*(1-t)*(1-t)*a + 3*(1-t)*(1-t)*t*b
+                       + 3*(1-t)*t*t*c + t*t*t*d;
+    for(i=[0:15]) hull() {
+        translate(point(i/16)) sphere(d=1,$fn=12);
+        translate(point((i+1)/16)) sphere(d=1,$fn=12);
+    }
 }
 
 if(part == "coupon") fit_coupon();
+else if(part == "relief_coupon") relief_coupon();
 else if(part == "frame") frame();
 else {
     color([0.85,0.46,0.24]) winder();

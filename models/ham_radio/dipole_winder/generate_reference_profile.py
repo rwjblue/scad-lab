@@ -38,6 +38,7 @@ SOURCE_SHA256 = "d023e8ecb8b5e7718d9f2c8431a90b2c823550a700396df8e0421103dbf5ad0
 SIMPLIFY_TOLERANCE_MM = 0.00001
 MIN_HOLE_AREA_MM2 = 0.00000001
 COORDINATE_DECIMALS = 6
+SMALL_WINDOW_IDS = [4, 5, 6, 9, 10]
 
 
 def load_silhouette(path: Path) -> tuple[Polygon, dict]:
@@ -119,6 +120,7 @@ def make_profile(silhouette: Polygon) -> tuple[list, dict]:
     outer_error = envelope.exterior.hausdorff_distance(generated.exterior)
     assert outer_error <= SIMPLIFY_TOLERANCE_MM + 0.000001
     assert len(generated.interiors) == 11
+    assert [i for i, ring in enumerate(rings) if i and Polygon(ring).area < 10] == SMALL_WINDOW_IDS
     reflected = affinity.scale(generated, xfact=-1, yfact=1, origin=(0, 0))
     symmetry_error = generated.boundary.hausdorff_distance(reflected.boundary)
     assert symmetry_error < 0.00002
@@ -135,6 +137,8 @@ def make_profile(silhouette: Polygon) -> tuple[list, dict]:
         "mirror_boundary_max_deviation_mm": symmetry_error,
         "outer_vertices": len(rings[0]),
         "total_vertices": sum(len(ring) for ring in rings),
+        "optional_filled_window_ids": SMALL_WINDOW_IDS,
+        "optional_filled_window_area_mm2": sum(Polygon(rings[i]).area for i in SMALL_WINDOW_IDS),
     }
     return rings, report
 
@@ -161,21 +165,29 @@ def emit_scad(rings: list, metadata: dict) -> str:
         f"{metadata['outer_boundary_max_deviation_mm']:.9f} mm.",
         "// Bounds: X +/-37.5, Y +/-70 mm. Reference extrusion thickness: 5 mm.",
         "",
-        "module reference_frame_2d() {",
-        "    polygon(",
+        "module reference_frame_2d(fill_small_windows=false) {",
         "        points = [",
     ]
     for index, ring in enumerate(rings):
         lines.append(f"            // {'Exterior' if index == 0 else f'Native opening {index}' }")
         for x, y in ring:
             lines.append(f"            [{format_number(x)}, {format_number(y)}],")
-    lines.extend(["        ],", "        paths = ["])
+    lines.extend(["        ];", "        paths = ["])
     offset = 0
     for ring in rings:
         path = ", ".join(str(index) for index in range(offset, offset + len(ring)))
         lines.append(f"            [{path}],")
         offset += len(ring)
-    lines.extend(["        ],", "        convexity = 12", "    );", "}", ""])
+    lines.extend([
+        "        ];",
+        "    // Optional ergonomic fill: tiny central openings can trap fine wire.",
+        f"    suppressed_paths = {SMALL_WINDOW_IDS};",
+        "    polygon(points=points,",
+        "        paths=[for(i=[0:len(paths)-1])",
+        "            if(!fill_small_windows || len(search(i,suppressed_paths)) == 0) paths[i]],",
+        "        convexity=12);",
+        "}", "",
+    ])
     return "\n".join(lines)
 
 

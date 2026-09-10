@@ -6,6 +6,8 @@ The source is the user-supplied `newWinder_wireframe.stl`, also supplied as `K6A
 
 `d023e8ecb8b5e7718d9f2c8431a90b2c823550a700396df8e0421103dbf5ad0d`
 
+The ergonomics revision also bevels both broad-face frame edges and fills five small central openings. The embedded profile preserves the full native outline and all original window data; these changes are controlled by the main SCAD model.
+
 Changes by Robert Jackson (N1RWJ), September 2026: rotate and mirror the native outline, fill the upper openings, add a hanging eye and chamfered wire strain relief, and add a perpendicular BNC bulkhead shelf with reinforcing ribs. The embedded profile is a cleaned projection of the supplied mesh, extruded to 5 mm; it preserves the winding outline rather than reproducing the source's rounded cross-section.
 
 The [3DFinder index for this exact model](https://3dfinder.io/model/printables/383037-k6ark-wire-antenna-winder-ul-wireframe-model?lang=en) reports **Creative Commons — Attribution — Noncommercial — Share Alike**. Its license version was not exposed, and the primary page was unavailable during preparation. Preserve the upstream attribution, noncommercial, and share-alike terms; refer to the original listing for the authoritative license text. This project does not assert a verified license version or supersede the upstream terms. No endorsement by the original author is implied.

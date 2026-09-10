@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+  <title id="title">Three-hole wire threading</title>
+  <desc id="desc">Section along one arm. From the antenna leg, enter the outer hole from back to front, the middle hole from front to back, and the inner hole from back to front. Leave a slack tail on the front side to the BNC. Repeat for the other arm.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto" markerUnits="strokeWidth"><path d="M0 0 L6 3.5 L0 7" fill="none" stroke="#176579" stroke-width="1.2"/></marker>
+  </defs>
+  <rect width="760" height="420" fill="#faf8f3"/>
+  <g font-family="sans-serif" fill="#26353b">
+    <text x="36" y="38" font-size="24" font-weight="bold">Thread before soldering</text>
+    <text x="36" y="63" font-size="14">Section along one hole row · schematic, not to scale</text>
+    <text x="36" y="108" font-size="15">FRONT / BNC SHELF SIDE</text>
+    <text x="36" y="310" font-size="15">BACK</text>
+  </g>
+  <rect x="95" y="145" width="365" height="85" fill="#d87640" stroke="#754c34" stroke-width="1.5"/>
+  <g fill="#faf8f3" stroke="#754c34" stroke-width="1.2">
+    <path d="M115 145 H165 L160 150 V225 L165 230 H115 L120 225 V150 Z"/>
+    <path d="M235 145 H285 L280 150 V225 L285 230 H235 L240 225 V150 Z"/>
+    <path d="M355 145 H405 L400 150 V225 L405 230 H355 L360 225 V150 Z"/>
+  </g>
+  <path d="M36 280 C80 280 140 273 140 230 V145 C140 116 260 116 260 145 V230 C260 266 380 266 380 230 V145 C380 68 537 75 588 110" fill="none" stroke="#247f91" stroke-width="5" stroke-linecap="round"/>
+  <g fill="none" stroke="#176579" stroke-width="2.3" marker-end="url(#arrow)">
+    <path d="M140 213 V174"/>
+    <path d="M260 161 V203"/>
+    <path d="M380 213 V174"/>
+    <path d="M531 91 L566 101"/>
+  </g>
+  <g font-family="sans-serif" fill="#26353b" text-anchor="middle">
+    <text x="140" y="335" font-size="17" font-weight="bold">1 · OUT</text>
+    <text x="260" y="335" font-size="17" font-weight="bold">2 · MIDDLE</text>
+    <text x="380" y="335" font-size="17" font-weight="bold">3 · IN</text>
+    <text x="140" y="358" font-size="13">back → front</text>
+    <text x="260" y="358" font-size="13">front → back</text>
+    <text x="380" y="358" font-size="13">back → front</text>
+  </g>
+  <g font-family="sans-serif" fill="#26353b">
+    <text x="20" y="263" font-size="14">Antenna leg</text>
+    <text x="506" y="57" font-size="16" font-weight="bold">Leave a slack tail</text>
+    <text x="506" y="77" font-size="14">to the BNC cup or shell tag</text>
+    <text x="488" y="185" font-size="15">5 mm frame</text>
+    <text x="488" y="207" font-size="14">Ø3.2 holes · 7 mm pitch</text>
+    <text x="488" y="229" font-size="14">0.5 mm mouth chamfers</text>
+    <text x="36" y="399" font-size="14">Repeat for the other arm. Pull/flex-test the weave with your actual wire.</text>
+  </g>
+</svg>
