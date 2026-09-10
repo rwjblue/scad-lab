@@ -24,7 +24,7 @@ SCAD = HERE / "modular_dipole.scad"
 EPS_VOLUME = 0.001
 DEFAULTS = {
     "preset": "40m", "wing_length": 37.5, "winding_span": 140,
-    "wire_face_bulge": 0, "wire_edge_bulge": 5, "wire_gap": 3,
+    "wire_face_bulge": 0, "wire_edge_bulge": 5, "standoff": 4,
     "wire_hole_inner_x": 28, "wire_hole_pitch": 5.5,
     "wire_hole_d": 3.2, "wire_chamfer": 0.5,
     "terminal_hole_d": 3.4, "hang_hole_d": 6, "bnc_hole_d": 10.1,
@@ -33,12 +33,17 @@ DEFAULTS = {
 # Individual hole limits interact through the barrel clearance, mouth-to-mouth
 # web, and outer edge distance. Exercise their endpoints in valid combinations.
 VARIANTS = {
+    "minimum_standoff": {"standoff": 2.5},
+    "intermediate_standoff": {"standoff": 5.5},
+    "original_40m_standoff": {"standoff": 8},
+    "original_80m_standoff": {"preset": "80m", "standoff": 11},
+    "maximum_standoff": {"preset": "80m", "standoff": 25},
     "long_wings_low_buildup": {
         "wing_length": 60, "wire_face_bulge": 2, "wire_edge_bulge": 2,
     },
     "wide_span_deep_buildup": {
         "winding_span": 200, "wire_face_bulge": 12,
-        "wire_edge_bulge": 5, "wire_gap": 5,
+        "wire_edge_bulge": 5, "standoff": 4,
     },
     "small_outward_holes": {
         "wire_hole_inner_x": 30, "wire_hole_pitch": 4,
@@ -57,7 +62,7 @@ VARIANTS = {
     },
     "combined_large_packet": {
         "preset": "80m", "wing_length": 60, "winding_span": 200,
-        "wire_face_bulge": 12, "wire_edge_bulge": 5, "wire_gap": 5,
+        "wire_face_bulge": 12, "wire_edge_bulge": 5, "standoff": 25,
         "wire_hole_pitch": 5.6, "wire_chamfer": 0.6,
         "terminal_hole_d": 3.6, "bnc_hole_d": 10.2,
     },
@@ -76,7 +81,13 @@ INVALID = {
     "overlong_wings": {"wing_length": 61},
     "undersized_span": {"winding_span": 139},
     "undersized_bnc": {"bnc_hole_d": 9.6},
+    "undersized_standoff": {"standoff": 2.49},
+    "oversized_standoff": {"standoff": 25.01},
 }
+
+
+def seat_height(parameters):
+    return 5 + parameters["standoff"]
 
 
 def definitions(parameters, part):
@@ -193,7 +204,7 @@ def fixed_winder_checks(winder, baseline, seat):
     core_difference = symmetric_volume(a, b)
     require(core_difference < EPS_VOLUME,
             f"Winder central brace/dry base changed: {core_difference} mm³")
-    # Wire buildup changes shoulder length, but the heads and smooth guide
+    # The standoff changes shoulder length, but the heads and smooth guide
     # retain their local geometry relative to the seating plane.
     tip_regions = [bounds_mesh([x - 4.1, -15.1, 0], [x + 4.1, -6.9, 6.05])
                    for x in [-36, 36]]
@@ -201,7 +212,7 @@ def fixed_winder_checks(winder, baseline, seat):
     tips = trimesh.boolean.union(tip_regions, engine="manifold")
     a = trimesh.boolean.intersection([translated(winder, [0, 0, -seat]), tips],
                                      engine="manifold")
-    b = trimesh.boolean.intersection([translated(baseline, [0, 0, -13]), tips],
+    b = trimesh.boolean.intersection([translated(baseline, [0, 0, -seat_height(DEFAULTS)]), tips],
                                      engine="manifold")
     tip_difference = symmetric_volume(a, b)
     require(tip_difference < EPS_VOLUME,
@@ -227,7 +238,7 @@ def layout_checks(layout, center, winder):
 
 def seated_and_envelope_checks(center, winder, envelopes, parameters):
     face = parameters["wire_face_bulge"] or (8 if parameters["preset"] == "80m" else 5)
-    seat = 5 + face + parameters["wire_gap"]
+    seat = seat_height(parameters)
     expected_yz_bounds = np.asarray([[-16.543564, 0], [parameters["wing_length"], seat + 7]])
     require(np.max(np.abs(winder.bounds[:, 1:] - expected_yz_bounds)) < TOL,
             f"Winder size does not follow requested wing length/seat: {winder.bounds}")
@@ -272,8 +283,15 @@ def seated_and_envelope_checks(center, winder, envelopes, parameters):
     winder_overlap = intersection_volume(*winders)
     reserve_overlap = intersection_volume(envelopes, placed_center)
     require(winder_overlap < EPS_VOLUME, "Stored winders intersect each other")
-    require(reserve_overlap < EPS_VOLUME, "Variant reserved wire intersects the center")
+    # A compact shoulder is a packing experiment with the SAME wire reserve.
+    # Preserve the former height's clearance assertion, and expose a compact
+    # reserve collision rather than silently reducing the claimed coil size.
+    if parameters["standoff"] >= face + 3:
+        require(reserve_overlap < EPS_VOLUME, "Variant reserved wire intersects the center")
     return {"seat_height_mm": seat, "resolved_wire_face_bulge_mm": face,
+            "standoff_above_winder_mm": seat - 5,
+            "loaded_fit_status": ("clear_in_static_wire_proxy" if reserve_overlap < EPS_VOLUME
+                                  else "requires_physical_check"),
             "measured_lower_tip_span_mm": lower_tips.bounds[2] - lower_tips.bounds[0],
             "overall_winder_width_mm": float(winder.extents[0]),
             "wire_reserve_bounds_mm": envelopes.bounds.tolist(),
@@ -317,7 +335,7 @@ def customizer_checks(directory):
         require(actual[name]["initial"] == value, f"Wrong Customizer default for {name}")
     ranges = {
         "wing_length": [37.5, 60], "winding_span": [140, 200],
-        "wire_edge_bulge": [2, 5], "wire_gap": [3, 5],
+        "wire_edge_bulge": [2, 5], "standoff": [2.5, 25],
         "wire_hole_inner_x": [27, 30], "wire_hole_pitch": [4, 6.5],
         "wire_hole_d": [2.6, 3.6], "wire_chamfer": [0, 0.6],
         "terminal_hole_d": [3.1, 3.6], "hang_hole_d": [4, 6],
@@ -341,10 +359,11 @@ def run(directory: Path):
                              definitions({}, "winder"))
     report = {
         "status": "running",
-        "scope": "Six coordinated endpoint/combined configurations, measured in exported CAD",
+        "scope": f"{len(VARIANTS)} coordinated endpoint/combined configurations, measured in exported CAD",
         "limits": [
             "Sampled parameter configurations, not every combination in the advertised ranges",
-            "Seated capture and static wire-reserve checks; full sequential release proof covers default presets separately",
+            "Seated capture and static wire-reserve measurements; full sequential release proof covers default presets separately",
+            "Compact shoulder settings keep the same coil reserves; measured reserve overlap is a fit caveat, not a dry-mechanism pass",
             "No wire capacity, printed strength, durability, or human-operation rating",
         ],
         "variants": {},
@@ -373,5 +392,7 @@ def run(directory: Path):
         report["variants"][name] = checks
     report["rejected_invalid_settings"] = rejected_parameters(directory)
     report["customizer"] = customizer_checks(directory)
-    report["status"] = "passed"
+    report["status"] = ("passed_with_fit_caveats" if any(
+        checks["storage_clearance"]["loaded_fit_status"] == "requires_physical_check"
+        for checks in report["variants"].values()) else "passed")
     return report

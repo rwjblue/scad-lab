@@ -2,7 +2,7 @@
 """Analytic wire/fingertip proxies, not a hand or glove fit simulation.
 
 python models/ham_radio/modular_dipole/review/hand_clearance.py \
-  --pad-y 16.9 --pad-stroke 3.15 --finger-diameter 18 --preset 40m
+  --pad-y 16.9 --pad-stroke 3.30 --finger-diameter 18 --preset 40m
 
 Queries actual service-tail points and wire-reserve bounds from OpenSCAD. Reports minimum distances between
 wire capsules and rounded rectangular fingertip sweeps, and emits a matching
@@ -25,7 +25,7 @@ MOCKUP = MODELS / "mockups.scad"
 CAD = MODELS / "modular_dipole.scad"
 INPUTS = [Path(__file__).resolve(), CAD, MOCKUP,
           MODELS / "winder_profile.scad", MODELS / "native_profile.scad"]
-PARAMETERS = ("wing_length", "winding_span", "wire_face_bulge", "wire_gap",
+PARAMETERS = ("wing_length", "winding_span", "wire_face_bulge", "standoff",
               "wire_edge_bulge", "wire_hole_inner_x", "wire_hole_pitch", "winder_offset")
 
 
@@ -135,8 +135,8 @@ def proxy(name, corners, radius, role):
 
 def fingertips(pad_y, stroke, diameter, seat, mode, paddle_height=10, plate_t=4):
     radius = diameter / 2
-    # High edge pose leaves the entire spherical finger 1 mm above the wire-only
-    # face reservation (whose top is seat-3). It contacts the paddle's top edge.
+    # Preserve the original contact poses as standoff height changes. Clearance
+    # is measured below; compact settings no longer imply wire below seat-3.
     z_offset = 2 if mode == "mid_face" else 8 if mode == "raised_face" else radius - 2
     pad_height = paddle_height if mode == "raised_face" else plate_t
     dz_above_edge = max(0, z_offset - pad_height)

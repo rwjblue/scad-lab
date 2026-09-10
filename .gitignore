@@ -22,9 +22,8 @@ models/ham_radio/modular_dipole/review/generated/
 !models/ham_radio/modular_dipole/center.stl
 !models/ham_radio/modular_dipole/winder.stl
 !models/ham_radio/modular_dipole/print_layout.stl
-!models/ham_radio/modular_dipole/winder_80m.stl
-!models/ham_radio/modular_dipole/print_layout_80m.stl
 !models/ham_radio/modular_dipole/fit_coupon.stl
+!models/ham_radio/modular_dipole/retention_coupon.stl
 !models/ham_radio/modular_dipole/bnc_fit_coupon.stl
 # Keep the accepted dipole winder export available directly from the repository.
 !models/ham_radio/dipole_winder/dipole_winder.stl

@@ -32,7 +32,7 @@ batch-generate STLs if desired.
   ([print and fit guide](models/ham_radio/nesting_dipole/README.md))
 - `models/ham_radio/modular_dipole/` - dipole center with two removable
   K6ARK-style winders, four catches and paired inward releases, captive silicone
-  coil ties, adjustable wing reach/span and center holes, 40/80 m clearance
+  coil ties, adjustable wing reach/span, standoff height and center holes, 40/80 m wire-space
   presets and ready-to-print STLs ([sizing and print guide](models/ham_radio/modular_dipole/README.md))
 - `models/ham_radio/dipole_winder/` - mirrored K6ARK winder with a compact
   BNC shelf, direct-solder dipole connections, and printable STL

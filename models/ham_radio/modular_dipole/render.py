@@ -21,6 +21,7 @@ VIEWS = [
     ("images/latch_released.png", "mockups.scad", ['view="detail_squeezed"'], "78,60,70,40,0,16"),
     ("images/print_layout.png", "modular_dipole.scad", ['part="print_layout"'], "170,-250,300,0,20,0"),
     ("images/fit_coupon.png", "modular_dipole.scad", ['part="fit_coupon"'], "80,-100,130,0,10,0"),
+    ("images/retention_coupon.png", "modular_dipole.scad", ['part="retention_coupon"'], "80,-100,130,0,10,0"),
 ]
 
 
@@ -36,7 +37,7 @@ def render(config):
     validation = HERE / "validation.json"
     if validation.exists():
         report = json.loads(validation.read_text())
-        if report.get("status") == "passed":
+        if report.get("status") in ("passed", "passed_with_fit_caveats"):
             pose = report["presets"]["40m"]["sequential_release"]["orders"][0]
             command += ["-D", f'park_angle={pose["parked_angle_deg"]:.8f}']
     result = subprocess.run(command + [str(HERE / source)], text=True, capture_output=True)

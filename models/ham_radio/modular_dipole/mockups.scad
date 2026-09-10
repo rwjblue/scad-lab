@@ -6,9 +6,9 @@ use <winder_profile.scad>
 view="assembled";
 preset="40m";
 wire_face_bulge=0;
-wire_gap=3;
+standoff=4;
 bulge=wire_face_bulge==0 ? (preset=="80m" ? 8 : 5) : wire_face_bulge;
-seat=5+bulge+wire_gap;
+seat=dock_seat_height();
 $fn=96;
 
 // These release poses are set from the measured swept path in validate.py.
@@ -16,7 +16,7 @@ peel_angle=5.6;
 park_angle=4.7;
 peel_lift=undef;
 park_lift=4*tan(park_angle)+2*(1/cos(park_angle)-1);
-release_travel=3.15;
+release_travel=3.30;
 wing_length=37.5;
 winding_span=140;
 wire_hole_inner_x=28;
