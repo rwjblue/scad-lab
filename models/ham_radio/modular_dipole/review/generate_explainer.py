@@ -161,7 +161,7 @@ def main():
     s += [side_card(64, 1, "Park the first end", "park"),
           side_card(576, 2, "Bring the carrier level", "level"),
           side_card(1088, 3, "Lift clear", "clear"),
-          text(64, 1250, "Top outlines: current printable CAD. Hardware and ties: layout proxies. Revision 2 retention and loaded one-hand use still need physical tests.", 17, "#627985"),
+          text(64, 1250, "Top outlines: current printable CAD. Hardware and ties: layout proxies. Revision 3 retention and loaded one-hand use still need physical tests.", 17, "#627985"),
           '</g></svg>']
     OUTPUT.write_text("\n".join(s) + "\n")
     ET.parse(OUTPUT)

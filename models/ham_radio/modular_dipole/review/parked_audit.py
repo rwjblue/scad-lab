@@ -60,7 +60,7 @@ def run_scad(source, output, preset):
 def config(directory, preset):
     wrapper = directory / f"config-{preset}.scad"
     names = ["winder_offset", "seat_z", "dock_x", "dock_y", "guide_x", "guide_y",
-             "head_top_z", "snap_release", "center_y_offset", "center_plate_t"]
+             "head_top_z", "snap_release", "center_y_offset", "center_plate_t", "shoulder_d"]
     wrapper.write_text(f"include <{SOURCE}>\n"
                        f'echo(["PINCH_AUDIT_CONFIG",{",".join(names)},'
                        f"peel_clearance_lift({PARK_ANGLE})]);\n")
@@ -68,7 +68,13 @@ def config(directory, preset):
     line = next(s.removeprefix("ECHO: ") for s in stderr.splitlines()
                 if s.startswith('ECHO: ["PINCH_AUDIT_CONFIG",'))
     values = json.loads(line)[1:]
-    return dict(zip(names + ["peel_lift"], values))
+    cfg = dict(zip(names + ["peel_lift"], values))
+    radians = np.radians(PARK_ANGLE)
+    independent_lift = (cfg["shoulder_d"] / 2 * np.tan(radians)
+                        + 2 * (1 / np.cos(radians) - 1) + 0.04)
+    require(abs(cfg["peel_lift"] - independent_lift) < 0.000001,
+            "Evaluated CAD lift differs from the configured shoulder-radius support model")
+    return cfg
 
 
 def export(directory, preset, name, expression):
@@ -141,6 +147,7 @@ def audit_end(center, second_open, winder, end, cfg):
     lifted = [leveling[-1].translate([0, 0, dz]) for dz in LIFT_STEPS]
     unpressed_attempt = rotate(rest, end * 1.0, [0, 1, 0], level_pivot)
     report = {"parking_angle_deg": PARK_ANGLE, "parking_lift_mm": cfg["peel_lift"],
+              "shoulder_diameter_mm": cfg["shoulder_d"],
               "leveling_pivot_mm": level_pivot, "rows": {}}
     for row in [1, -1]:
         placed = winder if row > 0 else winder.rotate([0, 0, 180])

@@ -1,21 +1,20 @@
 # Modular dipole design review
 
-Revision 2 addresses failed retention in the first printed four-catch assembly.
-The first print looked good and the spring controls felt comfortable, but the
-winders slipped out even with the tongues beneath the heads. The independent
-critic supports the revised geometry for another physical trial; the new parts
-have not yet demonstrated secure retention, glove operation or durability.
-The editable model is
-[modular_dipole.scad](../modular_dipole.scad).
+Revision 3 follows two printed retention trials. The first print looked good
+and its spring controls felt comfortable, but the winders slipped out even
+with the tongues beneath the heads. Revision 2's larger lips improved retention,
+but the user reports that the winders still come free. Revision 3 increases
+the lip again; secure retention, glove operation and durability remain
+unproved. The editable model is [modular_dipole.scad](../modular_dipole.scad).
 
-Upgrading from the first print needs a **matched revision-2 center and two
-revision-2 winders**. The larger stud heads and their receiving passages change
-together. The current compact setting uses 4 mm supports while
-preserving the revision-2 center, head and catch geometry. An existing
-revision-2 center can be reused with two shorter winders. Do not mix winder
-heights. The winding profile, BNC fit and intended paired-pinch sequence remain.
+Upgrading needs a **matched revision-3 center and two revision-3 winders**.
+The larger stud heads and their receiving passages change together; neither
+previous center fits the revised set. The compact setting remains 4 mm above
+the winder. Within revision 3, the same center can be reused with different
+support heights, provided both winders match. The winding profile, BNC fit and
+intended paired-pinch sequence remain.
 
-## First-print failure and revision
+## Printed retention trials and revision 3
 
 The original 6 mm head provided 0.80 mm nominal overlap with its moving catch.
 Outward movement within the neck clearance reduced this to approximately
@@ -35,14 +34,49 @@ radial mating play removed the remaining overlap. These assumed losses explain
 how nominal CAD capture could coexist with a loose print; they do not establish
 which error occurred on this printer.
 
-Revision 2 uses a 7 mm head, increases the catch's share of paddle movement and
-keeps a flat underside for retention. Release travel also increases by 0.15 mm
-per paddle, from 3.15 to 3.30 mm. The smaller root section and
-wider outer span redistribute bending while retaining the raised finger faces
-and travel stops. The new [audit report](retention_audit.json) records the
-dimensional-loss sweep and geometric acceptance thresholds. It does not model
-contact force, friction or the tendency of rounded surfaces to push the catch
-open. The printed coupon is the next acceptance gate.
+Revision 2 used a 7 mm head, increased the catch's share of paddle movement and
+kept a flat underside for retention. Release travel increased by 0.15 mm
+per paddle, from 3.15 to 3.30 mm. The smaller root section and wider outer span
+redistributed bending while retaining the raised finger faces and travel stops.
+The second physical print improved retention but still released
+without the intended pinch. Its passing geometric screens did not establish
+secure printed retention.
+
+Revision 3 uses a 7.6 mm head and 7.4 mm flat top, adding another
+0.3 mm of radial lip. Nominal catch overlap increases from 1.30 to 1.60 mm,
+or from 0.95 to 1.25 mm after the same 0.35 mm outward movement. These dimensions
+still exclude actual printing errors and spring set. This increase preserves
+the 1.5 mm flexible root and current layout; an 8 mm head would require a more
+extensive release redesign. Receiving passages and flexure geometry change
+with the heads, so this is a matched-part revision, not a winder-only replacement.
+
+Release travel increases from 3.30 to 3.95 mm per tab, with stops at 4.10 mm.
+The resting outer finger span stays the same. The beam centerline moves
+0.5 mm outward, and its inner reinforcement becomes deeper and starts farther
+out along the beam. These changes aim to provide the extra catch movement
+without thinning the root. Full CAD validation passes; another physical
+retention trial is still required.
+
+The larger heads need matching receiving passages and support shoulders. The
+8.6 mm shoulder leaves a nominal 0.05 mm rim beyond the passage's 8.5 mm widest
+span and keeps the tilted plate's support point on the fixed socket wall.
+The base remains 10 mm, the neck 4 mm and the support height unchanged. The
+peel-lift calculation follows the actual 4.3 mm shoulder radius. A focused
+parking check found contact at all four studs in both release orders; the
+complete validation also passes for both wire-space presets.
+
+The moving neck notch now extends 1.4 mm to each side in X, giving a
+7.2 × 4.4 mm envelope. This clears the larger head's rootward side during
+off-center second-end leveling while retaining the central Y capture edge.
+The full parked-pose audit passes both release orders in both presets without
+relaxing its intersection thresholds. The retention loss sweep retains at
+least 0.705 mm of engagement depth and 2.148 mm² of bearing area under its
+stated assumptions; these are geometric margins, not measured holding force.
+
+The [audit report](retention_audit.json) records dimensional-loss assumptions
+and geometric thresholds for its recorded source revision. It does not model
+holding force or a rounded underside pushing the catch aside. A larger lip is
+the next print experiment, not a confirmed diagnosis or strength rating.
 
 ## Compact standoff trial
 
@@ -98,7 +132,7 @@ The intended sequence permits one hand to release the ends sequentially:
 4. Pinch the left pair and lift its fixed bridge until the center is level about
    the right head tops. Then lift the level center clear of both guide pins.
 
-The sequence also works geometrically with left and right reversed. Pulling a
+The same sequence is intended with left and right reversed. Pulling a
 still-tilted center straight upward can jam at admitted offsets; level it first.
 The parked position is a temporary handling support, not a transport latch.
 For transport, all four tongues must return beneath their heads.
@@ -116,29 +150,32 @@ or favorable friction. A printed assembly must perform it without another
 hand, deliberate jiggling or a separate alignment step. Free-air one-hand
 operation is a separate, unproved requirement.
 
-## Dimensions that govern the mechanism
+## Revision-3 print-trial dimensions
 
-All dimensions below are millimeters unless marked otherwise.
+These dimensions passed the geometric checks and await a physical trial.
+All dimensions are millimeters unless marked otherwise.
 
-| Feature | Current geometry |
+| Feature | Revision-3 geometry |
 | --- | --- |
 | Storage placement | Winders offset by 26; lower winder rotated 180° about Z |
 | Retaining stations | X=±36, Y=±15; 72 between ends and 30 between rows |
-| Stud base / shoulder / neck | Diameters 10 / 8 / 4 |
+| Stud base / shoulder / neck | Diameters 10 / 8.6 / 4 |
 | Winder-to-center support height | Default `standoff=4`; same printed parts for both wire-space presets |
-| Retaining head | Diameter 7, outward flat 2 from axis; flat top diameter 6.8 |
+| Retaining head | Diameter 7.6, outward flat 2 from axis; flat top diameter 7.4 |
 | Plate and axial room | Plate 4; head underside 4.8 above seat; top 6 above seat |
-| Fixed head passage | Elliptical D shape, 7.9 X × 7.6 Y; outward flat 2.35 |
-| Moving neck notch | Diameter 4.4 swept X±0.8; envelope 6.0 × 4.4 |
+| Fixed head passage | Ellipse axes 8.5 X × 8.2 Y; outward D-flat 2.35 from axis |
+| Moving neck notch | Diameter 4.4 swept X±1.4; envelope 7.2 × 4.4 |
 | Flexible root | X=13; 1.50 mm beam width with 1.5 mm root fillets |
-| Inward outer-span reinforcement | Up to 1.20 mm; ramps X=23..25, full width X=25..39, returns by X=41 |
-| Nominal retaining overlap | 1.3; 0.95 after 0.35 retreat, before print error |
-| Flat-top parking overlap | 0.85 after 0.35 retreat, before print error |
+| Beam centerline | Absolute Y=12.9 |
+| Inward outer-span reinforcement | Up to 1.60 mm; ramps X=27..29, full width X=29..39, returns by X=41 |
+| Nominal retaining overlap | 1.6; 1.25 after 0.35 retreat, before print error |
+| Flat-top parking overlap | 1.15 after 0.35 retreat, before print error |
 | Guide | Diameter 4, length 7 above seat; diameter 4.8 shoulder |
 | Guide receiver | Diameter 4.6 middle bore; 0.4 entrance chamfer at each face |
-| Outer-paddle release / stop | 3.3 / 3.5 per paddle; 6.6 paired release closure, 7.0 at the stops |
+| Outer-paddle release / stop | 3.95 / 4.10 per paddle; 7.9 paired release closure, 8.2 at the stops |
 | Finger contact | Raised to 10 above center underside; resting span 33.8 |
-| Fixed lifting bridges | Absolute X=48..52, Y=−8.15..8.15, height 4 |
+| Base paddle bounds | Absolute X=41..51, absolute Y=12.15..17 |
+| Fixed lifting bridges | Absolute X=48..52, Y=−8.05..8.05, height 4 |
 | Default BNC opening | Diameter 10.10; D-flat to opposite edge 9.25 |
 | Automatic wire face reservation | 5 per face for 40 m preset; 8 for 80 m preset |
 
@@ -147,11 +184,13 @@ edge. The elliptical passage and chamfers allow head tilt and guide entry.
 The long guides remain engaged during the first peel. The 0.8 axial room permits
 articulation and may produce transport play. Geometric overlap is not a pull
 strength rating; ideal parked contact begins at an edge or line, not a broad
-bearing area. Both wire-space presets use the same center.
+bearing area. The nominal tilted shoulder contact lies close to the paddle-slot
+edge; check parking with the actual print, where rounded edges and settling can
+change this contact. Both wire-space presets use the same center.
 
 ## Parameterization and fixed interfaces
 
-The [README parameter table](../README.md#adjustable-dimensions) defines the
+The [build parameter table](BUILD.md#public-parameters) defines the
 public settings and their coupled limits. The sizing and hole settings retain
 their defaults; exported parts use revised retention and the new compact
 `standoff=4` default.
@@ -162,7 +201,7 @@ width and print-layout spacing use actual profile bounds.
 
 The profile keeps the central tie brace and docking core fixed, lengthens the
 outboard arms and retains their rounded tips. Changing these public dimensions
-keeps the revision-2 retaining stations, guide stations and center flexures
+keeps the retaining stations, guide stations and center flexures
 fixed. `wire_face_bulge=0` selects 5 or 8 mm by preset; an explicit 2–12 mm
 value overrides that choice. `standoff` sets the shoulder height directly in
 millimeters, independently of the displayed coil and tie assumptions. Changing
@@ -187,15 +226,13 @@ BNC ribs. The section-width calculation and exported polygon use the same
 reinforcement contour. The release parameter
 is actual outer-paddle travel; it is not equal travel at the catch.
 
-The model screens finger loads at X=41, 46 and 51, checking increased catch
-travel at the 3.30 mm stroke and estimated peak strain below 0.9% at the
-3.50 mm stop. The paired release closes 0.30 mm farther than the first print.
-
-| Finger load X | Catch travel at 3.3 stroke | Estimated peak strain at 3.5 stop |
-| --- | ---: | ---: |
-| 41 | 1.727 mm | 0.887% |
-| 46 | 1.698 mm | 0.846% |
-| 51 | 1.678 mm | 0.818% |
+Revision 3 keeps the finger-load locations at X=41, 46 and 51.
+Its elementary beam calculation estimates approximately 1.953 mm minimum catch travel
+at the 3.95 mm tab stroke and approximately 0.8975% maximum strain at the
+4.10 mm stop. This is a mathematical screen; the complete exported-geometry
+checks also pass. Compared with revision 2, each tab travels 0.65 mm
+farther to release, closing the pair by an additional 1.30 mm while preserving
+the resting finger span.
 
 This screen does not model root stress concentrations, nonlinear material
 behavior, layer adhesion, creep, fatigue or out-of-plane twist from a raised
@@ -217,10 +254,13 @@ the raised faces from each outer end and test the actual loaded grip.
 The [main report](../validation.json) checks raw watertight production meshes,
 all nine inherited Z-axis bores, the BNC opening, individual head capture,
 flexure travel and both dry release orders in both presets. It separately
-reports loaded-space and fingertip results. The compact default has loaded
-proxy collisions: `status=passed_with_fit_caveats` records completed dry checks,
+reports loaded-space and fingertip results. The compact revision-3 model has
+loaded proxy collisions: `status=passed_with_fit_caveats` records completed dry checks,
 while `loaded_fit_status=requires_physical_check` keeps the unresolved loaded
 fit visible. Neither status asserts that wire and ties clear the center.
+Check the report's revision and input hashes before applying its results to
+revision 3; the earlier successful digital checks did not predict the second
+print's retention failure.
 The mechanism audit samples admitted seated offsets and first-peel paths, including
 bounded initial guide settling. Its parking checks look for supporting contact
 at each released head top and opposite shoulder under small virtual closure.
@@ -257,7 +297,7 @@ stud to retreat outward as an independent winder can. The joined foot in
 failure mode; use that coupon for paired-pinch ergonomics.
 
 Check the slots are open and the head undersides have clean bearing edges.
-The revised heads project 1.5 mm beyond the neck on the catch side, so their
+The revision-3 heads project 1.8 mm beyond the neck on the catch side, so their
 printed underside needs particular attention. Pinch to seat one loose foot all
 the way onto its shoulder, then let the tongue return beneath the head.
 Holding fixed plastic with fingers clear of the tab, move the stud toward the
@@ -274,7 +314,7 @@ Check that all four shoulders seat without trapping a tie or forcing the coil
 down. The 4 mm default has known proxy overlaps; if your loaded pack does not
 fit, increase `standoff` and print two matching winders. Values of 8 or 11 mm
 restore the earlier 40 m or 80 m support heights without changing the
-revision-2 center.
+revision-3 center.
 Use one hand with the intended support; leave the first end parked for five
 seconds before transferring to the second. Repeat starting from either end,
 then repeat with field gloves. Record supported and free-air results separately.

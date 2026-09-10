@@ -8,10 +8,11 @@ identical winders**.
 ![Assembled center and two detachable winders](images/assembled.png)
 
 **Prototype status:** the first print had comfortable spring controls but
-failed retention. These revised parts have larger retaining lips and still
-need a physical retention test. The compact 4 mm supports overlap the assumed
-wire space in CAD; check the actual loaded fit, finger access and gloves before
-field use. Increase `standoff` if the center cannot seat freely.
+failed retention. The second print's larger lips helped, but the winders still
+came free. Revision 3 increases the lips again and needs a physical retention
+test. The compact 4 mm supports overlap the assumed wire space in CAD; check
+the actual loaded fit, finger access and gloves before field use. Increase
+`standoff` if the center cannot seat freely.
 
 ## Hardware
 
@@ -27,11 +28,9 @@ legs before operating.
 
 | File | Quantity / purpose |
 | --- | --- |
-| [retention_coupon.stl](retention_coupon.stl) | Print first; receiver and two independent stud feet |
 | [center.stl](center.stl) | One center with 10.1 mm BNC opening |
 | [winder.stl](winder.stl) | Two identical winders with 4 mm supports |
 | [print_layout.stl](print_layout.stl) | Alternative complete three-piece plate |
-| [bnc_fit_coupon.stl](bnc_fit_coupon.stl) | Optional connector-fit check |
 
 Print at 100% scale with the broad backs flat on the bed and the center's BNC
 shelf upright, as supplied. Starting settings are PETG, 0.20 mm layers, five
@@ -39,18 +38,16 @@ walls and solid infill. Inspect the short BNC bridge and stud-head undersides
 in the slicer. These are separately printed parts; the spring tabs are integral
 to the center, and the assembly is **not print-in-place**.
 
-Use the current center and two matching-height winders. Do not mix the failed
-first-print parts with this revision. A current center can be reused when you
-change only the winder support height. Both wire-space presets use the same
-print set.
+Use a **revision-3 center and two revision-3 winders** with matching support
+heights. The larger heads require matching receiving passages; do not reuse
+revision-1 or revision-2 parts in this set. Within revision 3, the center can
+be reused when you change only the winder support height. Both wire-space
+presets use the same print set.
 
-On the retention coupon, pinch to seat each loose stud fully, then let the
-catch return beneath its head. With fingers clear of the tab, shift the stud
-outward and gently pull and rock it. It must remain captured and then release
-freely when pinched. Repeat with both feet before printing the full assembly.
-The [build notes](review/BUILD.md#fit-coupons) explain orientation and optional
-coupons; the [test procedure](review/DESIGN.md#physical-acceptance) covers the
-complete loaded assembly.
+Optional printer-fit coupons and their instructions remain in the
+[build notes](review/BUILD.md#fit-coupons). The
+[test procedure](review/DESIGN.md#physical-acceptance) covers the complete
+loaded assembly.
 
 ## Release and deploy
 

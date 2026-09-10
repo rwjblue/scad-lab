@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build curated print and editable-source downloads from current validated CAD."""
+"""Build curated prints and individual editable-source uploads from validated CAD."""
 from pathlib import Path
 import hashlib
 import json
@@ -21,17 +21,19 @@ CORE_SOURCE = [
     HERE.parent / "dipole_center/dipole_center.scad",
 ]
 NOTICES = [HERE / "NOTICE.md", HERE.parent / "dipole_winder/NOTICE.md"]
-PUBLIC_IMAGES = ["assembled", "exploded", "print_layout", "retention_coupon",
-                 "release_explainer"]
-PRINT_FILES = ["center.stl", "winder.stl", "print_layout.stl",
-               "retention_coupon.stl", "bnc_fit_coupon.stl"]
+PUBLIC_IMAGES = ["assembled", "exploded", "print_layout", "release_explainer"]
+PRINT_FILES = ["center.stl", "winder.stl", "print_layout.stl"]
 MARKDOWN_LINK = re.compile(r"\]\(([^)]+)\)")
 REPOSITORY_ONLY = {
     (DOCS / "DESIGN.md").resolve(),
     (HERE / "validation.json").resolve(),
     (HERE / "fit_coupon.stl").resolve(),
+    (HERE / "retention_coupon.stl").resolve(),
+    (HERE / "bnc_fit_coupon.stl").resolve(),
+    (HERE / "images/retention_coupon.png").resolve(),
 }
 REPOSITORY_URL = "https://github.com/rwjblue/scad-lab/blob/main/"
+UPLOAD_DIRECTORY = ROOT / "output/printables/modular-dipole"
 
 
 def checked_validation():
@@ -113,25 +115,89 @@ def verify_archive(path):
                         assert target in checksums, f"Broken archive link: {name} -> {link}"
 
 
-def check_editable_archive(path):
-    """Prove that the source download alone can export the complete print plate."""
+def binary_stl_triangle_count(path):
+    """Reject an empty or truncated binary STL before comparing its geometry."""
+    data = path.read_bytes()
+    assert len(data) >= 84, f"Empty STL: {path}"
+    count = struct.unpack_from("<I", data, 80)[0]
+    assert count > 0 and len(data) == 84 + count * 50, f"Invalid binary STL: {path}"
+    return count
+
+
+def compile_source(source, output, definitions):
+    command = ["openscad", "--backend=Manifold", "--hardwarnings", "--export-format", "binstl"]
+    for definition in definitions:
+        command += ["-D", definition]
+    completed = subprocess.run(command + ["-o", str(output), str(source)],
+                               capture_output=True, text=True)
+    assert completed.returncode == 0 and "ERROR:" not in completed.stderr and \
+        "WARNING:" not in completed.stderr, f"Editable source does not compile:\n{completed.stderr}"
+    return binary_stl_triangle_count(output)
+
+
+def check_direct_sources(payloads):
+    """Compile only the flattened uploads and compare their surface to validated CAD."""
     with tempfile.TemporaryDirectory(prefix="modular-dipole-source-check-") as directory:
         work = Path(directory)
-        with ZipFile(path) as archive:
-            archive.extractall(work)
-        source = work / "models/ham_radio/modular_dipole/modular_dipole.scad"
+        for name, data in payloads.items():
+            (work / name).write_bytes(data)
+        source = work / "modular_dipole.scad"
         output = work / "print-layout.stl"
+        triangles = compile_source(source, output, ['part="print_layout"'])
+        # Manifold can triangulate identical CAD differently between runs. Use
+        # the validator's 0.001 mm³ Boolean tolerance, not binary facet identity.
+        comparison = """
+import json, sys
+import numpy as np
+import trimesh
+a, b = [trimesh.load_mesh(path) for path in sys.argv[1:]]
+assert a.is_watertight and a.is_winding_consistent and a.volume > 0
+assert len(a.split(only_watertight=False)) == 3
+def volume(mesh):
+    return 0 if mesh is None or len(mesh.faces) == 0 else abs(float(mesh.volume))
+difference = sum(volume(trimesh.boolean.difference(pair, engine="manifold"))
+                 for pair in [[a, b], [b, a]])
+bound_error = float(np.max(np.abs(a.bounds - b.bounds)))
+assert difference < 0.001, f"Direct-source geometry changed by {difference} mm³"
+assert bound_error < 0.001, f"Direct-source bounds changed by {bound_error} mm"
+print(json.dumps({"symmetric_difference_mm3": difference, "maximum_bound_error_mm": bound_error}))
+"""
         completed = subprocess.run([
-            "openscad", "--backend=Manifold", "--hardwarnings", "--export-format", "binstl",
-            "-D", 'part="print_layout"', "-o", str(output), str(source),
+            "uv", "run", "--no-project", "--with", "trimesh", "--with", "manifold3d",
+            "--with", "networkx", "python", "-c", comparison, str(output), str(HERE / "print_layout.stl"),
         ], capture_output=True, text=True)
-        assert completed.returncode == 0 and "ERROR:" not in completed.stderr and \
-            "WARNING:" not in completed.stderr, f"Editable source does not compile:\n{completed.stderr}"
-        data = output.read_bytes()
-        assert len(data) >= 84, "Editable source produced an empty STL"
-        triangles = struct.unpack_from("<I", data, 80)[0]
-        assert triangles > 0 and len(data) == 84 + triangles * 50, "Invalid binary STL export"
-        print(f"Editable source archive compiled successfully ({triangles:,} triangles).")
+        assert completed.returncode == 0, f"Direct-source geometry comparison failed:\n{completed.stderr}"
+        measured = json.loads(completed.stdout)
+        print(f"Isolated direct sources match the validated layout ({triangles:,} triangles): {measured}")
+
+
+def direct_source_payloads():
+    payloads = {source.name: source.read_bytes() for source in CORE_SOURCE}
+    assert len(payloads) == len(CORE_SOURCE), "Source filenames collide after flattening"
+    main = payloads["modular_dipole.scad"].decode()
+    for old, new in [
+        ("use <../dipole_winder/frame_bevel.scad>", "use <frame_bevel.scad>"),
+        ("use <../dipole_center/dipole_center.scad>", "use <dipole_center.scad>"),
+    ]:
+        assert main.count(old) == 1, f"Unexpected source dependency: {old}"
+        main = main.replace(old, new)
+    payloads["modular_dipole.scad"] = main.encode()
+    notices = []
+    for notice in NOTICES:
+        def plain_link(match):
+            label, link = match.group(1), match.group(2)
+            if local_link(link):
+                path, separator, fragment = link.partition("#")
+                resolved = (notice.parent / path).resolve()
+                assert resolved.is_file(), f"Missing attribution link: {link}"
+                link = f"{REPOSITORY_URL}{resolved.relative_to(ROOT)}{separator}{fragment}"
+            return f"{label} ({link})"
+        content = re.sub(r"\[([^]]+)\]\(([^)]+)\)", plain_link, notice.read_text())
+        content = content.replace("**", "").replace("`", "")
+        notices.append(f"SOURCE: {REPOSITORY_URL}{notice.relative_to(ROOT)}\n\n{content}")
+    payloads["NOTICE.txt"] = ("MODULAR DIPOLE — SOURCE ATTRIBUTION AND LICENSE\n\n" +
+                              "\n\n".join(notices)).encode()
+    return payloads
 
 
 def main():
@@ -148,39 +214,20 @@ def main():
         files[f"source/{path.relative_to(ROOT)}"] = path
     print_payloads = archive_payloads(files)
 
-    source_files = {str(path.relative_to(ROOT)): path for path in [*CORE_SOURCE, *NOTICES]}
-    source_payloads = archive_payloads(source_files)
-    source_payloads["README.txt"] = """MODULAR DIPOLE — EDITABLE OPENSCAD SOURCE
-
-Open models/ham_radio/modular_dipole/modular_dipole.scad in OpenSCAD.
-Keep the models/ folder structure intact: the main model uses the neighboring
-dipole_center and dipole_winder source files. All required CAD files are here.
-
-Choose part="print_layout" for one center and two identical winders, or export
-part="center" once and part="winder" twice. The default BNC hole is 10.1 mm.
-standoff=4 sets the gap above the winder in millimeters; its range is 2.5–25.
-Both wire-space presets use the same printed parts. Wing length, winding span,
-wire reserves, and center holes are exposed in the OpenSCAD Customizer.
-
-This is an unverified physical prototype. Test part="retention_coupon" first.
-The compact 4 mm standoff still needs a loaded wire/tie and hand-clearance check.
-Read the print download's README and build guide before preparing full parts.
-
-Attribution and license: models/ham_radio/modular_dipole/NOTICE.md and
-models/ham_radio/dipole_winder/NOTICE.md. Preserve both notices when sharing.
-SHA256.json records the exact contents of this editable-source download.
-""".encode()
-
-    source_bundle = HERE / "modular-dipole-editable-source.zip"
-    write_archive(source_bundle, source_payloads)
-    check_editable_archive(source_bundle)
+    source_payloads = direct_source_payloads()
+    check_direct_sources(source_payloads)
     # Compilation takes time. Recheck the source/output guard before publishing
     # the printable bundle so a concurrent CAD edit cannot silently slip through.
     checked_validation()
+    UPLOAD_DIRECTORY.mkdir(parents=True, exist_ok=True)
+    for name, data in source_payloads.items():
+        (UPLOAD_DIRECTORY / name).write_bytes(data)
+    (HERE / "modular-dipole-editable-source.zip").unlink(missing_ok=True)
     print_bundle = HERE / "modular-dipole-STLs.zip"
     write_archive(print_bundle, print_payloads)
     print(print_bundle)
-    print(source_bundle)
+    for name in source_payloads:
+        print(UPLOAD_DIRECTORY / name)
 
 
 if __name__ == "__main__":

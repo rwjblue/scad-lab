@@ -1,8 +1,9 @@
 /*
   N1RWJ modular dipole — FOUR true snap studs, two per identical winder.
-  Retention revision 2, 2026-09-10. The first print had comfortable springs
-  but failed retention. Larger heads and redistributed flexure sections
-  increase engagement with only 0.15 mm more travel at each paddle.
+  Retention revision 3, 2026-09-10. The first print had comfortable springs
+  but failed retention; revision 2 improved capture but still pulled free.
+  Another 0.3 mm of radial lip and a longer flexible span preserve the
+  1.5 mm root width, with 0.65 mm more release travel at each paddle.
   The right upper/lower paddles pinch together to
   release both RIGHT studs; the left pair does the same on the LEFT.
   Broad flat head tops are intended as a parked-open support after peeling
@@ -11,7 +12,7 @@
   Print fit, release force, glove use and fatigue still need physical trials.
   Docking requires pinching: the flat parking tops deliberately lack an
   automatic push-in funnel. See review/DESIGN.md for the tradeoff.
-  Units mm. Broad backs print down. Flat head undersides overhang 1.5 mm:
+  Units mm. Broad backs print down. Flat head undersides overhang 1.8 mm:
   print the independent-stud retention coupon before full winders. No fatigue rating.
 */
 use <winder_profile.scad>
@@ -63,18 +64,19 @@ face_bulge=wire_face_bulge==0 ? (preset=="80m" ? 8 : 5) : wire_face_bulge;
 wire_positions=[for(i=[0:2]) wire_hole_inner_x+i*wire_hole_pitch];
 winder_bounds=winder_profile_bounds(wing_length,winding_span);
 layout_height_delta=(winder_bounds[1][1]-winder_bounds[0][1])-54.043564;
-snap_head_d=7.0;
-snap_top_d=6.8; // Broad FLAT top supports a released, returned tongue
+snap_head_d=7.6;
+snap_top_d=7.4; // Broad FLAT top supports a released, returned tongue
 snap_throat_clearance=0.30;
 snap_throat_x_extra=0.15; // Extra X-only tilt/yaw allowance; Y flat is unchanged
 snap_flat_extra=0.05; // Small yaw allowance for the rigid head's flat corners
 snap_neck_clearance=0.20;
-neck_notch_x_extra=0.80; // Wider X sweep clears tilted heads; preserve inner Y edge
-snap_release=3.30; // Actual travel at the OUTER paddle edge, not at the catch
-snap_stop=3.50;
+neck_notch_x_extra=1.40; // Clear the larger head while leveling off-center; preserve inner Y edge
+snap_release=3.95; // Actual travel at the OUTER paddle edge, not at the catch
+snap_stop=4.10;
 finger_x=51; // Load location; 41..51 spans the usable paddle
 beam_t=1.50;
-beam_inner_reinforcement=1.20;
+beam_inner_reinforcement=1.60;
+beam_reinforcement_start=27; // Longer flexible span distributes the added stroke
 axial_gap=0.80;
 
 $fn=96;
@@ -91,7 +93,7 @@ native_dock_y=-11;
 dock_y=winder_offset+native_dock_y;
 seat_z=frame_t+standoff;
 pad_d=10;
-shoulder_d=8;
+shoulder_d=8.6; // Bearing rim beneath the passage; stays inside the beveled pad top
 neck_d=4;
 neck_passage_d=neck_d+2*snap_neck_clearance;
 snap_throat_d=snap_head_d+2*snap_throat_clearance;
@@ -106,7 +108,7 @@ receiver_d=12;
 beam_root_x=13; // Stay outside the inherited raised BNC ribs at X=9..12
 beam_catch_x=dock_x;
 beam_length=beam_catch_x-beam_root_x;
-beam_y=dock_y-2.6;
+beam_y=dock_y-2.1;
 beam_end_x=44;
 beam_fillet=1.5;
 tab_inner_y=beam_y-beam_t/2;
@@ -146,27 +148,32 @@ assert(wire_face_bulge==0 || (wire_face_bulge>=2 && wire_face_bulge<=12),
 assert(wire_edge_bulge>=2 && wire_edge_bulge<=5,"Wire edge reserve must be 2..5 mm to clear guide pads");
 assert(standoff>=2.5 && standoff<=25,"Standoff height must be 2.5..25 mm; check loaded fit");
 assert(native_dock_y+pad_d/2<=-wire_edge_bulge-0.5,"Dry pads enter winding reserve");
-assert(snap_head_d==7.0 && snap_top_d==6.8,"Use the matched revision-2 head and passage");
+assert(snap_head_d==7.6 && snap_top_d==7.4,"Use the matched revision-3 head and passage");
 assert(snap_throat_clearance>=0.2 && snap_throat_clearance<=0.3,"Throat allowance 0.2..0.3 per side");
 assert(snap_throat_x_extra>=0.15 && snap_throat_x_extra<=0.25,"X-only peel allowance 0.15..0.25 mm per side");
 assert(snap_flat_extra>=0.05 && snap_flat_extra<=0.10,"Extra outer-flat yaw allowance 0.05..0.10 mm");
-assert(neck_notch_x_extra>=0.7 && neck_notch_x_extra<=0.8,"Revision-2 neck sweep 0.7..0.8 mm each X side");
+assert(neck_notch_x_extra>=1.4 && neck_notch_x_extra<=1.4,"Use the validated 1.4 mm X sweep for the larger heads");
 assert(snap_neck_clearance>=0.15 && snap_neck_clearance<=0.25,"Neck notch allowance 0.15..0.25 per side");
-assert(capture_after_play>=0.9 && parking_capture>=0.8,"Insufficient latch or flat-top parking overlap");
+assert(capture_after_play>=1.2 && parking_capture>=1.1,"Insufficient latch or flat-top parking overlap");
 assert(beam_t>=1.5 && beam_t<=1.8,"Beam thickness 1.5..1.8 mm");
 assert(snap_release>=3.0 && snap_release<=snap_stop,"Paddle release travel 3.0 mm or more");
-assert(snap_stop>=3.3 && snap_stop<=3.5,"Actual outer-paddle stop travel 3.3..3.5 mm");
+assert(snap_stop>=4.0 && snap_stop<=4.1,"Actual outer-paddle stop travel 4.0..4.1 mm");
 assert(finger_x>=tab_inner_x && finger_x<=tab_outer_x,"Load must lie on the paddle");
 assert(tab_inner_y-snap_stop>7.5+0.5,"Inward beam travel would touch original wire bar");
+assert(guide_y-guide_d/2-guide_clearance-guide_entry_chamfer-(beam_y+1.5)>=0.4-eps,
+    "Keep at least 0.4 mm between the flexure slot and guide entry mouth");
 assert(axial_gap>=0.7 && axial_gap<=1.0,"Peel candidate axial clearance 0.7..1.0 mm");
 assert(guide_native_y+guide_pad_d/2<=-wire_edge_bulge-0.5,"Guide pad enters winding reserve");
-assert(min([for(f=[41,46,51]) actuator_displacement(dock_x,snap_release,f)])>=1.6,
-    "Actual paddle motion must open catch at least 1.6 mm for all finger positions");
+assert(shoulder_d>=snap_throat_x_d+0.1-eps,"Keep the shoulder wider than the head passage");
+assert(min([for(f=[41,46,51]) actuator_displacement(dock_x,snap_release,f)])>=capture_nominal+0.3,
+    "Actual catch travel must exceed retaining overlap by 0.3 mm for all finger positions");
 assert(max([for(f=[41,46,51]) actuator_peak_strain(snap_stop,f)])<0.009,
     "Variable-section elementary strain screen must remain below 0.9%");
 
 // Imported by views so their hardware and head crops follow the actual seat.
 function dock_seat_height()=seat_z;
+function dock_release_travel()=snap_release;
+function dock_support_lift(angle)=peel_clearance_lift(angle)-0.04;
 function clamp(v,a,b)=min(b,max(a,v));
 function total(values,i=0)=i>=len(values) ? 0 : values[i]+total(values,i+1);
 function root_extra(x)=x<beam_root_x+beam_fillet ?
@@ -179,7 +186,7 @@ function notch_top(x)=
 // This transfers more of the same paddle stroke to the catch. A tall rib here
 // would foul the head underside; this reinforcement stays within the plate.
 function beam_inner(x)=tab_inner_y-beam_inner_reinforcement*
-    min(clamp((x-23)/2,0,1),clamp((41-x)/2,0,1));
+    min(clamp((x-beam_reinforcement_start)/2,0,1),clamp((41-x)/2,0,1));
 function section_width(x)=x>=tab_inner_x ? tab_outer_y-tab_inner_y :
     notch_top(x)-beam_inner(x)+2*root_extra(x);
 function section_inertia(x)=pow(section_width(x),3)+

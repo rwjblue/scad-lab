@@ -14,10 +14,10 @@ Thumbs.db
 !models/ham_radio/dipole_link/links_all_bands.stl
 !models/ham_radio/dipole_link/links_40m_pair.stl
 output/dipole-link/
-output/printables/modular-dipole/
 # Generated print bundle and optional diagnostic views.
 models/ham_radio/modular_dipole/*.zip
 models/ham_radio/modular_dipole/review/generated/
+output/printables/modular-dipole/
 # Keep the current modular dipole print set.
 !models/ham_radio/modular_dipole/center.stl
 !models/ham_radio/modular_dipole/winder.stl

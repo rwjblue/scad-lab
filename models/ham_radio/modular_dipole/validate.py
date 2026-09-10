@@ -10,6 +10,7 @@ import tempfile
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
+from functools import lru_cache
 
 import numpy as np
 import trimesh
@@ -25,12 +26,42 @@ from review.retention_audit import run as check_retention_margin
 SCAD = HERE / "modular_dipole.scad"
 MOCKUPS = HERE / "mockups.scad"
 OFFSET = 26
-RELEASE = 3.30
 EPS_VOLUME = 0.001
 EXPORT_CACHE = {}
 DOCS = HERE / "review"
 PRINT_FILES = ["center.stl", "winder.stl", "print_layout.stl",
                "fit_coupon.stl", "retention_coupon.stl", "bnc_fit_coupon.stl"]
+
+
+@lru_cache(maxsize=1)
+def _mechanism_configuration(source_sha256):
+    """Evaluate dimensions in OpenSCAD so passage and motion checks follow the CAD."""
+    expressions = {name: name for name in [
+        "snap_release", "snap_stop", "snap_head_d", "snap_throat_d", "snap_throat_x_d",
+        "throat_flat", "head_under_z", "head_top_z", "dock_x", "dock_y",
+        "center_y_offset", "center_plate_t", "shoulder_d", "guide_d", "guide_clearance", "guide_x", "guide_y",
+    ]}
+    expressions["pad_y"] = "tab_outer_y-paddle_inset"
+    with tempfile.TemporaryDirectory(prefix="dipole-mechanism-config-") as directory:
+        source = Path(directory) / "configuration.scad"
+        source.write_text(f"include <{SCAD}>\n"
+                          f'echo(["VALIDATOR_CONFIG",{",".join(expressions.values())}]);\n')
+        completed = subprocess.run([
+            "openscad", "--backend=Manifold", "--hardwarnings", "-D", 'part="center"',
+            "-o", str(source.with_suffix(".csg")), str(source),
+        ], capture_output=True, text=True)
+        require(completed.returncode == 0 and "ERROR:" not in completed.stderr and
+                "WARNING:" not in completed.stderr, completed.stderr)
+        value = next((line[6:] for line in completed.stderr.splitlines()
+                      if line.startswith('ECHO: ["VALIDATOR_CONFIG",')), None)
+        require(value is not None, "Missing validator configuration echo")
+        require(hashlib.sha256(SCAD.read_bytes()).hexdigest() == source_sha256,
+                "CAD changed while reading mechanism configuration")
+        return dict(zip(expressions, json.loads(value)[1:]))
+
+
+def mechanism_configuration():
+    return _mechanism_configuration(hashlib.sha256(SCAD.read_bytes()).hexdigest())
 
 
 def expression_export(directory, name, expression, preset="40m", source=SCAD, definitions=()):
@@ -70,24 +101,34 @@ def wire_reserve(row, bulge):
 
 
 def original_geometry(original, center):
+    cfg = mechanism_configuration()
     removed = trimesh.boolean.difference([original, center], engine="manifold")
     # Only four new D openings and two guide bores may subtract plate material.
+    # Preserve the existing 0.001 mm aperture allowance as the passage grows.
+    radius_y = cfg["snap_throat_d"] / 2 + 0.001
+    radius_x = cfg["snap_throat_x_d"] / 2 + 0.001
+    thickness = cfg["center_plate_t"]
     tools = []
     for end in [-1, 1]:
         for row in [-1, 1]:
-            circle = trimesh.creation.cylinder(radius=3.801, height=4.04, sections=192)
-            circle.apply_scale([3.951 / 3.801, 1, 1])
-            circle.apply_translation([0, 0, 2])
+            circle = trimesh.creation.cylinder(radius=radius_y, height=thickness + 0.04, sections=192)
+            circle.apply_scale([radius_x / radius_y, 1, 1])
+            circle.apply_translation([0, 0, thickness / 2])
             # Upper flat faces outward (+Y), opposite the inward-moving tongue.
-            clip = bounds_mesh([-4, -4, -0.03], [4, 2.351, 4.03])
+            clip = bounds_mesh([-radius_x - 0.1, -radius_y - 0.1, -0.03],
+                               [radius_x + 0.1, cfg["throat_flat"] + 0.001, thickness + 0.03])
             opening = trimesh.boolean.intersection([circle, clip], engine="manifold")
             if row < 0:
                 opening.apply_transform(np.diag([-1., -1., 1., 1.]))
-            opening.apply_translation([end * 36, 19.5 + row * 15, 0])
+            opening.apply_translation([end * cfg["dock_x"],
+                                       -cfg["center_y_offset"] + row * cfg["dock_y"], 0])
             tools.append(opening)
     for row in [-1, 1]:
-        guide = trimesh.creation.cylinder(radius=2.301, height=4.04, sections=192)
-        guide.apply_translation([row * 20, 19.5 + row * 17.5, 2])
+        guide = trimesh.creation.cylinder(
+            radius=cfg["guide_d"] / 2 + cfg["guide_clearance"] + 0.001,
+            height=thickness + 0.04, sections=192)
+        guide.apply_translation([row * cfg["guide_x"],
+                                 -cfg["center_y_offset"] + row * cfg["guide_y"], thickness / 2])
         tools.append(guide)
     allowed = trimesh.boolean.union(tools, engine="manifold")
     unexpected = volume(trimesh.boolean.difference([removed, allowed], engine="manifold"))
@@ -188,8 +229,9 @@ def loaded_motion_measurements(carrier, hardware, winders, reserves, ties, refer
 
 
 def finger_clearance_report(preset, output, *, standoff=None, require_clearance=False):
+    cfg = mechanism_configuration()
     command = [sys.executable, str(DOCS / "hand_clearance.py"),
-               "--pad-y", "16.9", "--pad-stroke", str(RELEASE),
+               "--pad-y", str(cfg["pad_y"]), "--pad-stroke", str(cfg["snap_release"]),
                "--winder-offset", str(OFFSET), "--preset", preset, "--output", str(output)]
     if standoff is not None:
         command += ["--standoff", str(standoff)]
@@ -217,6 +259,7 @@ def lateral_capture(center, states, winder, row, seat):
     Samples are evidence of capture, not an exhaustive configuration-space proof.
     """
     import manifold3d
+    cfg = mechanism_configuration()
 
     def solid(mesh):
         result = manifold3d.Manifold(manifold3d.Mesh(
@@ -239,14 +282,18 @@ def lateral_capture(center, states, winder, row, seat):
     # Carrier motion and retained-head crops are independent of the candidate.
     # Keep the original crop/conversion once, rather than repeating it per pose.
     end_cache = {}
+    head_crop_radius = cfg["snap_head_d"] / 2 + 0.1
     for end, key in [(-1, "left"), (1, "right")]:
+        head_x, head_y = -end * cfg["dock_x"], row * cfg["dock_y"]
         retained_head = solid(trimesh.boolean.intersection([
-            winder, bounds_mesh([-end * 36 - 4, row * 15 - 4, seat + 4.8],
-                                [-end * 36 + 4, row * 15 + 4, seat + 6.01])], engine="manifold"))
+            winder, bounds_mesh([head_x - head_crop_radius, head_y - head_crop_radius,
+                                 seat + cfg["head_under_z"]],
+                                [head_x + head_crop_radius, head_y + head_crop_radius,
+                                 seat + cfg["head_top_z"] + 0.01])], engine="manifold"))
         carriers = []
         for angle in angles:
             radians = np.radians(angle)
-            lift = 4 * np.tan(radians) + 2 * (1 / np.cos(radians) - 1) + 0.04
+            lift = cfg["shoulder_d"] / 2 * np.tan(radians) + 2 * (1 / np.cos(radians) - 1) + 0.04
             matrix = trimesh.transformations.rotation_matrix(
                 -end * radians, [0, 1, 0], [-end * 36, 0, seat + 2])
             matrix[:3, 3] += [0, 0, lift]
@@ -340,11 +387,12 @@ def lateral_capture(center, states, winder, row, seat):
 def peel_pose(mesh, side, angle, seat, padding=0.04):
     """Independent rigid transform; keeps opposite shoulder rim below the plate.
 
-    At padding=0 the opposite D8 shoulder's outside tangent is an actual
+    At padding=0 the configured shoulder's outside tangent is an actual
     support contact with the inclined plate underside, not a hover pose.
     """
+    cfg = mechanism_configuration()
     radians = np.radians(angle)
-    lift = 4 * np.tan(radians) + 2 * (1 / np.cos(radians) - 1) + padding
+    lift = cfg["shoulder_d"] / 2 * np.tan(radians) + 2 * (1 / np.cos(radians) - 1) + padding
     matrix = trimesh.transformations.rotation_matrix(
         -side * radians, [0, 1, 0], [-side * 36, 0, seat + 2])
     matrix[:3, 3] += [0, 0, lift]
@@ -354,6 +402,7 @@ def peel_pose(mesh, side, angle, seat, padding=0.04):
 
 
 def flexure_clearance(directory, preset, center):
+    cfg = mechanism_configuration()
     original_tabs = expression_export(directory, f"tabs-{preset}-0",
                                       "for(s=[-1,1],r=[-1,1]) snap_tab(s,r,0);", preset)
     fixed = trimesh.boolean.difference([center, original_tabs], engine="manifold")
@@ -362,7 +411,7 @@ def flexure_clearance(directory, preset, center):
         bounds_mesh([14.6, -10, -1], [60, 60, 11])], engine="manifold")
     samples = []
     cases = [(finger, float(travel)) for finger in [41, 46, 51]
-             for travel in [*np.linspace(0, RELEASE, 9), 3.5]]
+             for travel in [*np.linspace(0, cfg["snap_release"], 9), cfg["snap_stop"]]]
     def build(case):
         finger, travel = case
         return expression_export(directory, f"tabs-{preset}-{finger}-{travel:.3f}",
@@ -385,6 +434,8 @@ def sequential_release(directory, preset, centered, states, winders, reserves, h
     Contact is found numerically from exported solids. Tests do not infer that
     a floating, noncolliding pose will remain open under gravity.
     """
+    cfg = mechanism_configuration()
+    release = cfg["snap_release"]
     results = []
     for side, key, other_key in [(1, "right", "left"), (-1, "left", "right")]:
         print(f"Checking {preset} {key}-first peel and parking", flush=True)
@@ -416,7 +467,7 @@ def sequential_release(directory, preset, centered, states, winders, reserves, h
             loaded_motion_measurements(carrier, metal, winders, reserves, ties, reference, loaded_peaks)
         # Return the squeezed pair while held above its heads. This checks all
         # intermediate tongue poses, not merely the open and closed endpoints.
-        travels = np.linspace(RELEASE, 0, 9)
+        travels = np.linspace(release, 0, 9)
         def carrier_for_first(travel):
             values = [0, float(travel)] if side > 0 else [float(travel), 0]
             return expression_export(directory, f"return-{preset}-{side}-{travel:.3f}",
@@ -477,7 +528,7 @@ def sequential_release(directory, preset, centered, states, winders, reserves, h
                              for row in [-1, 1])
         require(still_captured > 0.05, "Opposite end lost capture during first-end parking")
         # Hand changes ends with first pair closed. Then release only other pair.
-        travels = np.linspace(0, RELEASE, 9)
+        travels = np.linspace(0, release, 9)
         def carrier_for_second(travel):
             values = [float(travel), 0] if side > 0 else [0, float(travel)]
             return expression_export(directory, f"second-{preset}-{side}-{travel:.3f}",
@@ -497,7 +548,8 @@ def sequential_release(directory, preset, centered, states, winders, reserves, h
         leveling_peak = 0.0
         for angle in np.linspace(0, parked_angle, 25):
             rotation = trimesh.transformations.rotation_matrix(
-                side * np.radians(angle), [0, 1, 0], [side * 36, 0, seat + 6])
+                side * np.radians(angle), [0, 1, 0],
+                [side * cfg["dock_x"], 0, seat + cfg["head_top_z"]])
             leveled = freed.copy()
             leveled.apply_transform(rotation)
             metal_leveled = parked_metal.copy()
@@ -519,7 +571,7 @@ def sequential_release(directory, preset, centered, states, winders, reserves, h
                         "reclosing_0p05deg_blocked_mm3": closure_block,
                         "opposite_end_capture_after_1p1mm_lift_mm3": still_captured,
                         "second_end_leveling_max_intersection_mm3": leveling_peak,
-                        "leveling_pivot_mm": [side * 36, 0, seat + 6],
+                        "leveling_pivot_mm": [side * cfg["dock_x"], 0, seat + cfg["head_top_z"]],
                         "leveling_rotation_samples_deg": np.linspace(0, parked_angle, 25).tolist(),
                         "second_end_exit_max_intersection_mm3": exit_peak,
                         "loaded_motion_peak_intersections_mm3": loaded_peaks,
@@ -545,8 +597,11 @@ def main():
                    HERE.parent / "dipole_winder/frame_bevel.scad", ORIGINAL, Path(__file__), HERE / "validation_helpers.py"]
     initial_hashes = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
                       for p in input_paths}
-    report = {"status": "running", "revision": "retention-r2-standoff-mm-modular-dipole-bnc-10p1",
-              "evidence": "Revision 1 printed with comfortable springs but failed retention; revision 2 retention and 4 mm shoulders are CAD checks only. Compact loaded fit caveats are reported separately from dry mechanism checks",
+    cfg = mechanism_configuration()
+    release = cfg["snap_release"]
+    report = {"status": "running", "revision": "retention-r3-standoff-mm-modular-dipole-bnc-10p1",
+              "evidence": "Revision 1 printed with comfortable springs but failed retention. Revision 2's larger heads improved retention in the physical print but still pulled free. Revision 3 is CAD-checked only; compact loaded-fit caveats remain separate from dry mechanism checks",
+              "mechanism_configuration_mm": cfg,
               "presets": {}}
     with tempfile.TemporaryDirectory(prefix="pinch-dipole-check-") as directory:
         temporary = Path(directory)
@@ -590,8 +645,8 @@ def main():
             reserves = [wire_reserve(row, bulge) for row in [-1, 1]]
             clear(*winders, "Winder pair")
             states = {}
-            for key, values in [("left", [RELEASE, 0]), ("right", [0, RELEASE]),
-                                ("both", [RELEASE, RELEASE])]:
+            for key, values in [("left", [release, 0]), ("right", [0, release]),
+                                ("both", [release, release])]:
                 local = expression_export(temporary, f"center-{preset}-{key}",
                                           f"dock_center(release={values});", preset)
                 mesh_report(local)

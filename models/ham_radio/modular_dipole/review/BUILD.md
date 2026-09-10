@@ -4,6 +4,11 @@ The [model README](../README.md) covers printing and use. These notes describe
 custom sizes, fit coupons and regeneration. The [design review](DESIGN.md)
 records retention changes, mechanical assumptions and physical acceptance.
 
+The second print's larger lips improved retention but still let the winders
+come free. Revision 3 increases the lips again and remains physically unproved.
+Use a matched revision-3 center and two revision-3 winders; previous heads and
+receiving passages are not the revised fit.
+
 ## Public parameters
 
 Open [modular_dipole.scad](../modular_dipole.scad) in OpenSCAD's Customizer,
@@ -44,8 +49,9 @@ them requires another mechanism review.
 
 `standoff` sets both headed-post shoulders and the alignment-guide support.
 Head, catch and guide dimensions above the seat remain fixed. Print two
-winders with matching height settings; the center is shared unless its hole
-settings change. The earlier taller supports were 8 mm for the 40 m reservation
+winders with matching height settings; within the same retention revision,
+the center is shared unless its hole settings change. The earlier taller
+supports were 8 mm for the 40 m reservation
 and 11 mm for the 80 m reservation.
 
 Wire reservations remain full size when support height changes. They do not
@@ -79,7 +85,7 @@ The [retention coupon](../retention_coupon.stl) has a paired receiver and two
 independent single-stud feet. Point each head's straight edge toward the fixed
 outer wall, away from the middle wire-hole bar. Pinch its catch and seat the
 foot fully on its shoulder, then let the tongue return beneath the head.
-Inspect the head's 1.5 mm underside overhang and confirm the slots are open.
+Inspect the revision-3 head's 1.8 mm underside overhang and confirm the slots are open.
 Follow the pull, rock, release and repeated-cycle checks in the
 [physical acceptance procedure](DESIGN.md#physical-acceptance).
 
@@ -131,7 +137,10 @@ dry checks completed while `loaded_fit_status=requires_physical_check` records
 unresolved loaded fit. It does not mean every load and grip proxy cleared.
 The parameter screen samples coordinated settings for mesh quality, dimensions,
 fixed interfaces, seated capture and print separation; it does not repeat the
-full motion and hand-access audit for every custom combination.
+full motion and hand-access audit for every custom combination. Check the
+report's recorded revision and source hashes; a passing report for revision 2
+does not establish revision-3 capture or release, and neither proves physical
+retention.
 
 Keep the editable model's relative dependency paths intact. The rendered model
 uses embedded geometry, so OpenSCAD does not need the original downloaded STL.
