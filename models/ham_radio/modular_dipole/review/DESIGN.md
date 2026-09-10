@@ -1,7 +1,8 @@
 # Modular dipole design review
 
 The four-catch design is accepted for printing and physical prototype trials.
-Digital checks support its capture, parked support and sequential exit path.
+Digital checks support its capture, parked support and sequential exit path at
+the default winding dimensions in both wire-space presets.
 Comfortable one-hand operation, glove access, wire capacity and durability
 remain physical test gates. The editable model is
 [modular_dipole.scad](../modular_dipole.scad).
@@ -18,7 +19,7 @@ head undersides; the smooth guides control alignment without providing a latch.
 Each silicone tie stays captive on its winder's original upper central brace.
 Close both ties around their figure-eight coils before docking. The ties retain
 the wire while the catches retain the three printed parts. A whole-packet tie
-is optional backup. The original winding profile and five windows are retained;
+is optional backup. The default winding profile and five windows are retained;
 wind from the remote tip toward the center so the center end pays out first.
 
 ## Supported one-hand sequence
@@ -72,8 +73,8 @@ All dimensions below are millimeters unless marked otherwise.
 | Outer-paddle release / stop | 3.15 / 3.4 per paddle; 6.3 paired closure |
 | Finger contact | Raised to 10 above center underside; resting span 33.8 |
 | Fixed lifting bridges | Absolute X=48..52, Y=−8.2..8.2, height 4 |
-| BNC opening | Diameter 10.10; D-flat to opposite edge 9.25 |
-| Wire face reservation | 5 per face for 40 m preset; 8 for 80 m preset |
+| Default BNC opening | Diameter 10.10; D-flat to opposite edge 9.25 |
+| Automatic wire face reservation | 5 per face for 40 m preset; 8 for 80 m preset |
 
 The capsule notch accommodates articulation while preserving its inward catch
 edge. The elliptical passage and chamfers allow head tilt and guide entry.
@@ -81,6 +82,29 @@ The long guides remain engaged during the first peel. The 0.8 axial room permits
 articulation and may produce transport play. Geometric overlap is not a pull
 strength rating; ideal parked contact begins at an edge or line, not a broad
 bearing area. Both wire-space presets use the same center.
+
+## Parameterization and fixed interfaces
+
+The [README parameter table](../README.md#adjustable-dimensions) defines the
+public settings and their coupled limits. Defaults preserve the first-print
+geometry. `wing_length` extends the horn-tip reach in native Y from 37.5 to
+60 mm; it does not measure diagonal arm length. `winding_span` increases the
+lower-tip span from 140 to 200 mm. Extended horns can exceed that span, so total
+width and print-layout spacing use actual profile bounds.
+
+The profile keeps the central tie brace and docking core fixed, lengthens the
+outboard arms and retains their rounded tips. The four retaining stations,
+guide stations and center flexures stay unchanged. Face buildup changes the
+shoulder height relative to the coil: `wire_face_bulge=0` selects 5 or 8 mm by
+preset; an explicit 2–12 mm value overrides that choice. These are reserved
+spaces, not measured wire capacities. Longer arms also need a printed strength
+trial; preserving their local profile does not establish equivalent stiffness.
+
+Explicit center-hole arguments replace the inherited holes before the docking
+structure is joined. This permits smaller or relocated bores without leaving
+old voids. Dependent checks preserve the terminal-barrel clearance, face webs
+and outer edge. BNC diameter is adjustable from 9.7 to 10.2 mm while retaining
+the top anti-rotation flat, panel thickness and surrounding structure.
 
 ## Flexure and hand-access screens
 
@@ -122,6 +146,14 @@ Every admitted pose retains first-head support and requires the opposite pinch
 before leveling. The leveling and level-lift paths have at most approximately
 0.000652 mm³ numerical intersection, below the fixed 0.001 mm³ tolerance.
 Reports record their input hashes; the results apply to those recorded inputs.
+
+The separate [parameter screen](../parameter_validation.py) samples six
+coordinated endpoint or combined settings. It checks the requested hole sizes
+and positions, restoration of material in obsolete holes, fixed interfaces,
+watertight parts, seated capture, reserved wire clearance and print-layout
+separation. Invalid hole-spacing and size cases must be rejected. This screen
+does not repeat the full sequential-motion audit or hand-clearance sweep for
+custom sizes, and it does not cover every permitted combination.
 
 These sampled rigid-body checks establish feasible geometry, not exhaustive
 motion coverage, contact strength, friction, flexible-wire behavior or easy

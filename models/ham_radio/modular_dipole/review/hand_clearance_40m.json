@@ -5,15 +5,147 @@
     "pad_stroke": 3.15,
     "finger_diameter": 18,
     "preset": "40m",
+    "wing_length": null,
+    "winding_span": null,
+    "wire_face_bulge": null,
+    "wire_gap": null,
+    "wire_edge_bulge": null,
+    "wire_hole_inner_x": null,
+    "wire_hole_pitch": null,
     "winder_offset": 26.0,
+    "output": "/Users/rwjblue/src/github/rwjblue/scad-lab/models/ham_radio/modular_dipole/review/hand_clearance_40m.json",
     "emit_scad": false
+  },
+  "cad_configuration": {
+    "wing_length": 37.5,
+    "winding_span": 140,
+    "wire_face_bulge": 0,
+    "wire_gap": 3,
+    "wire_edge_bulge": 5,
+    "wire_hole_inner_x": 28,
+    "wire_hole_pitch": 5.5,
+    "winder_offset": 26,
+    "frame_t": 5,
+    "face_bulge": 5,
+    "seat_z": 13,
+    "paddle_height": 10,
+    "center_plate_t": 4,
+    "snap_release": 3.15,
+    "pad_y": 16.9,
+    "winder_bounds": [
+      [
+        -70,
+        -16.5436
+      ],
+      [
+        70,
+        37.5
+      ]
+    ],
+    "tail_diameter": 1.02,
+    "tail_overlap": 0.03,
+    "tails": [
+      [
+        [
+          -39,
+          1.5,
+          12.2
+        ],
+        [
+          -43,
+          12.5,
+          10
+        ],
+        [
+          -58,
+          12.5,
+          10
+        ],
+        [
+          -74,
+          17,
+          3
+        ],
+        [
+          -74,
+          34,
+          3
+        ],
+        [
+          -53,
+          43,
+          10
+        ]
+      ],
+      [
+        [
+          39,
+          1.5,
+          12.2
+        ],
+        [
+          43,
+          -12.5,
+          10
+        ],
+        [
+          58,
+          -12.5,
+          10
+        ],
+        [
+          74,
+          -17,
+          3
+        ],
+        [
+          74,
+          -34,
+          3
+        ],
+        [
+          53,
+          -43,
+          10
+        ]
+      ]
+    ],
+    "wire_reserves": [
+      [
+        [
+          -75,
+          -68.5,
+          -5
+        ],
+        [
+          75,
+          -21,
+          10
+        ]
+      ],
+      [
+        [
+          -75,
+          21,
+          -5
+        ],
+        [
+          75,
+          68.5,
+          10
+        ]
+      ]
+    ]
   },
   "seat_mm": 13,
   "tail_diameter_mm": 1.02,
   "tail_joint_extension_mm": 0.03,
   "source_sha256": {
-    "modular_dipole.scad": "17e3d060e6e264a9381bb8a1cd4c6de52ca942bfa63711bda25f96b3258888b9",
-    "mockups.scad": "ec2741f9e99dea2885a749d6c53909713efb3d7199049030e9ccda69a052a3a8"
+    "hand_clearance.py": "b95120180a5448a8c477299d44a303e3480a231e143525a60225a7e72f837565",
+    "modular_dipole.scad": "5b070dbe845f01457ea8fb54626e51609f16951eb982ff91a97d07f851f309ad",
+    "mockups.scad": "0ebac61618f6d4065ee06ad6598b7283da6a4b80de2e41dcde51f656d2846ff9",
+    "winder_profile.scad": "3e2275233992ac579e70531edfecc8d09ebc24e7304904fece055821857b8289",
+    "native_profile.scad": "850593d0b8f673577d8cd47ad0c3a5c170a441f4a82d0b721c72726f2adc92a6"
   },
   "contact_modes": {
     "mid_face": [

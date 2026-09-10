@@ -22,7 +22,7 @@ HERE = Path(__file__).resolve().parent
 MODEL = HERE.parent
 ROOT = MODEL.parents[2]
 SOURCE = MODEL / "modular_dipole.scad"
-INPUTS = [Path(__file__).resolve(), SOURCE, MODEL / "native_profile.scad",
+INPUTS = [Path(__file__).resolve(), SOURCE, MODEL / "native_profile.scad", MODEL / "winder_profile.scad",
           MODEL.parent / "dipole_winder/frame_bevel.scad",
           MODEL.parent / "dipole_center/dipole_center.scad"]
 INTERFERENCE_TOL = 0.001

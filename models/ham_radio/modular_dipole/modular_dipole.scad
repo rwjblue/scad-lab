@@ -3,13 +3,14 @@
   Prototype 2026-09-10. The right upper/lower paddles pinch together to
   release both RIGHT studs; the left pair does the same on the LEFT.
   Broad flat head tops are intended as a parked-open support after peeling
-  one carrier end upward. This kinematic proposal requires swept validation.
+  one carrier end upward. Default presets pass sampled swept CAD checks;
+  print fit, release force, glove use and fatigue still need physical trials.
   Docking requires pinching: the flat parking tops deliberately lack an
   automatic push-in funnel. See review/DESIGN.md for the tradeoff.
   Units mm. Broad backs print down. Flat head undersides overhang 1 mm:
   print the exact paired-end coupon before full winders. No fatigue rating.
 */
-use <native_profile.scad>
+use <winder_profile.scad>
 use <../dipole_winder/frame_bevel.scad>
 use <../dipole_center/dipole_center.scad>
 
@@ -17,18 +18,45 @@ use <../dipole_center/dipole_center.scad>
 part="print_layout"; // [center,winder,assembled,print_layout,exploded,coupon,fit_coupon,released,peel,parked,wire_envelopes]
 preset="40m"; // [40m,80m]
 show_wire=false;
-pose_angle=5.5;
-park_angle=4.7; // Near-contact preview; renders use the measured support angle
+
+/* [Winder size] */
+// Reach from the winding datum to the horn tips; stock size is 37.5 mm.
+wing_length=37.5; // [37.5:0.5:60]
+// Distance between the lower outer tips; longer horns can project beyond this.
+winding_span=140; // [140:1:200]
+
+/* [Wire space] */
+// Coil buildup on EACH face. Zero selects the preset: 5 mm for 40m, 8 for 80m.
+wire_face_bulge=0; // [0:Preset,2:2 mm,3:3 mm,4:4 mm,5:5 mm,6:6 mm,7:7 mm,8:8 mm,9:9 mm,10:10 mm,11:11 mm,12:12 mm]
+// Wire overhang around the frame edge; affects the displayed clearance reserve.
+wire_edge_bulge=5; // [2:0.5:5]
+// Additional room above the coil for its silicone tie; sets stud shoulder height.
+wire_gap=3; // [3:0.5:5]
+
+/* [Center holes] */
+// Centerline to the innermost hole in each three-hole strain-relief group.
+wire_hole_inner_x=28; // [27:0.1:30]
+// Center-to-center pitch within each group. Hole size and edge guards also apply.
+wire_hole_pitch=5.5; // [4:0.1:6.5]
+wire_hole_d=3.2; // [2.6:0.1:3.6]
+// Entry chamfer on the wire holes and hoist eye; larger mouths need more spacing.
+wire_chamfer=0.5; // [0:0.1:0.6]
+terminal_hole_d=3.4; // [3.1:0.1:3.6]
+hang_hole_d=6; // [4:0.5:6]
 
 /* [BNC fit] */
-bnc_clearance=0.20; // 10.1 mm D-hole; re-cut explicitly through inherited shelf
+// Finished cutout diameter. Anti-rotation flat depth remains 0.85 mm.
+bnc_hole_d=10.1; // [9.7:0.05:10.2]
 
-/* [Winding clearance] */
-wire_face_bulge=preset=="80m" ? 8 : 5;
-wire_edge_bulge=5;
-wire_gap=3; // Provisional 2 mm silicone tie plus 1 mm air
-
-/* [Snap fit] */
+/* [Hidden] */
+// Mechanism invariants: edit only with fresh motion/retention validation.
+pose_angle=5.5;
+park_angle=4.7;
+bnc_clearance=(bnc_hole_d-9.7)/2;
+face_bulge=wire_face_bulge==0 ? (preset=="80m" ? 8 : 5) : wire_face_bulge;
+wire_positions=[for(i=[0:2]) wire_hole_inner_x+i*wire_hole_pitch];
+winder_bounds=winder_profile_bounds(wing_length,winding_span);
+layout_height_delta=(winder_bounds[1][1]-winder_bounds[0][1])-54.043564;
 snap_head_d=6.0;
 snap_top_d=5.8; // Broad FLAT top supports a released, returned tongue
 snap_throat_clearance=0.30;
@@ -42,7 +70,6 @@ finger_x=51; // Load location; 41..51 spans the usable paddle
 beam_t=1.60;
 axial_gap=0.80;
 
-/* [Hidden] */
 $fn=96;
 eps=0.02;
 frame_t=5;
@@ -55,7 +82,7 @@ winder_offset=26;
 dock_x=36;
 native_dock_y=-11;
 dock_y=winder_offset+native_dock_y;
-seat_z=frame_t+wire_face_bulge+wire_gap;
+seat_z=frame_t+face_bulge+wire_gap;
 pad_d=10;
 shoulder_d=8;
 neck_d=4;
@@ -102,9 +129,14 @@ integration_step=0.25;
 assert(len([for(p=["center","winder","assembled","print_layout","exploded",
     "coupon","fit_coupon","released","peel","parked","wire_envelopes"]) if(p==part) 1])>0,"Unknown part");
 assert(preset=="40m" || preset=="80m","Choose a known clearance preset");
-assert(bnc_clearance>=0.1 && bnc_clearance<=0.25,"BNC per-side allowance 0.10..0.25");
-assert(wire_face_bulge>=2 && wire_face_bulge<=12,"Face buildup reservation 2..12 mm");
-assert(wire_edge_bulge>=2 && wire_edge_bulge<=5.5,"Widen dry pad clearance before more edge buildup");
+assert(bnc_hole_d>=9.7 && bnc_hole_d<=10.2,"BNC finished diameter must be 9.7..10.2 mm");
+assert(wing_length>=37.5 && wing_length<=60,"Wing reach must be 37.5..60 mm");
+assert(winding_span>=140 && winding_span<=200,"Lower-tip span must be 140..200 mm");
+assert(wire_hole_inner_x>=27 && wire_hole_inner_x<=30,"Inner wire hole must be 27..30 mm from centerline");
+assert(wire_hole_pitch>=4 && wire_hole_pitch<=6.5,"Wire-hole pitch must be 4..6.5 mm; check face-web guard");
+assert(wire_face_bulge==0 || (wire_face_bulge>=2 && wire_face_bulge<=12),
+    "Face buildup must be zero for the preset, or 2..12 mm per face");
+assert(wire_edge_bulge>=2 && wire_edge_bulge<=5,"Wire edge reserve must be 2..5 mm to clear guide pads");
 assert(wire_gap>=3 && wire_gap<=5,"Keep provisional 2 mm strap plus >=1 mm air");
 assert(native_dock_y+pad_d/2<=-wire_edge_bulge-0.5,"Dry pads enter winding reserve");
 assert(snap_head_d==6 && snap_top_d>=5.7 && snap_top_d<=6,"Keep the proven size family");
@@ -182,7 +214,7 @@ module d_profile(diameter,flat) {
 }
 module winder_outline() {
     union() {
-        native_frame_2d();
+        adjustable_winder_frame_2d(wing_length,winding_span);
         for(x=[-dock_x,dock_x]) translate([x,native_dock_y]) circle(d=pad_d);
         translate([guide_x,guide_native_y]) circle(d=guide_pad_d);
     }
@@ -254,13 +286,11 @@ module moving_paddle_2d(release=0) {
         [for(x=[tab_inner_x:integration_step:tab_outer_x]) deformed_point(x,tab_inner_y,release)],
         [for(x=[tab_outer_x:-integration_step:tab_inner_x]) deformed_point(x,tab_outer_y,release)]));
 }
-module original_plate_holes() {
-    translate([0,32,0]) round_plate_hole(6,0.5);
-    for(s=[-1,1]) {
-        translate([s*10,21,0]) round_plate_hole(3.4);
-        for(x=[28,33.5,39]) translate([s*x,21,0]) round_plate_hole(3.2,0.5);
-    }
+module center_plate_holes() {
+    plate_holes(terminal_d=terminal_hole_d,wire_d=wire_hole_d,
+        hang_d=hang_hole_d,wire_positions=wire_positions,chamfer=wire_chamfer);
 }
+
 module guide_hole() {
     diameter=guide_d+2*guide_clearance;
     translate([0,0,-eps]) cylinder(d=diameter,h=center_plate_t+2*eps);
@@ -291,7 +321,9 @@ module dock_center(release=[0,0]) {
     union() {
         difference() {
             union() {
-                center();
+                center(terminal_d=terminal_hole_d,wire_d=wire_hole_d,
+                    hang_d=hang_hole_d,wire_positions=wire_positions,
+                    chamfer=wire_chamfer,bnc_fit=bnc_clearance);
                 translate([0,-center_y_offset,0]) linear_extrude(height=center_plate_t)
                     union() {
                         for(s=[-1,1],r=[-1,1]) station_transform(s,r) station_fixed_2d();
@@ -300,7 +332,7 @@ module dock_center(release=[0,0]) {
                             translate([guide_x,guide_y]) circle(d=guide_receiver_d);
                     }
             }
-            original_plate_holes();
+            center_plate_holes();
             bnc_hole(bnc_clearance);
             for(r=[-1,1]) translate([r*guide_x,-center_y_offset+r*guide_y,0]) guide_hole();
             translate([0,-center_y_offset,-eps]) linear_extrude(height=center_plate_t+2*eps)
@@ -325,10 +357,14 @@ module peel_center(side=1,angle=pose_angle,lift=undef,release=[0,snap_release]) 
 module parked_center(side=1,angle=park_angle,lift=undef) {
     peel_center(side,angle,lift,[0,0]);
 }
+function wire_envelope_bounds(side=1) =
+    let(lo=[winder_bounds[0][0]-wire_edge_bulge,-wire_edge_bulge,-face_bulge],
+        hi=[winder_bounds[1][0]+wire_edge_bulge,winder_bounds[1][1]+wire_edge_bulge,frame_t+face_bulge])
+    side==1 ? [[lo[0],winder_offset+lo[1],lo[2]],[hi[0],winder_offset+hi[1],hi[2]]] :
+        [[-hi[0],-winder_offset-hi[1],lo[2]],[-lo[0],-winder_offset-lo[1],hi[2]]];
 module wire_envelope(side=1) {
-    translate([0,side*winder_offset,0]) rotate([0,0,side==1 ? 0 : 180])
-        translate([-70-wire_edge_bulge,-wire_edge_bulge,-wire_face_bulge])
-            cube([140+2*wire_edge_bulge,37.5+2*wire_edge_bulge,frame_t+2*wire_face_bulge]);
+    bounds=wire_envelope_bounds(side);
+    translate(bounds[0]) cube(bounds[1]-bounds[0]);
 }
 module fit_coupon() {
     // One COMPLETE right pinch group: both real flexures, both D-throats,
@@ -353,8 +389,8 @@ else if(part=="coupon" || part=="fit_coupon") fit_coupon();
 else if(part=="wire_envelopes") for(r=[-1,1]) wire_envelope(r);
 else if(part=="print_layout") {
     translate([0,-50,0]) single_winder();
-    translate([0,15,0]) single_winder();
-    translate([0,72,0]) dock_center();
+    translate([0,15+layout_height_delta,0]) single_winder();
+    translate([0,72+2*layout_height_delta,0]) dock_center();
 } else {
     color([0.88,0.48,0.20])
         if(part=="peel") peel_center();

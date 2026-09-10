@@ -38,10 +38,10 @@ def main():
     for path in sorted((HERE / "images").iterdir()):
         if path.suffix in {".png", ".svg"}:
             files[f"images/{path.name}"] = path
-    for path in [HERE / "modular_dipole.scad", HERE / "native_profile.scad",
+    for path in [HERE / "modular_dipole.scad", HERE / "native_profile.scad", HERE / "winder_profile.scad",
                  HERE / "mockups.scad", HERE / "hardware_mockups.scad",
                  HERE / "release_sequence.scad", HERE / "validate.py",
-                 HERE / "validation_helpers.py", DOCS / "parked_audit.py",
+                 HERE / "validation_helpers.py", HERE / "parameter_validation.py", DOCS / "parked_audit.py",
                  DOCS / "hand_clearance.py",
                  HERE.parent / "dipole_winder/NOTICE.md",
                  HERE.parent / "dipole_winder/frame_bevel.scad",
@@ -58,10 +58,11 @@ def main():
                     link = match.group(1)
                     if "://" in link or link.startswith("#"):
                         return match.group(0)
-                    target = destinations.get((source.parent / link).resolve())
+                    path, separator, fragment = link.partition("#")
+                    target = destinations.get((source.parent / path).resolve())
                     assert target is not None, f"Missing bundled link from {source.name}: {link}"
                     relative = posixpath.relpath(target, posixpath.dirname(name) or ".")
-                    return f"]({relative})"
+                    return f"]({relative}{separator}{fragment})"
                 guide = re.sub(r"\]\(([^)]+)\)", rewrite, guide)
                 archive.writestr(name, guide)
                 checksum[name] = hashlib.sha256(guide.encode()).hexdigest()

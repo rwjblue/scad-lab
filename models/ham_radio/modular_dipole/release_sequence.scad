@@ -2,8 +2,10 @@
 use <modular_dipole.scad>
 preset="40m";
 park_angle=4.7; // Render script supplies the measured contact angle.
-bulge=preset=="80m" ? 8 : 5;
-seat=5+bulge+3;
+wire_face_bulge=0;
+wire_gap=3;
+bulge=wire_face_bulge==0 ? (preset=="80m" ? 8 : 5) : wire_face_bulge;
+seat=5+bulge+wire_gap;
 $fn=96;
 support_lift=4*tan(park_angle)+2*(1/cos(park_angle)-1);
 color([0.90,0.47,0.19]) render()

@@ -1,11 +1,14 @@
 // Modular dipole engineering views, using actual printable geometry.
 use <modular_dipole.scad>
 use <hardware_mockups.scad>
+use <winder_profile.scad>
 
 view="assembled";
 preset="40m";
-bulge=preset=="80m" ? 8 : 5;
-seat=5+bulge+3;
+wire_face_bulge=0;
+wire_gap=3;
+bulge=wire_face_bulge==0 ? (preset=="80m" ? 8 : 5) : wire_face_bulge;
+seat=5+bulge+wire_gap;
 $fn=96;
 
 // These release poses are set from the measured swept path in validate.py.
@@ -14,6 +17,14 @@ park_angle=4.7;
 peel_lift=undef;
 park_lift=4*tan(park_angle)+2*(1/cos(park_angle)-1);
 release_travel=3.15;
+wing_length=37.5;
+winding_span=140;
+wire_hole_inner_x=28;
+wire_hole_pitch=5.5;
+profile_bounds=winder_profile_bounds(wing_length,winding_span);
+tail_outer_x=max(abs(profile_bounds[0][0]),abs(profile_bounds[1][0]))+4;
+tail_entry_x=53+(winding_span-140)/2;
+tail_exit_x=wire_hole_inner_x+2*wire_hole_pitch;
 
 module carrier_pose() {
     if(view=="pinch_right") placed_center(release=[0,release_travel]);
@@ -25,9 +36,17 @@ module carrier_pose() {
 }
 
 module winder_strap(row) {
-    // Reuse the unchanged upper-brace route, shifted with the V3 winder.
+    // Reuse the unchanged upper-brace route, shifted with the winder.
     translate([0,row*7,0]) coil_strap(row);
 }
+
+function service_tail_diameter()=1.02;
+function service_tail_joint_overlap()=0.03;
+function service_tail_points(s)= [
+    [s*tail_exit_x,1.5,seat-0.8],[s*43,-s*12.5,seat-3],
+    [s*58,-s*12.5,seat-3],[s*tail_outer_x,-s*17,seat-10],
+    [s*tail_outer_x,-s*34,seat-10],[s*tail_entry_x,-s*43,5+bulge]
+];
 
 module service_tails() {
     // Flexible service-tail suggestion, not a printed routing channel. Keep the
@@ -35,13 +54,10 @@ module service_tails() {
     // the outer return below the thumb/index approach before entering its bay.
     // The winding-end approach follows the new 26 mm winder offset.
     // Capsule ends extend 0.03 mm to avoid coincident joint seams in STL unions.
-    diameter=1.02;
-    joint_overlap=0.03;
-    for(s=[-1,1]) let(points=[
-        [s*39,1.5,seat-0.8],[s*43,-s*12.5,seat-3],
-        [s*58,-s*12.5,seat-3],[s*74,-s*17,seat-10],
-        [s*74,-s*34,seat-10],[s*53,-s*43,5+bulge]
-    ]) color(s==1 ? [0.9,0.22,0.18] : [0.95,0.65,0.12]) union() {
+    diameter=service_tail_diameter();
+    joint_overlap=service_tail_joint_overlap();
+    for(s=[-1,1]) let(points=service_tail_points(s))
+        color(s==1 ? [0.9,0.22,0.18] : [0.95,0.65,0.12]) union() {
         for(i=[0:len(points)-2]) let(
             a=points[i],b=points[i+1],v=(b-a)/norm(b-a)
         ) hull() {

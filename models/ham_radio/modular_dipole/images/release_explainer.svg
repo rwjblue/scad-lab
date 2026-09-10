@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1300" viewBox="0 0 1600 1300">
 <title>Modular dipole — sequential end pinches and fixed lifting bridges</title>
 <desc>The top view uses actual OpenSCAD-projected part outlines. Two inward arrows identify each upper/lower pinch pair. A schematic side view shows parking the first end, leveling the second, and lifting clear. Hardware and silicone ties are layout proxies.</desc>
-<metadata>CAD SHA256 17e3d060e6e264a9381bb8a1cd4c6de52ca942bfa63711bda25f96b3258888b9; Winder geometry derives from K6ARK UL Wireframe Winder by Adam Kimmerly (K6ARK). See models/ham_radio/modular_dipole/NOTICE.md for source and CC BY-NC-SA 4.0 terms.</metadata>
+<metadata>CAD SHA256 5b070dbe845f01457ea8fb54626e51609f16951eb982ff91a97d07f851f309ad; Winder geometry derives from K6ARK UL Wireframe Winder by Adam Kimmerly (K6ARK). See models/ham_radio/modular_dipole/NOTICE.md for source and CC BY-NC-SA 4.0 terms.</metadata>
 <defs>
 <marker id="arrow-red" markerWidth="8" markerHeight="8" refX="6.7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#b8423a"/></marker>
 <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="6.7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#426bb2"/></marker>

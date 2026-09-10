@@ -18,6 +18,7 @@ from shapely.geometry import box
 from validation_helpers import (HERE, ROOT, ORIGINAL, TOL, require, export, mesh_report,
                       volume, intersection_volume, translated, bounds_mesh,
                       sections, check_center_holes, check_bnc_cutout)
+from parameter_validation import run as check_parameter_variants
 
 SCAD = HERE / "modular_dipole.scad"
 MOCKUPS = HERE / "mockups.scad"
@@ -469,10 +470,12 @@ def main():
     parser.add_argument("--source", type=Path)
     args = parser.parse_args()
     input_paths = [SCAD, MOCKUPS, HERE / "hardware_mockups.scad", HERE / "native_profile.scad",
+                   HERE / "winder_profile.scad", HERE / "parameter_validation.py",
+                   DOCS / "hand_clearance.py", DOCS / "parked_audit.py",
                    HERE.parent / "dipole_winder/frame_bevel.scad", ORIGINAL, Path(__file__), HERE / "validation_helpers.py"]
     initial_hashes = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
                       for p in input_paths}
-    report = {"status": "running", "revision": "modular-dipole-bnc-10p1",
+    report = {"status": "running", "revision": "parameterized-modular-dipole-bnc-10p1",
               "evidence": "CAD only; printing, hand use, gloves, fatigue and loaded payout untested",
               "presets": {}}
     with tempfile.TemporaryDirectory(prefix="pinch-dipole-check-") as directory:
@@ -555,6 +558,7 @@ def main():
             report["native_winding_region"] = {
                 "source_sha256": hashlib.sha256(args.source.read_bytes()).hexdigest(),
                 "symmetric_difference_area_mm2": error}
+        report["parameter_variants"] = check_parameter_variants(temporary)
     report["input_sha256"] = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
                               for p in input_paths}
     require(report["input_sha256"] == initial_hashes, "Source changed during validation; rerun the checks")
@@ -568,6 +572,9 @@ def main():
                         "--expected-source-sha256", hashlib.sha256(SCAD.read_bytes()).hexdigest()], check=True)
         parked = json.loads(parked_path.read_text())
     require(parked["status"] == "passed", "Independent parked-pose audit did not pass")
+    require({str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+             for p in input_paths} == initial_hashes,
+            "Source changed during the independent audit; rerun the checks")
     report["independent_parked_pose_audit"] = {
         "status": parked["status"], "report": str(parked_path.relative_to(ROOT)),
         "source_sha256": parked["source_sha256"]}

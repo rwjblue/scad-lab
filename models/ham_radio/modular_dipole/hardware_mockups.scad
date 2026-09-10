@@ -2,8 +2,10 @@
    Hardware and silicone ties are explicit layout assumptions, not exact
    manufacturer solids or a wound-wire simulation. Units millimetres. */
 preset = "40m"; // [40m,80m]
-bulge = preset == "80m" ? 8 : 5;
-seat = 5+bulge+3;
+wire_face_bulge=0;
+wire_gap=3;
+bulge=wire_face_bulge==0 ? (preset=="80m" ? 8 : 5) : wire_face_bulge;
+seat = 5+bulge+wire_gap;
 $fn = 96;
 // Display allowances only: the seller does not dimension the strap section.
 tie_width = 12;

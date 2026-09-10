@@ -6,18 +6,20 @@ lower orange tabs on the **right** to
 release the right stud of **both** winders. The matching left pair releases
 their left studs. The two winders remain identical prints.
 
-The release uses **one hand, one end at a time**. After lifting the released end
+The intended release uses **one hand, one end at a time**. After lifting the released end
 clear, its tabs return above the broad, flat stud tops and the center rests on
 those heads. This holds the first end open while the same hand changes ends.
 
 Print the [complete three-piece plate](print_layout.stl), or one
 [center](center.stl) and two copies of the [winder](winder.stl).
 
-**Accepted by the independent critic for printing and physical trials.** CAD
-checks pass for both presets and both release orders, including individual
+**Accepted by the independent critic for printing and physical trials.** At
+the default winding dimensions, CAD checks cover both wire-space presets and
+both release orders, including individual
 support contacts and 264 independently sampled parked configurations. Results
 are in [validation.json](validation.json) and the reviews below.
 Hand operation, glove fit and durability still require the printed trial.
+Parameterization preserves the geometry selected for that first print.
 
 ![Four retained studs and mirrored end controls](images/assembled.png)
 
@@ -105,15 +107,18 @@ latch; it cannot establish the four-stud peel or a comfortable full grip.
 
 ## Wire, ties and space
 
-The K6ARK winding region and upper central tie brace remain at original scale.
+The default winding region retains the K6ARK outline at original scale. Larger
+winder settings extend the arms while preserving the central tie brace and
+docking stations.
 Wind **tip first**, working toward the center, so the center end is outside the
 figure-eight coil for deployment. Leave roughly 100–150 mm of relaxed tail,
 adjusted to the final hardware and release path. The short UMUST ties stay
 captive around each winder's upper brace and close around the wound wire before
 docking. Button and strap dimensions remain provisional until measured.
 
-The default preset reserves 5 mm of wire buildup on each face; the 80 m preset
-reserves 8 mm. These are space assumptions, **not verified wire capacities**.
+With `wire_face_bulge=0`, the default preset reserves 5 mm of wire buildup on
+each face; the 80 m preset reserves 8 mm. The presets change clearance height,
+not wing length or span. These are space assumptions, **not verified wire capacities**.
 Trial about 10.5 m per leg for the default use and about 21 m for an 80 m storage
 test; these figures are not antenna cutting lengths. Measure the actual maximum
 bundle depth and adjust `wire_face_bulge` accordingly.
@@ -121,7 +126,7 @@ bundle depth and adjust `wire_face_bulge` accordingly.
 The winders sit 26 mm either side of the centerline to leave space for the
 inward release tongues and finger access.
 
-| Exported estimate | 40 m space | 80 m space |
+| Exported estimate at default wing length/span | 40 m space | 80 m space |
 | --- | ---: | ---: |
 | Bare assembled packet | 140 × 127 × 36 mm | 140 × 127 × 39 mm |
 | Reserved wire envelope, before hardware and ties | 150 × 137 × 41 mm | 150 × 137 × 47 mm |
@@ -131,9 +136,84 @@ Mass uses 1.27 g/cm³ and excludes wire, metal and silicone. Actual slicer mass
 will differ. Both complete print layouts occupy about 140 × 179.54 mm; recenter
 in the slicer and allow any required brim space, or use the separate files.
 
-All four heads have intentional axial
+Larger settings change these dimensions and the print-bed footprint. All four
+heads have intentional axial
 clearance so the opposite end can tilt during release; inspect transport play
 on the print rather than assuming a tight, silent fit.
+
+## Adjustable dimensions
+
+Open [modular_dipole.scad](modular_dipole.scad) in OpenSCAD and use the
+Customizer, or supply `-D` values when exporting. All dimensions below are mm.
+The default values reproduce the current first-print parts.
+
+| Parameter | Default | Allowed range and purpose |
+| --- | ---: | --- |
+| `wing_length` | 37.5 | 37.5–60; Y-direction reach from the winding datum to the horn tips |
+| `winding_span` | 140 | 140–200; distance between the lower outer tips |
+| `preset` | `40m` | `40m` or `80m`; selects automatic face buildup only |
+| `wire_face_bulge` | 0 | 0 selects 5/8 by preset; otherwise 2–12 buildup on **each** face |
+| `wire_edge_bulge` | 5 | 2–5; displayed wire overhang around the winding region |
+| `wire_gap` | 3 | 3–5; extra height above the coil for the tie and air gap |
+| `wire_hole_inner_x` | 28 | 27–30; centerline to the first strain-relief hole on each side |
+| `wire_hole_pitch` | 5.5 | 4–6.5; center-to-center spacing within each three-hole group |
+| `wire_hole_d` | 3.2 | 2.6–3.6; strain-relief bore diameter |
+| `wire_chamfer` | 0.5 | 0–0.6; entry chamfer on wire holes and hoist eye |
+| `terminal_hole_d` | 3.4 | 3.1–3.6; M3 terminal clearance |
+| `hang_hole_d` | 6 | 4–6; hoist-eye bore diameter |
+| `bnc_hole_d` | 10.1 | 9.7–10.2; finished D-hole diameter; flat-to-edge distance is diameter minus 0.85 |
+
+`wing_length` measures reach along the source winder's **Y axis**, starting at
+Y=0; it is not the diagonal arm length. The rounded tips move along the existing
+arm direction. `winding_span` measures the lower tips: extended horns can project
+beyond them, making the total width larger. The preview and print layout use
+the actual profile bounds. Both controls enlarge the source profile; the
+central docking and tie-brace geometry stays fixed. Snap dimensions remain
+hidden because changing them requires another mechanism review.
+
+Increasing wing length or span adds winding space, while face buildup and
+`wire_gap` raise the stud shoulders to clear the tied coil. None specifies a
+guaranteed length of wire. Actual capacity also depends on insulation diameter,
+winding tension and the figure-eight pattern. Print two winders with matching
+height settings; the center is shared unless its hole settings are changed.
+
+The strain-relief controls interact. The model rejects combinations that leave
+less than 4 mm beyond the specified Panduit terminal barrel, 1.2 mm between
+chamfer mouths, or 3 mm between the outer mouth and the bar end. In parameter
+terms, all three conditions must hold:
+
+```text
+wire_hole_inner_x - 10 - wire_hole_d/2 - wire_chamfer - 11.176 >= 4
+wire_hole_pitch - wire_hole_d - 2*wire_chamfer >= 1.2
+wire_hole_inner_x + 2*wire_hole_pitch + wire_hole_d/2 + wire_chamfer <= 42
+```
+
+For example, 3.6 mm wire holes fit with `wire_hole_pitch=5.7` and
+`wire_chamfer=0.4`, keeping `wire_hole_inner_x=28`. Terminal centers, the
+strain-relief row height and hoist-eye position stay fixed.
+
+Example exports from the repository root:
+
+```sh
+# Larger winding region, with the automatic 80 m face-clearance setting.
+openscad --backend=Manifold -D 'part="print_layout"' -D 'preset="80m"' \
+  -D 'wing_length=50' -D 'winding_span=170' \
+  -o /tmp/dipole-large-plate.stl models/ham_radio/modular_dipole/modular_dipole.scad
+
+# A center with wider wire bores and enough material between their mouths.
+openscad --backend=Manifold -D 'part="center"' -D 'wire_hole_d=3.6' \
+  -D 'wire_hole_pitch=5.7' -D 'wire_chamfer=0.4' \
+  -o /tmp/dipole-center-large-holes.stl models/ham_radio/modular_dipole/modular_dipole.scad
+```
+
+Check the exported layout against your printer's bed size: the largest
+60 mm wing / 200 mm span combination occupies about 217.44 × 224.54 mm,
+before adding a brim. The full release
+audit covers the two default presets. A separate parameter screen checks six
+coordinated custom configurations for mesh quality, requested dimensions,
+unchanged docking geometry, seated retention, wire reservations and separated
+print parts. It does not prove every combination in these ranges or repeat the
+full release and hand-access audit for customized parts.
 
 ## Reproduce and review
 

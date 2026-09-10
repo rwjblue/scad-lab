@@ -1,13 +1,14 @@
 {
   "status": "passed",
   "input_sha256": {
-    "models/ham_radio/modular_dipole/review/parked_audit.py": "b95c6de24cc6efa4f2acebcb602f335cf3035d70430e187071bc9bf494493ae1",
-    "models/ham_radio/modular_dipole/modular_dipole.scad": "17e3d060e6e264a9381bb8a1cd4c6de52ca942bfa63711bda25f96b3258888b9",
+    "models/ham_radio/modular_dipole/review/parked_audit.py": "98e1b54ce92edce73b4003b47bf499a2ef996a0cf38fc08568f786d2cad95866",
+    "models/ham_radio/modular_dipole/modular_dipole.scad": "5b070dbe845f01457ea8fb54626e51609f16951eb982ff91a97d07f851f309ad",
     "models/ham_radio/modular_dipole/native_profile.scad": "850593d0b8f673577d8cd47ad0c3a5c170a441f4a82d0b721c72726f2adc92a6",
+    "models/ham_radio/modular_dipole/winder_profile.scad": "3e2275233992ac579e70531edfecc8d09ebc24e7304904fece055821857b8289",
     "models/ham_radio/dipole_winder/frame_bevel.scad": "135b1a8ad351b3a3c0e651effe5593c6916f7e6cc3948f3857ed460f867b1791",
-    "models/ham_radio/dipole_center/dipole_center.scad": "93806e56d14dd6712f054b99e95cfd6ddd5a626749093a512ef12fa8d283d0e0"
+    "models/ham_radio/dipole_center/dipole_center.scad": "37c1dd39525432ce3df9d2cba1307be12779fa36b7482e20495de0ccba397eb0"
   },
-  "source_sha256": "17e3d060e6e264a9381bb8a1cd4c6de52ca942bfa63711bda25f96b3258888b9",
+  "source_sha256": "5b070dbe845f01457ea8fb54626e51609f16951eb982ff91a97d07f851f309ad",
   "presets": {
     "40m": {
       "configuration": {
@@ -25,8 +26,8 @@
       },
       "fresh_meshes": {
         "rest": {
-          "sha256": "a47aa3ac29ae8c13490623a7b02e3f9af2f621aeed66d84ebcf61837168b2ec8",
-          "triangles": 13662,
+          "sha256": "ff11103a6f228e65fa0571d2b841984b63f0ce82b44ce3178ba2526ddf4e5874",
+          "triangles": 13730,
           "watertight": true,
           "connected_solids": 1,
           "bounds_mm": [
@@ -43,7 +44,7 @@
           ]
         },
         "winder": {
-          "sha256": "16eae35fbaa2322d017b716e92ae5e2f338835c31d21a4510ec21a4a7c4038f4",
+          "sha256": "0da66a3ab000e3827b3a9eeeff1aa4aae05a263b0f3c40dac5a0cf0ce66ddb06",
           "triangles": 8138,
           "watertight": true,
           "connected_solids": 1,
@@ -61,8 +62,8 @@
           ]
         },
         "left_open": {
-          "sha256": "7925902602115aa775110f71fd5a8965bcccd3a997e45220b994675c9f338a5b",
-          "triangles": 16358,
+          "sha256": "517723fdaa0737d17a038ee6f0e78cd4ddfc7384b2494eaaef08b1ba70c1ef8c",
+          "triangles": 16426,
           "watertight": true,
           "connected_solids": 1,
           "bounds_mm": [
@@ -79,8 +80,8 @@
           ]
         },
         "right_open": {
-          "sha256": "fa1e22553b001d92e175c7a10621b89f7aa4e8b528a87384487d5b07767847a8",
-          "triangles": 16358,
+          "sha256": "ccfecc8ee0546c303ac174b2fde765b8c203158adaa5a3e7a47d77a1e888aab4",
+          "triangles": 16426,
           "watertight": true,
           "connected_solids": 1,
           "bounds_mm": [
@@ -7392,8 +7393,8 @@
       },
       "fresh_meshes": {
         "rest": {
-          "sha256": "a47aa3ac29ae8c13490623a7b02e3f9af2f621aeed66d84ebcf61837168b2ec8",
-          "triangles": 13662,
+          "sha256": "ff11103a6f228e65fa0571d2b841984b63f0ce82b44ce3178ba2526ddf4e5874",
+          "triangles": 13730,
           "watertight": true,
           "connected_solids": 1,
           "bounds_mm": [
@@ -7410,8 +7411,8 @@
           ]
         },
         "winder": {
-          "sha256": "66a805f2865c09b2d66c2acfafb0cb162aebdd21e1f7cc2660a46a36c7e027b1",
-          "triangles": 8142,
+          "sha256": "6c24c0121b7bd605590d0d4a7143dc94962a4630a98646d66a0f0e8ba99e84e7",
+          "triangles": 8128,
           "watertight": true,
           "connected_solids": 1,
           "bounds_mm": [
@@ -7428,8 +7429,8 @@
           ]
         },
         "left_open": {
-          "sha256": "7925902602115aa775110f71fd5a8965bcccd3a997e45220b994675c9f338a5b",
-          "triangles": 16358,
+          "sha256": "517723fdaa0737d17a038ee6f0e78cd4ddfc7384b2494eaaef08b1ba70c1ef8c",
+          "triangles": 16426,
           "watertight": true,
           "connected_solids": 1,
           "bounds_mm": [
@@ -7446,8 +7447,8 @@
           ]
         },
         "right_open": {
-          "sha256": "fa1e22553b001d92e175c7a10621b89f7aa4e8b528a87384487d5b07767847a8",
-          "triangles": 16358,
+          "sha256": "ccfecc8ee0546c303ac174b2fde765b8c203158adaa5a3e7a47d77a1e888aab4",
+          "triangles": 16426,
           "watertight": true,
           "connected_solids": 1,
           "bounds_mm": [

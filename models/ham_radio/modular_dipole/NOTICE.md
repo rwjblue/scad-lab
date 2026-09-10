@@ -8,13 +8,17 @@ The user-supplied `K6ARK_Wire_Winder.stl` (also named
 
 `d023e8ecb8b5e7718d9f2c8431a90b2c823550a700396df8e0421103dbf5ad0d`
 
-This remix preserves the original **one-sided** winding outline at 1:1 scale
-and keeps all five native windows open. It shifts the X origin by −62.5 mm, extrudes the
-projected silhouette to 5 mm and bevels its broad-face edges by 0.5 mm. The design adds
+At the default `wing_length=37.5` and `winding_span=140`, this remix preserves
+the original **one-sided** winding outline at 1:1 scale and keeps all five
+native windows open. It shifts the X origin by −62.5 mm, extrudes the projected
+silhouette to 5 mm and bevels its broad-face edges by 0.5 mm. The design adds
 two D-headed retaining studs and one additional smooth guide on each
 winder's rear spine. Their pads locally reinforce the dry rail and window
-corners; the horns and winding bay remain unchanged. It
-does not reproduce the source STL's fully rounded cross section. The embedded
+corners. Optional larger settings in [winder_profile.scad](winder_profile.scad)
+extend the swept arms and widen the outboard frame, retaining the central tie
+brace, docking stations and rounded tip profiles. Those custom settings modify
+the original horns and winding bay; the default profile remains unchanged.
+This remix does not reproduce the source STL's fully rounded cross section. The embedded
 profile can be regenerated from the accepted source by
 `generate_native_profile.py`; native coordinates are not hand-edited.
 
