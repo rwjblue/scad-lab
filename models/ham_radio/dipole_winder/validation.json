@@ -1,7 +1,7 @@
 {
   "status": "passed",
-  "stl_sha256": "cbf029d4be6dff0bfefb14788e99ea565f08cd0432c0e2b182ae419df8e215b8",
-  "scad_sha256": "9b9da679b22ce5ec9beb83cce9e327d9958ec3356f5c575d93172a51cb3f504c",
+  "stl_sha256": "c9baed7902c9a07a5415bff4190a8fe1264cd1c9d2d44cebf7551e4c38f0f54d",
+  "scad_sha256": "10e402e25f7eaec706b8732576353cc91e218cc6596dd580384a00c1049dfeb9",
   "reference_profile_sha256": "14912b5b5b57f48dfe223f476ad2c99a109fb539c3339e800733ee63929baab1",
   "frame_bevel_sha256": "135b1a8ad351b3a3c0e651effe5593c6916f7e6cc3948f3857ed460f867b1791",
   "accepted_layout_sha256": "7f3ed84f143755ad34d2150832fd13c92f2ed5db81ec0ee6ecf5f10c8d16bd09",
@@ -9,7 +9,7 @@
     "watertight": true,
     "consistent_winding": true,
     "connected_bodies": 1,
-    "triangles": 9490,
+    "triangles": 9498,
     "through_openings": 14,
     "bounds_mm": [
       [
@@ -23,7 +23,7 @@
         24.0
       ]
     ],
-    "volume_mm3": 22363.08930155529
+    "volume_mm3": 22353.771828199184
   },
   "frame": {
     "native_windows": 6,
@@ -93,11 +93,11 @@
     "all_seven_hole_axes_clear": true
   },
   "bnc": {
-    "measured_diameter_mm": 9.899999618530273,
-    "measured_flat_height_mm": 9.050000190734863,
-    "measured_flat_bridge_mm": 5.544252623450482,
+    "measured_diameter_mm": 10.100000381469727,
+    "measured_flat_height_mm": 9.250000953674316,
+    "measured_flat_bridge_mm": 5.607790946960449,
     "panel_thickness_mm": 3.0,
-    "maximum_d_hole_boundary_error_mm": 0.0026505711936088577,
+    "maximum_d_hole_boundary_error_mm": 0.002704139659539377,
     "connector_axis_clear_through_panel": true
   },
   "reinforcement": {

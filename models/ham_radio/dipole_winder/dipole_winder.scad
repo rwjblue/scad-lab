@@ -23,7 +23,7 @@ part = "winder"; // [winder,coupon,relief_coupon,frame]
 show_hardware = false; // Translucent reference in F5 only; never in an STL
 
 /* [Fits] */
-bnc_clearance = 0.10; // [0:0.05:0.25] Extra clearance PER SIDE
+bnc_clearance = 0.20; // [0:0.05:0.25] Extra clearance PER SIDE; default 10.1 mm D-hole
 wire_hole_d = 3.2; // [2.6:0.1:3.6] Check actual insulated wire diameter
 wire_chamfer = 0.5; // [0.2:0.1:0.6] 45-degree chamfer, both faces
 hang_hole_d = 6.0; // [4:0.5:6]
@@ -105,7 +105,7 @@ module extrude_y(thickness) {
 }
 
 module bnc_d_profile(clearance) {
-    // Top flat gives a short printable bridge: 5.55 mm at default clearance.
+    // Top flat gives a short printable bridge: approximately 5.61 mm by default.
     intersection() {
         circle(r=4.85+clearance);
         translate([-20,-20]) square([40,24+clearance]);
@@ -173,7 +173,7 @@ module winder() {
 
 module fit_coupon() {
     // Same upright D-hole, shelf thickness, and print orientation as the part.
-    // Left to right: nominal 9.7, default 9.9, loose 10.1 mm.
+    // Left to right: nominal 9.7, intermediate 9.9, default 10.1 mm.
     difference() {
         union() {
             translate([-33,0,0]) cube([66,8,frame_t]);

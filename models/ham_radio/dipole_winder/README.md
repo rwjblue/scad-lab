@@ -34,15 +34,17 @@ eye, and wire-hole dimensions remain as accepted in A5.
 | Wire-hole chamfers | 0.5 mm × 45°, both faces |
 | Web between chamfer mouths | 2.8 mm |
 | Shelf width × thickness | 26 × 3 mm |
-| BNC cutout | D-shaped, Ø9.90 mm, flat-to-opposite edge 9.05 mm |
+| BNC cutout | D-shaped, Ø10.10 mm, flat-to-opposite edge 9.25 mm |
 | BNC axis distance from frame front | 10 mm |
 | Shelf top Y | 43.05 mm |
 | Estimated rear contact Y | 55.05 mm, level with inner relief |
 
-The BNC cutout has 0.10 mm allowance per side relative to the manufacturer’s
+The BNC cutout has 0.20 mm allowance per side relative to the manufacturer’s
 9.70 / 8.85 mm D-hole. The shelf is 3 mm thick, within the drawing’s 3.30 mm
-panel limit. The flat faces upward during printing, with a roughly 5.55 mm
-bridge and 4.9 mm of material above it.
+panel limit. The flat faces upward during printing, with a roughly 5.61 mm
+bridge and 4.8 mm of material above it. This default gives the first print more
+tolerance for hole undersizing or bridge sag; the nut and washer clamp the
+mount. Printed fit remains untested.
 
 The **12 mm rear projection remains an estimate**, not an explicitly dimensioned
 value in the [Amphenol drawing](https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8637/031_221_rfx_customer_drawing.pdf).

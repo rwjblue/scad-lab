@@ -300,12 +300,12 @@ def validate(stl: Path, source: Path | None) -> dict:
         check_clear_axis(mesh, center, 2, -0.001, frame_t + 0.001)
 
     axis_z = a5["bnc_axis_z_proposed_mm"]
-    expected_d = Point(0, axis_z).buffer(4.95, quad_segs=256).intersection(box(-10, 0, 10, axis_z + 4.1))
+    expected_d = Point(0, axis_z).buffer(5.05, quad_segs=256).intersection(box(-10, 0, 10, axis_z + 4.2))
     maximum_d_error, d_hole = 0.0, None
     for y in [bottom + 0.001, (bottom + top) / 2, top - 0.001]:
         actual = hole_at(section(mesh, 1, y), [0, axis_z])
         error = actual.boundary.hausdorff_distance(expected_d.boundary)
-        require(error < 0.006, "BNC D-hole does not match 9.9 mm diameter / 9.05 mm flat height")
+        require(error < 0.006, "BNC D-hole does not match 10.1 mm diameter / 9.25 mm flat height")
         maximum_d_error = max(maximum_d_error, error)
         d_hole = actual
     check_clear_axis(mesh, [0, axis_z], 1, bottom, top)
@@ -314,7 +314,7 @@ def validate(stl: Path, source: Path | None) -> dict:
     flat_points = np.asarray(d_hole.exterior.coords)
     flat_points = flat_points[np.abs(flat_points[:, 1] - d_hole.bounds[3]) < 0.0001]
     bridge = float(np.ptp(flat_points[:, 0]))
-    require(abs(bridge - 5.55) < 0.02, "The D-hole top bridge differs from 5.55 mm")
+    require(abs(bridge - 5.61) < 0.02, "The D-hole top bridge differs from 5.61 mm")
     native_error = native_restored.boundary.hausdorff_distance(profile.boundary)
     require(native_error < TOLERANCE_MM, "Middle section differs from the native exterior and six retained windows")
 

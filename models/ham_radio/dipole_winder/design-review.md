@@ -32,15 +32,23 @@ rib bases started above the new bevel. Embedding those bases in the unchanged
 middle band removes the ledge. A regression check compares six successive
 sections around that transition and requires supported, nested contours.
 
-The revised STL is one watertight solid with 9,490 triangles and unchanged
+The reviewed STL was one watertight solid with 9,490 triangles and unchanged
 75 × 140 × 24 mm bounds. Six large native windows, seven frame holes, and the
 BNC opening remain open. Seven section planes verify both bevels within
 0.0011 mm of their ideal shape. The original exterior and retained windows
 match the source within 0.000003 mm through the middle section. The wire
 bores/chamfers, 7 mm pitch, 9.9 × 9.05 mm BNC D-hole, and reinforcement
-clearance all pass. See [validation.json](validation.json).
+clearance all passed.
 
 The resulting volume is 22,363.09 mm³ versus 22,459.98 mm³ before this review:
 the edge and rib refinements remove slightly more than the window fills add. Physical
 wire grip, printed strength, and the complete BNC/tag/coax fit still need the
 actual components. The new coupon and assembly illustration support those checks.
+
+## First-print BNC allowance
+
+The default was subsequently enlarged to a 10.1 × 9.25 mm D-hole, with
+0.20 mm allowance per side, to give the first overnight print more tolerance
+for undersizing or bridge sag. The shelf remains 3 mm thick and the connector
+position is unchanged. The nut and washer provide the clamp; physical fit
+remains untested. Current mesh measurements are in [validation.json](validation.json).
