@@ -64,8 +64,16 @@ its base starts on the print bed and stays within the overall winding dimensions
 The complete connector/tag/coax fit has not been physically checked.
 
 The Ø3.2 holes accommodate the planned 26 AWG wire and the thin-jacketed 22 AWG
-examples documented during the concept work. Insulated diameter and grip vary
-with wire construction; check the actual wire rather than AWG alone.
+example below. Insulated diameter and grip vary with wire construction; check
+the actual wire rather than AWG alone.
+
+| Wire | Nominal insulated diameter | Basis |
+| --- | ---: | --- |
+| DX Engineering DXE-SANTW-500, 26 AWG | 1.02 mm | Repository design assumption; verify the actual wire |
+| Davis RF POLYS-22, 22 AWG | 0.052 in (1.321 mm) | [Manufacturer table](https://www.davisrf.com/antenna-wire/polystealth.php) |
+
+Fitting through the holes does not establish strain-relief grip; pull/flex-check
+the three-hole weave with the intended wire.
 
 ## Customizer parameters
 

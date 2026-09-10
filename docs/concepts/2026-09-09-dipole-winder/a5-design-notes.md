@@ -1,12 +1,12 @@
 # A5: direct solder with a shallower BNC shelf
 
-A5 removes the M3 holes and terminal hardware from A4 and brings the BNC **6 mm closer to the frame**. The [layout](layout-a5.png), [SVG](layout-a5.svg), and [numeric geometry](layout-a5.json) are source-derived layout studies for the later SCAD implementation.
+A5 removes the M3 holes and terminal hardware from A4 and brings the BNC **6 mm closer to the frame**. The [layout](layout-a5.png), [SVG](layout-a5.svg), and [numeric geometry](layout-a5.json) preserve the accepted source-derived layout. This historical snapshot is now implemented in the [parameterized SCAD project](../../../models/ham_radio/dipole_winder/README.md), which documents the current printable geometry, subsequent review changes, and **10.1 mm default BNC cutout**.
 
 ## Retained geometry
 
 The supplied K6ARK wireframe STL is mirrored at scale 1, with its exterior and horn positions unchanged: **75 × 140 × 5 mm**. The Ø6 suspension eye remains at `(0,63)`. Upper native openings are filled locally for the relief holes; the lower and central openings remain.
 
-Each upper arm retains three **Ø3.2 mm relief bores at 7 mm pitch**, with **0.5 mm × 45° chamfers on both faces**. Right-hand centers are `(20.000,55.050)`, `(26.270,58.163)`, and `(32.539,61.276)`; the left side mirrors X. Adjacent chamfer mouths have 2.8 mm of material between them. These holes retain the planned fit for the 26 AWG wire and thin-jacketed 22 AWG examples discussed in [A3](a3-design-notes.md); pull/flex-check the weave with the actual wire.
+Each upper arm retains three **Ø3.2 mm relief bores at 7 mm pitch**, with **0.5 mm × 45° chamfers on both faces**. Right-hand centers are `(20.000,55.050)`, `(26.270,58.163)`, and `(32.539,61.276)`; the left side mirrors X. Adjacent chamfer mouths have 2.8 mm of material between them. These holes retain the planned fit for the 26 AWG wire and thin-jacketed 22 AWG examples documented in the [current model's dimensions and fit notes](../../../models/ham_radio/dipole_winder/README.md#dimensions-and-fit); pull/flex-check the weave with the actual wire.
 
 ## Compact connector placement
 
@@ -37,4 +37,4 @@ The earlier 10 mm stud-to-relief requirement no longer applies because the studs
 
 Run [layout_a5.py](layout_a5.py) with the source STL path. The generator checks the unchanged source-derived exterior and 75 × 140 mm bounds, containment of all seven frame holes, 7 mm relief pitch, and 1 mm reserved hardware-to-frame clearance. The saved JSON records no stud centers and the revised shelf dimensions.
 
-This revision does not modify the source STL or add a printable SCAD model. Full hardware fit, wire grip, and winding clearance remain physical/CAD assembly checks.
+The layout generator does not modify the source STL. The [finished SCAD project](../../../models/ham_radio/dipole_winder/README.md) supplies the printable model and its validation; full hardware fit, wire grip, and winding clearance still require physical assembly checks.
