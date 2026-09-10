@@ -1,4 +1,8 @@
 /*
+  Copyright (c) 2026 Robert Jackson (N1RWJ).
+  License: CC BY-NC-SA 4.0 (Attribution-NonCommercial-ShareAlike).
+  https://creativecommons.org/licenses/by-nc-sa/4.0/
+
   models/ham_radio/lightweight_balanced_feedline/balanced_feedline_spacer.scad
 
   Lightweight snap-on spacer for a two-wire balanced HF feedline.

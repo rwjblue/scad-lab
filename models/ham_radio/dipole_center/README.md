@@ -170,12 +170,11 @@ use `part="center"` for the intended print orientation.
 Imported from the ChatGPT-generated `linked_dipole_center_v2` download dated
 9 September 2026, originally named `linked_dipole_center_v2.scad`. Renamed to
 `dipole_center.scad` on import, with the internal root ramp and wire-web assertion,
-then widened for ring-terminal clearance as described above. The supplied source
-permits use, modification, and redistribution of its original geometry.
+then widened for ring-terminal clearance as described above.
 Referenced manufacturer drawings retain their own terms.
 
 This is an open feedpoint with no established weatherproofing, mechanical load,
 or RF power rating. Successful printing and mesh checks do not establish those
 properties.
 
-The original model is shared under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+The original model is shared under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).

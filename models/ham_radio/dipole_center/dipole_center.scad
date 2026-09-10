@@ -28,7 +28,9 @@
   Flat is at TOP of the hole in print orientation, creating a short bridge.
   Print the upright fit coupon first, with the same material/profile.
 
-  Permissions: You may use, modify and redistribute this original geometry.
+  Copyright (c) 2026 Robert Jackson (N1RWJ).
+  License: CC BY-NC-SA 4.0 (Attribution-NonCommercial-ShareAlike).
+  https://creativecommons.org/licenses/by-nc-sa/4.0/
   No physical load rating, weatherproofing claim or RF power rating is made.
 */
 

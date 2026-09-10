@@ -1,4 +1,8 @@
 /*
+  Copyright (c) 2026 Robert Jackson (N1RWJ).
+  License: CC BY-NC-SA 4.0 (Attribution-NonCommercial-ShareAlike).
+  https://creativecommons.org/licenses/by-nc-sa/4.0/
+
   models/ham_radio/lightweight_balanced_feedline/doublet_center_strain_relief.scad
 
   Lightweight center support and strain relief for a continuous-wire

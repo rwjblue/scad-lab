@@ -344,4 +344,4 @@ openscad --hardwarnings -D 'render_mode="radiator_fit_test"' \
 
 ## License
 
-These original models are shared under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+These original models are shared under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
