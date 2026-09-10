@@ -5,7 +5,8 @@
 A compact coax-fed dipole center with a downward-facing BNC, two M3 terminal
 posts, and three strain-relief holes for each antenna leg. Linking happens in
 the antenna wire, so this center is useful for both linked and ordinary dipoles.
-It contains no balun; use a separate feedpoint choke as needed.
+It contains no balun. I use a separate, reusable feedpoint choke: RG-316 coax
+from [ABR Industries](https://abrind.com/) with seven mix 31 ferrite beads.
 
 ## Quick start
 

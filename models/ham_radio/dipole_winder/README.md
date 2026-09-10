@@ -199,6 +199,8 @@ keeps the six larger wireframe and horn windows open.
 
 The frame stores two antenna legs. Fully deploy them for use; stored turns are
 not a validated band-selection arrangement. This model contains no balun/choke.
+I use a separate, reusable feedpoint choke: RG-316 coax from
+[ABR Industries](https://abrind.com/) with seven mix 31 ferrite beads.
 
 ## Export and verification
 
