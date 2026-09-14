@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Render linked-dipole in-use mockup and both print sets"
+set -euo pipefail
+exec python3 models/ham_radio/dipole_link/render.py

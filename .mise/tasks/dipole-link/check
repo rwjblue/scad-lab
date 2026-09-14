@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Export dipole link print sets and validate mesh, holes, labels, and parameter variants"
+set -euo pipefail
+exec uv run --no-project --with trimesh --with shapely --with scipy \
+  --with networkx --with rtree \
+  python models/ham_radio/dipole_link/validate.py

@@ -10,6 +10,11 @@ Thumbs.db
 
 # Generated stuff
 *.stl
+!models/ham_radio/dipole_link/links_40_30_20.stl
+!models/ham_radio/dipole_link/links_all_bands.stl
+!models/ham_radio/dipole_link/links_40m_pair.stl
+output/dipole-link/
+output/printables/modular-dipole/
 # Generated print bundle and optional diagnostic views.
 models/ham_radio/modular_dipole/*.zip
 models/ham_radio/modular_dipole/review/generated/

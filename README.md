@@ -24,6 +24,9 @@ batch-generate STLs if desired.
 
 ## Models in this repo
 
+- `models/ham_radio/dipole_link/` - compact labeled linked-dipole insulators
+  with zip-tie retention, custom pairs, and ready-to-print band sets
+  ([print and assembly guide](models/ham_radio/dipole_link/README.md))
 - `models/ham_radio/modular_dipole/` - dipole center with two removable
   K6ARK-style winders, four catches and paired inward releases, captive silicone
   coil ties, 40/80 m clearance presets and ready-to-print STLs

@@ -1,0 +1,123 @@
+{
+  "starter": {
+    "links": 6,
+    "size_mm": [
+      80.0,
+      38.0,
+      2.6
+    ],
+    "volume_mm3": 5342.56
+  },
+  "full": {
+    "links": 20,
+    "size_mm": [
+      80.0,
+      136.0,
+      2.6
+    ],
+    "volume_mm3": 17816.37
+  },
+  "pair": {
+    "links": 2,
+    "size_mm": [
+      80.0,
+      10.0,
+      2.6
+    ],
+    "volume_mm3": 1781.07
+  },
+  "variants": {
+    "small_holes": {
+      "size_mm": [
+        38.0,
+        10.0,
+        2.6
+      ],
+      "volume_mm3": 904.44,
+      "through_holes": 4
+    },
+    "larger_wire": {
+      "size_mm": [
+        40.1,
+        10.0,
+        2.6
+      ],
+      "volume_mm3": 914.13,
+      "through_holes": 4
+    },
+    "large_holes_and_ties": {
+      "size_mm": [
+        47.07,
+        10.0,
+        2.6
+      ],
+      "volume_mm3": 1046.64,
+      "through_holes": 4
+    },
+    "wider_ties": {
+      "size_mm": [
+        40.2,
+        10.0,
+        2.6
+      ],
+      "volume_mm3": 938.88,
+      "through_holes": 4
+    },
+    "thicker": {
+      "size_mm": [
+        38.0,
+        10.0,
+        3.4
+      ],
+      "volume_mm3": 1171.19,
+      "through_holes": 4
+    },
+    "custom_label": {
+      "size_mm": [
+        67.32,
+        10.0,
+        2.6
+      ],
+      "volume_mm3": 1628.43,
+      "through_holes": 4
+    },
+    "wide_letters": {
+      "size_mm": [
+        72.9,
+        10.0,
+        2.6
+      ],
+      "volume_mm3": 1759.66,
+      "through_holes": 4
+    },
+    "short_label": {
+      "size_mm": [
+        38.0,
+        10.0,
+        2.6
+      ],
+      "volume_mm3": 893.25,
+      "through_holes": 4
+    },
+    "raised": {
+      "size_mm": [
+        38.0,
+        10.0,
+        3.0
+      ],
+      "volume_mm3": 911.46,
+      "through_holes": 4
+    },
+    "flush": {
+      "size_mm": [
+        38.0,
+        10.0,
+        2.6
+      ],
+      "volume_mm3": 901.0,
+      "through_holes": 4
+    }
+  },
+  "flush_partition": "body + letters match complete volume",
+  "invalid_settings_rejected": 5
+}
