@@ -23,7 +23,8 @@ ORIGINAL = HERE.parent / "dipole_center/dipole_center.scad"
 EPS_VOLUME = 0.001
 TOL = 0.025
 PRINT_FILES = ["center.stl", "winder.stl", "winder_80m.stl", "print_layout.stl",
-               "print_layout_80m.stl", "fit_coupon.stl", "bnc_fit_coupon.stl"]
+               "print_layout_80m.stl", "fit_coupon.stl", "bnc_fit_coupon.stl",
+               "bnc_fit_coupon_tight.stl"]
 
 
 def require(condition, message):
@@ -54,9 +55,9 @@ def rejected_export(directory, name, definitions, expected_message):
     return {"definitions": definitions, "rejected": True, "expected_assertion": expected_message}
 
 
-def expression_export(directory, name, expression, definitions=()):
+def expression_export(directory, name, expression, definitions=(), source=SCAD):
     wrapper = directory / f"{name}.scad"
-    wrapper.write_text(f"use <{SCAD}>\n$fn=96;\n{expression}\n")
+    wrapper.write_text(f"use <{source}>\n$fn=96;\n{expression}\n")
     return export(directory / f"{name}.stl", wrapper, definitions)
 
 
@@ -174,32 +175,44 @@ def bnc_coupon_geometry(mesh, diameters):
 def bnc_fit_checks(directory, coupon, default_center):
     diameters = [9.7, 9.8, 9.9, 10.0, 10.1]
     result = bnc_coupon_geometry(coupon, diameters)
-    variants = [9.7, 9.8, 10.0, 10.1, 10.2]
+    tight_diameters = [9.5, 9.55, 9.6, 9.65, 9.7]
+    tight_coupon = export(directory / "bnc_fit_coupon_tight.stl", SCAD,
+                          ['part="bnc_fit_coupon_tight"'])
+    result["tight_coupon"] = bnc_coupon_geometry(tight_coupon, tight_diameters)
+    variants = sorted((set(diameters) | set(tight_diameters) | {10.2}) - {9.5})
     with ThreadPoolExecutor(max_workers=3) as pool:
-        futures = {diameter: pool.submit(export, directory/f"bnc-center-{diameter:.1f}.stl",
+        futures = {diameter: pool.submit(export, directory/f"bnc-center-{diameter:g}.stl",
                                         SCAD, ['part="center"', f"bnc_hole_d={diameter}"])
                    for diameter in variants}
         centers = {diameter: future.result() for diameter, future in futures.items()}
-    centers[9.9] = default_center
+    centers[9.5] = default_center
     result["center_parameter_checks"] = {}
     for diameter in sorted(centers):
         center = centers[diameter]
-        result["center_parameter_checks"][f"{diameter:.1f}"] = {
+        result["center_parameter_checks"][f"{diameter:g}"] = {
             **mesh_report(center), **bnc_hole_measurements(center, diameter)}
-    for index, diameter in enumerate(diameters):
-        x = (index-2)*22
-        differences = []
-        for y in [.025, .75, 1.5, 2.975]:
-            sample_hole = translate_shape(bnc_section_hole(coupon, y, x), xoff=-x)
-            center_hole = bnc_section_hole(centers[diameter], y)
-            difference = sample_hole.symmetric_difference(center_hole).area
-            require(difference < .001,
-                    f"Coupon {diameter} mm hole does not match the corresponding center")
-            differences.append(difference)
-        result["samples"][index]["maximum_center_profile_difference_mm2"] = max(differences)
+    for sample_coupon, sample_diameters, sample_result in [
+            (coupon, diameters, result),
+            (tight_coupon, tight_diameters, result["tight_coupon"])]:
+        for index, diameter in enumerate(sample_diameters):
+            x = (index-2)*22
+            differences = []
+            for y in [.025, .75, 1.5, 2.975]:
+                sample_hole = translate_shape(bnc_section_hole(sample_coupon, y, x), xoff=-x)
+                center_hole = bnc_section_hole(centers[diameter], y)
+                difference = sample_hole.symmetric_difference(center_hole).area
+                require(difference < .001,
+                        f"Coupon {diameter} mm hole does not match the corresponding center")
+                differences.append(difference)
+            sample_result["samples"][index]["maximum_center_profile_difference_mm2"] = max(differences)
+    result["rejected_diameter_checks"] = {
+        f"{diameter:g}": rejected_export(directory, f"bnc-out-of-range-{diameter:g}",
+                                         [f"bnc_hole_d={diameter}"],
+                                         "BNC cutout diameter must be 9.5..10.2 mm")
+        for diameter in [9.45, 10.25]}
     shared = export(directory / "shared-bnc-coupon.stl", ORIGINAL, ['part="coupon"'])
     result["shared_default_coupon"] = bnc_coupon_geometry(shared, [9.7, 9.9, 10.1])
-    result["default_center_diameter_mm"] = 9.9
+    result["default_center_diameter_mm"] = 9.5
     result["print_orientation"] = "Foot flat on bed, 3 mm panel upright, D-hole flat uppermost"
     return result
 
@@ -289,6 +302,69 @@ def preserved_center(original, center, **options):
 def symmetric_difference(a, b):
     return sum(volume(trimesh.boolean.difference(pair, engine="manifold"))
                for pair in [[a, b], [b, a]])
+
+
+def shared_center_checks(directory, standalone, nesting):
+    """Verify the public toggle, imported API and preserved no-slot defaults."""
+    require(np.allclose(standalone.bounds, [[-45, 0, 0], [45, 39, 23]], atol=TOL),
+            "Standalone center must retain its original position and dimensions")
+    samples = []
+    for z in [.1, 2, 3.9]:
+        holes = interior_holes(section_material(standalone, z))
+        require(len(holes) == 9, "Standalone center must have nine round holes and no strap slots")
+        measurements = []
+        for kind, axis, diameter in expected_plate_holes(z, terminal_x=10, wire_inner=28, hang_d=6):
+            matching = [hole for hole in holes if hole.covers(Point(*axis))]
+            require(len(matching) == 1, f"Missing standalone {kind} hole at {axis}")
+            hole = matching[0]
+            size = np.array(hole.bounds)[2:]-np.array(hole.bounds)[:2]
+            require(np.allclose(size, diameter, atol=TOL), f"Incorrect standalone {kind} hole diameter")
+            require(np.linalg.norm(np.asarray(hole.centroid.coords[0])-axis) < TOL,
+                    f"Standalone {kind} hole axis moved")
+            measurements.append({"kind": kind, "axis_xy_mm": axis,
+                                 "diameter_xy_mm": size.tolist()})
+        samples.append({"z_mm": z, "holes": measurements})
+    result = {"standalone_without_slots": {
+        **mesh_report(standalone), **bnc_hole_measurements(standalone, 9.5),
+        "cross_sections": samples}}
+
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {
+            "standalone_with_slots": pool.submit(
+                export, directory / "shared-slotted-center.stl", ORIGINAL, ['strap_slots=true']),
+            "imported_with_slots": pool.submit(
+                expression_export, directory, "shared-imported-slotted",
+                "center(with_strap_slots=true);", source=ORIGINAL),
+            "imported_without_slots": pool.submit(
+                expression_export, directory, "shared-imported-plain", "center();", source=ORIGINAL),
+        }
+        exports = {name: future.result() for name, future in futures.items()}
+    for name, mesh in exports.items():
+        reference = standalone if name == "imported_without_slots" else nesting
+        difference = symmetric_difference(mesh, reference)
+        require(difference < EPS_VOLUME, f"{name} differs from its shared-center counterpart")
+        result[name] = {**mesh_report(mesh), "reference": "standalone" if reference is standalone else "nesting",
+                        "symmetric_difference_mm3": difference}
+
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {
+            "standalone": pool.submit(export, directory / "shared-wide-slot.stl", ORIGINAL,
+                                      ['strap_slots=true', 'strap_slot_width=20']),
+            "nesting": pool.submit(export, directory / "nesting-wide-slot.stl", SCAD,
+                                   ['part="center"', 'strap_slot_width=20']),
+            "imported": pool.submit(expression_export, directory, "shared-imported-wide-slot",
+                                    "center(with_strap_slots=true, slot_width=20);", source=ORIGINAL),
+        }
+        exports = {name: future.result() for name, future in futures.items()}
+    wide = exports["standalone"]
+    result["maximum_slot_width"] = {"slot_width_mm": 20, **mesh_report(wide),
+                                    "tie_slots": center_slots(wide, slot_width=20), "comparisons": {}}
+    for name in ["nesting", "imported"]:
+        difference = symmetric_difference(wide, exports[name])
+        require(difference < EPS_VOLUME, f"{name} does not forward the selected strap-slot width")
+        result["maximum_slot_width"]["comparisons"][name] = {
+            **mesh_report(exports[name]), "symmetric_difference_mm3": difference}
+    return result
 
 
 def rotated(mesh, axis, angle):
@@ -401,7 +477,7 @@ def post_dimensions(winder, protrusion):
             "tip_chamfer_mm": chamfer, "cross_sections": result}
 
 
-def center_slots(center, slot_x=41):
+def center_slots(center, slot_x=41, slot_width=14, slot_thickness=3):
     require(abs(center.extents[0]-90) < TOL, "Center must preserve the original 90 mm width")
     result = []
     for z in [.1, 2, 3.9]:
@@ -416,7 +492,8 @@ def center_slots(center, slot_x=41):
             hole = matching[0]
             bounds = hole.bounds
             size = [bounds[2]-bounds[0], bounds[3]-bounds[1]]
-            require(np.allclose(size, [3, 14], atol=TOL), "Tie slot must measure 3 x 14 mm")
+            require(np.allclose(size, [slot_thickness, slot_width], atol=TOL),
+                    f"Tie slot must measure {slot_thickness} x {slot_width} mm")
             require(np.linalg.norm(np.array(hole.centroid.coords[0])-[x, 21]) < TOL,
                     "Tie slot center moved")
             wall = material.exterior.distance(hole)
@@ -720,13 +797,13 @@ def main():
     initial_hashes = hashes()
     report = {
         "status": "running",
-        "passed_scope": "Printable meshes, independently checked center holes and end pads, BNC fit coupon diameters and matching upright center cutouts, preserved raised center structure and original winder geometry, spine-to-spine packing with one engaged stud, opposite-side wire reserves, separation, two center-end tie slots, and a continuous rear-only tie route that clears individual coil ties and their buttons. Unsupported tight-clearance packing and load-proxy intersections are reported separately.",
+        "passed_scope": "Printable meshes, independently checked center holes and end pads, shared dipole-center parity with and without strap slots, BNC fit coupon diameters and matching upright center cutouts, preserved raised center structure and original winder geometry, spine-to-spine packing with one engaged stud, opposite-side wire reserves, separation, two center-end tie slots, and a continuous rear-only tie route that clears individual coil ties and their buttons. Unsupported tight-clearance packing and load-proxy intersections are reported separately.",
         "evidence": "Nominal CAD checks only. No physical fit, printed strength, hand comfort, retention, or wire-capacity test.",
         "presets": {}, "parameter_samples": {}, "loaded_fit_by_preset": {}, "fit_notes": [],
         "unsupported_parameter_fits": [], "center_parameter_checks": {}}
     with tempfile.TemporaryDirectory(prefix="nesting-dipole-check-") as temporary:
         directory = Path(temporary)
-        original = export(directory / "original.stl", ORIGINAL, ['bnc_clearance=.10'])
+        original = export(directory / "original.stl", ORIGINAL, ['bnc_clearance=-.10'])
         for preset, bulge in [("40m", 5), ("80m", 8)]:
             print(f"Checking {preset} crosswise nesting dipole", flush=True)
             suffix = "" if preset == "40m" else "_80m"
@@ -761,9 +838,11 @@ def main():
             report["loaded_fit_by_preset"][preset] = {
                 "status": proxies["status"], "fit_notes": proxies["fit_notes"]}
             report["fit_notes"].extend({"preset": preset, **note} for note in proxies["fit_notes"])
+        print("Checking shared dipole-center defaults, strap toggle and imported API", flush=True)
+        report["shared_center"] = shared_center_checks(directory, original, reference_center)
         coupon = export(directory / "fit_coupon.stl", SCAD, ['part="fit_coupon"'])
         report["fit_coupon"] = {**mesh_report(coupon, 2), **coupon_interfaces(coupon, reference_winder)}
-        print("Checking five-size upright BNC fit coupon and center diameters", flush=True)
+        print("Checking both five-size upright BNC fit coupons and center diameters", flush=True)
         bnc_coupon = export(directory / "bnc_fit_coupon.stl", SCAD, ['part="bnc_fit_coupon"'])
         report["bnc_fit_coupon"] = bnc_fit_checks(directory, bnc_coupon, reference_center)
         variants = [

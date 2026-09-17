@@ -9,8 +9,10 @@ strap through those slots holds the bundle together around the back.
 This replaces the earlier four-post center arrangement in the same model.
 It remains independent of [Modular dipole](../modular_dipole/README.md) and its
 retaining clips. The editable source is [nesting_dipole.scad](nesting_dipole.scad).
-The winding profile is an independent snapshot; the original dipole center
-and frame bevel remain shared helpers.
+The winding profile is an independent snapshot. The center comes directly from
+[dipole_center](../dipole_center/README.md) with its **`strap_slots` toggle
+enabled**; this model supplies its selected parameters without maintaining a
+separate center geometry. The frame bevel is also shared.
 
 ![One 6 mm stud and one hole at the original two spine stations](images/winder.png)
 
@@ -41,8 +43,8 @@ Each stud rises **8 mm above its 5 mm frame**, 1 mm taller than the earlier
 The receiving hole has 0.6 mm relief at its printed top face and a 0.4 mm
 entry chamfer at its printed bottom face.
 
-The center measures **90 × 39 × 23 mm**. Its **8 mm hoist eye** gives more
-room for suspension clips. The strap slots sit in line with the terminal
+The shared center with strap slots enabled measures **90 × 39 × 23 mm**.
+Its **8 mm hoist eye** gives more room for suspension clips. The strap slots sit in line with the terminal
 and wire holes, so the strap pulls through the center bar. Each end widens
 symmetrically around its slot while staying within the 90 mm overall width.
 
@@ -53,7 +55,7 @@ preserves the 18 mm terminal-to-inner-hole spacing and 4.724 mm of wire-entry
 space at the maximum specified ring-terminal length, as described in the
 [dipole center guide](../dipole_center/README.md).
 The BNC shelf structure, ribs and shelf-root reinforcement are unchanged;
-the default D-shaped opening is now 9.9 mm. There are no center docking holes.
+the default D-shaped opening is now 9.5 mm. There are no center docking holes.
 
 ![Inline strap slots, relocated wire and terminal holes, and larger hoist eye](images/center.png)
 
@@ -96,19 +98,32 @@ enlarged hoist eye retains a 2.5 mm wall around its chamfered mouth.
 
 ## Print and use
 
-Start with [bnc_fit_coupon.stl](bnc_fit_coupon.stl) to size the connector
-opening before printing the center. Its five labeled D-shaped openings are
-**9.7, 9.8, 9.9, 10.0 and 10.1 mm**. The holes stand upright in 3 mm walls,
+Start with [bnc_fit_coupon_tight.stl](bnc_fit_coupon_tight.stl) to check the
+current 9.5 mm default before printing the center. Its five labeled D-shaped
+openings are **9.50, 9.55, 9.60, 9.65 and 9.70 mm** from left to right.
+The holes stand upright in 3 mm walls,
 matching the center's BNC shelf thickness, hole height and anti-rotation flat.
 Keep the common foot on the bed; do not lay the coupon on its hole face.
 Use the same material, layer height, orientation and slicer compensation as
 the center. Check your actual connector in each opening, then use the smallest
 size that slides in without force and lets the flat seat correctly.
 
+For larger openings, [bnc_fit_coupon.stl](bnc_fit_coupon.stl) covers
+**9.7, 9.8, 9.9, 10.0 and 10.1 mm**, with the same upright panels and D-flat.
+The shared 9.7 mm opening gives a comparison between the two coupons.
+The [Amphenol 31-221-RFX drawing](https://www.amphenolrf.com/en-us/assets/file/4065787961/)
+specifies a **9.70 mm panel cutout** and a **3/8-32 UNEF mounting thread**
+(9.525 mm nominal major diameter). The smaller openings are empirical fit
+trials around that thread diameter, below the recommended panel cutout.
+Print at 100% scale with the same settings as the center; do not force the
+connector into a sample that binds.
+
+![Finer BNC fit coupon, 9.50 through 9.70 mm](images/bnc_fit_coupon_tight.png)
+
 Set **`bnc_hole_d` to the winning label**, choose `part="center"`, render and
-export a fresh STL. The default is now **9.9 mm**, reduced from the original
-10.1 mm after a loose printed fit. That is a starting point, not a measured
-fit for every printer or connector. Fine adjustments of 0.05 mm are available.
+export a fresh STL. The default is now **9.5 mm**, selected from the tighter
+coupon after the earlier openings had play. Check the fit with your own
+printer and connector; fine adjustments of 0.05 mm are available.
 Changing this setting preserves the D-flat and only changes the BNC opening;
 do not scale the whole center in the slicer to correct the hole.
 
@@ -130,12 +145,13 @@ and walk out each leg from the mast before hoisting the center.
 
 | File | Print quantity / purpose |
 | --- | --- |
-| [center.stl](center.stl) | One crosswise center with end strap slots |
+| [center.stl](center.stl) | One shared dipole center with strap slots enabled |
 | [winder.stl](winder.stl) | Two identical winders, each with one stud and one socket |
 | [winder_80m.stl](winder_80m.stl) | Same geometry as `winder.stl`; retained filename |
 | [print_layout.stl](print_layout.stl) | Complete three-piece layout |
 | [print_layout_80m.stl](print_layout_80m.stl) | Same geometry as `print_layout.stl`; retained filename |
-| [bnc_fit_coupon.stl](bnc_fit_coupon.stl) | Five labeled BNC openings; print once to choose `bnc_hole_d` |
+| [bnc_fit_coupon.stl](bnc_fit_coupon.stl) | Five larger BNC openings, 9.7–10.1 mm in 0.1 mm steps |
+| [bnc_fit_coupon_tight.stl](bnc_fit_coupon_tight.stl) | Five finer openings, 9.50–9.70 mm in 0.05 mm steps; includes the current default |
 
 The [Printables listing](https://www.printables.com/model/1844842-nesting-bnc-dipole-center-and-winders)
 includes the center, winder, complete layout, BNC coupon, source ZIP and flyer.
@@ -148,13 +164,32 @@ aid, not a Printables download. Its two matching strips reproduce the full
 
 ## Parameters
 
+To print just the center, you can open
+[`dipole_center.scad`](../dipole_center/dipole_center.scad) and enable
+**`strap_slots=true`**. The default export matches this model's `center.stl`,
+including the 9.5 mm BNC opening, 8 mm hanging eye and 14 × 3 mm slots:
+
+```sh
+openscad --backend=Manifold --hardwarnings \
+  -D 'strap_slots=true' -o dipole_center_with_straps.stl \
+  models/ham_radio/dipole_center/dipole_center.scad
+```
+
+The shared center defaults to `strap_slots=false` for use without winders.
+That configuration has a 6 mm hanging eye and moves both terminal/wire groups
+3 mm outward, preserving their spacing. Its `hang_hole_d=0` setting selects
+6 mm without slots or 8 mm with slots; an explicit diameter overrides this.
+The nesting entry point always enables slots and keeps its existing fit and
+layout controls. For custom BNC fits, its `bnc_hole_d` corresponds to
+`bnc_clearance=(bnc_hole_d-9.70)/2` in the standalone center.
+
 Open the SCAD file in OpenSCAD's Customizer. Dimensions are millimeters.
 
 ### Most useful adjustments
 
 | To change… | Adjust | What to know |
 | --- | --- | --- |
-| BNC connector fit | `bnc_hole_d` | Default 9.9; 9.7–10.2 in 0.05 steps. Print the BNC coupon first. Smaller reduces play; larger eases insertion. The circular diameter and anti-rotation flat move together. |
+| BNC connector fit | `bnc_hole_d` | Default 9.5; 9.5–10.2 in 0.05 steps. Print a BNC coupon first; the tight coupon covers 9.50–9.70. Smaller reduces play; larger eases insertion. The circular diameter and anti-rotation flat move together. |
 | Strap fit | `strap_slot_width`, `strap_slot_thickness` | Defaults 14 × 3; the first accepts the strap's width, the second its thickness. Leave room for threading. Wider thickness settings may require smaller wire holes/chamfers to preserve the adjacent web. |
 | Wire threading | `wire_hole_d`, `wire_chamfer` | Defaults 3.2 and 0.5. Match insulated wire and smooth the hole mouths. The chamfer also applies to the hanging eye. |
 | Terminal hardware fit | `terminal_hole_d` | Default 3.4 for M3 screws; reduce or enlarge the clearance hole without changing screw spacing. |
@@ -179,8 +214,8 @@ openscad --backend=Manifold --hardwarnings \
 
 | Parameter | Default | Meaning / range |
 | --- | --- | --- |
-| `part` | `print_layout` | `center`, `winder`, `assembled`, `winders`, `print_layout`, `exploded`, `bnc_fit_coupon`, `fit_coupon`, `wire_envelopes` |
-| `bnc_hole_d` | 9.9 | Modeled circular diameter of the D-shaped BNC cutout; 9.7–10.2 in 0.05 steps |
+| `part` | `print_layout` | `center`, `winder`, `assembled`, `winders`, `print_layout`, `exploded`, `bnc_fit_coupon`, `bnc_fit_coupon_tight`, `fit_coupon`, `wire_envelopes` |
+| `bnc_hole_d` | 9.5 | Modeled circular diameter of the D-shaped BNC cutout; 9.5–10.2 in 0.05 steps |
 | `preset` | `40m` | `40m` or `80m`; selects displayed coil buildup |
 | `show_wire` | `false` | Show reserved coil space in assembly previews |
 | `wing_length` | 37.5 | Native datum to horn-tip Y; 37.5–60 |
@@ -243,7 +278,8 @@ preserved BNC shelf structure, adjustable D-shaped cutouts, strap-slot walls,
 coupon interfaces and matching print layouts. It also checks
 the conservative wire reserves and schematic hardware and strap routes.
 
-The [BNC coupon preview](images/bnc_fit_coupon.png) shows the connector tests;
+The [original](images/bnc_fit_coupon.png) and
+[tighter BNC coupon previews](images/bnc_fit_coupon_tight.png) show the connector tests;
 the [paired winder coupon preview](images/fit_coupon.png) is a development aid.
 Bare assembly views omit wire. The [loaded view](images/loaded.png) and rear
 view illustrate the separate coils and short strap path. Printed fit,

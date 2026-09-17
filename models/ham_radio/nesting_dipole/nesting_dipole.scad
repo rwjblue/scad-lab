@@ -18,7 +18,7 @@ use <../dipole_winder/frame_bevel.scad>
 use <../dipole_center/dipole_center.scad>
 
 /* [Output] */
-part="print_layout"; // [center,winder,assembled,winders,print_layout,exploded,bnc_fit_coupon,fit_coupon,wire_envelopes]
+part="print_layout"; // [center,winder,assembled,winders,print_layout,exploded,bnc_fit_coupon,bnc_fit_coupon_tight,fit_coupon,wire_envelopes]
 preset="40m"; // [40m,80m]
 show_wire=false;
 
@@ -43,10 +43,12 @@ wire_face_bulge=0; // [0:Preset,2:2 mm,3:3 mm,4:4 mm,5:5 mm,6:6 mm,7:7 mm,8:8 mm
 wire_edge_bulge=5; // [2:0.5:5]
 
 /* [BNC connector fit] */
-// D-hole diameter, NOT clearance per side. Print bnc_fit_coupon first and
+// D-hole diameter, NOT clearance per side. Print a BNC fit coupon first and
 // use the smallest size that seats your connector without forcing it.
-// 9.9 mm is a tighter starting fit than the earlier 10.1 mm default.
-bnc_hole_d=9.9; // [9.7:0.05:10.2]
+// 9.5 mm was selected after trying the finer printed fit coupon.
+// If 9.7 still has play, bnc_fit_coupon_tight tests 9.5..9.7 in 0.05 mm steps.
+// Sizes below the drawing's 9.7 mm panel cutout are empirical print-fit trials.
+bnc_hole_d=9.5; // [9.5:0.05:10.2]
 
 /* [Center holes] */
 terminal_hole_x=7; // [7:0.5:10]
@@ -83,9 +85,6 @@ layout_gap=8;
 // Keep the 90 mm width and put the strap pulls on the main bar's centerline.
 strap_slot_x=41;
 strap_slot_y=21;
-strap_end_height=strap_slot_width+6;
-// Panduit P22-6R-M drawing N41227BB-DC, M=0.42 +/- 0.02 inch.
-panduit_terminal_reach=(0.42+0.02)*25.4;
 // Center remains independent of the winder-to-winder connection.
 center_pack_x=18;
 center_pack_y=7;
@@ -95,7 +94,7 @@ center_bar_y=21;
 center_pack_z=max(2*frame_t+face_bulge+2,frame_t+pin_h+0.5);
 
 assert(len([for(p=["center","winder","assembled","winders","print_layout",
-    "exploded","bnc_fit_coupon","fit_coupon","wire_envelopes"]) if(p==part) 1])>0,"Unknown part");
+    "exploded","bnc_fit_coupon","bnc_fit_coupon_tight","fit_coupon","wire_envelopes"]) if(p==part) 1])>0,"Unknown part");
 assert(preset=="40m" || preset=="80m","Choose 40m or 80m wire-space preset");
 assert(wing_length>=37.5 && wing_length<=60,"Wing reach must be 37.5..60 mm");
 assert(winding_span>=140 && winding_span<=200,"Lower-tip span must be 140..200 mm");
@@ -105,7 +104,7 @@ assert(strap_slot_width>=10 && strap_slot_width<=20,"Strap slot length must be 1
 assert(strap_slot_thickness>=2 && strap_slot_thickness<=4,"Strap slot thickness must be 2..4 mm");
 assert(wire_face_bulge==0 || (wire_face_bulge>=2 && wire_face_bulge<=12),"Wire face reserve must be 0 or 2..12 mm");
 assert(wire_edge_bulge>=2 && wire_edge_bulge<=5,"Wire edge reserve must be 2..5 mm");
-assert(bnc_hole_d>=9.7 && bnc_hole_d<=10.2,"BNC cutout diameter must be 9.7..10.2 mm");
+assert(bnc_hole_d>=9.5 && bnc_hole_d<=10.2,"BNC cutout diameter must be 9.5..10.2 mm");
 assert(terminal_hole_x>=7 && terminal_hole_x<=10,"Terminal offset must be 7..10 mm");
 assert(wire_hole_inner_x>=24 && wire_hole_inner_x<=30,"Inner wire hole must be 24..30 mm");
 assert(wire_hole_pitch>=4 && wire_hole_pitch<=6.5,"Wire-hole pitch must be 4..6.5 mm");
@@ -173,56 +172,14 @@ module spine_part(coupon=false) {
 
 module single_winder() { spine_part(); }
 
-module strap_slot_2d(extra=0) {
-    offset(r=0.5+extra)
-        square([strap_slot_thickness-1,strap_slot_width-1],center=true);
-}
-
-module strap_bar_ends_2d() {
-    // Symmetric material around each inline slot, within the original width.
-    for(side=[-1,1]) translate([side*40,center_bar_y])
-        offset(r=2) square([6,strap_end_height-4],center=true);
-}
-
-module nesting_plate_holes() {
-    // Keep the original ring-terminal and wire-bend space as the group moves.
-    assert(wire_positions[0]-terminal_hole_x-wire_hole_d/2-wire_chamfer
-           -panduit_terminal_reach>=4,
-           "Leave at least 4 mm between the Panduit barrel entry and wire-hole chamfer");
-    for(i=[0:1])
-        assert(wire_positions[i+1]-wire_positions[i]-wire_hole_d-2*wire_chamfer>=1.2,
-               "Wire holes and chamfers must leave at least 1.2 mm of face web");
-    assert(strap_slot_x-strap_slot_thickness/2
-           -(wire_positions[2]+wire_hole_d/2+wire_chamfer)>=1.2,
-           "Leave at least 1.2 mm between the outer wire-hole mouth and strap slot");
-    assert(45-strap_slot_x-strap_slot_thickness/2>=2,
-           "Leave at least 2 mm outside the strap slot");
-    assert(7-hang_hole_d/2-wire_chamfer>=2.4,
-           "Keep at least 2.4 mm at the suspension-eye crown");
-    translate([0,32,0]) round_plate_hole(hang_hole_d,wire_chamfer);
-    for(side=[-1,1]) {
-        translate([side*terminal_hole_x,center_bar_y,0]) round_plate_hole(terminal_hole_d);
-        for(x=wire_positions) translate([side*x,center_bar_y,0])
-            round_plate_hole(wire_hole_d,wire_chamfer);
-    }
-}
-
-module nesting_center() {
-    union() {
-        difference() {
-            linear_extrude(height=center_plate_t) union() {
-                back_outline();
-                strap_bar_ends_2d();
-            }
-            nesting_plate_holes();
-            for(side=[-1,1]) translate([side*strap_slot_x,strap_slot_y,-eps])
-                linear_extrude(height=center_plate_t+2*eps) strap_slot_2d();
-        }
-        // Reuse the unchanged BNC structure; create only this model's plate holes.
-        shelf(clearance=bnc_clearance);
-        for(x=[-10.5,10.5]) rib_at(x);
-        shelf_root();
-    }
+// The complete center comes from dipole_center; this adapter only forwards
+// the nesting Customizer settings and enables the shared strap option.
+module configured_center() {
+    center(terminal_d=terminal_hole_d, wire_d=wire_hole_d,
+           hang_d=hang_hole_d, wire_positions=wire_positions,
+           chamfer=wire_chamfer, bnc_fit=bnc_clearance,
+           terminal_offset=terminal_hole_x, with_strap_slots=true,
+           slot_width=strap_slot_width, slot_thickness=strap_slot_thickness);
 }
 
 module winder_pose(row=1,lift=0) {
@@ -239,7 +196,7 @@ module center_pose(lift=0) {
         translate([0,-center_bar_y,0]) children();
 }
 
-module placed_center(lift=0) { center_pose(lift) nesting_center(); }
+module placed_center(lift=0) { center_pose(lift) configured_center(); }
 
 module wire_envelope(row=1) {
     winder_pose(row) translate([winder_bounds[0][0]-wire_edge_bulge,
@@ -279,16 +236,22 @@ module bnc_fit_coupon() {
     coupon(diameters=[9.7,9.8,9.9,10.0,10.1]);
 }
 
+module bnc_fit_coupon_tight() {
+    // Retain 9.7 as a control; explore the 3/8-inch (9.525 mm) thread size.
+    coupon(diameters=[9.5,9.55,9.6,9.65,9.7]);
+}
+
 module print_layout() {
     for(i=[0:1]) translate([0,i*(profile_height+layout_gap)-print_min_y,0])
         single_winder();
-    translate([0,2*(profile_height+layout_gap)+0.5,0]) nesting_center();
+    translate([0,2*(profile_height+layout_gap)+0.5,0]) configured_center();
 }
 
-if(part=="center") nesting_center();
+if(part=="center") configured_center();
 else if(part=="winder") single_winder();
 else if(part=="print_layout") print_layout();
 else if(part=="bnc_fit_coupon") bnc_fit_coupon();
+else if(part=="bnc_fit_coupon_tight") bnc_fit_coupon_tight();
 else if(part=="fit_coupon") alignment_coupon();
 else if(part=="wire_envelopes") for(row=[-1,1]) wire_envelope(row);
 else {

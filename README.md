@@ -40,7 +40,11 @@ batch-generate STLs if desired.
 - `models/ham_radio/toroid_dipole_winder/` - open-mount variant with a
   heatshrunk mix 31 bifilar 1:1 current balun, printable carrier and
   [winding/build notes](models/ham_radio/toroid_dipole_winder/README.md)
-- `models/ham_radio/dipole_center/` - coax-fed dipole center with a downward
+- `models/ham_radio/balun_dipole_center/` - preset and build guide for the shared dipole center with a
+  zip-tied mix 31 bifilar 1:1 current balun, retained BNC/ring-terminal hardware,
+  and [prototype print and qualification guide](models/ham_radio/balun_dipole_center/README.md)
+- `models/ham_radio/dipole_center/` - shared coax-fed dipole center with independent
+  balun-mount and packing-strap flags, a downward
   BNC shelf, M3 wire terminals, and internal root reinforcement
   ([Printables](https://www.printables.com/model/1838086-bnc-dipole-center))
 - `models/ham_radio/dx_commander_element_label/` - element label tags

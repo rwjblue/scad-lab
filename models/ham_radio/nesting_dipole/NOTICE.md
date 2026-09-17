@@ -51,8 +51,10 @@ wire reserves and an illustrative strap route; physical fit remains a
 prototype trial.
 This arrangement replaces the earlier four-post center carrier in the same model.
 
-The design reuses helpers from the existing
-[dipole center](../dipole_center/dipole_center.scad) and
+The center is the shared
+[dipole center](../dipole_center/dipole_center.scad), configured with its
+optional strap slots enabled. Nesting dipole does not maintain a separate
+center geometry. The design also reuses the
 [frame bevel](../dipole_winder/frame_bevel.scad). The BNC shelf, ribs and
 shelf-root reinforcement are unchanged. The original center is
 licensed by Robert Jackson (N1RWJ) under

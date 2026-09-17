@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Export balun dipole center and coupons; verify meshes and retained hardware fits"
+set -euo pipefail
+exec uv run --no-project --with trimesh --with shapely --with scipy \
+  --with networkx --with manifold3d python models/ham_radio/balun_dipole_center/validate.py

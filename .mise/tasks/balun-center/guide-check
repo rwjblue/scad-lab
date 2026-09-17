@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Export winding guide; verify 13-turn routing, spacing, clearances and open-bottom mesh"
+set -euo pipefail
+exec uv run --no-project --with trimesh --with scipy --with networkx --with shapely \
+  --with manifold3d python models/ham_radio/balun_dipole_center/validate_winding_guide.py "$@"

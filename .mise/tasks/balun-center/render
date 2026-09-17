@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Render open balun dipole center and assembly references"
+set -euo pipefail
+exec python3 models/ham_radio/balun_dipole_center/render.py
