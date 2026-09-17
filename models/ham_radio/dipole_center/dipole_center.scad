@@ -113,15 +113,42 @@ module round_plate_hole(d, chamfer=0) {
     }
 }
 
-module backplate() {
+// Explicit arguments let derived models move or shrink openings without
+// retaining a second set of holes from this module's default configuration.
+// Validate arguments here as imported module calls do not run top-level checks.
+module plate_holes(terminal_d=terminal_hole_d, wire_d=wire_hole_d,
+                   hang_d=hang_hole_d, wire_positions=wire_x,
+                   chamfer=wire_chamfer) {
+    assert(terminal_d >= 3.1 && terminal_d <= 3.6, "This layout is for M3 terminals");
+    assert(wire_d >= 2.6 && wire_d <= 3.6, "Wire holes must be 2.6-3.6 mm");
+    assert(hang_d >= 4 && hang_d <= 6, "Keep the suspension eye 4-6 mm");
+    assert(chamfer >= 0 && chamfer <= 0.6, "Keep chamfer at 0-0.6 mm");
+    assert(len(wire_positions) == 3, "Use three wire holes on each side");
+    assert(wire_positions[0]-terminal_x-wire_d/2-chamfer-panduit_terminal_reach_max
+           >= minimum_wire_entry_gap,
+           "Leave at least 4 mm between the Panduit barrel entry and wire-hole chamfer");
+    for(i=[0:len(wire_positions)-2])
+        assert(wire_positions[i+1]-wire_positions[i]-wire_d-2*chamfer
+               >= minimum_wire_face_web,
+               "Wire holes and chamfers must leave at least 1.2 mm between faces");
+    assert(wire_positions[len(wire_positions)-1]+wire_d/2+chamfer <= bar_w/2-3,
+           "Leave at least 3 mm between the outer wire-hole mouth and the bar end");
+
+    translate([0,hang_y,0]) round_plate_hole(hang_d,chamfer);
+    for(s=[-1,1]) {
+        translate([s*terminal_x,bar_y,0]) round_plate_hole(terminal_d);
+        for(x=wire_positions)
+            translate([s*x,bar_y,0]) round_plate_hole(wire_d,chamfer);
+    }
+}
+
+module backplate(terminal_d=terminal_hole_d, wire_d=wire_hole_d,
+                 hang_d=hang_hole_d, wire_positions=wire_x,
+                 chamfer=wire_chamfer) {
     difference() {
         linear_extrude(height=plate_t) back_outline();
-        translate([0,hang_y,0]) round_plate_hole(hang_hole_d,wire_chamfer);
-        for(s=[-1,1]) {
-            translate([s*terminal_x,bar_y,0]) round_plate_hole(terminal_hole_d);
-            for(x=wire_x)
-                translate([s*x,bar_y,0]) round_plate_hole(wire_hole_d,wire_chamfer);
-        }
+        plate_holes(terminal_d=terminal_d, wire_d=wire_d, hang_d=hang_d,
+                    wire_positions=wire_positions, chamfer=chamfer);
     }
 }
 
@@ -152,10 +179,11 @@ module bnc_hole(clearance,thickness=shelf_t) {
         extrude_toward_y(thickness+2*eps) bnc_d_profile(clearance);
 }
 
-module shelf() {
+module shelf(clearance=bnc_clearance) {
+    assert(clearance >= 0 && clearance <= 0.25, "BNC clearance out of range");
     difference() {
         extrude_toward_y(shelf_t) shelf_outline();
-        bnc_hole(bnc_clearance);
+        bnc_hole(clearance);
     }
 }
 
@@ -193,10 +221,13 @@ module shelf_root() {
     }
 }
 
-module center() {
+module center(terminal_d=terminal_hole_d, wire_d=wire_hole_d,
+              hang_d=hang_hole_d, wire_positions=wire_x,
+              chamfer=wire_chamfer, bnc_fit=bnc_clearance) {
     union() {
-        backplate();
-        shelf();
+        backplate(terminal_d=terminal_d, wire_d=wire_d, hang_d=hang_d,
+                  wire_positions=wire_positions, chamfer=chamfer);
+        shelf(clearance=bnc_fit);
         for(x=[-rib_x,rib_x]) rib_at(x);
         shelf_root();
     }

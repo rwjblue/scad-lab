@@ -24,6 +24,9 @@ batch-generate STLs if desired.
 
 ## Models in this repo
 
+- `models/ham_radio/nesting_dipole/` - identical winders joined at their spines,
+  with separate coils and a compact crosswise center with inline rear-strap slots
+  ([print and fit guide](models/ham_radio/nesting_dipole/README.md))
 - `models/ham_radio/dipole_link/` - compact labeled linked-dipole insulators
   with zip-tie retention, custom pairs, and ready-to-print band sets
   ([print and assembly guide](models/ham_radio/dipole_link/README.md))

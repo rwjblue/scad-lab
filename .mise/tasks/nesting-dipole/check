@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Verify nesting dipole STLs, spine-to-spine packing, opposite-side wire space and rear tie routing"
+set -euo pipefail
+exec uv run --no-project --with trimesh --with shapely --with scipy \
+  --with networkx --with manifold3d --with rtree \
+  python models/ham_radio/nesting_dipole/validate.py "$@"

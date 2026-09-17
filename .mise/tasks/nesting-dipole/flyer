@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#MISE description="Build the one-page Nesting Dipole marketing flyer and shareable PNG"
+set -euo pipefail
+uv run --no-project --with reportlab --with pillow \
+  python models/ham_radio/nesting_dipole/marketing/build_flyer.py
+pdftoppm -r 200 -singlefile -png \
+  output/pdf/nesting-dipole-flyer.pdf output/pdf/nesting-dipole-flyer

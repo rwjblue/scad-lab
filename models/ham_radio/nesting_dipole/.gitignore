@@ -1,0 +1,7 @@
+# Keep this variant's ready-to-print exports alongside its source.
+!center.stl
+!winder.stl
+!winder_80m.stl
+!print_layout.stl
+!print_layout_80m.stl
+!fit_coupon.stl

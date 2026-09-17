@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Render nesting dipole with lapped spines and a crosswise center"
+set -euo pipefail
+exec python3 models/ham_radio/nesting_dipole/render.py
