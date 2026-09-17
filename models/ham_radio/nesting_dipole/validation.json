@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "passed_scope": "Printable meshes, independently checked center holes and end pads, preserved raised center geometry and original winder geometry, spine-to-spine packing with one engaged stud, opposite-side wire reserves, separation, two center-end tie slots, and a continuous rear-only tie route that clears individual coil ties and their buttons. Unsupported tight-clearance packing and load-proxy intersections are reported separately.",
+  "passed_scope": "Printable meshes, independently checked center holes and end pads, BNC fit coupon diameters and matching upright center cutouts, preserved raised center structure and original winder geometry, spine-to-spine packing with one engaged stud, opposite-side wire reserves, separation, two center-end tie slots, and a continuous rear-only tie route that clears individual coil ties and their buttons. Unsupported tight-clearance packing and load-proxy intersections are reported separately.",
   "evidence": "Nominal CAD checks only. No physical fit, printed strength, hand comfort, retention, or wire-capacity test.",
   "presets": {
     "40m": {
@@ -24,7 +24,7 @@
           39.0,
           23.0
         ],
-        "volume_mm3": 7967.390845943391
+        "volume_mm3": 7976.708316238957
       },
       "winder": {
         "watertight": true,
@@ -46,7 +46,7 @@
           54.04356384277344,
           13.0
         ],
-        "volume_mm3": 11699.589934139809
+        "volume_mm3": 11699.589921493089
       },
       "print_layout": {
         "watertight": true,
@@ -68,7 +68,7 @@
           163.5871276847825,
           23.0
         ],
-        "volume_mm3": 31366.570505284482
+        "volume_mm3": 31375.888103692298
       },
       "center_holes_and_structure": {
         "overall_size_mm": [
@@ -1049,7 +1049,7 @@
         ],
         "frame_thickness_mm": 5,
         "new_socket_excluded_radius_mm": 4.1,
-        "frame_outside_socket_symmetric_difference_mm3": 1.3562332848475004e-05,
+        "frame_outside_socket_symmetric_difference_mm3": 8.613513576468298e-08,
         "original_outline_bounds_xy_mm": [
           [
             -70.0,
@@ -1341,8 +1341,8 @@
         "one_center_and_two_identical_winders": true,
         "part_symmetric_difference_mm3": [
           0.0012438369299350902,
-          0.0008599116796782862,
-          0.004458144877086548
+          0.0008135441839840496,
+          0.004418072899473676
         ]
       },
       "assembly": {
@@ -1376,7 +1376,7 @@
           "unsupported_fit_reason": null,
           "mating_frame_engagement_mm": 5,
           "post_protrusion_mm": 3,
-          "contact_after_0p02mm_lowering_mm3": 5.016724837648209,
+          "contact_after_0p02mm_lowering_mm3": 5.016724833025524,
           "native_tie_opening_clearance_box_mm": [
             14,
             3,
@@ -1745,15 +1745,15 @@
           }
         },
         "assembly_module_comparisons": {
-          "center_symmetric_difference_mm3": 0.00013124022636172109,
+          "center_symmetric_difference_mm3": 0.00012976020180606915,
           "rear_strap_symmetric_difference_mm3": 0.0,
           "coil_tie_symmetric_difference_mm3": [
             1.7795446088560614e-06,
             6.852897775170655e-07
           ],
           "winder_symmetric_difference_mm3": [
-            0.0005459057544309569,
-            0.00043708179752381204
+            0.0005932159200104554,
+            0.00039061109418980777
           ]
         },
         "load_proxies": {
@@ -1820,7 +1820,7 @@
           39.0,
           23.0
         ],
-        "volume_mm3": 7967.390845943391
+        "volume_mm3": 7976.708316238957
       },
       "winder": {
         "watertight": true,
@@ -1842,7 +1842,7 @@
           54.04356384277344,
           13.0
         ],
-        "volume_mm3": 11699.58992746255
+        "volume_mm3": 11699.589918097152
       },
       "print_layout": {
         "watertight": true,
@@ -1864,7 +1864,7 @@
           163.5871276847825,
           23.0
         ],
-        "volume_mm3": 31366.5706331642
+        "volume_mm3": 31375.888100755492
       },
       "center_holes_and_structure": {
         "overall_size_mm": [
@@ -2845,7 +2845,7 @@
         ],
         "frame_thickness_mm": 5,
         "new_socket_excluded_radius_mm": 4.1,
-        "frame_outside_socket_symmetric_difference_mm3": 0.00010011419756968584,
+        "frame_outside_socket_symmetric_difference_mm3": 9.355198289995315e-05,
         "original_outline_bounds_xy_mm": [
           [
             -70.0,
@@ -3137,8 +3137,8 @@
         "one_center_and_two_identical_winders": true,
         "part_symmetric_difference_mm3": [
           0.0012438369299350902,
-          0.0007853134663188637,
-          0.004441846849658759
+          0.0007983385354843147,
+          0.004399648893619693
         ]
       },
       "assembly": {
@@ -3172,7 +3172,7 @@
           "unsupported_fit_reason": null,
           "mating_frame_engagement_mm": 5,
           "post_protrusion_mm": 3,
-          "contact_after_0p02mm_lowering_mm3": 5.0167248284872485,
+          "contact_after_0p02mm_lowering_mm3": 5.01672482833865,
           "native_tie_opening_clearance_box_mm": [
             14,
             3,
@@ -3541,15 +3541,15 @@
           }
         },
         "assembly_module_comparisons": {
-          "center_symmetric_difference_mm3": 0.0001294333035654442,
+          "center_symmetric_difference_mm3": 0.00012932782821432437,
           "rear_strap_symmetric_difference_mm3": 0.0,
           "coil_tie_symmetric_difference_mm3": [
             1.7795446088560614e-06,
             9.614032985376386e-07
           ],
           "winder_symmetric_difference_mm3": [
-            0.0005642746482408256,
-            0.0004551012577091266
+            0.0005923284279560903,
+            0.00043322461109103944
           ]
         },
         "load_proxies": {
@@ -3595,7 +3595,7 @@
         ]
       },
       "center_difference_from_40m_mm3": 0.0,
-      "winder_difference_from_40m_mm3": 7.61790400550429e-05
+      "winder_difference_from_40m_mm3": 9.237052897030178e-05
     }
   },
   "parameter_samples": {
@@ -3623,7 +3623,7 @@
           39.0,
           23.0
         ],
-        "volume_mm3": 7967.390845943391
+        "volume_mm3": 7976.708316238957
       },
       "winder": {
         "watertight": true,
@@ -3645,7 +3645,7 @@
           54.04356384277344,
           12.0
         ],
-        "volume_mm3": 11671.33577690665
+        "volume_mm3": 11671.335776935668
       },
       "preserved_winder_frame": {
         "original_post_stations_xy_mm": [
@@ -3664,7 +3664,7 @@
         ],
         "frame_thickness_mm": 5,
         "new_socket_excluded_radius_mm": 4.1,
-        "frame_outside_socket_symmetric_difference_mm3": 1.1271956244248333e-05,
+        "frame_outside_socket_symmetric_difference_mm3": 9.433161137195611e-05,
         "original_outline_bounds_xy_mm": [
           [
             -70.0,
@@ -3983,7 +3983,7 @@
           "unsupported_fit_reason": null,
           "mating_frame_engagement_mm": 5,
           "post_protrusion_mm": 2,
-          "contact_after_0p02mm_lowering_mm3": 5.016724827360127,
+          "contact_after_0p02mm_lowering_mm3": 5.016724826637792,
           "native_tie_opening_clearance_box_mm": [
             14,
             3,
@@ -4404,7 +4404,7 @@
           39.0,
           23.0
         ],
-        "volume_mm3": 7967.390845943391
+        "volume_mm3": 7976.708316238957
       },
       "winder": {
         "watertight": true,
@@ -4426,7 +4426,7 @@
           54.04356384277344,
           15.0
         ],
-        "volume_mm3": 11756.098214047472
+        "volume_mm3": 11756.098213949808
       },
       "preserved_winder_frame": {
         "original_post_stations_xy_mm": [
@@ -4445,7 +4445,7 @@
         ],
         "frame_thickness_mm": 5,
         "new_socket_excluded_radius_mm": 4.1,
-        "frame_outside_socket_symmetric_difference_mm3": 9.081932432764006e-05,
+        "frame_outside_socket_symmetric_difference_mm3": 0.00010044242208095966,
         "original_outline_bounds_xy_mm": [
           [
             -70.0,
@@ -4764,7 +4764,7 @@
           "unsupported_fit_reason": null,
           "mating_frame_engagement_mm": 5,
           "post_protrusion_mm": 5,
-          "contact_after_0p02mm_lowering_mm3": 5.016724832259407,
+          "contact_after_0p02mm_lowering_mm3": 5.01672482978258,
           "native_tie_opening_clearance_box_mm": [
             14,
             3,
@@ -5233,7 +5233,7 @@
           39.0,
           23.0
         ],
-        "volume_mm3": 7967.390845943391
+        "volume_mm3": 7976.708316238957
       },
       "winder": {
         "watertight": true,
@@ -5255,7 +5255,7 @@
           76.54356384277344,
           13.0
         ],
-        "volume_mm3": 20430.802498677673
+        "volume_mm3": 20430.802500734633
       },
       "preserved_winder_frame": {
         "original_post_stations_xy_mm": [
@@ -5274,7 +5274,7 @@
         ],
         "frame_thickness_mm": 5,
         "new_socket_excluded_radius_mm": 4.1,
-        "frame_outside_socket_symmetric_difference_mm3": 5.184161515596013e-05,
+        "frame_outside_socket_symmetric_difference_mm3": 5.7769252559107066e-05,
         "original_outline_bounds_xy_mm": [
           [
             -108.72660827636719,
@@ -5593,7 +5593,7 @@
           "unsupported_fit_reason": null,
           "mating_frame_engagement_mm": 5,
           "post_protrusion_mm": 3,
-          "contact_after_0p02mm_lowering_mm3": 5.01672482723474,
+          "contact_after_0p02mm_lowering_mm3": 5.016724827412008,
           "native_tie_opening_clearance_box_mm": [
             14,
             3,
@@ -6030,7 +6030,7 @@
           39.0,
           23.0
         ],
-        "volume_mm3": 7967.390845943391
+        "volume_mm3": 7976.708316238957
       },
       "winder": {
         "watertight": true,
@@ -6052,7 +6052,7 @@
           54.04356384277344,
           15.0
         ],
-        "volume_mm3": 11756.09821486107
+        "volume_mm3": 11756.098183839422
       },
       "preserved_winder_frame": {
         "original_post_stations_xy_mm": [
@@ -6071,7 +6071,7 @@
         ],
         "frame_thickness_mm": 5,
         "new_socket_excluded_radius_mm": 4.1,
-        "frame_outside_socket_symmetric_difference_mm3": 1.3562985865670878e-05,
+        "frame_outside_socket_symmetric_difference_mm3": 4.437101066893471e-05,
         "original_outline_bounds_xy_mm": [
           [
             -70.0,
@@ -6390,7 +6390,7 @@
           "unsupported_fit_reason": null,
           "mating_frame_engagement_mm": 5,
           "post_protrusion_mm": 5,
-          "contact_after_0p02mm_lowering_mm3": 5.01672483278768,
+          "contact_after_0p02mm_lowering_mm3": 5.016724833148515,
           "native_tie_opening_clearance_box_mm": [
             14,
             3,
@@ -6858,7 +6858,7 @@
           39.0,
           23.0
         ],
-        "volume_mm3": 7967.390845943391
+        "volume_mm3": 7976.708316238957
       },
       "winder": {
         "watertight": true,
@@ -6880,7 +6880,7 @@
           54.04356384277344,
           13.0
         ],
-        "volume_mm3": 11709.799091646695
+        "volume_mm3": 11709.799093766162
       },
       "preserved_winder_frame": {
         "original_post_stations_xy_mm": [
@@ -6899,7 +6899,7 @@
         ],
         "frame_thickness_mm": 5,
         "new_socket_excluded_radius_mm": 4.1,
-        "frame_outside_socket_symmetric_difference_mm3": 0.0001025818698205209,
+        "frame_outside_socket_symmetric_difference_mm3": 1.4466018190735971e-05,
         "original_outline_bounds_xy_mm": [
           [
             -70.0,
@@ -7218,7 +7218,7 @@
           "unsupported_fit_reason": "The tight-clearance variant's bottom socket chamfer intersects the unchanged stud root in this packing orientation.",
           "mating_frame_engagement_mm": 5,
           "post_protrusion_mm": 3,
-          "contact_after_0p02mm_lowering_mm3": 5.112362479475234,
+          "contact_after_0p02mm_lowering_mm3": 5.112362468294573,
           "native_tie_opening_clearance_box_mm": [
             14,
             3,
@@ -7654,7 +7654,7 @@
           39.0,
           23.0
         ],
-        "volume_mm3": 7967.390845943391
+        "volume_mm3": 7976.708316238957
       },
       "winder": {
         "watertight": true,
@@ -7676,7 +7676,7 @@
           54.04356384277344,
           13.0
         ],
-        "volume_mm3": 11683.687556320663
+        "volume_mm3": 11683.687559562104
       },
       "preserved_winder_frame": {
         "original_post_stations_xy_mm": [
@@ -7695,7 +7695,7 @@
         ],
         "frame_thickness_mm": 5,
         "new_socket_excluded_radius_mm": 4.1,
-        "frame_outside_socket_symmetric_difference_mm3": 2.140612699956061e-05,
+        "frame_outside_socket_symmetric_difference_mm3": 3.1180675724347866e-06,
         "original_outline_bounds_xy_mm": [
           [
             -70.0,
@@ -8014,7 +8014,7 @@
           "unsupported_fit_reason": null,
           "mating_frame_engagement_mm": 5,
           "post_protrusion_mm": 3,
-          "contact_after_0p02mm_lowering_mm3": 4.873005694603569,
+          "contact_after_0p02mm_lowering_mm3": 4.873005696412885,
           "native_tie_opening_clearance_box_mm": [
             14,
             3,
@@ -8476,7 +8476,7 @@
           39.0,
           23.0
         ],
-        "volume_mm3": 8144.021133863079
+        "volume_mm3": 8153.338604158645
       },
       "center_holes_and_structure": {
         "overall_size_mm": [
@@ -9561,7 +9561,7 @@
           "unsupported_fit_reason": null,
           "mating_frame_engagement_mm": 5,
           "post_protrusion_mm": 3,
-          "contact_after_0p02mm_lowering_mm3": 5.016724837648209,
+          "contact_after_0p02mm_lowering_mm3": 5.016724833025524,
           "native_tie_opening_clearance_box_mm": [
             14,
             3,
@@ -10015,8 +10015,8 @@
       28.0,
       13.0
     ],
-    "volume_mm3": 8201.66547838655,
-    "identical_halves_symmetric_difference_mm3": 2.9924254552800754e-05,
+    "volume_mm3": 8201.665478907258,
+    "identical_halves_symmetric_difference_mm3": 2.9934456430661765e-05,
     "matches_printed_interfaces": [
       {
         "interface": "stud_root_and_frame",
@@ -10065,7 +10065,7 @@
       "unsupported_fit_reason": null,
       "mating_frame_engagement_mm": 5,
       "post_protrusion_mm": 3,
-      "contact_after_0p02mm_lowering_mm3": 12.851313174872493,
+      "contact_after_0p02mm_lowering_mm3": 12.851313157292196,
       "native_tie_opening_clearance_box_mm": [
         14,
         3,
@@ -10365,17 +10365,936 @@
       "full_disengagement_distance_mm": 8.25
     }
   },
+  "bnc_fit_coupon": {
+    "watertight": true,
+    "connected_solids": 1,
+    "bounds_mm": [
+      [
+        -55.0,
+        0.0,
+        0.0
+      ],
+      [
+        55.0,
+        8.0,
+        23.0
+      ]
+    ],
+    "size_mm": [
+      110.0,
+      8.0,
+      23.0
+    ],
+    "volume_mm3": 7472.6912496921395,
+    "diameters_mm": [
+      9.7,
+      9.8,
+      9.9,
+      10.0,
+      10.1
+    ],
+    "station_pitch_mm": 22,
+    "samples": [
+      {
+        "nominal_diameter_mm": 9.7,
+        "axis_xz_mm": [
+          -44.0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 9.699996948242188,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 1.549137210405988e-05
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 9.699996948242188,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 1.549137210473584e-05
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 9.699996948242188,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 1.549137210410866e-05
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 9.699996948242188,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 1.5491372105697168e-05
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 9.699996948242188,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 1.54913721032913e-05
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 9.699996948242188,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 1.5491372102874783e-05
+          }
+        ],
+        "maximum_center_profile_difference_mm2": 1.4748437426181363e-05
+      },
+      {
+        "nominal_diameter_mm": 9.8,
+        "axis_xz_mm": [
+          -22.0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 9.799999237060547,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 1.1595252162278317e-05
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 9.799999237060547,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 1.1595252162624201e-05
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 9.799999237060547,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 1.1595252162703241e-05
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 9.799999237060547,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 1.159525216268233e-05
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 9.799999237060547,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 1.1595252161826972e-05
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 9.799999237060547,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 1.1595252162001188e-05
+          }
+        ],
+        "maximum_center_profile_difference_mm2": 5.271066452610109e-06
+      },
+      {
+        "nominal_diameter_mm": 9.9,
+        "axis_xz_mm": [
+          0.0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.43198858601289e-06
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.431988587701986e-06
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.431988586447444e-06
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.431988587142535e-06
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.431988586958998e-06
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.431988586318083e-06
+          }
+        ],
+        "maximum_center_profile_difference_mm2": 0.0
+      },
+      {
+        "nominal_diameter_mm": 10.0,
+        "axis_xz_mm": [
+          22.0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 1.0454223647702578e-05
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 1.0454223648532455e-05
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 1.0454223647199993e-05
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 1.0454223647487528e-05
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 1.0454223646962153e-05
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 1.0454223647624561e-05
+          }
+        ],
+        "maximum_center_profile_difference_mm2": 7.314224522047731e-06
+      },
+      {
+        "nominal_diameter_mm": 10.1,
+        "axis_xz_mm": [
+          44.0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 10.099998474121094,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 1.5806565453647946e-05
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 10.099998474121094,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 1.58065654529004e-05
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 10.099998474121094,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 1.5806565451315956e-05
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 10.099998474121094,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 1.5806565451262813e-05
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 10.099998474121094,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 1.580656545281609e-05
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 10.099998474121094,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 1.5806565453587603e-05
+          }
+        ],
+        "maximum_center_profile_difference_mm2": 1.06384482373652e-05
+      }
+    ],
+    "center_parameter_checks": {
+      "9.7": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -45.0,
+            0.0,
+            0.0
+          ],
+          [
+            45.0,
+            39.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          90.0,
+          39.0,
+          23.0
+        ],
+        "volume_mm3": 7985.836169832396,
+        "nominal_diameter_mm": 9.7,
+        "axis_xz_mm": [
+          0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 9.699999809265137,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 3.86029427102624e-06
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 9.699999809265137,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 3.860294271536664e-06
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 9.699999809265137,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 3.860294271607725e-06
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 9.699999809265137,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 3.8602942715453226e-06
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 9.699999809265137,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 3.860294271309928e-06
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 9.699999809265137,
+            "flat_to_opposite_edge_mm": 8.850000381469727,
+            "upper_flat_z_mm": 18.0,
+            "profile_symmetric_difference_mm2": 3.8602942709033326e-06
+          }
+        ]
+      },
+      "9.8": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -45.0,
+            0.0,
+            0.0
+          ],
+          [
+            45.0,
+            39.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          90.0,
+          39.0,
+          23.0
+        ],
+        "volume_mm3": 7981.295961249972,
+        "nominal_diameter_mm": 9.8,
+        "axis_xz_mm": [
+          0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 9.800000190734863,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 8.25224078479644e-06
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 9.800000190734863,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 8.252240784897492e-06
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 9.800000190734863,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 8.252240784635703e-06
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 9.800000190734863,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 8.252240784833425e-06
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 9.800000190734863,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 8.252240785078582e-06
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 9.800000190734863,
+            "flat_to_opposite_edge_mm": 8.94999885559082,
+            "upper_flat_z_mm": 18.049999237060547,
+            "profile_symmetric_difference_mm2": 8.252240784885433e-06
+          }
+        ]
+      },
+      "9.9": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -45.0,
+            0.0,
+            0.0
+          ],
+          [
+            45.0,
+            39.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          90.0,
+          39.0,
+          23.0
+        ],
+        "volume_mm3": 7976.708316238957,
+        "nominal_diameter_mm": 9.9,
+        "axis_xz_mm": [
+          0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.431988586003201e-06
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.431988587626078e-06
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.431988586461322e-06
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.431988587100902e-06
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.43198858696637e-06
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 9.899999618530273,
+            "flat_to_opposite_edge_mm": 9.050000190734863,
+            "upper_flat_z_mm": 18.100000381469727,
+            "profile_symmetric_difference_mm2": 5.43198858635108e-06
+          }
+        ]
+      },
+      "10.0": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -45.0,
+            0.0,
+            0.0
+          ],
+          [
+            45.0,
+            39.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          90.0,
+          39.0,
+          23.0
+        ],
+        "volume_mm3": 7972.073300896685,
+        "nominal_diameter_mm": 10.0,
+        "axis_xz_mm": [
+          0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 5.55839477809523e-06
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 5.558394777251145e-06
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 5.558394777769257e-06
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 5.558394777232891e-06
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 5.558394777333499e-06
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 10.0,
+            "flat_to_opposite_edge_mm": 9.149999618530273,
+            "upper_flat_z_mm": 18.149999618530273,
+            "profile_symmetric_difference_mm2": 5.558394778121686e-06
+          }
+        ]
+      },
+      "10.1": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -45.0,
+            0.0,
+            0.0
+          ],
+          [
+            45.0,
+            39.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          90.0,
+          39.0,
+          23.0
+        ],
+        "volume_mm3": 7967.390845943391,
+        "nominal_diameter_mm": 10.1,
+        "axis_xz_mm": [
+          0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 10.100000381469727,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 8.07548246943687e-06
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 10.100000381469727,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 8.075482469843557e-06
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 10.100000381469727,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 8.075482469997124e-06
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 10.100000381469727,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 8.075482469758762e-06
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 10.100000381469727,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 8.075482469361718e-06
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 10.100000381469727,
+            "flat_to_opposite_edge_mm": 9.250000953674316,
+            "upper_flat_z_mm": 18.200000762939453,
+            "profile_symmetric_difference_mm2": 8.07548246916991e-06
+          }
+        ]
+      },
+      "10.2": {
+        "watertight": true,
+        "connected_solids": 1,
+        "bounds_mm": [
+          [
+            -45.0,
+            0.0,
+            0.0
+          ],
+          [
+            45.0,
+            39.0,
+            23.0
+          ]
+        ],
+        "size_mm": [
+          90.0,
+          39.0,
+          23.0
+        ],
+        "volume_mm3": 7962.661073573025,
+        "nominal_diameter_mm": 10.2,
+        "axis_xz_mm": [
+          0,
+          14
+        ],
+        "panel_thickness_mm": 3.0,
+        "sections": [
+          {
+            "y_mm": 0.025,
+            "round_diameter_mm": 10.199999809265137,
+            "flat_to_opposite_edge_mm": 9.350000381469727,
+            "upper_flat_z_mm": 18.25,
+            "profile_symmetric_difference_mm2": 4.280095578151278e-06
+          },
+          {
+            "y_mm": 0.3,
+            "round_diameter_mm": 10.199999809265137,
+            "flat_to_opposite_edge_mm": 9.350000381469727,
+            "upper_flat_z_mm": 18.25,
+            "profile_symmetric_difference_mm2": 4.2800955779969835e-06
+          },
+          {
+            "y_mm": 0.75,
+            "round_diameter_mm": 10.199999809265137,
+            "flat_to_opposite_edge_mm": 9.350000381469727,
+            "upper_flat_z_mm": 18.25,
+            "profile_symmetric_difference_mm2": 4.280095577711803e-06
+          },
+          {
+            "y_mm": 1.5,
+            "round_diameter_mm": 10.199999809265137,
+            "flat_to_opposite_edge_mm": 9.350000381469727,
+            "upper_flat_z_mm": 18.25,
+            "profile_symmetric_difference_mm2": 4.2800955777262345e-06
+          },
+          {
+            "y_mm": 2.5,
+            "round_diameter_mm": 10.199999809265137,
+            "flat_to_opposite_edge_mm": 9.350000381469727,
+            "upper_flat_z_mm": 18.25,
+            "profile_symmetric_difference_mm2": 4.2800955775635525e-06
+          },
+          {
+            "y_mm": 2.975,
+            "round_diameter_mm": 10.199999809265137,
+            "flat_to_opposite_edge_mm": 9.350000381469727,
+            "upper_flat_z_mm": 18.25,
+            "profile_symmetric_difference_mm2": 4.280095578180991e-06
+          }
+        ]
+      }
+    },
+    "shared_default_coupon": {
+      "watertight": true,
+      "connected_solids": 1,
+      "bounds_mm": [
+        [
+          -33.0,
+          0.0,
+          0.0
+        ],
+        [
+          33.0,
+          8.0,
+          23.0
+        ]
+      ],
+      "size_mm": [
+        66.0,
+        8.0,
+        23.0
+      ],
+      "volume_mm3": 4482.482590642259,
+      "diameters_mm": [
+        9.7,
+        9.9,
+        10.1
+      ],
+      "station_pitch_mm": 22,
+      "samples": [
+        {
+          "nominal_diameter_mm": 9.7,
+          "axis_xz_mm": [
+            -22.0,
+            14
+          ],
+          "panel_thickness_mm": 3.0,
+          "sections": [
+            {
+              "y_mm": 0.025,
+              "round_diameter_mm": 9.700000762939453,
+              "flat_to_opposite_edge_mm": 8.850000381469727,
+              "upper_flat_z_mm": 18.0,
+              "profile_symmetric_difference_mm2": 6.338334691743854e-06
+            },
+            {
+              "y_mm": 0.3,
+              "round_diameter_mm": 9.700000762939453,
+              "flat_to_opposite_edge_mm": 8.850000381469727,
+              "upper_flat_z_mm": 18.0,
+              "profile_symmetric_difference_mm2": 6.338334691858444e-06
+            },
+            {
+              "y_mm": 0.75,
+              "round_diameter_mm": 9.700000762939453,
+              "flat_to_opposite_edge_mm": 8.850000381469727,
+              "upper_flat_z_mm": 18.0,
+              "profile_symmetric_difference_mm2": 6.3383346915471576e-06
+            },
+            {
+              "y_mm": 1.5,
+              "round_diameter_mm": 9.700000762939453,
+              "flat_to_opposite_edge_mm": 8.850000381469727,
+              "upper_flat_z_mm": 18.0,
+              "profile_symmetric_difference_mm2": 6.338334691566232e-06
+            },
+            {
+              "y_mm": 2.5,
+              "round_diameter_mm": 9.700000762939453,
+              "flat_to_opposite_edge_mm": 8.850000381469727,
+              "upper_flat_z_mm": 18.0,
+              "profile_symmetric_difference_mm2": 6.338334691884577e-06
+            },
+            {
+              "y_mm": 2.975,
+              "round_diameter_mm": 9.700000762939453,
+              "flat_to_opposite_edge_mm": 8.850000381469727,
+              "upper_flat_z_mm": 18.0,
+              "profile_symmetric_difference_mm2": 6.338334691527731e-06
+            }
+          ]
+        },
+        {
+          "nominal_diameter_mm": 9.9,
+          "axis_xz_mm": [
+            0.0,
+            14
+          ],
+          "panel_thickness_mm": 3.0,
+          "sections": [
+            {
+              "y_mm": 0.025,
+              "round_diameter_mm": 9.899999618530273,
+              "flat_to_opposite_edge_mm": 9.050000190734863,
+              "upper_flat_z_mm": 18.100000381469727,
+              "profile_symmetric_difference_mm2": 5.431988586028158e-06
+            },
+            {
+              "y_mm": 0.3,
+              "round_diameter_mm": 9.899999618530273,
+              "flat_to_opposite_edge_mm": 9.050000190734863,
+              "upper_flat_z_mm": 18.100000381469727,
+              "profile_symmetric_difference_mm2": 5.4319885876175125e-06
+            },
+            {
+              "y_mm": 0.75,
+              "round_diameter_mm": 9.899999618530273,
+              "flat_to_opposite_edge_mm": 9.050000190734863,
+              "upper_flat_z_mm": 18.100000381469727,
+              "profile_symmetric_difference_mm2": 5.431988586461322e-06
+            },
+            {
+              "y_mm": 1.5,
+              "round_diameter_mm": 9.899999618530273,
+              "flat_to_opposite_edge_mm": 9.050000190734863,
+              "upper_flat_z_mm": 18.100000381469727,
+              "profile_symmetric_difference_mm2": 5.4319885871286576e-06
+            },
+            {
+              "y_mm": 2.5,
+              "round_diameter_mm": 9.899999618530273,
+              "flat_to_opposite_edge_mm": 9.050000190734863,
+              "upper_flat_z_mm": 18.100000381469727,
+              "profile_symmetric_difference_mm2": 5.431988586958998e-06
+            },
+            {
+              "y_mm": 2.975,
+              "round_diameter_mm": 9.899999618530273,
+              "flat_to_opposite_edge_mm": 9.050000190734863,
+              "upper_flat_z_mm": 18.100000381469727,
+              "profile_symmetric_difference_mm2": 5.431988586315428e-06
+            }
+          ]
+        },
+        {
+          "nominal_diameter_mm": 10.1,
+          "axis_xz_mm": [
+            22.0,
+            14
+          ],
+          "panel_thickness_mm": 3.0,
+          "sections": [
+            {
+              "y_mm": 0.025,
+              "round_diameter_mm": 10.099998474121094,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "upper_flat_z_mm": 18.200000762939453,
+              "profile_symmetric_difference_mm2": 1.2240055772064201e-05
+            },
+            {
+              "y_mm": 0.3,
+              "round_diameter_mm": 10.099998474121094,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "upper_flat_z_mm": 18.200000762939453,
+              "profile_symmetric_difference_mm2": 1.2240055773053549e-05
+            },
+            {
+              "y_mm": 0.75,
+              "round_diameter_mm": 10.099998474121094,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "upper_flat_z_mm": 18.200000762939453,
+              "profile_symmetric_difference_mm2": 1.224005577367858e-05
+            },
+            {
+              "y_mm": 1.5,
+              "round_diameter_mm": 10.099998474121094,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "upper_flat_z_mm": 18.200000762939453,
+              "profile_symmetric_difference_mm2": 1.224005577291141e-05
+            },
+            {
+              "y_mm": 2.5,
+              "round_diameter_mm": 10.099998474121094,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "upper_flat_z_mm": 18.200000762939453,
+              "profile_symmetric_difference_mm2": 1.2240055773271943e-05
+            },
+            {
+              "y_mm": 2.975,
+              "round_diameter_mm": 10.099998474121094,
+              "flat_to_opposite_edge_mm": 9.250000953674316,
+              "upper_flat_z_mm": 18.200000762939453,
+              "profile_symmetric_difference_mm2": 1.2240055772050433e-05
+            }
+          ]
+        }
+      ]
+    },
+    "default_center_diameter_mm": 9.9,
+    "print_orientation": "Foot flat on bed, 3 mm panel upright, D-hole flat uppermost"
+  },
   "print_file_updates": {
     "center.stl": {
       "status": "updated"
     },
     "winder.stl": {
       "status": "preserved_existing_bytes",
-      "fresh_export_symmetric_difference_mm3": 1.894300718655965e-05
+      "fresh_export_symmetric_difference_mm3": 9.523922138517567e-05
     },
     "winder_80m.stl": {
       "status": "preserved_existing_bytes",
-      "fresh_export_symmetric_difference_mm3": 0.00010459482837177347
+      "fresh_export_symmetric_difference_mm3": 7.700242539006771e-06
     },
     "print_layout.stl": {
       "status": "updated"
@@ -10385,25 +11304,29 @@
     },
     "fit_coupon.stl": {
       "status": "preserved_existing_bytes",
-      "fresh_export_symmetric_difference_mm3": 1.607532643295902e-06
+      "fresh_export_symmetric_difference_mm3": 1.8285798735936018e-06
+    },
+    "bnc_fit_coupon.stl": {
+      "status": "updated"
     }
   },
   "input_sha256": {
-    "models/ham_radio/nesting_dipole/nesting_dipole.scad": "6a584661ae7e797b29c4bc8afd2c58b28a817232f1c58f28dc4d58026f305bfb",
+    "models/ham_radio/nesting_dipole/nesting_dipole.scad": "ec83885f39136c15f3ac07029ba4560cc55edcae12ccdaabba20cf7739e77137",
     "models/ham_radio/nesting_dipole/mockups.scad": "cdd3c439998abd56920f0c9aa29c183cb8876b253224dc0f4fcb3ebf4d92c63f",
     "models/ham_radio/nesting_dipole/native_profile.scad": "850593d0b8f673577d8cd47ad0c3a5c170a441f4a82d0b721c72726f2adc92a6",
     "models/ham_radio/nesting_dipole/winder_profile.scad": "376bf93ed6ad8f5818a3117692d6a90bef52bde81573c9904c2e1d107ff6d7d1",
-    "models/ham_radio/dipole_center/dipole_center.scad": "37c1dd39525432ce3df9d2cba1307be12779fa36b7482e20495de0ccba397eb0",
+    "models/ham_radio/dipole_center/dipole_center.scad": "411432059136a51abacb1d9589b1eed838073478905d5bb575d554691742f747",
     "models/ham_radio/dipole_winder/frame_bevel.scad": "135b1a8ad351b3a3c0e651effe5593c6916f7e6cc3948f3857ed460f867b1791",
-    "models/ham_radio/nesting_dipole/validate.py": "75c1dd744b6521d0f2233a8b52ee319f3a59621155a5eb0ffbffb9ce0098b755",
+    "models/ham_radio/nesting_dipole/validate.py": "f952f465d4cb4ec5b957cb5b5c318e680381aac3550b55d4283525b6e4f4b452",
     ".mise/tasks/nesting-dipole/check": "c89a62f3d5c23054024919f269b76ec3f4131424550bf9c73884e2b9c9dc0242"
   },
   "output_sha256": {
-    "center.stl": "56ca015e2fc8ef715ad48ebf21224730afef5c68e3cc3b022c4828cba97bc2c0",
+    "center.stl": "cae1a6a4596862a3a42f2bb4f1b094988dd3e3510e1d46da2f323fdf73b9460e",
     "winder.stl": "5bfdbff5e71c0a24aec3bd9715d70de1709519205171ec5b597e786ec9f27735",
     "winder_80m.stl": "42d570ca8d3524da98f4c049b68f1ffe445d37a0a2ad66ae6a81648aac646807",
-    "print_layout.stl": "072453b0de658bafdb0a715ab1b77d8094f5746f0de8cc4ad04566c3ba9c14b3",
-    "print_layout_80m.stl": "4baa316e0eb1761b413e918b8624fab57bbe8749a02619756b063d9521da1e4e",
-    "fit_coupon.stl": "eafa4c9b3d252f88d7883b71809fc50336927f637d199f15a98887a4c6a4af21"
+    "print_layout.stl": "29bb8fb290d8be62d4c5931c344c47930b64e820fcf8a79994f6a8a80bbabccc",
+    "print_layout_80m.stl": "92be305e12630fae07c64c93636d9b3b1bd18eaff7a9431eb70960459625436e",
+    "fit_coupon.stl": "eafa4c9b3d252f88d7883b71809fc50336927f637d199f15a98887a4c6a4af21",
+    "bnc_fit_coupon.stl": "4a8e2100ef2b890c146551773b21e18b79d47993b6addb87241082fb9419e0a0"
   }
 }

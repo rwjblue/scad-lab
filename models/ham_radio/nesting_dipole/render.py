@@ -16,6 +16,7 @@ VIEWS = [
     ("back", "mockups.scad", 'view="back"', "170,-230,-240,0,0,5"),
     ("print_layout", "nesting_dipole.scad", 'part="print_layout"', "0,30,300,0,30,0"),
     ("fit_coupon", "nesting_dipole.scad", 'part="fit_coupon"', "70,-100,130,0,0,0"),
+    ("bnc_fit_coupon", "nesting_dipole.scad", 'part="bnc_fit_coupon"', "65,-120,65,0,4,10"),
 ]
 
 

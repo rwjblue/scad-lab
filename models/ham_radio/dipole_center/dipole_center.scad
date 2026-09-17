@@ -233,25 +233,28 @@ module center(terminal_d=terminal_hole_d, wire_d=wire_hole_d,
     }
 }
 
-module coupon() {
+module coupon(diameters=[9.7,9.9,10.1]) {
     // Upright D-holes reproduce the final shelf's orientation and thickness.
-    // Left-to-right: nominal 9.7, default 9.9, loose 10.1.
+    // Default left-to-right: nominal 9.7, default 9.9, loose 10.1.
     // Each tab is attached to a common foot. No supports intended.
-    diameters=[9.7,9.9,10.1];
-    clearances=[0,0.10,0.20];
+    assert(len(diameters)>0,"Choose at least one BNC coupon diameter");
+    for(d=diameters) assert(d>=9.7 && d<=10.2,"Coupon diameters must be 9.7..10.2 mm");
+    stations=[for(i=[0:len(diameters)-1]) (i-(len(diameters)-1)/2)*22];
     difference() {
         union() {
-            translate([0,4,0]) linear_extrude(height=plate_t) rounded_rect(66,8,1);
-            for(x=[-22,0,22])
+            translate([0,4,0]) linear_extrude(height=plate_t)
+                rounded_rect(len(diameters)*22,8,1);
+            for(x=stations)
                 translate([x,0,0]) extrude_toward_y(shelf_t)
                     polygon([[-9,0],[9,0],[9,shelf_depth-2],
                              [7,shelf_depth],[-7,shelf_depth],[-9,shelf_depth-2]]);
         }
-        for(i=[0:2]) {
-            translate([(i-1)*22,0,0]) bnc_hole(clearances[i]);
+        for(i=[0:len(diameters)-1]) {
+            translate([stations[i],0,0]) bnc_hole((diameters[i]-9.7)/2);
             // Debossed on front face, below each hole.
-            translate([(i-1)*22,-eps,6.6]) extrude_toward_y(0.4+eps)
-                text(str(diameters[i]),size=2.5,font="Liberation Sans",
+            translate([stations[i],-eps,6.6]) extrude_toward_y(0.4+eps)
+                text(str(diameters[i],diameters[i]==floor(diameters[i]) ? ".0" : ""),
+                     size=2.5,font="Liberation Sans",
                      halign="center",valign="center");
         }
     }

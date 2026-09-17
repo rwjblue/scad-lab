@@ -18,7 +18,7 @@ use <../dipole_winder/frame_bevel.scad>
 use <../dipole_center/dipole_center.scad>
 
 /* [Output] */
-part="print_layout"; // [center,winder,assembled,winders,print_layout,exploded,fit_coupon,wire_envelopes]
+part="print_layout"; // [center,winder,assembled,winders,print_layout,exploded,bnc_fit_coupon,fit_coupon,wire_envelopes]
 preset="40m"; // [40m,80m]
 show_wire=false;
 
@@ -42,6 +42,12 @@ strap_slot_thickness=3; // [2:0.5:4]
 wire_face_bulge=0; // [0:Preset,2:2 mm,3:3 mm,4:4 mm,5:5 mm,6:6 mm,7:7 mm,8:8 mm,9:9 mm,10:10 mm,11:11 mm,12:12 mm]
 wire_edge_bulge=5; // [2:0.5:5]
 
+/* [BNC connector fit] */
+// D-hole diameter, NOT clearance per side. Print bnc_fit_coupon first and
+// use the smallest size that seats your connector without forcing it.
+// 9.9 mm is a tighter starting fit than the earlier 10.1 mm default.
+bnc_hole_d=9.9; // [9.7:0.05:10.2]
+
 /* [Center holes] */
 terminal_hole_x=7; // [7:0.5:10]
 wire_hole_inner_x=25; // [24:0.1:30]
@@ -50,7 +56,6 @@ wire_hole_d=3.2; // [2.6:0.1:3.6]
 wire_chamfer=0.5; // [0:0.1:0.6]
 terminal_hole_d=3.4; // [3.1:0.1:3.6]
 hang_hole_d=8; // [6:0.5:8]
-bnc_hole_d=10.1; // [9.7:0.05:10.2]
 
 /* [Hidden] */
 $fn=96;
@@ -90,7 +95,7 @@ center_bar_y=21;
 center_pack_z=max(2*frame_t+face_bulge+2,frame_t+pin_h+0.5);
 
 assert(len([for(p=["center","winder","assembled","winders","print_layout",
-    "exploded","fit_coupon","wire_envelopes"]) if(p==part) 1])>0,"Unknown part");
+    "exploded","bnc_fit_coupon","fit_coupon","wire_envelopes"]) if(p==part) 1])>0,"Unknown part");
 assert(preset=="40m" || preset=="80m","Choose 40m or 80m wire-space preset");
 assert(wing_length>=37.5 && wing_length<=60,"Wing reach must be 37.5..60 mm");
 assert(winding_span>=140 && winding_span<=200,"Lower-tip span must be 140..200 mm");
@@ -269,6 +274,11 @@ module alignment_coupon() {
     for(y=[0,18]) translate([0,y,0]) spine_part(coupon=true);
 }
 
+module bnc_fit_coupon() {
+    // Reuse the upright 3 mm shelf and D-hole profile at five labeled fits.
+    coupon(diameters=[9.7,9.8,9.9,10.0,10.1]);
+}
+
 module print_layout() {
     for(i=[0:1]) translate([0,i*(profile_height+layout_gap)-print_min_y,0])
         single_winder();
@@ -278,6 +288,7 @@ module print_layout() {
 if(part=="center") nesting_center();
 else if(part=="winder") single_winder();
 else if(part=="print_layout") print_layout();
+else if(part=="bnc_fit_coupon") bnc_fit_coupon();
 else if(part=="fit_coupon") alignment_coupon();
 else if(part=="wire_envelopes") for(row=[-1,1]) wire_envelope(row);
 else {

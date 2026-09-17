@@ -12,6 +12,7 @@ import subprocess
 import tempfile
 
 import numpy as np
+from shapely.affinity import translate as translate_shape
 from shapely.geometry import Point, Polygon, box as shape_box
 import trimesh
 
@@ -22,7 +23,7 @@ ORIGINAL = HERE.parent / "dipole_center/dipole_center.scad"
 EPS_VOLUME = 0.001
 TOL = 0.025
 PRINT_FILES = ["center.stl", "winder.stl", "winder_80m.stl", "print_layout.stl",
-               "print_layout_80m.stl", "fit_coupon.stl"]
+               "print_layout_80m.stl", "fit_coupon.stl", "bnc_fit_coupon.stl"]
 
 
 def require(condition, message):
@@ -116,6 +117,91 @@ def section_material(mesh, value, axis=2):
 def interior_holes(material):
     shapes = [material] if material.geom_type == "Polygon" else list(material.geoms)
     return [Polygon(ring) for shape in shapes for ring in shape.interiors]
+
+
+def bnc_section_hole(mesh, y, x=0):
+    """Find the upright connector opening in an X/Z section through its panel."""
+    holes = interior_holes(section_material(mesh, y, axis=1))
+    matching = [hole for hole in holes if hole.covers(Point(x, 14))]
+    require(len(matching) == 1, f"Expected one BNC bore at X={x}, Z=14, Y={y}")
+    return matching[0]
+
+
+def bnc_hole_measurements(mesh, diameter, x=0):
+    """Check the D profile independently of the shared OpenSCAD cutter."""
+    radius, flat_z = diameter/2, 14+diameter/2-.85
+    expected = Point(x, 14).buffer(radius, quad_segs=24).intersection(
+        shape_box(x-diameter, 14-diameter, x+diameter, flat_z))
+    sections = []
+    for y in [.025, .3, .75, 1.5, 2.5, 2.975]:
+        hole = bnc_section_hole(mesh, y, x)
+        bounds = np.array(hole.bounds)
+        difference = hole.symmetric_difference(expected).area
+        require(difference < .001, f"Incorrect {diameter} mm BNC D-profile at Y={y}")
+        require(np.allclose(bounds, [x-radius, 14-radius, x+radius, flat_z], atol=TOL),
+                "BNC hole diameter, center height or upper flat moved")
+        sections.append({"y_mm": y, "round_diameter_mm": bounds[2]-bounds[0],
+                         "flat_to_opposite_edge_mm": bounds[3]-bounds[1],
+                         "upper_flat_z_mm": bounds[3],
+                         "profile_symmetric_difference_mm2": difference})
+    # Above the bore, measure the actual upright wall rather than its bounding
+    # box together with the wider stabilizing foot or center backplate.
+    panel = section_material(mesh, 20).intersection(shape_box(x-8, -1, x+8, 4))
+    require(np.allclose(np.array(panel.bounds)[[1, 3]], [0, 3], atol=TOL),
+            "BNC mounting panel must remain 3 mm thick and upright")
+    require(panel.symmetric_difference(shape_box(x-8, 0, x+8, 3)).area < .001,
+            "Missing material in the upright BNC mounting panel")
+    return {"nominal_diameter_mm": diameter, "axis_xz_mm": [x, 14],
+            "panel_thickness_mm": panel.bounds[3]-panel.bounds[1],
+            "sections": sections}
+
+
+def bnc_coupon_geometry(mesh, diameters):
+    expected_size = [22*len(diameters), 8, 23]
+    require(np.allclose(mesh.extents, expected_size, atol=TOL),
+            f"BNC fit coupon must measure {expected_size} mm")
+    stations = [(index-(len(diameters)-1)/2)*22 for index in range(len(diameters))]
+    # A middle section avoids shallow label recesses and must have exactly one
+    # opening per sample, including the anti-rotation flat in each opening.
+    require(len(interior_holes(section_material(mesh, 1.5, axis=1))) == len(diameters),
+            "BNC coupon has a missing or extra through-hole")
+    return {**mesh_report(mesh), "diameters_mm": diameters,
+            "station_pitch_mm": 22,
+            "samples": [bnc_hole_measurements(mesh, diameter, x)
+                        for x, diameter in zip(stations, diameters)]}
+
+
+def bnc_fit_checks(directory, coupon, default_center):
+    diameters = [9.7, 9.8, 9.9, 10.0, 10.1]
+    result = bnc_coupon_geometry(coupon, diameters)
+    variants = [9.7, 9.8, 10.0, 10.1, 10.2]
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {diameter: pool.submit(export, directory/f"bnc-center-{diameter:.1f}.stl",
+                                        SCAD, ['part="center"', f"bnc_hole_d={diameter}"])
+                   for diameter in variants}
+        centers = {diameter: future.result() for diameter, future in futures.items()}
+    centers[9.9] = default_center
+    result["center_parameter_checks"] = {}
+    for diameter in sorted(centers):
+        center = centers[diameter]
+        result["center_parameter_checks"][f"{diameter:.1f}"] = {
+            **mesh_report(center), **bnc_hole_measurements(center, diameter)}
+    for index, diameter in enumerate(diameters):
+        x = (index-2)*22
+        differences = []
+        for y in [.025, .75, 1.5, 2.975]:
+            sample_hole = translate_shape(bnc_section_hole(coupon, y, x), xoff=-x)
+            center_hole = bnc_section_hole(centers[diameter], y)
+            difference = sample_hole.symmetric_difference(center_hole).area
+            require(difference < .001,
+                    f"Coupon {diameter} mm hole does not match the corresponding center")
+            differences.append(difference)
+        result["samples"][index]["maximum_center_profile_difference_mm2"] = max(differences)
+    shared = export(directory / "shared-bnc-coupon.stl", ORIGINAL, ['part="coupon"'])
+    result["shared_default_coupon"] = bnc_coupon_geometry(shared, [9.7, 9.9, 10.1])
+    result["default_center_diameter_mm"] = 9.9
+    result["print_orientation"] = "Foot flat on bed, 3 mm panel upright, D-hole flat uppermost"
+    return result
 
 
 def expected_plate_holes(z, terminal_x=7, wire_inner=25, wire_pitch=5.5,
@@ -634,13 +720,13 @@ def main():
     initial_hashes = hashes()
     report = {
         "status": "running",
-        "passed_scope": "Printable meshes, independently checked center holes and end pads, preserved raised center geometry and original winder geometry, spine-to-spine packing with one engaged stud, opposite-side wire reserves, separation, two center-end tie slots, and a continuous rear-only tie route that clears individual coil ties and their buttons. Unsupported tight-clearance packing and load-proxy intersections are reported separately.",
+        "passed_scope": "Printable meshes, independently checked center holes and end pads, BNC fit coupon diameters and matching upright center cutouts, preserved raised center structure and original winder geometry, spine-to-spine packing with one engaged stud, opposite-side wire reserves, separation, two center-end tie slots, and a continuous rear-only tie route that clears individual coil ties and their buttons. Unsupported tight-clearance packing and load-proxy intersections are reported separately.",
         "evidence": "Nominal CAD checks only. No physical fit, printed strength, hand comfort, retention, or wire-capacity test.",
         "presets": {}, "parameter_samples": {}, "loaded_fit_by_preset": {}, "fit_notes": [],
         "unsupported_parameter_fits": [], "center_parameter_checks": {}}
     with tempfile.TemporaryDirectory(prefix="nesting-dipole-check-") as temporary:
         directory = Path(temporary)
-        original = export(directory / "original.stl", ORIGINAL, ['bnc_clearance=.20'])
+        original = export(directory / "original.stl", ORIGINAL, ['bnc_clearance=.10'])
         for preset, bulge in [("40m", 5), ("80m", 8)]:
             print(f"Checking {preset} crosswise nesting dipole", flush=True)
             suffix = "" if preset == "40m" else "_80m"
@@ -677,6 +763,9 @@ def main():
             report["fit_notes"].extend({"preset": preset, **note} for note in proxies["fit_notes"])
         coupon = export(directory / "fit_coupon.stl", SCAD, ['part="fit_coupon"'])
         report["fit_coupon"] = {**mesh_report(coupon, 2), **coupon_interfaces(coupon, reference_winder)}
+        print("Checking five-size upright BNC fit coupon and center diameters", flush=True)
+        bnc_coupon = export(directory / "bnc_fit_coupon.stl", SCAD, ['part="bnc_fit_coupon"'])
+        report["bnc_fit_coupon"] = bnc_fit_checks(directory, bnc_coupon, reference_center)
         variants = [
             ("minimum_post_protrusion", ['post_protrusion=2'], 5, 2, .25, 37.5),
             ("maximum_post_protrusion_80m", ['preset="80m"', 'post_protrusion=5'], 8, 5, .25, 37.5),
@@ -748,7 +837,7 @@ def main():
                                for name in PRINT_FILES}
     report["status"] = "passed"
     (HERE / "validation.json").write_text(json.dumps(report, indent=2)+"\n")
-    print("Verified six printable STLs and wrote validation.json (passed)", flush=True)
+    print(f"Verified {len(PRINT_FILES)} printable STLs and wrote validation.json (passed)", flush=True)
     for note in report["unsupported_parameter_fits"]:
         print(f"Unsupported packed fit: {note['variant']} ({note['seated_intersection_mm3']:.6f} mm³ root interference)", flush=True)
     for preset, fit in report["loaded_fit_by_preset"].items():
