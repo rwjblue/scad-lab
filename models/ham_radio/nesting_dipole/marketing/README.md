@@ -2,14 +2,19 @@
 
 One-page US Letter flyer explaining the packing/deployment tradeoff and how
 the clip-free nesting carrier works. The product illustration is rendered
-from the actual CAD; the walk-out diagram is a schematic. Identical winders
-overlap at their spines, with the lower stud entering the upper hole and the
-wire coils on opposite sides. A compact 90 mm-wide center sits crosswise.
+from the actual CAD; the walk-out diagram is a schematic. A left and right
+winder overlap at their spines with their post-bearing faces toward each
+other. Each post enters the other winder's hole, joining the pair at both
+ends while keeping the wire coils on opposite sides. A compact 90 mm-wide
+center sits crosswise.
 Slots in line with its wire bar anchor a short strap around the back of the
 pair. An 8 mm hoist eye gives the suspension line more room.
 
-The single engaged stud locates the winders; the rear strap retains the
-bundle. Packing illustrations use representative wire reserves and a strap
+The two engaged posts locate the winders and resist rotation; the rear
+strap retains the bundle. Print one left and one right winder. An existing
+winder from the earlier identical-winder version can serve as the right
+winder, so only a new left winder is needed to complete that pair.
+Packing illustrations use representative wire reserves and a strap
 route, not a measured capacity or a guarantee of printed fit.
 
 - [Printable PDF](../../../../output/pdf/nesting-dipole-flyer.pdf)

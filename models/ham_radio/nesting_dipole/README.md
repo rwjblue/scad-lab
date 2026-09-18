@@ -1,8 +1,9 @@
 # Nesting dipole
 
 Two separate leg winders pack together at their spines, with their wire
-bundles on opposite sides. Print **two identical winders and one center**.
-Each winder has one stud and one hole at the original spine stations. A
+bundles on opposite sides. Print **one left winder, one right winder and one
+center**. Each winder has one stud and one hole at the original spine
+stations, with their positions swapped between the left and right parts. A
 compact crosswise center has strap slots in line with its wire bar. A short
 strap through those slots holds the bundle together around the back.
 
@@ -14,7 +15,14 @@ The winding profile is an independent snapshot. The center comes directly from
 enabled**; this model supplies its selected parameters without maintaining a
 separate center geometry. The frame bevel is also shared.
 
-![One 6 mm stud and one hole at the original two spine stations](images/winder.png)
+**Already printed the previous one-stud winder?** Keep one intact copy as the
+right winder and print [winder_left.stl](winder_left.stl) to complete the pair.
+The center is unchanged. Two copies of the old winder cannot make the intended
+joint with both studs engaged and the coils on opposite sides.
+
+![Right winder: stud at the positive-X spine station](images/winder_right.png)
+
+![Left winder: stud and hole swapped at the same spine stations](images/winder_left.png)
 
 The [one-page flyer](marketing/README.md) explains the packing and deployment
 idea with a product illustration and a simple walk-out diagram.
@@ -22,26 +30,31 @@ idea with a product illustration and a simple walk-out diagram.
 ## How the pieces meet
 
 The original station centers stay at **X = ±36 mm, Y = −11 mm**. The
-**6 mm stud** remains at X = +36 mm; the station at X = −36 mm becomes a
-**6.5 mm round hole** at the default clearance. There is no new central tongue.
-Both stations retain the earlier 12 × 10 mm pads and their 72 mm spacing.
+**right winder** has its **6 mm stud at X = +36 mm** and **6.5 mm round hole
+at X = −36 mm**, matching the previous winder. The **left winder swaps those
+features**: stud at X = −36 mm, hole at X = +36 mm. Both retain the earlier
+12 × 10 mm pads and their 72 mm spacing. There is no new central tongue.
 
-Keep both winders' studs pointing up. Turn one winder 180 degrees in the
-plane of the frame, then place its spine over the other spine. Their winding
-regions extend in opposite directions. The **lower stud enters the upper
-winder's hole**; the upper stud remains exposed and unused. The overlapping
-spines contact directly, without a standoff.
+Lay the right winder with its stud pointing up. **Flip the left winder over
+about its long spine axis**, like turning a page over the spine, so its stud
+points down and its winding region extends to the opposite side. Bring the
+post-bearing faces together: each stud now lines up with the other winder's
+hole. Press straight together until the spines touch. The frames form a
+10 mm stack at the spine, without a standoff, while the coils remain on
+opposite sides. Do not turn the left winder end for end in the frame plane.
 
-The single engaged stud locates the pair but allows it to pivot. The rear
-strap supplies retention and holds the center in its packing position.
+**Both studs engage**, locating the pair at two stations and resisting
+pivoting. They remain plain, unheaded studs: the rear strap supplies retention
+and holds the center in its packing position.
 
 ![Direct connection at the original stud stations](images/joint.png)
 
 Each stud rises **8 mm above its 5 mm frame**, 1 mm taller than the earlier
-7 mm stud. The engaged stud passes through the upper frame and projects
-**3 mm beyond it**. Its rounded root and tip chamfer are both 0.6 mm.
+7 mm stud. Each stud passes fully through the opposite frame and projects
+**3 mm beyond its outer face**. Its rounded root and tip chamfer are both 0.6 mm.
 The receiving hole has 0.6 mm relief at its printed top face and a 0.4 mm
-entry chamfer at its printed bottom face.
+chamfer at its printed bottom face. With both post-bearing faces inward,
+each stud enters the other winder's top-face relief.
 
 The shared center with strap slots enabled measures **90 × 39 × 23 mm**.
 Its **8 mm hoist eye** gives more room for suspension clips. The strap slots sit in line with the terminal
@@ -65,9 +78,10 @@ the 40m reserve or 20 mm for the 80m reserve. These are packing positions,
 not printed standoffs. The actual center can tilt as the strap settles against
 the wound coils.
 
-Use the matching one-stud/one-hole winders; the earlier two-stud winders
-cannot make this joint. This revision changes the center and packing
-arrangement while retaining the current winder geometry.
+Use one left and one right winder. Two identical one-stud winders, or the
+earlier two-stud winders, cannot make this joint. This revision swaps the
+left winder's stud and hole while retaining the winding outline, station
+spacing, stud dimensions and shared center.
 
 ![Side view of the separate coils, rear strap and crosswise center](images/side.png)
 
@@ -130,9 +144,11 @@ do not scale the whole center in the slicer to correct the hole.
 ![Upright BNC fit coupon](images/bnc_fit_coupon.png)
 
 Print the broad backs of the center and both winders flat on the bed. The
-supplied layouts use this orientation. Test the bare winders first, with the
-upper winder's back against the lower winder's printed top. To separate them,
-lift the upper winder a little more than 8 mm off the lower stud.
+supplied layouts use this orientation, with both studs pointing up for
+printing. Test the bare winders first: flip the left winder over its long
+spine axis and mate the two post-bearing faces. To separate them, pull
+straight apart by a little more than **8 mm** so both studs clear their
+holes. Avoid peeling or twisting them apart, which loads the stud roots.
 
 The intended packing sequence is to wind each leg independently, join the
 winders, place the center crosswise with relaxed wire tails, and connect the
@@ -146,19 +162,27 @@ and walk out each leg from the mast before hoisting the center.
 | File | Print quantity / purpose |
 | --- | --- |
 | [center.stl](center.stl) | One shared dipole center with strap slots enabled |
-| [winder.stl](winder.stl) | Two identical winders, each with one stud and one socket |
-| [winder_80m.stl](winder_80m.stl) | Same geometry as `winder.stl`; retained filename |
-| [print_layout.stl](print_layout.stl) | Complete three-piece layout |
+| [winder_left.stl](winder_left.stl) | One left winder; print this to mate with an intact previous winder |
+| [winder_right.stl](winder_right.stl) | One right winder; unchanged from the previous one-stud winder |
+| [winder.stl](winder.stl) | Right winder only; retained filename, not a two-copy print |
+| [winder_80m.stl](winder_80m.stl) | Right winder only; same geometry as `winder_right.stl` |
+| [print_layout.stl](print_layout.stl) | Complete layout: one left winder, one right winder and one center |
 | [print_layout_80m.stl](print_layout_80m.stl) | Same geometry as `print_layout.stl`; retained filename |
 | [bnc_fit_coupon.stl](bnc_fit_coupon.stl) | Five larger BNC openings, 9.7–10.1 mm in 0.1 mm steps |
 | [bnc_fit_coupon_tight.stl](bnc_fit_coupon_tight.stl) | Five finer openings, 9.50–9.70 mm in 0.05 mm steps; includes the current default |
 
 The [Printables listing](https://www.printables.com/model/1844842-nesting-bnc-dipole-center-and-winders)
-includes the center, winder, complete layout, BNC coupon, source ZIP and flyer.
-The older [winder fit coupon](fit_coupon.stl) remains a repository development
-aid, not a Printables download. Its two matching strips reproduce the full
-72 mm station spacing. Use the default 0.25 mm stud clearance per side;
-0.15 mm can interfere at the rounded root and is not recommended.
+provides separate left/right winders, the complete handed layout, center,
+BNC fit coupons, editable source ZIP and flyer. The earlier
+two-identical-winders instructions and layout are superseded.
+The [winder fit coupon](fit_coupon.stl) remains a repository development
+aid, not a Printables download. Its two complementary strips reproduce the
+left/right stud-and-hole arrangement at the full 72 mm station spacing.
+Flip one strip over its long axis and bring the post-bearing faces together
+to check both engagements. Start with the default **0.25 mm stud clearance
+per side** for a sliding fit. The handed arrangement supports 0.15 mm in the
+CAD model because both roots enter the larger top-face relief; test tighter
+settings with a printed coupon before committing to the full winders.
 
 ![Separated print layout](images/print_layout.png)
 
@@ -196,6 +220,7 @@ Open the SCAD file in OpenSCAD's Customizer. Dimensions are millimeters.
 | Hanging clip fit | `hang_hole_d` | Default 8, range 6–8. Already at the largest supported size to preserve the eye's wall. |
 | Winding space | `wing_length`, `winding_span` | Defaults 37.5 and 140. Enlarge the winding frame while keeping the spine mating stations fixed; check your printer's bed size. |
 | Winder joint fit | `alignment_clearance`, `post_protrusion` | Defaults 0.25 per side and 3 beyond the other frame. Increase clearance if the joint binds; extra post length does not lock the bundle. |
+| Winder hand | `part="winder_left"` or `part="winder_right"` | Export one of each. For the legacy `part="winder"` selection, `winder_hand` chooses the hand and defaults to `right`. |
 
 For BNC fit, extract the source ZIP without changing its directory structure,
 open `models/ham_radio/nesting_dipole/nesting_dipole.scad`, select **Center**
@@ -214,7 +239,8 @@ openscad --backend=Manifold --hardwarnings \
 
 | Parameter | Default | Meaning / range |
 | --- | --- | --- |
-| `part` | `print_layout` | `center`, `winder`, `assembled`, `winders`, `print_layout`, `exploded`, `bnc_fit_coupon`, `bnc_fit_coupon_tight`, `fit_coupon`, `wire_envelopes` |
+| `part` | `print_layout` | `center`, `winder_left`, `winder_right`, `winder`, `assembled`, `winders`, `print_layout`, `exploded`, `bnc_fit_coupon`, `bnc_fit_coupon_tight`, `fit_coupon`, `wire_envelopes` |
+| `winder_hand` | `right` | `left` or `right`; selects the hand only for legacy `part="winder"`. Explicit left/right parts and paired layouts select their own hands. |
 | `bnc_hole_d` | 9.5 | Modeled circular diameter of the D-shaped BNC cutout; 9.5–10.2 in 0.05 steps |
 | `preset` | `40m` | `40m` or `80m`; selects displayed coil buildup |
 | `show_wire` | `false` | Show reserved coil space in assembly previews |
@@ -272,8 +298,9 @@ mise run nesting-dipole:render
 ```
 
 The [CAD validation report](validation.json) separates bare-part checks from
-loaded-fit observations. It checks watertight parts, the single engaged stud,
-face contact, straight lift separation, the revised center hole layout,
+loaded-fit observations. It checks watertight parts, both reciprocal stud
+engagements, face contact, the straight insertion and separation path,
+collisions from using two copies of the same hand, the revised center hole layout,
 preserved BNC shelf structure, adjustable D-shaped cutouts, strap-slot walls,
 coupon interfaces and matching print layouts. It also checks
 the conservative wire reserves and schematic hardware and strap routes.

@@ -16,7 +16,9 @@ broad-face edges by 0.5 mm. The two original spine stations at
 X = ±36 mm, Y = −11 mm have 12 × 10 mm pads. One carries
 an unheaded 6 mm stud with a 0.6 mm rounded root; the other contains a
 matching round socket. The stud rises 8 mm above the frame. The central
-tie window is retained. There are no retaining catches.
+tie window is retained. The right winder keeps the stud at X = +36 mm and
+socket at X = −36 mm; the left winder swaps these two features. There are no
+retaining catches.
 This remix does not reproduce the source STL's fully rounded cross section.
 
 The embedded [native_profile.scad](native_profile.scad) and adjustable
@@ -37,16 +39,19 @@ by the original author is implied.
 
 The SCAD, derived STL, generated profile, and renders of the remix retain those
 source terms. New mechanical arrangement by Robert Jackson (N1RWJ), September
-2026: two identical leg winders overlap at their spines after one is turned
-180 degrees in the frame plane. Both studs point in the same direction;
-the lower stud enters the upper hole and the upper stud remains unused.
-Their winding regions extend in opposite directions. A separate 90 mm-wide
+2026: a complementary left/right pair of leg winders overlap at their spines
+after the left winder is flipped 180 degrees about its long spine axis.
+The post-bearing faces meet, and both studs enter the opposite winder's
+hole. Their winding regions extend in opposite directions. Each stud projects
+3 mm beyond the other frame's outer face. The right winder preserves the
+previous one-stud geometry; the left swaps the stud and socket stations.
+A separate 90 mm-wide
 center sits crosswise, with strap slots in line with the terminal and wire
 holes. Its enlarged 8 mm hoist eye and inward-shifted terminal and wire-hole
 groups retain the original functions; their coordinates and sizes are revised.
 Symmetric end sections support the slots for a short strap around the back.
-The stud locates the winders but allows pivoting; the rear strap retains the
-bundle. Individual ties retain each wire coil. Packing views use conservative
+The two engaged studs locate the winders and resist pivoting; the rear strap
+retains the bundle. Individual ties retain each wire coil. Packing views use conservative
 wire reserves and an illustrative strap route; physical fit remains a
 prototype trial.
 This arrangement replaces the earlier four-post center carrier in the same model.
