@@ -48,6 +48,8 @@ batch-generate STLs if desired.
   feedline spacers plus continuous-wire and terminalized doublet centers
   ([centers on Printables](https://www.printables.com/model/1838095-doublet-center),
   [spacers on Printables](https://www.printables.com/model/1838096-doublet-feedline-spacers))
+- `models/ham_radio/n0sa_rlp_v3_guard/` - one-piece magnetic nose guard for the N0SA RLP V3 CW paddle, with a magnet-fit coupon and adjustable OpenSCAD parameters
+  ([print and fit guide](models/ham_radio/n0sa_rlp_v3_guard/README.md))
 - `models/ham_radio/spooltenna_bnc_cap/` - BNC connector protector for
   the KO4HUI Spooltenna (Ultra v1.5/v1.6 + V1.3)
 - `models/ham_radio/vertical_dipole_spacer/` - 6 m vertical dipole center
