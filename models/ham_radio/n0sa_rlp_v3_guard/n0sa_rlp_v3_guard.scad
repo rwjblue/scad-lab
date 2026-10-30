@@ -9,10 +9,12 @@
  * Coordinates: +Y points toward the paddle tips. The front edge of the rigid
  * body is at Y=0; the underside of its bottom plate is at Z=0.
  *
- * Key envelope and magnet geometry are derived from owner caliper photos.
- * The magnet-to-body edge datum, insert thickness, and paddle clearances
- * still require physical fit verification. FIRST test without glued magnets
- * or with the magnet-fit coupon.
+ * Owner print fit report October 30: overall envelope and magnet alignment
+ * looked good; the front nose was too short. Paddle tip projection is now
+ * measured from the same fixed-body front edge as the key shell: 27.11 mm.
+ * The far edge of the front magnets was measured 8.24 mm behind that edge.
+ * Existing pocket centers are intentionally UNCHANGED because they aligned
+ * in the first printed trial. Check all clearances before gluing magnets.
  *
  * PRINT ORIENTATION: by default, guard exports nose-down with the closed
  * face against the build plate and the open rear end facing upward.
@@ -28,7 +30,7 @@ print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
 // DIMENSIONS FROM OWNER'S CALIPER PHOTOS (mm)
 key_width = 36.77;
 key_height = 28.92;
-paddle_projection = 18.72;
+paddle_projection = 27.11;          // owner-measured from body front edge to paddle tips
 
 // OWNER'S OCT 30 CALIPER MEASUREMENTS: the pair nearest the paddles.
 // Span = from outside edge of one magnet to outside edge of the other.
@@ -53,14 +55,18 @@ nose_wall = 2.00;
 tip_clearance = 2.00;               // paddle ends to inside nose wall
 
 // GEOMETRY — uniform rear extent for roof, sides, and magnetic underside.
-// The rear opening ends 2 mm past the far edge of the key's front magnets.
-// Owner measured: 1.5 mm from front edge to first magnet edge, 6 mm diameter.
-magnet_rear_margin = 2.0;
-back_overlap = key_magnet_front_margin + key_magnet_diameter + magnet_rear_margin;
+// Owner's October 30 measurement: 8.24 mm from fixed-body front edge to
+// FAR edge of the existing front magnet. Add a 2 mm rearward shell margin.
+// Intentionally do NOT infer new pocket centers from this: the actual V5
+// magnet pockets were reported to line up. Previous near-edge measurement
+// was approximate and differs from this far-edge measurement by 0.74 mm.
+measured_magnet_far_edge = 8.24;
+magnet_rear_margin = 2.00;
+back_overlap = measured_magnet_far_edge + magnet_rear_margin;  // 10.24 mm
 taper_start = 5.5;                  // full-size enclosure over lever roots
 tip_outer_width = 32.4;            // outer cross-section at front bumper
 tip_outer_top = 26.0;              // relative to underside of key
-nose_extra = tip_clearance + nose_wall;
+nose_extra = tip_clearance + nose_wall;  // 27.11 + 2 + 2 = 31.11 mm from front
 corner_radius = 1.6;               // rounded cross-sections, mm
 
 // ADD-ON MAGNETS: owner has N48 6 x 1.5 mm and 6 x 2.0 mm discs.
@@ -110,6 +116,8 @@ pocket_depth = insert_thickness + pocket_depth_extra;
 
 assert(back_y < magnet_y - pocket_d/2 - 1,
     "Back overlap too short for magnet pockets");
+assert(outer_tip_y - nose_wall - paddle_projection >= tip_clearance - 0.01,
+    "Nose does not clear measured paddle projection");
 assert(magnet_y + pocket_d/2 < 0,
     "Front magnet pocket extends past the fixed body front edge");
 assert(insert_thickness > 0 && pocket_depth_extra >= 0,
