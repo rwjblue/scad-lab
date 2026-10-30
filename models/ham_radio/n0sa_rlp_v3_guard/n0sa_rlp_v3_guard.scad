@@ -182,7 +182,7 @@ module fixed_body_stop_pads() {
 }
 
 module magnet_pockets() {
-    // Blind pockets accessible from key-facing top of underside tongue.
+    // Blind pockets accessible from the key-facing surface of the common floor.
     // Install magnets with polarities individually matched to attract key magnets.
     for (x = [-magnet_spacing/2,magnet_spacing/2])
         translate([x,magnet_y,
@@ -206,7 +206,7 @@ module full_guard() {
 }
 
 module fit_coupon() {
-    // Same full-width straight-edged underside tongue, same magnet seats,
+    // Same full-width floor overlap and magnet seats,
     // and same shallow side guides, but omits all paddle-enclosing material.
     difference() {
         union() {
