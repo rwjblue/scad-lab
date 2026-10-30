@@ -47,7 +47,7 @@ magnet_y = -(key_magnet_front_margin + key_magnet_diameter/2); // -4.50 mm
 // CLEARANCES AND WALLS (adjust after test fit)
 body_side_clearance = 0.65;          // each side at the key-body overlap
 body_top_clearance = 0.60;
-underbody_gap = 0.25;               // plastic tongue to key underside
+underbody_gap = 0.25;               // continuous floor to key underside
 floor_thickness = 3.30;
 side_wall = 1.80;
 roof_wall = 2.00;
@@ -86,7 +86,7 @@ enable_stop_pads = true;
 stop_pad_width = 3.3;
 stop_pad_height = 3.2;
 stop_pad_depth = 1.6;
-stop_pad_back_y = 0.15; // front of body nominally Y=0
+stop_pad_back_y = 0.15; // 0.15 mm seating travel from the nominal body datum
 
 // SIDE GUIDES are shallow and deliberately loose; no clip-on force
 side_guide_height = 2.2;
@@ -158,7 +158,7 @@ module shroud_outer() {
 
 module shroud_inner() {
     // Exit the back fully so guard can slide on; stop short of front to close nose.
-    // The internal cavity remains away from both levers and their travel.
+    // Tapered lever clearance must be verified on the real key at full travel.
     union() {
         loft_between(inner_root_width, floor_top, inner_root_top, shroud_y-1,
                      inner_root_width, floor_top, inner_root_top, taper_start);
@@ -275,6 +275,6 @@ module printable_guard() {
 }
 
 if (part=="guard") printable_guard();
-else if (part=="fit_coupon") fit_coupon();
-else if (part=="magnet_gauge") magnet_gauge();
+else if (part=="fit_coupon") translate([0,0,-floor_bottom]) fit_coupon();
+else if (part=="magnet_gauge") translate([0,0,-floor_bottom]) magnet_gauge();
 else assert(false,"Unknown part");
