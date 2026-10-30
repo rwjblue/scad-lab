@@ -2,15 +2,17 @@
  * N0SA RLP V3 magnetic paddle nose guard — fit-test prototype
  *
  * Single-piece, tapered, closed-nose PETG shell protecting the finger pieces.
- * The underside extends as one continuous, STRAIGHT-EDGED tongue beneath the
- * front pair of the RLP's four base magnets. No U-shaped cutout.
+ * The whole shell (top, sides, and continuous magnetic underside) ends at
+ * the SAME rear plane, just past the front pair of the RLP's four base
+ * magnets. No underside projection, notch, or U-shaped cutout.
  *
  * Coordinates: +Y points toward the paddle tips. The front edge of the rigid
  * body is at Y=0; the underside of its bottom plate is at Z=0.
  *
- * Only the overall envelope and lever projection were measured from photos.
- * Magnet sizes, X/Y positions, body-front location, and lever clearance are
- * provisional; FIRST test without installed magnets or with fit_coupon.
+ * Key envelope and magnet geometry are derived from owner caliper photos.
+ * The magnet-to-body edge datum, insert thickness, and paddle clearances
+ * still require physical fit verification. FIRST test without glued magnets
+ * or with the magnet-fit coupon.
  *
  * Print with the continuous bottom floor on the build plate. In PETG, assess
  * bridging under the roof in your slicer; supports may be needed.
@@ -46,12 +48,11 @@ roof_wall = 2.00;
 nose_wall = 2.00;
 tip_clearance = 2.00;               // paddle ends to inside nose wall
 
-// GEOMETRY (only the underside tongue extends this far behind front edge)
-// The straight rear edge ends 2 mm past the far edge of the key's front magnets.
+// GEOMETRY — uniform rear extent for roof, sides, and magnetic underside.
+// The rear opening ends 2 mm past the far edge of the key's front magnets.
 // Owner measured: 1.5 mm from front edge to first magnet edge, 6 mm diameter.
 magnet_rear_margin = 2.0;
 back_overlap = key_magnet_front_margin + key_magnet_diameter + magnet_rear_margin;
-shroud_body_overlap = 2.5;          // shroud begins slightly over fixed body
 taper_start = 5.5;                  // full-size enclosure over lever roots
 tip_outer_width = 32.4;            // outer cross-section at front bumper
 tip_outer_top = 26.0;              // relative to underside of key
@@ -93,15 +94,15 @@ inner_tip_width = tip_outer_width - 2 * side_wall;
 outer_tip_y = paddle_projection + nose_extra;
 inner_tip_y = outer_tip_y - nose_wall;
 back_y = -back_overlap;
-shroud_y = -shroud_body_overlap;
+shroud_y = back_y;                  // entire shell shares the same rear plane
 
 pocket_d = insert_diameter + pocket_diameter_extra;
 pocket_depth = insert_thickness + pocket_depth_extra;
 
 assert(back_y < magnet_y - pocket_d/2 - 1,
     "Back overlap too short for magnet pockets");
-assert(magnet_y + pocket_d/2 < shroud_y + 1.5,
-    "Magnet pockets would run into shroud");
+assert(magnet_y + pocket_d/2 < 0,
+    "Front magnet pocket extends past the fixed body front edge");
 assert(pocket_depth < floor_thickness - 0.4,
     "Floor not thick enough under magnet pockets");
 assert(inner_tip_width > 0 && inner_tip_top > 0,
@@ -147,18 +148,17 @@ module shroud_inner() {
     }
 }
 
-module extension_floor(front_y = shroud_y + 0.2) {
-    // Flat continuous tongue with STRAIGHT rear edge, only 2 mm beyond
-    // the measured rear edge of the front magnets (in Y direction).
-    // Coupon extends to the fixed-body front edge Y=0 so the magnet pockets
-    // stay fully enclosed rather than breaking out of the coupon front.
+module coupon_floor(front_y = 0) {
+    // Flat, straight-edged underside plate for the fit-test coupon ONLY.
+    // The full guard already has a continuous floor across its whole length.
+    // Coupon extends to Y=0 so magnet pockets remain fully enclosed.
     translate([-outer_root_width/2, back_y, floor_bottom])
         cube([outer_root_width, front_y-back_y, floor_thickness]);
 }
 
-module loose_side_guides(front_limit = back_y + 2.0 + side_guide_length) {
-    // Locate against fixed bottom plate edges; not primary retention.
-    // For the test coupon, stop the guides at Y=0 (fixed-body front edge).
+module coupon_side_guides(front_limit = 0) {
+    // Coupon-only side guides check the fit against the fixed bottom plate.
+    // The full guard has continuous, full-height side walls instead.
     guide_start_y = back_y + 2.0;
     guide_length = min(side_guide_length, front_limit-guide_start_y);
     assert(guide_length > 0, "Side guide length too small");
@@ -197,8 +197,8 @@ module full_guard() {
                 shroud_outer();
                 shroud_inner();
             }
-            extension_floor();
-            loose_side_guides();
+            // No projecting underside tongue: shroud floor, walls and roof
+            // all terminate at back_y. Keep only impact stops here.
             fixed_body_stop_pads();
         }
         magnet_pockets();
@@ -210,8 +210,8 @@ module fit_coupon() {
     // and same shallow side guides, but omits all paddle-enclosing material.
     difference() {
         union() {
-            extension_floor(front_y=0);
-            loose_side_guides(front_limit=0);
+            coupon_floor(front_y=0);
+            coupon_side_guides(front_limit=0);
         }
         magnet_pockets();
     }
