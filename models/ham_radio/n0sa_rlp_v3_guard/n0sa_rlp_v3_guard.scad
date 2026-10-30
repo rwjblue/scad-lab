@@ -24,6 +24,18 @@ key_width = 36.77;
 key_height = 28.92;
 paddle_projection = 18.72;
 
+// OWNER'S OCT 30 CALIPER MEASUREMENTS: the pair nearest the paddles.
+// Span = from outside edge of one magnet to outside edge of the other.
+// The edge margin is from the key's *front plastic edge* to the nearer
+// circumferential edge of each magnet. Confirm this coordinate datum on
+// the physical key before gluing the magnets.
+key_magnet_diameter = 6.0;
+key_magnet_outer_span = 21.51;
+key_magnet_front_margin = 1.5;
+// Derived front-pair magnet centers, relative to fixed-body front edge Y=0
+magnet_spacing = key_magnet_outer_span - key_magnet_diameter; // 15.51 mm
+magnet_y = -(key_magnet_front_margin + key_magnet_diameter/2); // -4.50 mm
+
 // CLEARANCES AND WALLS (adjust after test fit)
 body_side_clearance = 0.65;          // each side at the key-body overlap
 body_top_clearance = 0.60;
@@ -35,7 +47,10 @@ nose_wall = 2.00;
 tip_clearance = 2.00;               // paddle ends to inside nose wall
 
 // GEOMETRY (only the underside tongue extends this far behind front edge)
-back_overlap = 15.2;                // underside overlaps rigid body (Y negative)
+// The straight rear edge ends 2 mm past the far edge of the key's front magnets.
+// Owner measured: 1.5 mm from front edge to first magnet edge, 6 mm diameter.
+magnet_rear_margin = 2.0;
+back_overlap = key_magnet_front_margin + key_magnet_diameter + magnet_rear_margin;
 shroud_body_overlap = 2.5;          // shroud begins slightly over fixed body
 taper_start = 5.5;                  // full-size enclosure over lever roots
 tip_outer_width = 32.4;            // outer cross-section at front bumper
@@ -43,10 +58,7 @@ tip_outer_top = 26.0;              // relative to underside of key
 nose_extra = tip_clearance + nose_wall;
 corner_radius = 1.6;               // rounded cross-sections, mm
 
-// EXISTING FRONT-PAIR MAGNET LOCATIONS -- ESTIMATES FROM PHOTO; TUNE THESE
-magnet_spacing = 23.0;              // across key, center to center (X)
-magnet_y = -8.5;                    // from front edge of rigid plate
-// ADD-ON MAGNETS in printed guard -- choose based on magnets you have
+// ADD-ON MAGNETS in printed guard -- thickness remains unmeasured
 insert_diameter = 6.0;
 insert_thickness = 2.0;
 pocket_diameter_extra = 0.20;        // for PETG tolerance / glue
@@ -135,21 +147,26 @@ module shroud_inner() {
     }
 }
 
-module extension_floor() {
-    // A flat, continuous magnetic tongue with a STRAIGHT rear edge.
-    // It stops at the shoulder and shares the shroud's existing floor.
+module extension_floor(front_y = shroud_y + 0.2) {
+    // Flat continuous tongue with STRAIGHT rear edge, only 2 mm beyond
+    // the measured rear edge of the front magnets (in Y direction).
+    // Coupon extends to the fixed-body front edge Y=0 so the magnet pockets
+    // stay fully enclosed rather than breaking out of the coupon front.
     translate([-outer_root_width/2, back_y, floor_bottom])
-        cube([outer_root_width, shroud_y-back_y+0.2, floor_thickness]);
+        cube([outer_root_width, front_y-back_y, floor_thickness]);
 }
 
-module loose_side_guides() {
+module loose_side_guides(front_limit = back_y + 2.0 + side_guide_length) {
     // Locate against fixed bottom plate edges; not primary retention.
-    // Guides do not extend forward into the paddles.
+    // For the test coupon, stop the guides at Y=0 (fixed-body front edge).
+    guide_start_y = back_y + 2.0;
+    guide_length = min(side_guide_length, front_limit-guide_start_y);
+    assert(guide_length > 0, "Side guide length too small");
     for (side = [-1,1]) {
         translate([side*(inner_root_width/2 + side_wall/2),
-                   back_y + 2.0 + side_guide_length/2,
+                   guide_start_y + guide_length/2,
                    floor_top + side_guide_height/2-0.08])
-            cube([side_wall,side_guide_length,side_guide_height],center=true);
+            cube([side_wall,guide_length,side_guide_height],center=true);
     }
 }
 
@@ -193,8 +210,8 @@ module fit_coupon() {
     // and same shallow side guides, but omits all paddle-enclosing material.
     difference() {
         union() {
-            extension_floor();
-            loose_side_guides();
+            extension_floor(front_y=0);
+            loose_side_guides(front_limit=0);
         }
         magnet_pockets();
     }
