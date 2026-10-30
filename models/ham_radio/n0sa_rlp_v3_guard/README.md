@@ -1,8 +1,8 @@
 # N0SA RLP V3 magnetic nose guard
 
-One-piece, front-only protective shroud for the N0SA RLP V3 dual-lever CW paddle. The guard shields the moving finger pieces during transport and uses two additional magnets in a **continuous bottom floor** aligned with the key's front magnet pair. **The top, sides, and magnetic bottom now all end at one common, straight rear plane**, about 9.5 mm behind the fixed body's front edge. There is no projecting underside tongue, no U-shaped cutout, and no rear-jack or reversible mounting feature.
+One-piece, front-only protective shroud for the N0SA RLP V3 dual-lever CW paddle. The guard shields the moving finger pieces during transport and uses two additional magnets in a **continuous bottom floor** aligned with the key's front magnet pair. **The top, sides, and magnetic bottom now all end at one common, straight rear plane**, about 10.24 mm behind the fixed body's front edge. There is no projecting underside tongue, no U-shaped cutout, and no rear-jack or reversible mounting feature.
 
-**Status: experimental first-fit print (October 30, 2026), with a uniform rear edge and two interchangeable magnet-thickness options.** Dimensions of the paddle envelope were supplied by the owner. **The front magnet diameter, outer-to-outer spacing, and front-edge offset have now been measured**, but placement still assumes that the measured plastic edge corresponds to Y=0 (the fixed lower plate's front edge). The add-on magnet thickness is selectable to match the two sizes on hand; paddle clearance and alignment still require a physical dry fit. The STL is not a guaranteed fit. **Do not force the sleeve onto the paddles.** Check clearances and the magnet positions before installing or gluing magnets.
+**Status: V6 depth correction following the first physical print (October 30, 2026).** The owner confirmed that the first print was **too shallow for the paddle tips**, although the remaining geometry appeared aligned. New measurements place the paddle tips **27.11 mm forward of the fixed-body edge** (the old model assumed 18.72 mm), and the far edge of the front magnets **8.24 mm behind that edge**. The updated model provides **2 mm tip clearance plus a 2 mm nose wall**, and the shell extends 2 mm past the measured rear edge of the magnets. **Magnet pocket centers have deliberately not moved**, preserving the alignment reported on the first print. The 1.5 mm and 2 mm add-on magnet options remain supported. This revision is not yet physically fit-tested. **Do not force the sleeve onto the paddles.**
 
 ## Parts and generated STLs
 
@@ -21,13 +21,15 @@ All variants are one-piece prints. The magnets are the only separately installed
 |---|---:|---|
 | Key width | 36.77 mm | Caliper photo |
 | Key height | 28.92 mm | Caliper photo |
-| Exposed paddle projection | 18.72 mm | Caliper photo; reference point should be verified |
+| Paddle projection, front body edge to tips | **27.11 mm** | **Measured after initial print; replaces incorrect 18.72 mm datum** |
 | Existing magnet diameter | 6.0 mm | **Measured** |
 | Outer-to-outer distance, front magnet pair | 21.51 mm | **Measured** with calipers |
 | Center-to-center distance, front magnet pair | **15.51 mm** | Derived as 21.51 − 6.0 |
 | Front body edge to nearest magnet edge | 1.5 mm | **Measured approximately** |
 | Front body edge to magnet center | **4.5 mm** | Derived as 1.5 + (6.0 / 2) |
-| Back of front magnet to uniform shell rear edge | 2.0 mm | Design margin (adjustable) |
+| Front body edge to far edge of existing magnet | **8.24 mm** | **Measured after initial print** |
+| Back of measured far magnet edge to shell rear edge | 2.0 mm | Design margin (adjustable) |
+| Magnet pockets' Y position | **−4.50 mm** | Preserved from first print; reported aligned, despite 0.74 mm difference between edge measurements |
 | Available magnet inserts | **6 × 1.5 mm and 6 × 2.0 mm** | Owner has both sizes (N48 specified for the 1.5 mm version) |
 | Default insert selection | **6 × 1.5 mm** | Set `insert_thickness=2.0` for the thicker option |
 | Pocket diameter | 6.2 mm | For 6.0 mm inserts, adjustable |
@@ -39,11 +41,11 @@ STL bounding boxes measured from the rendered binary meshes (same for both inser
 
 | Part | X width × Y length × Z height |
 |---|---|
-| Guard, **nose-down STL on build plate** | **41.67 × 35.07 × 32.34 mm** |
-| Magnet-fit coupon | **41.67 × 9.50 × 5.42 mm** |
+| Guard, **nose-down STL on build plate** | **41.67 × 35.07 × 41.47 mm** |
+| Magnet-fit coupon | **41.67 × 10.24 × 5.42 mm** |
 | Magnet pocket gauge | 28.00 × 14.00 × 3.30 mm |
 
-These are *part* dimensions, not the total key plus guard. The protective nose extends about 4.0 mm beyond the photographed paddle projection; most guard length overlaps the existing key envelope. The **entire shell**, not just its bottom floor, extends **9.5 mm behind the front plastic edge**, including the measured 7.5 mm magnet-to-rear extent and a further 2 mm design margin. This leaves a uniform rear opening around the key body. Compared with the first print, the added top and side wall length may use more filament but does not substantially change the external bounding box.
+These are *part* dimensions, not the total key plus guard. The outside of the protective nose extends **4.0 mm past the measured paddle tips**, consisting of 2.0 mm free interior clearance and a 2.0 mm nose wall. Its outer nose is **31.11 mm forward of the fixed-body front edge**. The **entire shell** extends **10.24 mm behind the front plastic edge** (8.24 mm measured far magnet edge plus 2 mm margin), preserving the uniform rear opening. The overall Y-length in assembled orientation is therefore about **41.35 mm** (about **41.47 mm** including the modeling slices); it is roughly **9.1 mm longer than V5**.
 
 ## Printing
 
@@ -74,8 +76,8 @@ done
 
 For the first fit test, either coupon is sufficient to check alignment. Use the matching thickness variant when testing the depth of an insert; do **not** press a 2 mm magnet into the 1.5 mm pocket or modify the print by force.
 
-The measured key geometry is parameterized by `key_magnet_diameter=6.0`, `key_magnet_outer_span=21.51`, and `key_magnet_front_margin=1.5`. The SCAD **derives** `magnet_spacing=15.51` and `magnet_y=-4.5` from these values. Use `insert_diameter` and `insert_thickness` for the two magnets you supply in the print; changing insert thickness only changes pocket depth and does **not** change the locations of the magnets already in the RLP. `magnet_rear_margin=2.0` controls the rear overlap of the **entire shell**. The full shroud's rear plane is now `back_y=-back_overlap`, shared by the roof, side walls, and floor. If the actual RLP geometry differs, adjust the values at the top of the SCAD. No third-party SP4 case geometry is included.
+The measured key geometry is parameterized by `paddle_projection=27.11`, `key_magnet_diameter=6.0`, `key_magnet_outer_span=21.51`, and the new `measured_magnet_far_edge=8.24`. The printed V5 magnet pockets were reported aligned, so the earlier approximate `key_magnet_front_margin=1.5` is **retained for pocket positioning only**: `magnet_spacing=15.51` and `magnet_y=-4.5` stay unchanged. The new measured far edge **independently** determines the rear shell margin: `back_overlap = measured_magnet_far_edge + magnet_rear_margin` = 10.24 mm. This explicitly tolerates the 0.74 mm discrepancy between the two edge measurements rather than shifting pockets that already fit. Changing `insert_thickness` only changes pocket depth. The rear plane is common to the roof, sides and floor. If the actual RLP geometry differs, adjust the parameters at the top of the SCAD. No third-party SP4 case geometry is included.
 
 ## Next physical-fit feedback
 
-After printing the coupon or guard: test the **chosen pocket depth and diameter** using a spare magnet, confirm the key's front-edge datum, check whether the magnet pockets align and whether the rigid body's front corners contact the stop pads. Ensure each paddle moves freely without contacting the tapered walls or roof. These observations will guide the next revision.
+After printing V6: dry-fit **without glued magnets**, gently seat the fixed body to the stop pads, then confirm at least ~2 mm clearance from the longest paddle tip to the **inside** closed nose (not just the outside). Ensure neither lever touches the tapered roof or side walls at full travel, and confirm the magnet pockets still align. The new depth and overlap have not yet been verified with a physical print.
