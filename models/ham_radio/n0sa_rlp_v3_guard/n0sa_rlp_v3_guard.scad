@@ -14,12 +14,16 @@
  * still require physical fit verification. FIRST test without glued magnets
  * or with the magnet-fit coupon.
  *
- * Print with the continuous bottom floor on the build plate. In PETG, assess
- * bridging under the roof in your slicer; supports may be needed.
+ * PRINT ORIENTATION: by default, guard exports nose-down with the closed
+ * face against the build plate and the open rear end facing upward.
+ * This avoids a ~38 mm unsupported PETG roof bridge. A small ~6 mm
+ * magnet-pocket overhang and stop pads remain: check slicer preview.
+ * Coupons/gauges always export flat with their bottom against the bed.
  */
 
 // PART SELECTION
 part = "guard";                    // [guard,fit_coupon,magnet_gauge]
+print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
 
 // DIMENSIONS FROM OWNER'S CALIPER PHOTOS (mm)
 key_width = 36.77;
@@ -84,6 +88,7 @@ side_guide_length = 10.0;
 
 $fn = 48;
 eps = 0.03;
+slice_depth = 0.12; // thickness of loft boundary slices
 
 // Derived coordinates
 inner_root_width = key_width + 2 * body_side_clearance;
@@ -123,7 +128,7 @@ module round_rect(w,h,r) {
 module xz_slice(w,z0,z1,y,r=corner_radius) {
     translate([0,y,(z0+z1)/2])
         rotate([90,0,0])
-            linear_extrude(height = 0.12, center = true)
+            linear_extrude(height = slice_depth, center = true)
                 round_rect(w,z1-z0,min(r,(z1-z0)/3,w/3));
 }
 
@@ -243,7 +248,25 @@ module magnet_gauge() {
     }
 }
 
-if (part=="guard") full_guard();
+module printable_guard() {
+    if (print_orientation == "nose_down") {
+        // Rotation about X: new Z = -old Y. Place maximum old Y at Z=0,
+        // so the flat closed nose becomes the entire first layer. The big
+        // roof now forms one of the vertical walls instead of a long bridge.
+        // Translate old Z into nonnegative bed Y for easier slicing.
+        translate([0, -floor_bottom, outer_tip_y + slice_depth/2])
+            rotate([-90, 0, 0])
+                full_guard();
+    } else if (print_orientation == "as_used") {
+        // Useful for dimensional inspection / visualizing attachment.
+        // This orientation needs a ~38 mm roof bridge or supports to print.
+        full_guard();
+    } else {
+        assert(false, "Unknown print_orientation");
+    }
+}
+
+if (part=="guard") printable_guard();
 else if (part=="fit_coupon") fit_coupon();
 else if (part=="magnet_gauge") magnet_gauge();
 else assert(false,"Unknown part");
