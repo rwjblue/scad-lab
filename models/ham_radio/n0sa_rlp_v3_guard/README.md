@@ -8,7 +8,7 @@ One-piece, front-only protective shroud for the N0SA RLP V3 dual-lever CW paddle
 
 The repository tracks the OpenSCAD source; use the commands below to generate STL outputs for either magnet thickness. Prebuilt STLs are supplied separately in the prototype download package. All six outputs are geometrically distinct where the magnet pocket depths change.
 
-- `n0sa_rlp_v3_guard.scad` — one parametric source for all three parts. Set `part` at the top or override with `-D`.
+- `n0sa_rlp_v3_guard.scad` — one parametric source for all three parts. Set `part` at the top or override with `-D`. The full guard now exports in the recommended **nose-down print orientation** by default (`print_orientation="nose_down"`). Set `print_orientation="as_used"` for a key-mounted visualization (not recommended for support-free printing).
 - `rlp_v3_guard_6x1p5.stl` / `rlp_v3_guard_6x2p0.stl` (`part="guard"`) — full nose shroud with pockets sized for either supplied magnet thickness.
 - `rlp_v3_fit_coupon_6x1p5.stl` / `rlp_v3_fit_coupon_6x2p0.stl` (`part="fit_coupon"`) — thin replica of just the continuous floor's rear overlap, two magnet pockets, and shallow alignment lips. Use this to check underside fit, magnet spacing and polarity with minimal filament.
 - `rlp_v3_magnet_gauge_6x1p5.stl` / `rlp_v3_magnet_gauge_6x2p0.stl` (`part="magnet_gauge"`) — tiny two-pocket gauge for testing magnet diameter/tolerance. The **notched +X end is the looser pocket**; the unmarked end is the tighter one.
@@ -39,7 +39,7 @@ STL bounding boxes measured from the rendered binary meshes (same for both inser
 
 | Part | X width × Y length × Z height |
 |---|---|
-| Guard | **41.67 × 32.34 × 35.07 mm** |
+| Guard, **nose-down STL on build plate** | **41.67 × 35.07 × 32.34 mm** |
 | Magnet-fit coupon | **41.67 × 9.50 × 5.42 mm** |
 | Magnet pocket gauge | 28.00 × 14.00 × 3.30 mm |
 
@@ -48,7 +48,8 @@ These are *part* dimensions, not the total key plus guard. The protective nose e
 ## Printing
 
 - PETG, 0.4 mm nozzle, about 0.2 mm layers is a reasonable starting point.
-- Lay the **continuous bottom surface** on the build plate (default STL orientation is already flat). The broad top of the enclosed shroud spans an opening; evaluate the bridge in the slicer and use minimal supports under the roof if your PETG cannot bridge it cleanly. The roof and both sides now extend all the way back to the floor's rear edge. The small coupon and pocket gauge should print without supports.
+- **Print the full guard on its closed nose**, with the open end facing **straight up**. This is the default orientation for generated guard STLs. Its closed nose forms a broad, flat ~955 mm² contact area on the plate. Do **not** lay the magnetic floor down: that would leave a ~38 mm roof bridge across the hollow center. Nose-down, the roof becomes a vertical wall with no large unsupported span. In Bambu Studio, check that the broad, closed nose is on the plate and avoid **Auto Orient** if it flips the part. The coupon and pocket gauge still export with their flat floors against the bed.
+- Start with **supports off** for the nose-down guard, then inspect the sliced preview for the two **6.2 mm diameter magnet pockets** (now facing sideways) and the small internal stop pads. The pockets have only a short curved overhang, and the stop pads are short cantilevers; those may print cleanly without supports but **we have not verified this in Bambu Studio or physically**. Use narrowly painted supports only if the slicer indicates trouble, rather than filling the entire inside of the sleeve with supports.
 - Do a **dry fit with no added magnets first**. Slide the shroud straight over the front, without levering the fingers sideways. Confirm the full movement of both paddles is clear, including at the tip and where the tapered roof starts.
 - Test the gauge if unsure about insert diameter. Then test the fit coupon against the key underside and existing front magnets. A wrong magnet spacing cannot be corrected by polarity alone: adjust `key_magnet_outer_span` and/or `key_magnet_front_margin` (which derive `magnet_spacing` and `magnet_y`), regenerate and reprint.
 - Confirm **attraction** separately for **each magnet** against its corresponding installed key magnet *before gluing*. When fully seated, either insert sits about 0.15 mm below the key-facing surface. The blind pocket leaves **1.65 mm** of printed material under the 1.5 mm insert, or **1.15 mm** under the 2.0 mm insert. Both pockets are 6.2 mm diameter. Do not use excessive press force on PETG or the key magnets.
