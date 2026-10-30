@@ -59,12 +59,16 @@ tip_outer_top = 26.0;              // relative to underside of key
 nose_extra = tip_clearance + nose_wall;
 corner_radius = 1.6;               // rounded cross-sections, mm
 
-// ADD-ON MAGNETS in printed guard -- thickness remains unmeasured
+// ADD-ON MAGNETS: owner has N48 6 x 1.5 mm and 6 x 2.0 mm discs.
+// Default is 6 x 1.5 mm. Use -D 'insert_thickness=2.0' for 6 x 2 mm.
+// Pocket depth is magnet thickness + 0.15 mm for glue/print tolerance.
 insert_diameter = 6.0;
-insert_thickness = 2.0;
-pocket_diameter_extra = 0.20;        // for PETG tolerance / glue
-pocket_depth_extra = 0.15;         // also sets magnet face recess when seated
-// keep ~1 mm material below magnet pocket at this thickness
+insert_thickness = 1.5;
+pocket_diameter_extra = 0.20;       // 6.20 mm opening for 6 mm discs
+pocket_depth_extra = 0.15;         // 1.65 mm or 2.15 mm pocket
+// At floor_thickness=3.30, remaining floor = 1.65 mm / 1.15 mm.
+// Both inserts have the same face recess when fully seated.
+
 
 // STOPS: shoulders on the outer edges of the stationary lower plate.
 // Carry impact into the rigid body, not the moving paddles.
@@ -103,8 +107,10 @@ assert(back_y < magnet_y - pocket_d/2 - 1,
     "Back overlap too short for magnet pockets");
 assert(magnet_y + pocket_d/2 < 0,
     "Front magnet pocket extends past the fixed body front edge");
-assert(pocket_depth < floor_thickness - 0.4,
-    "Floor not thick enough under magnet pockets");
+assert(insert_thickness > 0 && pocket_depth_extra >= 0,
+    "Magnet thickness and clearance must be nonnegative");
+assert(pocket_depth < floor_thickness - 0.8,
+    "Maintain at least 0.8 mm floor below magnet pockets");
 assert(inner_tip_width > 0 && inner_tip_top > 0,
     "Tip dimensions must be positive");
 
