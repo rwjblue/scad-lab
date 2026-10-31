@@ -1,0 +1,42 @@
+<p>A compact, one-piece protective nose guard for the <strong>N0SA RLP V3 dual-lever CW paddle</strong>. The closed bumper, roof, sides and continuous floor shield the finger pieces during transport. Two magnets in the guard align with the key's existing front underside pair.</p>
+<p><strong>V6 fit-test prototype.</strong> This revision corrects the nose depth for the measured 27.11 mm paddle projection. The earlier prototype printed nose-down without supports; <strong>physical fit and magnetic retention of this longer version are still being checked</strong>. CAD illustrations shown.</p>
+
+<h3>Parts needed for one guard</h3>
+<ul>
+<li><strong>1 printed guard</strong> from the file table below.</li>
+<li><strong>2 neodymium disc magnets, 6 mm diameter × 2 mm thick</strong>, magnetized through the thickness. This is the next test configuration.</li>
+<li>Alternatively, use <strong>2 discs, 6 mm diameter × 1.5 mm thick</strong>, with the matching thin-magnet STL.</li>
+<li>A small amount of adhesive suitable for your PETG and magnet coating, used according to its instructions.</li>
+</ul>
+<p>The key keeps all of its existing magnets. Only two new magnets go into the guard; no screws, clips or key disassembly are required.</p>
+<p><strong>Magnet sources:</strong> the <a href="https://www.amazon.com/dp/B0GYMZZN69">6 × 2 mm, 300-piece Amazon option</a> is a dimension-matched example; its grade and retention in this guard are unverified. The <a href="https://www.amazon.com/dp/B0BV6P6YYS">6 × 1.5 mm N48, 100-piece Amazon option</a> is the thinner hardware already sourced for the project. Only <strong>two magnets per guard</strong> are needed. Verify the selected size on Amazon; product families contain several diameters and thicknesses.</p>
+<p>Buy and measure <strong>metric 6 mm discs</strong>. A true 1/4 inch diameter is 6.35 mm and exceeds the 6.20 mm pockets. N48 is specified for the linked 1.5 mm option; no grade is established for the 2 mm example. Do not use a supplier's ideal pull-force figure as the guard's retention rating.</p>
+
+<h3>Choose the matching file</h3>
+<table>
+<thead><tr><th>STL</th><th>Magnets</th><th>Pocket depth</th><th>Print</th></tr></thead>
+<tbody>
+<tr><td>rlp_v3_guard_6x2p0.stl</td><td>6 × 2 mm</td><td>2.15 mm</td><td>One; primary test option</td></tr>
+<tr><td>rlp_v3_guard_6x1p5.stl</td><td>6 × 1.5 mm</td><td>1.65 mm</td><td>One; thinner alternative</td></tr>
+</tbody>
+</table>
+<p>The outside dimensions and magnet centers are identical. Choose one full guard, not both. Print at <strong>100% scale</strong>; change the OpenSCAD pocket parameters rather than scaling the entire guard to fit a magnet.</p>
+<p>The matching <strong>fit_coupon</strong> checks underside alignment using less filament. The optional <strong>magnet_gauge</strong> checks diameter tolerance: the notched end is the looser pocket. Both are available for each magnet thickness and print floor-down. They are fit aids, not pieces that attach to the finished guard.</p>
+
+<h3>Printing</h3>
+<p>Starting settings: <strong>PETG, 0.4 mm nozzle, 0.20 mm layers and three walls</strong>. The full guard STLs are already <strong>nose-down</strong>: closed bumper on the bed, open end facing up. Keep that orientation and start with <strong>supports off</strong>, following the successful earlier print. Check the sideways pocket ceilings and small stop pads in the preview and on the print.</p>
+<p>Build-plate dimensions are approximately <strong>41.67 × 35.07 mm</strong>, standing <strong>41.47 mm</strong> tall. The floor-down coupon and gauge also start at Z=0. STL files do not contain material or support settings.</p>
+
+<h3>Fit and install the magnets</h3>
+<ol>
+<li><strong>Dry-fit the plastic without magnets.</strong> Slide it on gently. Check both paddles through full travel, including the taper, roof and closed nose. The nominal inside tip clearance is about 2 mm. Confirm the small stops bear on stationary body features.</li>
+<li><strong>Check magnet seats and alignment.</strong> Use the depth-matched gauge/coupon if helpful, then the full guard. Its sideways-printed pockets can fit differently from the floor-down gauge. Do not force an oversized magnet into a pocket.</li>
+<li><strong>Match polarity separately for each pocket.</strong> Check attraction to the corresponding key magnet and mark the face before gluing. The two guard magnets need not have the same orientation.</li>
+<li><strong>Install after printing.</strong> Follow the adhesive's preparation and cure instructions. Keep adhesive off the key, paddles and exposed mating surfaces. Fully seated magnets sit about 0.15 mm below the guard's key-facing floor.</li>
+<li><strong>Check retention after curing.</strong> Confirm smooth fitting/removal, paddle clearance and resistance to gentle sideways/twisting loads. The magnets retain the guard; the shell and stationary stops provide the intended protection. Loose trial magnets can be pulled out by the key.</li>
+</ol>
+
+<h3>Compatibility and editable source</h3>
+<p>Designed around measurements of one <strong>N0SA RLP V3</strong>. Fit to other RLP versions or the SP4 is not established. This is a front paddle guard; rear-jack mounting and reversible storage are not implemented.</p>
+<p>The self-contained <strong>n0sa_rlp_v3_guard.scad</strong> includes guard, coupon and gauge variants. It defaults to 1.5 mm magnets; set <strong>insert_thickness=2.0</strong> for the primary test option. Magnet diameter, pocket clearance, body clearance, nose length and stops are adjustable. Keep the measured magnet centers until physical fit indicates an adjustment is needed.</p>
+<p>Design by Robert Jackson, N1RWJ. <a href="https://github.com/rwjblue/scad-lab/tree/main/models/ham_radio/n0sa_rlp_v3_guard">Source, measurements and detailed fit checks</a>.</p>

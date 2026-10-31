@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Build the RLP V3 guard Printables draft, checked STLs and CAD images"
+set -euo pipefail
+exec uv run --no-project --with trimesh --with networkx --with scipy --with pymupdf \
+  python models/ham_radio/n0sa_rlp_v3_guard/package.py

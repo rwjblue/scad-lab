@@ -1,0 +1,30 @@
+{
+  "title": "N0SA RLP V3 Magnetic Paddle Guard",
+  "summary": "A compact, one-piece magnetic nose guard for the N0SA RLP V3 CW paddle, with two magnet-thickness options.",
+  "revision": "V6",
+  "status": "Draft — physical fit validation pending",
+  "category": "Hobby & Makers / Electronics",
+  "tags": ["hamradio", "cw", "morse", "paddle", "n0sa", "rlp", "pota", "portable", "openscad", "magnet"],
+  "model_origin": "Original creation; no third-party SP4 mesh included",
+  "proposed_license": "CC BY-NC-SA 4.0, following the existing listings; confirm before publication",
+  "primary_magnet_thickness_mm": 2.0,
+  "magnet_quantity_per_guard": 2,
+  "magnet_diameter_mm": 6.0,
+  "sourcing_checked": "2026-10-31",
+  "magnet_sources": [
+    {
+      "dimensions_mm": [6.0, 2.0],
+      "url": "https://www.amazon.com/dp/B0GYMZZN69",
+      "description": "SIXQUEKJGH 6x2mm-300pcs variant; dimension-matched example",
+      "grade": null,
+      "owner_test_pack_link_confirmed": false
+    },
+    {
+      "dimensions_mm": [6.0, 1.5],
+      "url": "https://www.amazon.com/dp/B0BV6P6YYS",
+      "description": "6x1.5mm N48, 100-pack, axial, NiCuNi coated",
+      "grade": "N48, as advertised",
+      "owner_test_pack_link_confirmed": true
+    }
+  ]
+}
