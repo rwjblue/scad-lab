@@ -8,6 +8,8 @@ HERE = Path(__file__).resolve().parent
 VIEWS = [
     ("center", "nesting_dipole.scad", 'part="center"', "0,21,180,0,21,0"),
     ("winder", "nesting_dipole.scad", 'part="winder"', "80,-120,160,0,0,0"),
+    ("winder_right", "nesting_dipole.scad", 'part="winder_right"', "80,-120,160,0,0,0"),
+    ("winder_left", "nesting_dipole.scad", 'part="winder_left"', "80,-120,160,0,0,0"),
     ("assembled", "mockups.scad", 'view="assembled"', "190,-240,240,0,0,10"),
     ("exploded", "mockups.scad", 'view="exploded"', "190,-240,250,0,0,20"),
     ("side", "mockups.scad", 'view="loaded"', "175,-240,75,0,0,10"),
@@ -17,6 +19,7 @@ VIEWS = [
     ("print_layout", "nesting_dipole.scad", 'part="print_layout"', "0,30,300,0,30,0"),
     ("fit_coupon", "nesting_dipole.scad", 'part="fit_coupon"', "70,-100,130,0,0,0"),
     ("bnc_fit_coupon", "nesting_dipole.scad", 'part="bnc_fit_coupon"', "65,-120,65,0,4,10"),
+    ("bnc_fit_coupon_tight", "nesting_dipole.scad", 'part="bnc_fit_coupon_tight"', "65,-120,65,0,4,10"),
 ]
 
 

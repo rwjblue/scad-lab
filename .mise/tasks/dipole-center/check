@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Export and validate plain, strap, balun and combined dipole centers"
+set -euo pipefail
+exec uv run --no-project --with trimesh --with shapely --with scipy \
+  --with networkx --with manifold3d python models/ham_radio/dipole_center/validate.py

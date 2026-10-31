@@ -1,0 +1,101 @@
+{
+  "dipole_center": {
+    "balun_mount": false,
+    "strap_slots": false,
+    "bounds_mm": [
+      [
+        -45.0,
+        0.0,
+        0.0
+      ],
+      [
+        45.0,
+        39.0,
+        23.0
+      ]
+    ],
+    "watertight": true,
+    "connected_solids": 1,
+    "plate_openings": 9,
+    "bnc_D_hole_mm": 9.5,
+    "volume_mm3": 7720.000382252758
+  },
+  "dipole_center_with_straps": {
+    "balun_mount": false,
+    "strap_slots": true,
+    "bounds_mm": [
+      [
+        -45.0,
+        0.0,
+        0.0
+      ],
+      [
+        45.0,
+        39.0,
+        23.0
+      ]
+    ],
+    "watertight": true,
+    "connected_solids": 1,
+    "plate_openings": 11,
+    "bnc_D_hole_mm": 9.5,
+    "volume_mm3": 7994.774400872528
+  },
+  "dipole_center_with_balun": {
+    "balun_mount": true,
+    "strap_slots": false,
+    "bounds_mm": [
+      [
+        -45.0,
+        0.0,
+        0.0
+      ],
+      [
+        45.0,
+        100.0,
+        23.0
+      ]
+    ],
+    "watertight": true,
+    "connected_solids": 1,
+    "plate_openings": 13,
+    "bnc_D_hole_mm": 9.5,
+    "volume_mm3": 13928.82771650148
+  },
+  "dipole_center_with_balun_and_straps": {
+    "balun_mount": true,
+    "strap_slots": true,
+    "bounds_mm": [
+      [
+        -45.0,
+        0.0,
+        0.0
+      ],
+      [
+        45.0,
+        100.0,
+        23.0
+      ]
+    ],
+    "watertight": true,
+    "connected_solids": 1,
+    "plate_openings": 15,
+    "bnc_D_hole_mm": 9.5,
+    "volume_mm3": 14203.601638551756
+  },
+  "compatibility": {
+    "balun_preset_matches": true,
+    "nesting_center_matches": true,
+    "terminal_bar_translation_mm": 61,
+    "combined_mount_parameter_extremes_pass": true
+  },
+  "source_sha256": {
+    "dipole_center/dipole_center.scad": "4b3c4acaf1f5a92078c222e194a4599600462c671ff7fc296417687ccb8f8758",
+    "balun_dipole_center/validate.py": "57e4e3d9e3a20ff1be3a12b6189d9e60236dc53a7d3fea160f7fa5f10901e5dc",
+    "dipole_center/validate.py": "6dde3e50b8c139b8da5021ec3271db3d696f167fbef8cb9e2a788567ba5db0eb"
+  },
+  "limits": [
+    "CAD checks only; no load or RF rating",
+    "Balun with strap slots does not establish loaded nesting-winder packing fit"
+  ]
+}

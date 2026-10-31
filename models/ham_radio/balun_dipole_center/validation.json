@@ -1,0 +1,143 @@
+{
+  "default": {
+    "bounds_mm": [
+      [
+        -45.0,
+        0.0,
+        0.0
+      ],
+      [
+        45.0,
+        100.0,
+        23.0
+      ]
+    ],
+    "volume_mm3": 13928.82771650148,
+    "solid_PETG_mass_g": 17.68961119995688,
+    "watertight": true,
+    "connected_solids": 1,
+    "plate_openings": 13,
+    "bnc_D_hole_mm": 9.5,
+    "minimum_tie_ligament_mm": 5.509375006170013,
+    "wire_entry_gap_mm": 4.724,
+    "core_to_washer_mm": 16.5,
+    "wound_top_to_post_center_mm": 20,
+    "winding_ring_to_wound_vertical_gap_mm": 8.823999999999998,
+    "bnc_hardware_envelope_above_shelf_mm": 13,
+    "bnc_envelope_to_wound_bottom_mm": 12,
+    "rear_tip_to_tie_mouth_mm": 6.5,
+    "package_print_collision_mm3": 0.0
+  },
+  "mount_coupon": {
+    "watertight": true,
+    "connected_solids": 1,
+    "bounds_mm": [
+      [
+        -13.0,
+        0.0,
+        0.0
+      ],
+      [
+        13.0,
+        88.0,
+        23.0
+      ]
+    ],
+    "bnc_D_hole_mm": 9.5
+  },
+  "bnc_coupon": {
+    "watertight": true,
+    "diameters_mm": [
+      9.5,
+      9.7,
+      9.9
+    ]
+  },
+  "base_preservation": {
+    "shelf_root_rib_difference_mm3": 7.25597374184872e-07,
+    "max_translated_bar_eye_difference_mm2": 0.00018554060696258012
+  },
+  "parameter_extremes": [
+    {
+      "parameters": {
+        "package_d": 32,
+        "bnc_rear_projection": 10
+      },
+      "mesh": {
+        "bounds_mm": [
+          [
+            -45.0,
+            0.0,
+            0.0
+          ],
+          [
+            45.0,
+            95.0,
+            23.0
+          ]
+        ],
+        "volume_mm3": 13408.827524118677,
+        "solid_PETG_mass_g": 17.02921095563072,
+        "watertight": true,
+        "connected_solids": 1,
+        "plate_openings": 13,
+        "bnc_D_hole_mm": 9.5,
+        "minimum_tie_ligament_mm": 5.509375006170012,
+        "wire_entry_gap_mm": 4.724,
+        "core_to_washer_mm": 16.5,
+        "wound_top_to_post_center_mm": 20,
+        "winding_ring_to_wound_vertical_gap_mm": 8.823999999999998,
+        "bnc_hardware_envelope_above_shelf_mm": 10,
+        "bnc_envelope_to_wound_bottom_mm": 12,
+        "rear_tip_to_tie_mouth_mm": 6.5,
+        "package_print_collision_mm3": 0.0
+      }
+    },
+    {
+      "parameters": {
+        "package_d": 38,
+        "bnc_rear_projection": 20
+      },
+      "mesh": {
+        "bounds_mm": [
+          [
+            -45.0,
+            0.0,
+            0.0
+          ],
+          [
+            45.0,
+            111.0,
+            23.0
+          ]
+        ],
+        "volume_mm3": 15072.827717227077,
+        "solid_PETG_mass_g": 19.14249120087839,
+        "watertight": true,
+        "connected_solids": 1,
+        "plate_openings": 13,
+        "bnc_D_hole_mm": 9.5,
+        "minimum_tie_ligament_mm": 5.509375006170012,
+        "wire_entry_gap_mm": 4.724,
+        "core_to_washer_mm": 16.5,
+        "wound_top_to_post_center_mm": 20,
+        "winding_ring_to_wound_vertical_gap_mm": 8.823999999999998,
+        "bnc_hardware_envelope_above_shelf_mm": 20,
+        "bnc_envelope_to_wound_bottom_mm": 12,
+        "rear_tip_to_tie_mouth_mm": 6.5,
+        "package_print_collision_mm3": 0.0
+      }
+    }
+  ],
+  "invalid_parameter_cases_rejected": 7,
+  "source_sha256": {
+    "balun_dipole_center.scad": "bd64bcf3cfa4d4436be08dd3c10cd05de1a48a47f75171c68ff5a020ae171a1b",
+    "dipole_center.scad": "4b3c4acaf1f5a92078c222e194a4599600462c671ff7fc296417687ccb8f8758",
+    "validate.py": "57e4e3d9e3a20ff1be3a12b6189d9e60236dc53a7d3fea160f7fa5f10901e5dc"
+  },
+  "limits": [
+    "CAD-only checks; no physical fit, printed load or RF power qualification",
+    "34x18 mm wound package; catalog-based ~12 mm BNC projection rounded to a 13 mm design envelope",
+    "Hardware, pads and ties in images are schematic and not exported"
+  ]
+}

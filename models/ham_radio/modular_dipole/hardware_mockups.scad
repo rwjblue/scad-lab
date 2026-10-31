@@ -1,9 +1,12 @@
 /* Viewing and validation proxies only; no printable model or assembly.
    Hardware and silicone ties are explicit layout assumptions, not exact
    manufacturer solids or a wound-wire simulation. Units millimetres. */
+use <modular_dipole.scad>
 preset = "40m"; // [40m,80m]
-bulge = preset == "80m" ? 8 : 5;
-seat = 5+bulge+3;
+wire_face_bulge=0;
+standoff=4;
+bulge=wire_face_bulge==0 ? (preset=="80m" ? 8 : 5) : wire_face_bulge;
+seat = dock_seat_height();
 $fn = 96;
 // Display allowances only: the seller does not dimension the strap section.
 tie_width = 12;

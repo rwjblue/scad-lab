@@ -1,0 +1,911 @@
+{
+  "scope": "paths_and_exported_meshes",
+  "default": {
+    "parameters": {
+      "core_od": 29,
+      "core_id": 19,
+      "core_height": 13.85,
+      "core_fit_clearance": 0.15,
+      "wire_od": 0.65,
+      "wire_surface_gap": 0.1,
+      "groove_fit_clearance": 0.02,
+      "groove_depth": 0.1,
+      "supporting_wall_thickness": 0.5,
+      "edge_rounding": 1,
+      "crossover_clearance": 0.4
+    },
+    "signed_aperture_passages_per_conductor": [
+      13,
+      13
+    ],
+    "aperture_passage_direction": "all top to bottom",
+    "numbered_passages_A": [
+      {
+        "point_mm": [
+          3.06277,
+          -7.80107,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          6.21199,
+          -5.6257,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          8.06554,
+          -2.27693,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          8.2368,
+          1.54675,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          6.69006,
+          5.04781,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          3.74793,
+          7.49602,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          0.375,
+          -0.4353254029408029,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          -3.06277,
+          -7.80107,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          -6.21199,
+          -5.6257,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          -8.06554,
+          -2.27693,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          -8.2368,
+          1.54675,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          -6.69006,
+          5.04781,
+          6.925
+        ],
+        "direction": -1
+      },
+      {
+        "point_mm": [
+          -3.74793,
+          7.49602,
+          6.925
+        ],
+        "direction": -1
+      }
+    ],
+    "supported_pair_center_spacing_range_mm": [
+      0.7499605670300271,
+      0.7500551279072769
+    ],
+    "unsupported_rear_corresponding_spacing_range_mm": [
+      0.7499223712491836,
+      0.7500662693389158
+    ],
+    "minimum_any_A_B_surface_gap_mm": 0.09333466465995555,
+    "minimum_nonlocal_self_surface_gap_mm": [
+      0.5699229713797517,
+      0.4618835006420402
+    ],
+    "minimum_unrelated_channel_gap_mm": 1.99777,
+    "minimum_crossover_to_unrelated_wire_surface_gap_mm": 2.03777,
+    "flat_surface_ridge_mm": 0.264202,
+    "minimum_full_cutter_separation_mm": 0.06,
+    "minimum_conservative_upper_groove_backing_mm": 0.5082353713120897,
+    "minimum_conservative_bottom_mouth_backing_mm": 0.5226959154225639,
+    "minimum_conservative_Z0_lip_backing_mm": 0.5025948831254818,
+    "package_diameter_mm": 31.888478676632126,
+    "package_height_mm": 17.1692,
+    "allowance_mm": [
+      34,
+      18
+    ],
+    "allowance_change_required": false
+  },
+  "assembly_leads": {
+    "continuous_endpoint_connections": true,
+    "signed_aperture_passages_including_leads": [
+      13,
+      13
+    ],
+    "minimum_full_assembly_A_B_surface_gap_mm": 0.04305336728626241,
+    "minimum_full_assembly_nonlocal_self_surface_gap_mm": [
+      0.16780130208993915,
+      0.3616172096697453
+    ],
+    "minimum_input_pair_surface_gap_mm": 0.06353874513289592,
+    "minimum_output_pair_surface_gap_mm": 0.04305336728626241
+  },
+  "mesh": {
+    "watertight": true,
+    "connected_solids": 1,
+    "volume_mm3": 1834.6671888318936,
+    "print_bounds_mm": [
+      [
+        -15.374228477478027,
+        -15.374228477478027,
+        3.028972628271731e-09
+      ],
+      [
+        15.374228477478027,
+        15.374228477478027,
+        14.724227905273438
+      ]
+    ],
+    "euler_number": 0,
+    "swept_core_insertion_collision_mm3": 0.0,
+    "actual_STL_top_ridge_range_mm": [
+      0.26777816330082854,
+      0.2677788739902974
+    ]
+  },
+  "parameter_cases": [
+    {
+      "parameters": {
+        "core_od": 29.75,
+        "core_id": 18.5,
+        "core_height": 14.25,
+        "core_fit_clearance": 0.15,
+        "wire_od": 0.65,
+        "wire_surface_gap": 0.1,
+        "groove_fit_clearance": 0.02,
+        "groove_depth": 0.1,
+        "supporting_wall_thickness": 0.5,
+        "edge_rounding": 1,
+        "crossover_clearance": 0.4
+      },
+      "signed_aperture_passages_per_conductor": [
+        13,
+        13
+      ],
+      "aperture_passage_direction": "all top to bottom",
+      "numbered_passages_A": [
+        {
+          "point_mm": [
+            2.96098,
+            -7.57245,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            6.01917,
+            -5.46618,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            7.82189,
+            -2.21979,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            7.99316,
+            1.4896,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            6.49723,
+            4.88829,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            3.64614,
+            7.2674,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            0.375,
+            -0.4062021281230897,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -2.96098,
+            -7.57245,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -6.01917,
+            -5.46618,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -7.82189,
+            -2.21979,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -7.99316,
+            1.4896,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -6.49723,
+            4.88829,
+            7.125
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -3.64614,
+            7.2674,
+            7.125
+          ],
+          "direction": -1
+        }
+      ],
+      "supported_pair_center_spacing_range_mm": [
+        0.7499451559280854,
+        0.7500551279072758
+      ],
+      "unsupported_rear_corresponding_spacing_range_mm": [
+        0.7499317001567548,
+        0.7500721872166705
+      ],
+      "minimum_any_A_B_surface_gap_mm": 0.09373347981346503,
+      "minimum_nonlocal_self_surface_gap_mm": [
+        0.5875015609687125,
+        0.47083274778175543
+      ],
+      "minimum_unrelated_channel_gap_mm": 1.8959800000000002,
+      "minimum_crossover_to_unrelated_wire_surface_gap_mm": 1.9359800000000003,
+      "flat_surface_ridge_mm": 0.264202,
+      "minimum_full_cutter_separation_mm": 0.06,
+      "minimum_conservative_upper_groove_backing_mm": 0.5082155610955306,
+      "minimum_conservative_bottom_mouth_backing_mm": 0.5226685074265862,
+      "minimum_conservative_Z0_lip_backing_mm": 0.5025879033527771,
+      "package_diameter_mm": 32.638521913017485,
+      "package_height_mm": 17.5692,
+      "allowance_mm": [
+        34,
+        18
+      ],
+      "allowance_change_required": false,
+      "mesh": {
+        "watertight": true,
+        "connected_solids": 1,
+        "volume_mm3": 1921.409219963022,
+        "print_bounds_mm": [
+          [
+            -15.749228477478027,
+            -15.749228477478027,
+            -2.9314914939959635e-09
+          ],
+          [
+            15.749228477478027,
+            15.749228477478027,
+            15.124228477478027
+          ]
+        ],
+        "euler_number": 0,
+        "swept_core_insertion_collision_mm3": 0.0,
+        "actual_STL_top_ridge_range_mm": [
+          0.26777806631214846,
+          0.2677783651506452
+        ]
+      }
+    },
+    {
+      "parameters": {
+        "core_od": 29,
+        "core_id": 19,
+        "core_height": 13.85,
+        "core_fit_clearance": 0.15,
+        "wire_od": 0.7,
+        "wire_surface_gap": 0.15,
+        "groove_fit_clearance": 0.02,
+        "groove_depth": 0.1,
+        "supporting_wall_thickness": 0.5,
+        "edge_rounding": 1,
+        "crossover_clearance": 0.4
+      },
+      "signed_aperture_passages_per_conductor": [
+        13,
+        13
+      ],
+      "aperture_passage_direction": "all top to bottom",
+      "numbered_passages_A": [
+        {
+          "point_mm": [
+            3.00594,
+            -7.79636,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            6.15899,
+            -5.64674,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            8.02742,
+            -2.31935,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            8.22152,
+            1.49181,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            6.7008,
+            4.99181,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            3.78246,
+            7.45063,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            0.425,
+            -0.4338998417517696,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -3.00594,
+            -7.79636,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -6.15899,
+            -5.64674,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -8.02742,
+            -2.31935,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -8.22152,
+            1.49181,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -6.7008,
+            4.99181,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -3.78246,
+            7.45063,
+            6.925
+          ],
+          "direction": -1
+        }
+      ],
+      "supported_pair_center_spacing_range_mm": [
+        0.8499577354786532,
+        0.8500754152426706
+      ],
+      "unsupported_rear_corresponding_spacing_range_mm": [
+        0.8499234274333193,
+        0.8500801466591251
+      ],
+      "minimum_any_A_B_surface_gap_mm": 0.1425219409560926,
+      "minimum_nonlocal_self_surface_gap_mm": [
+        0.6331140089654752,
+        0.4995093068000771
+      ],
+      "minimum_unrelated_channel_gap_mm": 1.84094,
+      "minimum_crossover_to_unrelated_wire_surface_gap_mm": 1.88094,
+      "flat_surface_ridge_mm": 0.344036,
+      "minimum_full_cutter_separation_mm": 0.11,
+      "minimum_conservative_upper_groove_backing_mm": 0.5082224925483041,
+      "minimum_conservative_bottom_mouth_backing_mm": 0.5226884038527501,
+      "minimum_conservative_Z0_lip_backing_mm": 0.5012085339569425,
+      "package_diameter_mm": 31.988547888964103,
+      "package_height_mm": 17.2442,
+      "allowance_mm": [
+        34,
+        18
+      ],
+      "allowance_change_required": false,
+      "mesh": {
+        "watertight": true,
+        "connected_solids": 1,
+        "volume_mm3": 1833.5842432718812,
+        "print_bounds_mm": [
+          [
+            -15.374228477478027,
+            -15.374228477478027,
+            3.028972628271731e-09
+          ],
+          [
+            15.374228477478027,
+            15.374228477478027,
+            14.724227905273438
+          ]
+        ],
+        "euler_number": 0,
+        "swept_core_insertion_collision_mm3": 0.0,
+        "actual_STL_top_ridge_range_mm": [
+          0.3515430457733673,
+          0.3515432817207473
+        ]
+      }
+    },
+    {
+      "parameters": {
+        "core_od": 29,
+        "core_id": 19,
+        "core_height": 13.85,
+        "core_fit_clearance": 0.15,
+        "wire_od": 0.65,
+        "wire_surface_gap": 0.1,
+        "groove_fit_clearance": 0.03,
+        "groove_depth": 0.1,
+        "supporting_wall_thickness": 0.5,
+        "edge_rounding": 1,
+        "crossover_clearance": 0.4
+      },
+      "signed_aperture_passages_per_conductor": [
+        13,
+        13
+      ],
+      "aperture_passage_direction": "all top to bottom",
+      "numbered_passages_A": [
+        {
+          "point_mm": [
+            3.0587,
+            -7.79193,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            6.20428,
+            -5.61932,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            8.05579,
+            -2.27465,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            8.22706,
+            1.54446,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            6.68235,
+            5.04143,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            3.74386,
+            7.48688,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            0.375,
+            -0.4348050481164459,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -3.0587,
+            -7.79193,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -6.20428,
+            -5.61932,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -8.05579,
+            -2.27465,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -8.22706,
+            1.54446,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -6.68235,
+            5.04143,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -3.74386,
+            7.48688,
+            6.925
+          ],
+          "direction": -1
+        }
+      ],
+      "supported_pair_center_spacing_range_mm": [
+        0.7499220396814591,
+        0.7500397176816708
+      ],
+      "unsupported_rear_corresponding_spacing_range_mm": [
+        0.7499131143993694,
+        0.7500911541939429
+      ],
+      "minimum_any_A_B_surface_gap_mm": 0.09335348418205114,
+      "minimum_nonlocal_self_surface_gap_mm": [
+        0.5703973164654205,
+        0.46626341178952957
+      ],
+      "minimum_unrelated_channel_gap_mm": 1.9737,
+      "minimum_crossover_to_unrelated_wire_surface_gap_mm": 2.0337,
+      "flat_surface_ridge_mm": 0.256036,
+      "minimum_full_cutter_separation_mm": 0.04,
+      "minimum_conservative_upper_groove_backing_mm": 0.5081751810903662,
+      "minimum_conservative_bottom_mouth_backing_mm": 0.5226612815120082,
+      "minimum_conservative_Z0_lip_backing_mm": 0.502015093026484,
+      "package_diameter_mm": 31.908504450014878,
+      "package_height_mm": 17.179199999999998,
+      "allowance_mm": [
+        34,
+        18
+      ],
+      "allowance_change_required": false,
+      "mesh": {
+        "watertight": true,
+        "connected_solids": 1,
+        "volume_mm3": 1834.229642796835,
+        "print_bounds_mm": [
+          [
+            -15.374228477478027,
+            -15.374228477478027,
+            3.028972628271731e-09
+          ],
+          [
+            15.374228477478027,
+            15.374228477478027,
+            14.724227905273438
+          ]
+        ],
+        "euler_number": 0,
+        "swept_core_insertion_collision_mm3": 0.0,
+        "actual_STL_top_ridge_range_mm": [
+          0.2612840449339803,
+          0.2612843195154485
+        ]
+      }
+    },
+    {
+      "parameters": {
+        "core_od": 29,
+        "core_id": 19,
+        "core_height": 13.85,
+        "core_fit_clearance": 0.25,
+        "wire_od": 0.65,
+        "wire_surface_gap": 0.1,
+        "groove_fit_clearance": 0.02,
+        "groove_depth": 0.1,
+        "supporting_wall_thickness": 0.5,
+        "edge_rounding": 1,
+        "crossover_clearance": 0.4
+      },
+      "signed_aperture_passages_per_conductor": [
+        13,
+        13
+      ],
+      "aperture_passage_direction": "all top to bottom",
+      "numbered_passages_A": [
+        {
+          "point_mm": [
+            3.02206,
+            -7.70963,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            6.13486,
+            -5.56189,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            7.96808,
+            -2.25407,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            8.13935,
+            1.52389,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            6.61293,
+            4.984,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            3.70722,
+            7.40457,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            0.375,
+            -0.5071417546259389,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -3.02206,
+            -7.70963,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -6.13486,
+            -5.56189,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -7.96808,
+            -2.25407,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -8.13935,
+            1.52389,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -6.61293,
+            4.984,
+            6.925
+          ],
+          "direction": -1
+        },
+        {
+          "point_mm": [
+            -3.70722,
+            7.40457,
+            6.925
+          ],
+          "direction": -1
+        }
+      ],
+      "supported_pair_center_spacing_range_mm": [
+        0.7499451559280843,
+        0.7500474227673877
+      ],
+      "unsupported_rear_corresponding_spacing_range_mm": [
+        0.7499142020258055,
+        0.7500866280637197
+      ],
+      "minimum_any_A_B_surface_gap_mm": 0.09355253224337579,
+      "minimum_nonlocal_self_surface_gap_mm": [
+        0.5748144014502768,
+        0.5062034419599347
+      ],
+      "minimum_unrelated_channel_gap_mm": 1.9570600000000002,
+      "minimum_crossover_to_unrelated_wire_surface_gap_mm": 1.9970600000000003,
+      "flat_surface_ridge_mm": 0.264202,
+      "minimum_full_cutter_separation_mm": 0.06,
+      "minimum_conservative_upper_groove_backing_mm": 0.5082148559482716,
+      "minimum_conservative_bottom_mouth_backing_mm": 0.5226712691905806,
+      "minimum_conservative_Z0_lip_backing_mm": 0.5025811263275464,
+      "package_diameter_mm": 32.08854729722733,
+      "package_height_mm": 17.269199999999998,
+      "allowance_mm": [
+        34,
+        18
+      ],
+      "allowance_change_required": false,
+      "mesh": {
+        "watertight": true,
+        "connected_solids": 1,
+        "volume_mm3": 1856.1760981590796,
+        "print_bounds_mm": [
+          [
+            -15.474227905273438,
+            -15.474227905273438,
+            1.5388561536155976e-09
+          ],
+          [
+            15.474227905273438,
+            15.474227905273438,
+            14.824228286743164
+          ]
+        ],
+        "euler_number": 0,
+        "swept_core_insertion_collision_mm3": 0.0,
+        "actual_STL_top_ridge_range_mm": [
+          0.26777805448122777,
+          0.2677783651226429
+        ]
+      }
+    }
+  ],
+  "invalid_parameter_cases_rejected": 11,
+  "ordinary_0_4_mm_nozzle_ridge_warning_verified": true,
+  "source_sha256": {
+    "winding_guide.scad": "d879d85163c971a89acc6fa54d9c65179a6d22bd59a50e86c39ad4a2d691cfbc",
+    "mockups.scad": "838207e5fc32e452c4c9e43327656c8ba944eec76c9aa3183256d839ee7e2ef7",
+    "validate_winding_guide.py": "fd1f546669551061de1096b44c16bcbb1ba556855926371c97dce8e953755065"
+  },
+  "limits": [
+    "CAD geometry checks only; not physical printing, enamel integrity or RF validation",
+    "Free rear links and crossover are nominal paths; unsupported wire spacing is not mechanically enforced",
+    "A 0.264 mm nominal ridge requires fine printing and is below a normal 0.4 mm nozzle width"
+  ]
+}

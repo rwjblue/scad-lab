@@ -2,7 +2,10 @@
 !center.stl
 !winder.stl
 !winder_80m.stl
+!winder_left.stl
+!winder_right.stl
 !print_layout.stl
 !print_layout_80m.stl
 !fit_coupon.stl
 !bnc_fit_coupon.stl
+!bnc_fit_coupon_tight.stl

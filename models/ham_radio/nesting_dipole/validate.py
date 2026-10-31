@@ -22,8 +22,10 @@ SCAD = HERE / "nesting_dipole.scad"
 ORIGINAL = HERE.parent / "dipole_center/dipole_center.scad"
 EPS_VOLUME = 0.001
 TOL = 0.025
-PRINT_FILES = ["center.stl", "winder.stl", "winder_80m.stl", "print_layout.stl",
-               "print_layout_80m.stl", "fit_coupon.stl", "bnc_fit_coupon.stl"]
+PRINT_FILES = ["center.stl", "winder.stl", "winder_80m.stl", "winder_left.stl",
+               "winder_right.stl", "print_layout.stl",
+               "print_layout_80m.stl", "fit_coupon.stl", "bnc_fit_coupon.stl",
+               "bnc_fit_coupon_tight.stl"]
 
 
 def require(condition, message):
@@ -54,9 +56,9 @@ def rejected_export(directory, name, definitions, expected_message):
     return {"definitions": definitions, "rejected": True, "expected_assertion": expected_message}
 
 
-def expression_export(directory, name, expression, definitions=()):
+def expression_export(directory, name, expression, definitions=(), source=SCAD):
     wrapper = directory / f"{name}.scad"
-    wrapper.write_text(f"use <{SCAD}>\n$fn=96;\n{expression}\n")
+    wrapper.write_text(f"use <{source}>\n$fn=96;\n{expression}\n")
     return export(directory / f"{name}.stl", wrapper, definitions)
 
 
@@ -174,32 +176,44 @@ def bnc_coupon_geometry(mesh, diameters):
 def bnc_fit_checks(directory, coupon, default_center):
     diameters = [9.7, 9.8, 9.9, 10.0, 10.1]
     result = bnc_coupon_geometry(coupon, diameters)
-    variants = [9.7, 9.8, 10.0, 10.1, 10.2]
+    tight_diameters = [9.5, 9.55, 9.6, 9.65, 9.7]
+    tight_coupon = export(directory / "bnc_fit_coupon_tight.stl", SCAD,
+                          ['part="bnc_fit_coupon_tight"'])
+    result["tight_coupon"] = bnc_coupon_geometry(tight_coupon, tight_diameters)
+    variants = sorted((set(diameters) | set(tight_diameters) | {10.2}) - {9.5})
     with ThreadPoolExecutor(max_workers=3) as pool:
-        futures = {diameter: pool.submit(export, directory/f"bnc-center-{diameter:.1f}.stl",
+        futures = {diameter: pool.submit(export, directory/f"bnc-center-{diameter:g}.stl",
                                         SCAD, ['part="center"', f"bnc_hole_d={diameter}"])
                    for diameter in variants}
         centers = {diameter: future.result() for diameter, future in futures.items()}
-    centers[9.9] = default_center
+    centers[9.5] = default_center
     result["center_parameter_checks"] = {}
     for diameter in sorted(centers):
         center = centers[diameter]
-        result["center_parameter_checks"][f"{diameter:.1f}"] = {
+        result["center_parameter_checks"][f"{diameter:g}"] = {
             **mesh_report(center), **bnc_hole_measurements(center, diameter)}
-    for index, diameter in enumerate(diameters):
-        x = (index-2)*22
-        differences = []
-        for y in [.025, .75, 1.5, 2.975]:
-            sample_hole = translate_shape(bnc_section_hole(coupon, y, x), xoff=-x)
-            center_hole = bnc_section_hole(centers[diameter], y)
-            difference = sample_hole.symmetric_difference(center_hole).area
-            require(difference < .001,
-                    f"Coupon {diameter} mm hole does not match the corresponding center")
-            differences.append(difference)
-        result["samples"][index]["maximum_center_profile_difference_mm2"] = max(differences)
+    for sample_coupon, sample_diameters, sample_result in [
+            (coupon, diameters, result),
+            (tight_coupon, tight_diameters, result["tight_coupon"])]:
+        for index, diameter in enumerate(sample_diameters):
+            x = (index-2)*22
+            differences = []
+            for y in [.025, .75, 1.5, 2.975]:
+                sample_hole = translate_shape(bnc_section_hole(sample_coupon, y, x), xoff=-x)
+                center_hole = bnc_section_hole(centers[diameter], y)
+                difference = sample_hole.symmetric_difference(center_hole).area
+                require(difference < .001,
+                        f"Coupon {diameter} mm hole does not match the corresponding center")
+                differences.append(difference)
+            sample_result["samples"][index]["maximum_center_profile_difference_mm2"] = max(differences)
+    result["rejected_diameter_checks"] = {
+        f"{diameter:g}": rejected_export(directory, f"bnc-out-of-range-{diameter:g}",
+                                         [f"bnc_hole_d={diameter}"],
+                                         "BNC cutout diameter must be 9.5..10.2 mm")
+        for diameter in [9.45, 10.25]}
     shared = export(directory / "shared-bnc-coupon.stl", ORIGINAL, ['part="coupon"'])
     result["shared_default_coupon"] = bnc_coupon_geometry(shared, [9.7, 9.9, 10.1])
-    result["default_center_diameter_mm"] = 9.9
+    result["default_center_diameter_mm"] = 9.5
     result["print_orientation"] = "Foot flat on bed, 3 mm panel upright, D-hole flat uppermost"
     return result
 
@@ -291,15 +305,81 @@ def symmetric_difference(a, b):
                for pair in [[a, b], [b, a]])
 
 
+def shared_center_checks(directory, standalone, nesting):
+    """Verify the public toggle, imported API and preserved no-slot defaults."""
+    require(np.allclose(standalone.bounds, [[-45, 0, 0], [45, 39, 23]], atol=TOL),
+            "Standalone center must retain its original position and dimensions")
+    samples = []
+    for z in [.1, 2, 3.9]:
+        holes = interior_holes(section_material(standalone, z))
+        require(len(holes) == 9, "Standalone center must have nine round holes and no strap slots")
+        measurements = []
+        for kind, axis, diameter in expected_plate_holes(z, terminal_x=10, wire_inner=28, hang_d=6):
+            matching = [hole for hole in holes if hole.covers(Point(*axis))]
+            require(len(matching) == 1, f"Missing standalone {kind} hole at {axis}")
+            hole = matching[0]
+            size = np.array(hole.bounds)[2:]-np.array(hole.bounds)[:2]
+            require(np.allclose(size, diameter, atol=TOL), f"Incorrect standalone {kind} hole diameter")
+            require(np.linalg.norm(np.asarray(hole.centroid.coords[0])-axis) < TOL,
+                    f"Standalone {kind} hole axis moved")
+            measurements.append({"kind": kind, "axis_xy_mm": axis,
+                                 "diameter_xy_mm": size.tolist()})
+        samples.append({"z_mm": z, "holes": measurements})
+    result = {"standalone_without_slots": {
+        **mesh_report(standalone), **bnc_hole_measurements(standalone, 9.5),
+        "cross_sections": samples}}
+
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {
+            "standalone_with_slots": pool.submit(
+                export, directory / "shared-slotted-center.stl", ORIGINAL, ['strap_slots=true']),
+            "imported_with_slots": pool.submit(
+                expression_export, directory, "shared-imported-slotted",
+                "center(with_strap_slots=true);", source=ORIGINAL),
+            "imported_without_slots": pool.submit(
+                expression_export, directory, "shared-imported-plain", "center();", source=ORIGINAL),
+        }
+        exports = {name: future.result() for name, future in futures.items()}
+    for name, mesh in exports.items():
+        reference = standalone if name == "imported_without_slots" else nesting
+        difference = symmetric_difference(mesh, reference)
+        require(difference < EPS_VOLUME, f"{name} differs from its shared-center counterpart")
+        result[name] = {**mesh_report(mesh), "reference": "standalone" if reference is standalone else "nesting",
+                        "symmetric_difference_mm3": difference}
+
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        futures = {
+            "standalone": pool.submit(export, directory / "shared-wide-slot.stl", ORIGINAL,
+                                      ['strap_slots=true', 'strap_slot_width=20']),
+            "nesting": pool.submit(export, directory / "nesting-wide-slot.stl", SCAD,
+                                   ['part="center"', 'strap_slot_width=20']),
+            "imported": pool.submit(expression_export, directory, "shared-imported-wide-slot",
+                                    "center(with_strap_slots=true, slot_width=20);", source=ORIGINAL),
+        }
+        exports = {name: future.result() for name, future in futures.items()}
+    wide = exports["standalone"]
+    result["maximum_slot_width"] = {"slot_width_mm": 20, **mesh_report(wide),
+                                    "tie_slots": center_slots(wide, slot_width=20), "comparisons": {}}
+    for name in ["nesting", "imported"]:
+        difference = symmetric_difference(wide, exports[name])
+        require(difference < EPS_VOLUME, f"{name} does not forward the selected strap-slot width")
+        result["maximum_slot_width"]["comparisons"][name] = {
+            **mesh_report(exports[name]), "symmetric_difference_mm3": difference}
+    return result
+
+
 def rotated(mesh, axis, angle):
     result = mesh.copy()
     result.apply_transform(trimesh.transformations.rotation_matrix(np.radians(angle), axis))
     return result
 
 
-def placed_winders(winder):
-    return [moved(winder, [0, 11, 0]),
-            moved(rotated(winder, [0, 0, 1], 180), [0, -11, 5])]
+def placed_winders(right, left=None):
+    """Independent assembly transform; a shared native proxy needs no handedness."""
+    if left is None:
+        left = right
+    return [moved(right, [0, 11, 0]),
+            moved(rotated(left, [1, 0, 0], 180), [0, -11, 10])]
 
 
 def packing_height(bulge, protrusion):
@@ -311,7 +391,7 @@ def placed_center(center, bulge, protrusion=3):
                  [18, 7, packing_height(bulge, protrusion)])
 
 
-def preserved_winder_frame(directory, name, winder, definitions):
+def preserved_winder_frame(directory, name, winder, definitions, socket_x=-36):
     """Reconstruct the previous two-post frame, then exclude only the new bore."""
     expression = f"""
 use <{HERE / 'winder_profile.scad'}>
@@ -328,7 +408,7 @@ beveled_frame(height=5,bevel=0.5) union() {{
     frame = trimesh.boolean.intersection([winder, block([-250, -100, 0], [250, 100, 5])],
                                          engine="manifold")
     socket_region = moved(trimesh.creation.cylinder(radius=4.1, height=5.2, sections=96),
-                          [-36, -11, 2.5])
+                          [socket_x, -11, 2.5])
     reference_without_socket = trimesh.boolean.difference([reference, socket_region], engine="manifold")
     frame_without_socket = trimesh.boolean.difference([frame, socket_region], engine="manifold")
     difference = symmetric_difference(reference_without_socket, frame_without_socket)
@@ -343,32 +423,32 @@ beveled_frame(height=5,bevel=0.5) union() {{
             "original_outline_bounds_xy_mm": reference.bounds[:,:2].tolist()}
 
 
-def socket_dimensions(winder, clearance=.25):
-    """Measure the receiver at the original negative-X post station."""
+def socket_dimensions(winder, clearance=.25, x=-36):
+    """Measure the receiver at the independently specified handed station."""
     diameter, lower_chamfer, upper_relief, thickness = 6+2*clearance, .4, .6, 5
     result = []
     for z in [.025, .15, .3, .425, 2.5, 4.375, 4.425, 4.5, 4.75, 4.975]:
         material = section_material(winder, z)
         holes = interior_holes(material)
-        matching = [hole for hole in holes if hole.covers(Point(-36, -11))]
-        require(len(matching) == 1, "Missing winder socket at the original X=-36, Y=-11 post station")
+        matching = [hole for hole in holes if hole.covers(Point(x, -11))]
+        require(len(matching) == 1, f"Missing winder socket at X={x}, Y=-11")
         hole = matching[0]
         expected = diameter+2*max(lower_chamfer-z, z-(thickness-upper_relief), 0)
         bounds = hole.bounds
         size = [bounds[2]-bounds[0], bounds[3]-bounds[1]]
         require(np.allclose(size, expected, atol=TOL), f"Incorrect socket diameter at Z={z}")
-        require(np.linalg.norm(np.array(hole.centroid.coords[0])-[-36, -11]) < TOL,
+        require(np.linalg.norm(np.array(hole.centroid.coords[0])-[x, -11]) < TOL,
                 "Winder receiver axis moved")
         shapes = [material] if material.geom_type == "Polygon" else list(material.geoms)
         wall = min(shape.exterior.distance(hole) for shape in shapes)
         require(wall >= .5-TOL, f"Winder receiver has less than 0.5 mm exterior wall at Z={z}")
         result.append({"z_mm": z, "diameter_xy_mm": size, "minimum_exterior_wall_mm": wall})
-    return {"axis_xy_mm": [-36, -11], "bore_diameter_mm": diameter,
+    return {"axis_xy_mm": [x, -11], "bore_diameter_mm": diameter,
             "radial_clearance_mm": clearance, "bottom_entry_chamfer_mm": lower_chamfer,
             "top_root_relief_depth_mm": upper_relief, "cross_sections": result}
 
 
-def post_dimensions(winder, protrusion):
+def post_dimensions(winder, protrusion, x=36):
     """Check the single solid stud, its fillet, and exposed tip independently."""
     frame_top, frame_thickness, diameter, chamfer, fillet = 5, 5, 6, .6, .6
     height = frame_thickness+protrusion
@@ -385,8 +465,8 @@ def post_dimensions(winder, protrusion):
         shaft = section_material(winder, z)
         require(shaft.geom_type == "Polygon" and not shaft.interiors,
                 "Exactly one solid stud may extend above each winder frame")
-        require(np.linalg.norm(np.array(shaft.centroid.coords[0])-[36, -11]) < TOL,
-                "Stud axis must remain at the original X=36, Y=-11 post station")
+        require(np.linalg.norm(np.array(shaft.centroid.coords[0])-[x, -11]) < TOL,
+                f"Stud axis must remain at X={x}, Y=-11")
         bounds = shaft.bounds
         size = [bounds[2]-bounds[0], bounds[3]-bounds[1]]
         require(np.allclose(size, expected, atol=TOL),
@@ -395,13 +475,24 @@ def post_dimensions(winder, protrusion):
         require(abs(shaft.area-area) < .005*area, "Stud section must be circular")
         result.append({"z_mm": z, "profile_region": kind,
                        "expected_diameter_mm": expected, "diameter_xy_mm": size})
-    return {"axis_xy_mm": [36, -11], "height_above_frame_mm": height,
+    return {"axis_xy_mm": [x, -11], "height_above_frame_mm": height,
             "shaft_diameter_mm": diameter, "root_fillet_radius_mm": fillet,
             "protrusion_beyond_mating_winder_mm": protrusion,
             "tip_chamfer_mm": chamfer, "cross_sections": result}
 
 
-def center_slots(center, slot_x=41):
+def handed_winder_checks(directory, name, right, left, definitions, protrusion=3, clearance=.25):
+    results = {}
+    for hand, mesh, post_x in [("right", right, 36), ("left", left, -36)]:
+        results[hand] = {**mesh_report(mesh),
+                         "preserved_frame": preserved_winder_frame(directory, f"{name}-{hand}",
+                                                                   mesh, definitions, -post_x),
+                         "stud": post_dimensions(mesh, protrusion, post_x),
+                         "socket": socket_dimensions(mesh, clearance, -post_x)}
+    return results
+
+
+def center_slots(center, slot_x=41, slot_width=14, slot_thickness=3):
     require(abs(center.extents[0]-90) < TOL, "Center must preserve the original 90 mm width")
     result = []
     for z in [.1, 2, 3.9]:
@@ -416,7 +507,8 @@ def center_slots(center, slot_x=41):
             hole = matching[0]
             bounds = hole.bounds
             size = [bounds[2]-bounds[0], bounds[3]-bounds[1]]
-            require(np.allclose(size, [3, 14], atol=TOL), "Tie slot must measure 3 x 14 mm")
+            require(np.allclose(size, [slot_thickness, slot_width], atol=TOL),
+                    f"Tie slot must measure {slot_thickness} x {slot_width} mm")
             require(np.linalg.norm(np.array(hole.centroid.coords[0])-[x, 21]) < TOL,
                     "Tie slot center moved")
             wall = material.exterior.distance(hole)
@@ -436,11 +528,11 @@ def center_slots(center, slot_x=41):
             "cross_sections": result}
 
 
-def layout_parts(layout, center, winder):
+def layout_parts(layout, center, right, left):
     """Match all three exported parts to their standalone meshes after placement."""
     unmatched = list(layout.split(only_watertight=False))
     errors = []
-    for reference in [center, winder, winder]:
+    for reference in [center, right, left]:
         match = None
         for index, candidate in enumerate(unmatched):
             if abs(candidate.volume-reference.volume) > TOL:
@@ -461,43 +553,81 @@ def layout_parts(layout, center, winder):
         unmatched.pop(index)
         errors.append(error)
     require(not unmatched, "Unexpected extra print-layout components")
-    return {"one_center_and_two_identical_winders": True,
+    return {"one_center_one_right_and_one_left_winder": True,
             "part_symmetric_difference_mm3": errors}
 
 
-def winder_joint(winder, protrusion, allow_root_interference=False):
-    winders = placed_winders(winder)
-    initial_overlap = overlap(*winders)
-    bore = next(hole for hole in interior_holes(section_material(winder, 2.5))
-                if hole.covers(Point(-36, -11)))
-    root_clearance = (bore.bounds[2]-bore.bounds[0])/2+.4-3.6
-    if not allow_root_interference:
-        require(root_clearance >= -0.00001, "Stud root exceeds the bottom socket entry radius")
-        require(initial_overlap < EPS_VOLUME,
-                f"Spine-to-spine winders intersect: {initial_overlap:.6f} mm³")
+def winder_joint(right, left, protrusion):
+    winders = placed_winders(right, left)
+    initial_overlap = clear(*winders, "Complementary spine-to-spine winders intersect")
+    engagements = []
+    for post_index, socket_index, x, z, tip, frame_range in [
+            (0, 1, 36, 7.5, 10+protrusion, [5, 10]),
+            (1, 0, -36, 2.5, -protrusion, [0, 5])]:
+        shaft = section_material(winders[post_index], z)
+        require(shaft.geom_type == "Polygon" and not shaft.interiors,
+                "Expected a single solid shaft within the mating frame")
+        axis = np.array(shaft.centroid.coords[0])
+        require(np.linalg.norm(axis-[x, 0]) < TOL, "Mating stud axis moved")
+        holes = interior_holes(section_material(winders[socket_index], z))
+        matching = [hole for hole in holes if hole.covers(Point(x, 0))]
+        require(len(matching) == 1, "Stud does not pass through the opposite handed socket")
+        receiver = matching[0]
+        require(receiver.covers(shaft), "Engaged stud exceeds its receiver bore")
+        require(np.linalg.norm(np.array(receiver.centroid.coords[0])-axis) < TOL,
+                "Engaged stud and receiver are not concentric")
+        tip_z = winders[post_index].bounds[1 if post_index == 0 else 0, 2]
+        require(abs(tip_z-tip) < TOL, "Stud does not protrude beyond the mating frame")
+        # Both mating roots enter the top-face relief, after the upper part
+        # turns over. Reconstruct minimum radial clearance from a bore slice.
+        radial_clearance = (receiver.bounds[2]-receiver.bounds[0])/2-3
+        require(radial_clearance >= .15-TOL, "Mating bore loses the selected sliding clearance")
+        engagements.append({"stud_hand": "right" if post_index == 0 else "left",
+                            "axis_xy_mm": axis.tolist(), "mating_frame_z_range_mm": frame_range,
+                            "stud_tip_z_mm": float(tip_z), "tip_protrusion_mm": protrusion,
+                            "minimum_root_entry_radial_clearance_mm": radial_clearance,
+                            "top_face_root_relief_depth_mm": .6})
     contact = overlap(winders[0], moved(winders[1], [0, 0, -.02]))
     require(contact > .1, "Docked winder frames have no face contact at Z=5")
     lateral = []
     for delta in [[.8, 0, 0], [-.8, 0, 0], [0, .8, 0], [0, -.8, 0]]:
         value = overlap(winders[0], moved(winders[1], delta))
-        require(value > .1, "The engaged stud does not constrain lateral translation")
+        require(value > .1, "Engaged studs do not constrain lateral translation")
         lateral.append({"translation_mm": delta, "intersection_mm3": value})
+    rotations = []
+    for pivot_x in [-36, 36]:
+        for angle in [-1, 1]:
+            pivot = [pivot_x, 0, 0]
+            turned = moved(rotated(moved(winders[1], [-pivot_x, 0, 0]),
+                                   [0, 0, 1], angle), pivot)
+            # A round stud permits rotation about its own axis. Prove that
+            # the other station, not an unrelated frame edge, stops yaw.
+            station_values = []
+            for x in [pivot_x, -pivot_x]:
+                region = moved(trimesh.creation.cylinder(radius=4.4, height=10.2,
+                                                         sections=96), [x, 0, 5])
+                value = volume(trimesh.boolean.intersection([winders[0], turned, region],
+                                                            engine="manifold"))
+                station_values.append(value)
+            require(station_values[0] < EPS_VOLUME,
+                    "Rotation test must leave the pivot stud free in its round socket")
+            require(station_values[1] > .1,
+                    "The second engaged stud does not stop rotation about the first")
+            rotations.append({"pivot_axis_xy_mm": [pivot_x, 0], "rotation_degrees": angle,
+                              "pivot_station_intersection_mm3": station_values[0],
+                              "other_station_intersection_mm3": station_values[1]})
     height = 5+protrusion
     samples = sorted(set([0, .025, .05, .1, .2, .4, .6, .8]+
                          list(np.arange(.25, height+.251, .25))))
     separation = []
     for distance in samples:
-        value = overlap(winders[0], moved(winders[1], [0, 0, distance]))
-        if not allow_root_interference:
-            require(value < EPS_VOLUME, "Spine-to-spine winder separation blocked")
+        value = clear(winders[0], moved(winders[1], [0, 0, distance]),
+                      "Complementary winder insertion or separation blocked")
         separation.append({"separation_mm": float(distance), "intersection_mm3": value})
     for delta in [[.8, 0, height+.25], [-.8, 0, height+.25],
                   [0, .8, height+.25], [0, -.8, height+.25]]:
         clear(winders[0], moved(winders[1], delta), "Winders remain caught after disengagement")
     outward = []
-    # After full vertical disengagement, translate the flipped winder in -Y.
-    # This checks a complete extraction route rather than just the socket exit.
-    # At 80 mm travel the unchanged profiles are fully separated in XY.
     for distance in [0, .25, .5, 1, 2, 4, 8, 12, 20, 40, 80]:
         delta = [0, -distance, height+.25]
         released = moved(winders[1], delta)
@@ -505,50 +635,52 @@ def winder_joint(winder, protrusion, allow_root_interference=False):
         outward.append({"translation_mm": delta, "intersection_mm3": value})
     require(released.bounds[1, 1] < winders[0].bounds[0, 1],
             "Final outward extraction sample must fully separate the winder footprints")
-    # Verify the existing narrow tie opening remains available on each winder.
     opening = block([-7, -5.3, -.01], [7, -2.3, 5.01])
-    clear(winder, opening, "New joint obstructs the native central tie opening")
-    interference = [sample for sample in separation if sample["intersection_mm3"] >= EPS_VOLUME]
-    has_interference = bool(interference) or root_clearance < -0.00001
-    return {"status": "root_interference" if has_interference else "passed",
-            "nominal_root_entry_radial_clearance_mm": root_clearance,
-            "engaged_stud_count": 1,
-            "engaged_stud_axis_xy_mm": [36, 0],
-            "unused_upper_stud_axis_xy_mm": [-36, 0],
-            "joint_behavior": "The lower stud enters the upper hole. The upper stud points away from the lower hole; the rear strap retains the bundle. One round stud does not constrain rotation about its axis.",
-            "first_winder_translation_mm": [0, 11, 0],
-            "second_winder_rotation_axis": "Z", "second_winder_rotation_degrees": 180,
-            "second_winder_translation_mm": [0, -11, 5], "contact_plane_z_mm": 5,
-            "seated_intersection_mm3": initial_overlap,
-            "unsupported_fit_reason": ("The tight-clearance variant's bottom socket chamfer intersects the unchanged stud root in this packing orientation." if has_interference else None),
+    for native in [right, left]:
+        clear(native, opening, "New joint obstructs the native central tie opening")
+    negative_controls = []
+    for hand, native in [("right", right), ("left", left)]:
+        value = overlap(*placed_winders(native, native))
+        require(value > 1, "Two same-hand winders unexpectedly fit the face-to-face assembly")
+        negative_controls.append({"hands": [hand, hand], "seated_intersection_mm3": value,
+                                  "expected_result": "blocked by facing studs"})
+    return {"status": "passed", "engaged_stud_count": 2, "engagements": engagements,
+            "joint_behavior": "Both studs enter opposite handed sockets. The second station stops pivoting; the rear strap retains the bundle against separation.",
+            "first_winder_hand": "right", "first_winder_translation_mm": [0, 11, 0],
+            "second_winder_hand": "left", "second_winder_rotation_axis": "X",
+            "second_winder_rotation_degrees": 180, "second_winder_translation_mm": [0, -11, 10],
+            "contact_plane_z_mm": 5, "seated_intersection_mm3": initial_overlap,
             "mating_frame_engagement_mm": 5, "post_protrusion_mm": protrusion,
             "contact_after_0p02mm_lowering_mm3": contact,
             "native_tie_opening_clearance_box_mm": [14, 3, 5],
-            "lateral_alignment_samples": lateral, "separation_samples": separation,
+            "lateral_alignment_samples": lateral, "rotation_about_one_stud_samples": rotations,
+            "insertion_and_separation_samples": separation,
+            "same_hand_negative_controls": negative_controls,
             "outward_extraction_samples": outward,
-            "outward_extraction_direction": "Translate the flipped winder in -Y after full vertical disengagement.",
+            "outward_extraction_direction": "Translate the flipped left winder in -Y after full vertical disengagement.",
             "full_disengagement_distance_mm": height+.25}
 
 
-def coupon_interfaces(coupon, winder):
+def coupon_interfaces(coupon, right, left):
     pieces = sorted(coupon.split(only_watertight=False), key=lambda mesh: mesh.centroid[1])
-    require(len(pieces) == 2, "Fit coupon must contain two identical original-station carriers")
+    require(len(pieces) == 2, "Fit coupon must contain one right and one left carrier")
     normalized = [moved(piece, [0, -y, 0]) for piece, y in zip(pieces, [0, 18])]
-    identical = symmetric_difference(*normalized)
-    require(identical < .02, "Coupon halves are not identical")
+    difference = symmetric_difference(*normalized)
+    require(difference > 1, "Coupon must contain complementary, not identical, carriers")
     comparisons = []
-    for x, kind in [(36, "stud_root_and_frame"), (-36, "socket_and_relief")]:
-        region = moved(trimesh.creation.cylinder(radius=4.4, height=13.2, sections=96),
-                       [x, -11, 6.5])
-        reference = trimesh.boolean.intersection([winder, region], engine="manifold")
-        sample = trimesh.boolean.intersection([normalized[0], region], engine="manifold")
-        difference = symmetric_difference(reference, sample)
-        require(difference < .02, f"Coupon {kind} differs from production interface")
-        comparisons.append({"interface": kind, "axis_xy_mm": [x, -11],
-                            "symmetric_difference_mm3": difference})
-    return {"identical_halves_symmetric_difference_mm3": identical,
+    for hand, native, sample, post_x in zip(["right", "left"], [right, left], normalized, [36, -36]):
+        for x, kind in [(post_x, "stud_root_and_frame"), (-post_x, "socket_and_relief")]:
+            region = moved(trimesh.creation.cylinder(radius=4.4, height=13.2, sections=96),
+                           [x, -11, 6.5])
+            reference = trimesh.boolean.intersection([native, region], engine="manifold")
+            specimen = trimesh.boolean.intersection([sample, region], engine="manifold")
+            error = symmetric_difference(reference, specimen)
+            require(error < .02, f"{hand} coupon {kind} differs from production interface")
+            comparisons.append({"hand": hand, "interface": kind, "axis_xy_mm": [x, -11],
+                                "symmetric_difference_mm3": error})
+    return {"complementary_halves_symmetric_difference_mm3": difference,
             "matches_printed_interfaces": comparisons,
-            "spine_joint": winder_joint(normalized[0], 3)}
+            "spine_joint": winder_joint(*normalized, 3)}
 
 
 def hardware_expression(seat, terminal_x=7):
@@ -606,15 +738,14 @@ def wire_reserves(winder, bulge, wing_length, edge=5):
     return placed_winders(native)
 
 
-def assembly_checks(directory, name, center, winder, definitions, bulge,
-                    protrusion=3, wing_length=37.5, compare_modules=False,
-                    allow_root_interference=False, terminal_x=7):
+def assembly_checks(directory, name, center, right, left, definitions, bulge,
+                    protrusion=3, wing_length=37.5, compare_modules=False, terminal_x=7):
     slot_x = 41
     outside_y = 11+wing_length+5+2
     seat = packing_height(bulge, protrusion)
     strap_bottom = -max(bulge, protrusion)-6
     centered = placed_center(center, bulge, protrusion)
-    winders = placed_winders(winder)
+    winders = placed_winders(right, left)
     for w in winders:
         clear(centered, w, "Crosswise center intersects a winder")
     # The center has no peg engagement. Its illustrated height leaves room for
@@ -636,7 +767,7 @@ def assembly_checks(directory, name, center, winder, definitions, bulge,
     back_button_clearance = (-bulge-3)-(strap_bottom+2)
     require(back_button_clearance >= 1-TOL,
             "Rear strap must pass at least 1 mm below the lower coil-tie closure button")
-    reserves = wire_reserves(winder, bulge, wing_length)
+    reserves = wire_reserves(right, bulge, wing_length)
     reserve_overlap = clear(*reserves, "Opposite-side wire reserves overlap")
     reserve_xy_gap = float(reserves[0].bounds[0, 1]-reserves[1].bounds[1, 1])
     require(abs(reserve_xy_gap-12) < TOL, "Expected 12 mm between opposite-side wire reserves")
@@ -651,7 +782,7 @@ def assembly_checks(directory, name, center, winder, definitions, bulge,
                                       for tie in coil_ties],
         "center_to_coil_ties_mm3": [overlap(centered, tie) for tie in coil_ties],
         "hardware_to_coil_ties_mm3": [overlap(hardware, tie) for tie in coil_ties],
-        "assumptions": "Schematic BNC/M3 hardware and a 12.7 mm wide, 2 mm thick rear tie routed outward below the narrow center before passing behind both winders. Rectangular wire reserves describe packing space, not individual turns. The Z-axis half-turn nests the spines with winding sections on opposite sides and a 12 mm XY gap between reserves. Independent coil ties include a 12 mm wide, 2 mm thick loop and an 8 mm diameter, 2 mm thick closure button. Some nominal tie edges touch without intersecting; actual bending and closure clearance need a physical check. One lower stud engages the upper hole. The center is shown in a flat packing pose; nominal proxy clearance does not establish physical winding capacity, hardware fit, comfort or retention."}
+        "assumptions": "Schematic BNC/M3 hardware and a 12.7 mm wide, 2 mm thick rear tie routed outward below the narrow center before passing behind both winders. Rectangular wire reserves describe packing space, not individual turns. The left winder turns over around the X/spine axis to nest the spines with winding sections on opposite sides and a 12 mm XY gap between reserves. Independent coil ties include a 12 mm wide, 2 mm thick loop and an 8 mm diameter, 2 mm thick closure button. Some nominal tie edges touch without intersecting; actual bending and closure clearance need a physical check. Both studs engage the opposite sockets. The upper coil tie and its closure button turn over with the left winder. The center is shown in a flat packing pose; nominal proxy clearance does not establish physical winding capacity, hardware fit, comfort or retention."}
     notes = []
     for key, values in proxies.items():
         if key == "assumptions":
@@ -687,7 +818,7 @@ def assembly_checks(directory, name, center, winder, definitions, bulge,
             require(error < .02, "Placed winder module differs from independent spine-to-spine transform")
             module_comparisons["winder_symmetric_difference_mm3"].append(error)
     combined = trimesh.util.concatenate([centered, *winders])
-    return {"spine_winder_joint": winder_joint(winder, protrusion, allow_root_interference),
+    return {"spine_winder_joint": winder_joint(right, left, protrusion),
             "opposite_side_wire_reserve_gap_mm": reserve_xy_gap,
             "center_rotation_degrees": 90, "center_underside_z_mm": seat,
             "center_xy_translation_mm": [18, 7],
@@ -720,50 +851,73 @@ def main():
     initial_hashes = hashes()
     report = {
         "status": "running",
-        "passed_scope": "Printable meshes, independently checked center holes and end pads, BNC fit coupon diameters and matching upright center cutouts, preserved raised center structure and original winder geometry, spine-to-spine packing with one engaged stud, opposite-side wire reserves, separation, two center-end tie slots, and a continuous rear-only tie route that clears individual coil ties and their buttons. Unsupported tight-clearance packing and load-proxy intersections are reported separately.",
+        "passed_scope": "Printable meshes, independently checked center holes and end pads, shared dipole-center parity with and without strap slots, BNC fit coupon diameters and matching upright center cutouts, preserved raised center structure and original winder geometry, complementary left/right spine-to-spine packing with two engaged studs, blocked lateral motion and pivoting, and colliding same-hand negative controls, opposite-side wire reserves, separation, two center-end tie slots, and a continuous rear-only tie route that clears individual coil ties and their buttons. All supported joint clearances must pass; schematic load-proxy intersections are reported separately.",
         "evidence": "Nominal CAD checks only. No physical fit, printed strength, hand comfort, retention, or wire-capacity test.",
         "presets": {}, "parameter_samples": {}, "loaded_fit_by_preset": {}, "fit_notes": [],
-        "unsupported_parameter_fits": [], "center_parameter_checks": {}}
+        "center_parameter_checks": {}}
     with tempfile.TemporaryDirectory(prefix="nesting-dipole-check-") as temporary:
         directory = Path(temporary)
-        original = export(directory / "original.stl", ORIGINAL, ['bnc_clearance=.10'])
+        original = export(directory / "original.stl", ORIGINAL, ['bnc_clearance=-.10'])
         for preset, bulge in [("40m", 5), ("80m", 8)]:
-            print(f"Checking {preset} crosswise nesting dipole", flush=True)
+            print(f"Checking {preset} complementary nesting dipole", flush=True)
             suffix = "" if preset == "40m" else "_80m"
             definitions = [f'preset="{preset}"']
-            names = [f"center{suffix}.stl", f"winder{suffix}.stl", f"print_layout{suffix}.stl"]
+            parts = ["center", "winder_right", "winder_left", "winder", "print_layout"]
             with ThreadPoolExecutor(max_workers=3) as pool:
-                futures = [pool.submit(export, directory/name, SCAD,
-                                       definitions+[f'part="{part}"'])
-                           for name, part in zip(names, ["center", "winder", "print_layout"])]
-                center, winder, layout = [future.result() for future in futures]
-            checks = {"center": mesh_report(center), "winder": mesh_report(winder),
+                futures = [pool.submit(export, directory/f"{part}{suffix}.stl", SCAD,
+                                       definitions+[f'part="{part}"']) for part in parts]
+                center, right, left, legacy, layout = [future.result() for future in futures]
+            legacy_error = symmetric_difference(legacy, right)
+            require(legacy_error < EPS_VOLUME, "Legacy winder output must remain a right-hand alias")
+            checks = {"center": mesh_report(center),
+                      "winders": handed_winder_checks(directory, preset, right, left, definitions),
+                      "legacy_right_alias_symmetric_difference_mm3": legacy_error,
                       "print_layout": mesh_report(layout, 3),
                       "center_holes_and_structure": preserved_center(original, center),
-                      "preserved_winder_frame": preserved_winder_frame(directory, preset, winder, definitions),
-                      "winder_socket": socket_dimensions(winder),
-                      "winder_stud": post_dimensions(winder, 3),
                       "center_tie_slots": center_slots(center),
-                      "layout_parts": layout_parts(layout, center, winder),
-                      "assembly": assembly_checks(directory, preset, center, winder,
+                      "layout_parts": layout_parts(layout, center, right, left),
+                      "assembly": assembly_checks(directory, preset, center, right, left,
                                                   definitions, bulge, compare_modules=True)}
             if preset == "40m":
-                reference_center, reference_winder = center, winder
+                reference_center, reference_right, reference_left = center, right, left
             else:
-                difference = symmetric_difference(reference_center, center)
-                require(difference < EPS_VOLUME, "Wire presets must share the same center")
-                checks["center_difference_from_40m_mm3"] = difference
-                difference = symmetric_difference(reference_winder, winder)
-                require(difference < EPS_VOLUME, "Wire presets must share the same winder")
-                checks["winder_difference_from_40m_mm3"] = difference
+                checks["differences_from_40m_mm3"] = {}
+                for part_name, reference, fresh in [("center", reference_center, center),
+                                                   ("right", reference_right, right),
+                                                   ("left", reference_left, left)]:
+                    difference = symmetric_difference(reference, fresh)
+                    require(difference < EPS_VOLUME,
+                            f"Wire presets must share the same {part_name} print")
+                    checks["differences_from_40m_mm3"][part_name] = difference
             report["presets"][preset] = checks
             proxies = checks["assembly"]["load_proxies"]
             report["loaded_fit_by_preset"][preset] = {
                 "status": proxies["status"], "fit_notes": proxies["fit_notes"]}
             report["fit_notes"].extend({"preset": preset, **note} for note in proxies["fit_notes"])
+        report["hand_output_selection"] = {}
+        for name, definitions, reference in [
+                ("legacy_left", ['part="winder"', 'winder_hand="left"'], reference_left),
+                ("explicit_left", ['part="winder_left"', 'winder_hand="right"'], reference_left),
+                ("explicit_right", ['part="winder_right"', 'winder_hand="left"'], reference_right)]:
+            mesh = export(directory/f"{name}.stl", SCAD, definitions)
+            difference = symmetric_difference(mesh, reference)
+            require(difference < EPS_VOLUME, f"Incorrect handed output selection for {name}")
+            report["hand_output_selection"][name] = {
+                "definitions": definitions, "symmetric_difference_mm3": difference}
+        report["reusable_previous_right_winders"] = {}
+        for name in ["winder.stl", "winder_80m.stl"]:
+            previous = trimesh.load_mesh(HERE/name)
+            difference = symmetric_difference(previous, reference_right)
+            require(difference < EPS_VOLUME,
+                    f"Previously printed {name} must remain reusable as the right winder")
+            report["reusable_previous_right_winders"][name] = {
+                "symmetric_difference_mm3": difference,
+                "sha256": hashlib.sha256((HERE/name).read_bytes()).hexdigest()}
+        print("Checking shared dipole-center defaults, strap toggle and imported API", flush=True)
+        report["shared_center"] = shared_center_checks(directory, original, reference_center)
         coupon = export(directory / "fit_coupon.stl", SCAD, ['part="fit_coupon"'])
-        report["fit_coupon"] = {**mesh_report(coupon, 2), **coupon_interfaces(coupon, reference_winder)}
-        print("Checking five-size upright BNC fit coupon and center diameters", flush=True)
+        report["fit_coupon"] = {**mesh_report(coupon, 2), **coupon_interfaces(coupon, reference_right, reference_left)}
+        print("Checking both five-size upright BNC fit coupons and center diameters", flush=True)
         bnc_coupon = export(directory / "bnc_fit_coupon.stl", SCAD, ['part="bnc_fit_coupon"'])
         report["bnc_fit_coupon"] = bnc_fit_checks(directory, bnc_coupon, reference_center)
         variants = [
@@ -776,23 +930,18 @@ def main():
         ]
         for name, definitions, bulge, protrusion, clearance, wing_length in variants:
             print(f"Checking {name}", flush=True)
-            center = export(directory / f"{name}-center.stl", SCAD, definitions+['part="center"'])
-            winder = export(directory / f"{name}-winder.stl", SCAD, definitions+['part="winder"'])
+            with ThreadPoolExecutor(max_workers=3) as pool:
+                futures = [pool.submit(export, directory/f"{name}-{part}.stl", SCAD,
+                                       definitions+[f'part="{part}"'])
+                           for part in ["center", "winder_right", "winder_left"]]
+                center, right, left = [future.result() for future in futures]
             report["parameter_samples"][name] = {
-                "definitions": definitions, "center": mesh_report(center), "winder": mesh_report(winder),
-                "preserved_winder_frame": preserved_winder_frame(directory, name, winder, definitions),
-                "winder_stud": post_dimensions(winder, protrusion),
-                "winder_socket": socket_dimensions(winder, clearance),
+                "definitions": definitions, "center": mesh_report(center),
+                "winders": handed_winder_checks(directory, name, right, left, definitions,
+                                                 protrusion, clearance),
                 "center_tie_slots": center_slots(center),
-                "assembly": assembly_checks(directory, name, center, winder, definitions,
-                                            bulge, protrusion, wing_length,
-                                            allow_root_interference=(clearance < .25))}
-            joint = report["parameter_samples"][name]["assembly"]["spine_winder_joint"]
-            if joint["status"] != "passed":
-                report["unsupported_parameter_fits"].append({
-                    "variant": name, "status": joint["status"],
-                    "reason": joint["unsupported_fit_reason"],
-                    "seated_intersection_mm3": joint["seated_intersection_mm3"]})
+                "assembly": assembly_checks(directory, name, center, right, left, definitions,
+                                            bulge, protrusion, wing_length)}
         print("Checking coupled center-hole parameters", flush=True)
         name = "alternative_terminal_and_wire_spacing"
         definitions = ['terminal_hole_x=10', 'wire_hole_inner_x=28', 'wire_hole_pitch=4',
@@ -804,7 +953,7 @@ def main():
                                                             wire_inner=28, wire_pitch=4,
                                                             wire_d=2.6, chamfer=0, hang_d=6),
             "center_tie_slots": center_slots(alternate),
-            "assembly": assembly_checks(directory, name, alternate, reference_winder,
+            "assembly": assembly_checks(directory, name, alternate, reference_right, reference_left,
                                         definitions, 5, terminal_x=10)}
         rejected = [
             ("wide_slot_without_wire_adjustment", ['strap_slot_thickness=4'],
@@ -820,6 +969,10 @@ def main():
         report["print_file_updates"] = {}
         for name in PRINT_FILES:
             existing, generated = HERE / name, directory / name
+            if name == "winder_right.stl":
+                shutil.copyfile(HERE/"winder.stl", existing)
+                report["print_file_updates"][name] = {"status": "copied_approved_right_alias_bytes"}
+                continue
             if existing.exists():
                 old, fresh = trimesh.load_mesh(existing), trimesh.load_mesh(generated)
                 difference = symmetric_difference(old, fresh)
@@ -832,14 +985,18 @@ def main():
                     continue
             shutil.copyfile(generated, existing)
             report["print_file_updates"][name] = {"status": "updated"}
+    for name, previous in report["reusable_previous_right_winders"].items():
+        require(hashlib.sha256((HERE/name).read_bytes()).hexdigest() == previous["sha256"],
+                f"Existing right-hand alias bytes changed: {name}")
+        previous["preserved_existing_bytes"] = True
+    require((HERE/"winder_right.stl").read_bytes() == (HERE/"winder.stl").read_bytes(),
+            "Named right winder must use the exact existing right-hand alias bytes")
     report["input_sha256"] = initial_hashes
     report["output_sha256"] = {name: hashlib.sha256((HERE/name).read_bytes()).hexdigest()
                                for name in PRINT_FILES}
     report["status"] = "passed"
     (HERE / "validation.json").write_text(json.dumps(report, indent=2)+"\n")
     print(f"Verified {len(PRINT_FILES)} printable STLs and wrote validation.json (passed)", flush=True)
-    for note in report["unsupported_parameter_fits"]:
-        print(f"Unsupported packed fit: {note['variant']} ({note['seated_intersection_mm3']:.6f} mm³ root interference)", flush=True)
     for preset, fit in report["loaded_fit_by_preset"].items():
         print(f"{preset} schematic loaded fit: {fit['status']}", flush=True)
         for note in fit["fit_notes"]:

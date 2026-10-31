@@ -14,20 +14,21 @@ Thumbs.db
 !models/ham_radio/dipole_link/links_all_bands.stl
 !models/ham_radio/dipole_link/links_40m_pair.stl
 output/dipole-link/
-output/printables/modular-dipole/
 # Generated print bundle and optional diagnostic views.
 models/ham_radio/modular_dipole/*.zip
 models/ham_radio/modular_dipole/review/generated/
+output/printables/modular-dipole/
 # Keep the current modular dipole print set.
 !models/ham_radio/modular_dipole/center.stl
 !models/ham_radio/modular_dipole/winder.stl
 !models/ham_radio/modular_dipole/print_layout.stl
-!models/ham_radio/modular_dipole/winder_80m.stl
-!models/ham_radio/modular_dipole/print_layout_80m.stl
 !models/ham_radio/modular_dipole/fit_coupon.stl
+!models/ham_radio/modular_dipole/retention_coupon.stl
 !models/ham_radio/modular_dipole/bnc_fit_coupon.stl
 # Keep the accepted dipole winder export available directly from the repository.
 !models/ham_radio/dipole_winder/dipole_winder.stl
+!models/ham_radio/toroid_dipole_winder/toroid_dipole_winder.stl
+!models/ham_radio/toroid_dipole_winder/toroid_mount_test.stl
 __pycache__/
 *.py[cod]
 # *.3mf
@@ -36,3 +37,18 @@ __pycache__/
 # Local personal info for luggage tags
 models/luggage_tag/luggage_tag_user.scad
 models/luggage_tag/luggage_tag_user.stl
+
+# Open balun dipole center prototype and hardware fit coupons.
+!models/ham_radio/balun_dipole_center/balun_dipole_center.stl
+!models/ham_radio/balun_dipole_center/mount_fit_coupon.stl
+!models/ham_radio/balun_dipole_center/bnc_fit_coupon.stl
+
+# Shared dipole center print variants published on Printables.
+!models/ham_radio/dipole_center/dipole_center.stl
+!models/ham_radio/dipole_center/dipole_center_with_straps.stl
+!models/ham_radio/dipole_center/dipole_center_with_balun.stl
+!models/ham_radio/dipole_center/dipole_center_with_balun_and_straps.stl
+
+# Separate 13-turn prototype winding cup.
+!models/ham_radio/balun_dipole_center/winding_guide.stl
+!models/ham_radio/balun_dipole_center/winding_guide_coupon.stl

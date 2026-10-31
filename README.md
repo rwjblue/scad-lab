@@ -24,19 +24,27 @@ batch-generate STLs if desired.
 
 ## Models in this repo
 
-- `models/ham_radio/nesting_dipole/` - identical winders joined at their spines,
-  with separate coils and a compact crosswise center with inline rear-strap slots
-  ([print and fit guide](models/ham_radio/nesting_dipole/README.md))
 - `models/ham_radio/dipole_link/` - compact labeled linked-dipole insulators
   with zip-tie retention, custom pairs, and ready-to-print band sets
   ([print and assembly guide](models/ham_radio/dipole_link/README.md))
-- `models/ham_radio/modular_dipole/` - dipole center with two removable
-  K6ARK-style winders, four catches and paired inward releases, captive silicone
-  coil ties, 40/80 m clearance presets and ready-to-print STLs
+- `models/ham_radio/nesting_dipole/` - left/right winders joined at both spine posts,
+  with separate coils and a compact crosswise center with inline rear-strap slots
+  ([print and fit guide](models/ham_radio/nesting_dipole/README.md))
+- `models/ham_radio/modular_dipole/` - BNC dipole center and two removable
+  winders that clip together for packing; adjustable wing size and standoff
+  ([print guide](models/ham_radio/modular_dipole/README.md),
+  [one-page flyer](models/ham_radio/modular_dipole/marketing/README.md))
 - `models/ham_radio/dipole_winder/` - mirrored K6ARK winder with a compact
   BNC shelf, direct-solder dipole connections, and printable STL
   ([Printables](https://www.printables.com/model/1838087-bnc-dipole-center-on-winder))
-- `models/ham_radio/dipole_center/` - coax-fed dipole center with a downward
+- `models/ham_radio/toroid_dipole_winder/` - open-mount variant with a
+  heatshrunk mix 31 bifilar 1:1 current balun, printable carrier and
+  [winding/build notes](models/ham_radio/toroid_dipole_winder/README.md)
+- `models/ham_radio/balun_dipole_center/` - preset and build guide for the shared dipole center with a
+  zip-tied mix 31 bifilar 1:1 current balun, retained BNC/ring-terminal hardware,
+  and [prototype print and qualification guide](models/ham_radio/balun_dipole_center/README.md)
+- `models/ham_radio/dipole_center/` - shared coax-fed dipole center with independent
+  balun-mount and packing-strap flags, a downward
   BNC shelf, M3 wire terminals, and internal root reinforcement
   ([Printables](https://www.printables.com/model/1838086-bnc-dipole-center))
 - `models/ham_radio/dx_commander_element_label/` - element label tags

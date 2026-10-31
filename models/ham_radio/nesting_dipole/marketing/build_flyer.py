@@ -149,14 +149,14 @@ def main():
     # Product geometry comes from CAD; its packing pose remains illustrative.
     cropped_render(c,"hero.png",(260,285,1140,805),
                    20,377,391,219)
-    text(c,"ONE STUD.",422,562,16,"Display")
-    text(c,"ONE HOLE.",422,544,16,"Display")
-    paragraph(c,"One stud locates the overlapping spines. The wire stays on opposite sides.",
+    text(c,"LEFT + RIGHT.",422,562,16,"Display")
+    text(c,"TWO POSTS.",422,544,16,"Display")
+    paragraph(c,"A left and right winder join at both ends of the spine. The wire stays on opposite sides.",
               422,526,150,10.7,14.5,max_height=60)
     line(c,422,472,576,472)
     paragraph(c,"Slots in the center bar anchor a short rear strap that holds the three pieces together.",
               422,456,150,10.7,14.5,max_height=60)
-    text(c,"Separate coils. Compact center. Short rear strap. CAD packing illustration.",
+    text(c,"Two engaged posts. Separate coils. Short rear strap. CAD packing illustration.",
          38,371,7.1,"Body",MUTED)
 
     # The why, in plain language, without promising measured field results.
@@ -190,7 +190,7 @@ def main():
 
     # Pack-down completes the story and says exactly what retains the parts.
     text(c,"WIND. NEST. STRAP. GO.",36,63,14,"Display")
-    text(c,"Rewind each leg, join the spines, add the center and fasten the rear strap.",
+    text(c,"Rewind each leg, engage both posts, add the center and fasten the rear strap.",
          36,47,9.1,"Body",MUTED)
     line(c,36,36,576,36)
     text(c,"N1RWJ  /  Clip-free prototype",36,22,7.3,"Bold",MUTED)
