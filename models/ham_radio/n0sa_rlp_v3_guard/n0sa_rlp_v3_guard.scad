@@ -1,5 +1,5 @@
 /*
- * N0SA RLP V3 magnetic paddle nose guard — fit-test prototype
+ * N0SA RLP V3 magnetic paddle nose guard — V7 production-print candidate
  *
  * Single-piece, tapered, closed-nose PETG shell protecting the finger pieces.
  * The whole shell (top, sides, and continuous magnetic underside) ends at
@@ -20,12 +20,16 @@
  * face against the build plate and the open rear end facing upward.
  * This avoids a ~38 mm unsupported PETG roof bridge. A small ~6 mm
  * magnet-pocket overhang and stop pads remain: check slicer preview.
- * Coupons/gauges always export flat with their bottom against the bed.
+ * November 1: owner selected 2.95 mm pockets for measured 2.96 mm discs.
+ * V7 adds blind glue dimples, a thicker floor and a net 2.5 mm reduction
+ * in external floor-to-roof height. Proven length, stops and centers stay.
+ * Coupons export floor-down; the depth strip defaults to edge-down.
  */
 
 // PART SELECTION
 part = "guard";                    // [guard,fit_coupon,magnet_gauge,floor_coupon,depth_gauge,fit_test_plate]
 print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
+design_revision = "v7";            // [v7,v6] v6 reproduces historical fit parts
 
 // DIMENSIONS FROM OWNER'S CALIPER PHOTOS (mm)
 key_width = 36.77;
@@ -48,7 +52,18 @@ magnet_y = -(key_magnet_front_margin + key_magnet_diameter/2); // -4.50 mm
 body_side_clearance = 0.65;          // each side at the key-body overlap
 body_top_clearance = 0.60;
 underbody_gap = 0.25;               // continuous floor to key underside
-floor_thickness = 3.30;
+// Thicken only the bottom, outward from the unchanged key-facing plane.
+// The 1.20 mm minimum is measured BELOW the deepest glue dimple.
+production_pocket_depth = 2.95;     // owner-selected seating depth, not including dimple
+magnet_min_floor = 1.20;
+glue_relief_diameter = 2.50;
+glue_relief_depth = 0.10;           // shallow reservoir, preserves flat seating annulus
+floor_thickness = design_revision == "v7"
+    ? production_pocket_depth + glue_relief_depth + magnet_min_floor : 3.30;
+shell_height_reduction = 2.50;      // NET external reduction from tested V6
+// Extra floor thickness must also be offset by lowering the ceiling.
+roof_lowering = design_revision == "v7"
+    ? shell_height_reduction + floor_thickness - 3.30 : 0;
 side_wall = 1.80;
 roof_wall = 2.00;
 nose_wall = 2.00;
@@ -69,23 +84,22 @@ tip_outer_top = 26.0;              // relative to underside of key
 nose_extra = tip_clearance + nose_wall;  // 27.11 + 2 + 2 = 31.11 mm from front
 corner_radius = 1.6;               // rounded cross-sections, mm
 
-// ADD-ON MAGNETS: legacy exports use nominal 1.5/2.0 mm thicknesses.
-// November 1: current test discs actually measure 2.96 mm thick. Use the
-// depth gauge before selecting a revised full-guard pocket/floor.
-// Default remains 6 x 1.5 mm; -D 'insert_thickness=2.0' keeps the legacy option.
-// Pocket depth is magnet thickness + 0.15 mm for glue/print tolerance.
+// ADD-ON MAGNETS: V7 uses the physically selected 2.95 mm pocket depth.
+// Measured 2.96 mm discs can be nominally 0.01 mm proud before adhesive;
+// do not automatically add a glue allowance to the selected seating depth.
+// Set design_revision="v6" and insert_thickness=1.5/2.0 for legacy exports.
 insert_diameter = 6.0;
-insert_thickness = 1.5;
+insert_thickness = design_revision == "v7" ? 2.96 : 1.5;
 pocket_diameter_extra = 0.20;       // 6.20 mm opening for 6 mm discs
 pocket_depth_extra = 0.15;         // 1.65 mm or 2.15 mm pocket
-// At floor_thickness=3.30, remaining floor = 1.65 mm / 1.15 mm.
-// Both inserts have the same face recess when fully seated.
+// V6 at floor_thickness=3.30 leaves 1.65 mm / 1.15 mm below its pockets.
 
 // OPEN FLOOR FIT TEST (November 1): the owner reported good magnet diameter,
 // alignment and stop contact, but slightly proud magnets and ~2.5 mm excess
-// shell height. Test deeper pockets and exposed tip clearance before changing
-// the full guard. These controls affect floor_coupon ONLY.
-floor_coupon_depth_increase = 0.25; // 2.40 mm pocket with 2 mm inserts
+// shell height. Length fit then passed, and the owner selected 2.95 mm depth.
+// V7 floor coupon uses that seat; V6 reproduces the earlier 2.40 mm trial.
+// These controls affect floor_coupon ONLY.
+floor_coupon_depth_increase = design_revision == "v7" ? 0 : 0.25;
 floor_coupon_marks = true;         // solid: inside nose; dashed: measured tips
 floor_coupon_mark_depth = 0.30;
 floor_coupon_mark_width = 0.60;
@@ -124,12 +138,14 @@ slice_depth = 0.12; // thickness of loft boundary slices
 // Derived coordinates
 inner_root_width = key_width + 2 * body_side_clearance;
 outer_root_width = inner_root_width + 2 * side_wall;
-inner_root_top = key_height + body_top_clearance;
+// Keep the original photo measurement as history; apply the owner's later
+// physical height correction separately, at root AND nose to retain taper.
+inner_root_top = key_height + body_top_clearance - roof_lowering;
 outer_root_top = inner_root_top + roof_wall;
 floor_bottom = -underbody_gap - floor_thickness;
 floor_top = -underbody_gap;
-outer_tip_top = tip_outer_top;
-inner_tip_top = tip_outer_top - roof_wall;
+outer_tip_top = tip_outer_top - roof_lowering;
+inner_tip_top = outer_tip_top - roof_wall;
 inner_tip_width = tip_outer_width - 2 * side_wall;
 outer_tip_y = paddle_projection + nose_extra;
 inner_tip_y = outer_tip_y - nose_wall;
@@ -137,8 +153,11 @@ back_y = -back_overlap;
 shroud_y = back_y;                  // entire shell shares the same rear plane
 
 pocket_d = insert_diameter + pocket_diameter_extra;
-pocket_depth = insert_thickness + pocket_depth_extra;
+pocket_depth = design_revision == "v7"
+    ? production_pocket_depth : insert_thickness + pocket_depth_extra;
 
+assert(design_revision == "v7" || design_revision == "v6",
+    "Unknown design_revision");
 assert(back_y < magnet_y - pocket_d/2 - 1,
     "Back overlap too short for magnet pockets");
 assert(outer_tip_y - nose_wall - paddle_projection >= tip_clearance - 0.01,
@@ -149,6 +168,14 @@ assert(insert_thickness > 0 && pocket_depth_extra >= 0,
     "Magnet thickness and clearance must be nonnegative");
 assert(part=="depth_gauge" || pocket_depth < floor_thickness - 0.8,
     "Maintain at least 0.8 mm floor below magnet pockets");
+assert(design_revision != "v7" || part != "guard" ||
+       (production_pocket_depth > 0 && magnet_min_floor >= 1.2 &&
+        glue_relief_depth >= 0 && glue_relief_diameter > 0 &&
+        glue_relief_diameter <= insert_diameter - 2 &&
+        floor_thickness - pocket_depth - glue_relief_depth >= magnet_min_floor - 0.001),
+    "Maintain the seating annulus and minimum floor below the glue relief");
+assert(roof_lowering >= 0 && inner_root_top > stop_pad_height,
+    "Height correction leaves insufficient root clearance");
 assert(inner_tip_width > 0 && inner_tip_top > 0,
     "Tip dimensions must be positive");
 
@@ -234,13 +261,17 @@ module test_magnet_pushout(x,y,bottom=floor_bottom,thickness=floor_thickness) {
             cylinder(d=test_pushout_diameter,h=thickness+2*eps);
 }
 
-module magnet_pockets(depth = pocket_depth, with_pushouts = false) {
+module magnet_pockets(depth = pocket_depth, with_pushouts = false,
+                      with_glue_relief = false) {
     // Guard pockets are blind; coupons explicitly request underside pin holes.
     // Install magnets with polarities individually matched to attract key magnets.
     for (x = [-magnet_spacing/2,magnet_spacing/2]) {
         translate([x,magnet_y,
                    floor_top - depth])
             cylinder(d=pocket_d,h=depth + eps);
+        if (with_glue_relief && glue_relief_depth > 0)
+            translate([x,magnet_y,floor_top-depth-glue_relief_depth])
+                cylinder(d=glue_relief_diameter,h=glue_relief_depth+eps);
         if (with_pushouts) test_magnet_pushout(x,magnet_y);
     }
 }
@@ -302,7 +333,7 @@ module full_guard() {
             // all terminate at back_y. Keep only impact stops here.
             fixed_body_stop_pads();
         }
-        magnet_pockets();
+        magnet_pockets(with_glue_relief=design_revision=="v7");
     }
 }
 
