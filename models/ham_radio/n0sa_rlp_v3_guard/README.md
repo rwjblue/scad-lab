@@ -2,9 +2,9 @@
 
 One-piece, front-only protective shroud for the N0SA RLP V3 dual-lever CW paddle. The guard shields the moving finger pieces during transport and uses two additional magnets in a **continuous bottom floor** aligned with the key's front magnet pair. **The top, sides, and magnetic bottom now all end at one common, straight rear plane**, about 10.24 mm behind the fixed body's front edge. There is no projecting underside tongue, no U-shaped cutout, and no rear-jack or reversible mounting feature.
 
-**Status: V6 guard with an open floor coupon for the next fit test.** V6 corrected the first print's shallow nose using a measured **27.11 mm paddle projection** (replacing the incorrect 18.72 mm datum) and an **8.24 mm far magnet edge**. It provides **2 mm nominal tip clearance plus a 2 mm nose wall**, and extends 2 mm past that measured magnet edge. **Magnet pocket centers remain unchanged.** Both 1.5 mm and 2 mm insert options remain supported. See the November 1 physical feedback below; **do not force the sleeve onto the paddles.**
+**Status: V6 guard; five-depth strip for measured 2.96 mm magnets.** V6 corrected the first print's shallow nose using a measured **27.11 mm paddle projection** (replacing the incorrect 18.72 mm datum) and an **8.24 mm far magnet edge**. It provides **2 mm nominal tip clearance plus a 2 mm nose wall**, and extends 2 mm past that measured magnet edge. **Magnet pocket centers remain unchanged.** The legacy 1.5 mm and 2 mm insert options remain in the source. See the November 1 physical feedback below; **do not force the sleeve onto the paddles.**
 
-**November 1 physical fit report:** the owner tested the **6 × 2 mm guard** and reports that magnet diameter, magnet positions and the front stops fit well. The magnets sit approximately **0.10–0.15 mm proud** (visual estimate), and the floor-to-roof dimension is approximately **2.5 mm too tall**. Paddle-tip clearance could not be judged through the shell. The new **open floor coupon** tests deeper pockets and exposes the tips; the complete V6 guard remains unchanged pending that result. Actual magnet thickness has not been measured. The height report is a requested design correction, not a replacement measurement for `key_height`.
+**November 1 physical fit report:** the owner initially tested the STL labeled **6 × 2 mm** and reports good magnet diameter/alignment and stop contact. The initial 0.10–0.15 mm protrusion was a visual estimate. **Calipers now measure the actual test magnets at 2.96 mm thick**, superseding the nominal 2 mm assumption. **The length fit check is reported satisfactory**, so nose length, magnet centers and stops are retained. The floor-to-roof dimension is still reported approximately **2.5 mm too tall**. The new five-depth strip tests the requested range with a thicker base; full-guard pocket/floor and roof changes await the result. The height report is a design correction, not a replacement measurement for `key_height`.
 
 ## Parts and generated STLs
 
@@ -15,31 +15,43 @@ The repository tracks the OpenSCAD source; use the commands below to generate ST
 - `rlp_v3_fit_coupon_6x1p5.stl` / `rlp_v3_fit_coupon_6x2p0.stl` (`part="fit_coupon"`) — thin replica of just the continuous floor's rear overlap, two magnet pockets, and shallow alignment lips. Use this to check underside fit, magnet spacing and polarity with minimal filament.
 - `rlp_v3_magnet_gauge_6x1p5.stl` / `rlp_v3_magnet_gauge_6x2p0.stl` (`part="magnet_gauge"`) — tiny two-pocket gauge for testing magnet diameter/tolerance. The **notched +X end is the looser pocket**; the unmarked end is the tighter one.
 - `rlp_v3_floor_coupon_6x2p0_depth2p40_pushout.stl` (`part="floor_coupon"`) — open floor with the **same two stops**, **unchanged 6.20 mm pocket diameters and magnet centers**, and **2.40 mm deep trial pockets**. It includes the forward floor so the paddle tips are visible against engraved nose/tip reference lines. No roof or side guides are included.
-- `rlp_v3_depth_gauge_2p15-2p45_pushout.stl` (`part="depth_gauge"`) — a small labeled strip with four **6.20 mm diameter** pockets at **2.15, 2.25, 2.35 and 2.45 mm depth**. The notched end is shallowest.
-- `rlp_v3_fit_test_plate_6x2p0_pushout.stl` (`part="fit_test_plate"`) — the open floor coupon and depth strip together, separated by 6 mm, ready for one print. The STL contains **two independent parts**. The floor coupon still has 2.40 mm pockets; the four selectable depths are on the strip. The `_pushout` filenames distinguish these recoverable-magnet versions from earlier downloads.
+- `rlp_v3_depth_gauge_2p50-3p00_pushout_edge_down.stl` (`part="depth_gauge"`) — the current strip: five **6.20 mm diameter** pockets at **2.50, 2.65, 2.80, 2.95 and 3.00 mm depth**, a separate **4.00 mm base**, and 2 mm removal holes. The notched end is shallowest. It exports standing on its edge to match the guard's sideways pockets. Set `depth_gauge_orientation="floor_down"` for the optional flat alternative.
+- `part="fit_test_plate"` combines the current strip with the **legacy 2.40 mm floor coupon**. That coupon's depth is not updated for the measured 2.96 mm magnets; use the strip alone for the current trial. Earlier combined-plate downloads are historical configurations.
 
 Each individual part is a one-piece print; the combined test plate contains two separate parts. The magnets are the only separately installed hardware.
 
-**Recoverable test magnets:** every coupon and gauge now has a **2.0 mm push-out hole beneath each magnet pocket**. The combined plate has six: two in the floor coupon and four in the depth strip. Test without glue, remove the part from the key, and gently push each magnet out from the underside using a pin or punch smaller than the printed hole. The magnet still seats on an annular floor at the labeled depth. The **full guard retains closed pocket bottoms**. `test_pushout_diameter=0` disables these holes in test parts; this control never affects the guard.
+**Recoverable test magnets:** every coupon and gauge now has a **2.0 mm push-out hole beneath each magnet pocket**. The current combined selection has seven: two in the legacy floor coupon and five in the depth strip. Test without glue, remove the part from the key, and gently push each magnet out from the underside using a pin or punch smaller than the printed hole. The magnet still seats on an annular floor at the labeled depth. The **full guard retains closed pocket bottoms**. `test_pushout_diameter=0` disables these holes in test parts; this control never affects the guard.
 
-## Test four pocket depths in one print
+## Current test: five pocket depths for the 2.96 mm magnets
 
-Print **`rlp_v3_fit_test_plate_6x2p0_pushout.stl`** for both tests on one plate, or print only **`rlp_v3_depth_gauge_2p15-2p45_pushout.stl`** if the floor coupon is already underway. Keep the parts **flat, floor-down, at 100% scale with supports off**. Use **0.10 mm layers** for this depth comparison: at 0.20 mm layers, adjacent 0.10 mm depth steps may slice to the same printed floor height. Check the sliced preview; the labels are nominal CAD depths, and printed depths still follow layer boundaries.
+Print **`rlp_v3_depth_gauge_2p50-3p00_pushout_edge_down.stl`** at **100% scale**, keeping its supplied **edge-down orientation**. Use PETG, the 0.4 mm nozzle, **0.10 mm layers and supports off**. The pocket mouths stand vertically, as on the full guard when printed nose-down. Depth runs horizontally in printer Y, so the 0.05 mm difference between the last candidates is not rounded to a vertical layer height. Printed accuracy still requires inspection; the labels give nominal CAD depths.
 
-All four holes retain the successful **6.20 mm diameter**. Raised labels give depth in millimeters; the notch identifies the **2.15 mm baseline** end. The 3.30 mm base leaves 1.15, 1.05, 0.95 and 0.85 mm below the four pockets respectively. The label area sits away from the pocket row, so a nonmagnetic plastic card laid across a hole can help show whether the test magnet stands proud.
+The independent **4.00 mm base** preserves at least **1.00 mm of seating material around each 2 mm push-out hole**, without changing the full guard's 3.30 mm floor. All pocket diameters stay **6.20 mm**. The labels read shallow-to-deep from the notched end:
 
-Try the **same actual magnet** in each pocket, without glue, and choose the shallowest one that leaves it flush or slightly recessed. Push it out through the underside hole between trials, then check the other insert too. The strip tests depth only; use the floor coupon's two stops and engraved lines for actual key alignment and tip clearance. The full guard's sideways-printed pockets still need their own seating check after the chosen depth is applied.
+| Pocket depth | Material below the seating annulus | Nominal position of a 2.96 mm magnet face |
+|---|---|---|
+| 2.50 mm | 1.50 mm | 0.46 mm proud |
+| 2.65 mm | 1.35 mm | 0.31 mm proud |
+| 2.80 mm | 1.20 mm | 0.16 mm proud |
+| 2.95 mm | 1.05 mm | 0.01 mm proud |
+| 3.00 mm | 1.00 mm | 0.04 mm recessed |
+
+Try the **same actual magnet** in each pocket without glue, then check the other insert too. Choose the shallowest seat that is flush or slightly recessed. Use a plastic card as a nonmagnetic straightedge, keeping clear of the raised labels. Gently push the magnet out through the small hole on the **reverse face** between trials. The guard's final depth will also need allowance for the chosen adhesive and actual printed fit; 3.00 mm provides only 0.04 mm nominal recess for this magnet.
+
+The optional **`rlp_v3_depth_gauge_2p50-3p00_pushout_floor_down.stl`** contains the same geometry laid flat. In that orientation, small depth differences can quantize to layer heights; inspect the sliced pocket floors. The edge-down version is preferred for this comparison.
 
 ```sh
 openscad --backend=Manifold --hardwarnings --export-format=binstl \
-  -D 'part="fit_test_plate"' -D 'insert_thickness=2.0' \
-  -o output/rlp_v3_fit_test_plate_6x2p0_pushout.stl \
+  -D 'part="depth_gauge"' -D 'insert_thickness=2.96' \
+  -o output/rlp_v3_depth_gauge_2p50-3p00_pushout_edge_down.stl \
   models/ham_radio/n0sa_rlp_v3_guard/n0sa_rlp_v3_guard.scad
 ```
 
-## Open floor coupon: next fit test
+`depth_gauge_depths`, `depth_gauge_base_thickness`, `depth_gauge_min_floor` and `depth_gauge_orientation` control only this strip and its placement in the combined selection. The strip remains printable at Z=0 in either orientation. The previous 2.15–2.45 mm strip and 2.40 mm floor coupon remain historical fit tests, not current depth recommendations.
 
-Use **`rlp_v3_floor_coupon_6x2p0_depth2p40_pushout.stl`** for the current 2 mm magnet trial. Print it **flat floor-down at 100% scale, supports off**, using the same PETG, 0.4 mm nozzle and 0.20 mm layer height. It exports with its base at Z=0. Only the original stop pads rise above the floor. This is a fit tool, not a transport guard.
+## Earlier open floor coupon: length check passed
+
+**Historical 2 mm assumption:** `rlp_v3_floor_coupon_6x2p0_depth2p40_pushout.stl` was provided for the exposed fit check; length is now reported satisfactory. Its 2.40 mm pockets are too shallow for the measured 2.96 mm magnets. Keep it for reference rather than reprinting it for this depth trial. Print it **flat floor-down at 100% scale, supports off**, using the same PETG, 0.4 mm nozzle and 0.20 mm layer height. It exports with its base at Z=0. Only the original stop pads rise above the floor. This is a fit tool, not a transport guard.
 
 - **Pocket depth:** 2.40 mm, which is 0.25 mm deeper than the 2.15 mm pockets in the 6 × 2 mm V6 guard. The 3.30 mm floor leaves **0.90 mm of plastic beneath each pocket**. The diameter and positions that fit well are preserved. With otherwise identical seating, that increase would turn the estimated 0.10–0.15 mm protrusion into approximately 0.10–0.15 mm recess. This is a trial allowance; actual magnet thickness and printed pocket depth still determine seating.
 - **Solid engraved line:** actual central **inside nose wall plane**, Y=29.17 mm. The outside front edge is 2 mm farther forward at Y=31.17 mm. Measure from the actual paddle tips to the **center of the solid groove**, not to the outer edge.
@@ -73,7 +85,8 @@ openscad --backend=Manifold --hardwarnings --export-format=binstl \
 | Front body edge to far edge of existing magnet | **8.24 mm** | **Measured after initial print** |
 | Back of measured far magnet edge to shell rear edge | 2.0 mm | Design margin (adjustable) |
 | Magnet pockets' Y position | **−4.50 mm** | Preserved from first print; reported aligned, despite 0.74 mm difference between edge measurements |
-| Available magnet inserts | **6 × 1.5 mm and 6 × 2.0 mm** | Owner has both sizes (N48 specified for the 1.5 mm version) |
+| Legacy insert options | **6 × 1.5 mm and nominal 6 × 2.0 mm** | Existing source presets; N48 specified for the 1.5 mm option |
+| Current test magnet thickness | **2.96 mm** | Owner measured with calipers; replaces the nominal 2 mm assumption |
 | Default insert selection | **6 × 1.5 mm** | Set `insert_thickness=2.0` for the thicker option |
 | Pocket diameter | 6.2 mm | For 6.0 mm inserts, adjustable |
 | Pocket depth for 1.5 mm magnets | **1.65 mm** | 1.5 mm thickness + 0.15 mm tolerance |
@@ -87,8 +100,9 @@ STL bounding boxes measured from the rendered binary meshes (same for both inser
 | Guard, **nose-down STL on build plate** | **41.67 × 35.07 × 41.47 mm** |
 | Magnet-fit coupon | **41.67 × 10.24 × 5.42 mm** |
 | Open floor coupon, including stops | **41.67 × 41.47 × 6.46 mm** |
-| Four-depth strip, including labels | **52.00 × 16.00 × 3.80 mm** |
-| Combined floor coupon and depth strip | **99.67 × 41.47 × 6.46 mm** |
+| Five-depth strip, edge-down | **65.00 × 4.50 × 16.00 mm** |
+| Five-depth strip, floor-down including labels | **65.00 × 16.00 × 4.50 mm** |
+| Combined legacy floor coupon and current edge-down strip | **112.67 × 41.47 × 16.00 mm** |
 | Magnet pocket gauge | 28.00 × 14.00 × 3.30 mm |
 
 These are *part* dimensions, not the total key plus guard. The outside of the protective nose extends **4.0 mm past the measured paddle tips**, consisting of 2.0 mm free interior clearance and a 2.0 mm nose wall. Its outer nose is **31.11 mm forward of the fixed-body front edge**. The **entire shell** extends **10.24 mm behind the front plastic edge** (8.24 mm measured far magnet edge plus 2 mm margin), preserving the uniform rear opening. The overall Y-length in assembled orientation is therefore about **41.35 mm** (about **41.47 mm** including the modeling slices); it is roughly **9.1 mm longer than V5**.

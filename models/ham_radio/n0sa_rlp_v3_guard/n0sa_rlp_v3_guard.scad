@@ -69,8 +69,10 @@ tip_outer_top = 26.0;              // relative to underside of key
 nose_extra = tip_clearance + nose_wall;  // 27.11 + 2 + 2 = 31.11 mm from front
 corner_radius = 1.6;               // rounded cross-sections, mm
 
-// ADD-ON MAGNETS: owner has N48 6 x 1.5 mm and 6 x 2.0 mm discs.
-// Default is 6 x 1.5 mm. Use -D 'insert_thickness=2.0' for 6 x 2 mm.
+// ADD-ON MAGNETS: legacy exports use nominal 1.5/2.0 mm thicknesses.
+// November 1: current test discs actually measure 2.96 mm thick. Use the
+// depth gauge before selecting a revised full-guard pocket/floor.
+// Default remains 6 x 1.5 mm; -D 'insert_thickness=2.0' keeps the legacy option.
 // Pocket depth is magnet thickness + 0.15 mm for glue/print tolerance.
 insert_diameter = 6.0;
 insert_thickness = 1.5;
@@ -88,10 +90,13 @@ floor_coupon_marks = true;         // solid: inside nose; dashed: measured tips
 floor_coupon_mark_depth = 0.30;
 floor_coupon_mark_width = 0.60;
 
-// DEPTH LADDER: all holes keep the proven diameter; only their depth changes.
-// Print at 0.10 mm layers to resolve the 0.10 mm steps. This gauge and the
-// combined fit_test_plate do not change the guard's default pocket depth.
-depth_gauge_depths = [2.15,2.25,2.35,2.45];
+// DEPTH LADDER: owner measured 2.96 mm magnets and confirmed length fit.
+// Keep the proven diameter. A separate thicker base leaves at least 1 mm
+// of seating annulus. Edge-down puts depth in XY, matching the guard.
+depth_gauge_depths = [2.50,2.65,2.80,2.95,3.00];
+depth_gauge_base_thickness = 4.00;
+depth_gauge_min_floor = 1.00;
+depth_gauge_orientation = "edge_down"; // [edge_down,floor_down]
 depth_gauge_pitch = 13.0;
 depth_gauge_length = 16.0;
 depth_gauge_label_height = 0.50;
@@ -142,7 +147,7 @@ assert(magnet_y + pocket_d/2 < 0,
     "Front magnet pocket extends past the fixed body front edge");
 assert(insert_thickness > 0 && pocket_depth_extra >= 0,
     "Magnet thickness and clearance must be nonnegative");
-assert(pocket_depth < floor_thickness - 0.8,
+assert(part=="depth_gauge" || pocket_depth < floor_thickness - 0.8,
     "Maintain at least 0.8 mm floor below magnet pockets");
 assert(inner_tip_width > 0 && inner_tip_top > 0,
     "Tip dimensions must be positive");
@@ -220,13 +225,13 @@ module fixed_body_stop_pads() {
                 cube([stop_pad_width,stop_pad_depth,stop_pad_height],center=true);
 }
 
-module test_magnet_pushout(x,y) {
+module test_magnet_pushout(x,y,bottom=floor_bottom,thickness=floor_thickness) {
     assert(test_pushout_diameter >= 0 &&
            test_pushout_diameter < insert_diameter - 2,
            "Leave at least a 1 mm wide magnet seating ring");
     if (test_pushout_diameter > 0)
-        translate([x,y,floor_bottom-eps])
-            cylinder(d=test_pushout_diameter,h=floor_thickness+2*eps);
+        translate([x,y,bottom-eps])
+            cylinder(d=test_pushout_diameter,h=thickness+2*eps);
 }
 
 module magnet_pockets(depth = pocket_depth, with_pushouts = false) {
@@ -334,6 +339,10 @@ module magnet_gauge() {
     }
 }
 
+function depth_gauge_label(depth) =
+    let(hundredths=round(depth*100), fraction=hundredths%100)
+        str(floor(hundredths/100),".",fraction<10 ? "0" : "",fraction);
+
 module magnet_depth_gauge() {
     count = len(depth_gauge_depths);
     gauge_width = count * depth_gauge_pitch;
@@ -341,31 +350,46 @@ module magnet_depth_gauge() {
            "Depth gauge pockets need adequate spacing");
     assert(depth_gauge_length >= pocket_d + 8,
            "Depth gauge needs room for the labels");
+    assert(depth_gauge_min_floor >= 0.8,
+           "Depth gauge needs at least 0.8 mm of seating material");
     for (depth = depth_gauge_depths)
-        assert(depth > 0 && depth < floor_thickness - 0.8,
-               "Maintain at least 0.8 mm floor below all trial pockets");
+        assert(depth > 0 &&
+               depth <= depth_gauge_base_thickness-depth_gauge_min_floor+0.001,
+               "Depth gauge base is too thin for the requested pockets");
     union() {
         difference() {
-            translate([0,0,floor_bottom])
-                linear_extrude(height=floor_thickness)
-                    round_rect(gauge_width,depth_gauge_length,1.0);
+            linear_extrude(height=depth_gauge_base_thickness)
+                round_rect(gauge_width,depth_gauge_length,1.0);
             for (index = [0:count-1]) {
                 x = (index-(count-1)/2)*depth_gauge_pitch;
                 translate([x,-2,
-                           floor_top-depth_gauge_depths[index]])
+                           depth_gauge_base_thickness-depth_gauge_depths[index]])
                     cylinder(d=pocket_d,h=depth_gauge_depths[index]+eps);
-                test_magnet_pushout(x,-2);
+                test_magnet_pushout(x,-2,bottom=0,
+                                    thickness=depth_gauge_base_thickness);
             }
             // Notch identifies the shallow end without relying on the labels.
-            translate([-gauge_width/2,0,floor_bottom-eps])
-                cylinder(r=1,h=floor_thickness+2*eps);
+            translate([-gauge_width/2,0,-eps])
+                cylinder(r=1,h=depth_gauge_base_thickness+2*eps);
         }
         for (index = [0:count-1])
-            translate([(index-(count-1)/2)*depth_gauge_pitch,3,floor_top-eps])
+            translate([(index-(count-1)/2)*depth_gauge_pitch,3,
+                       depth_gauge_base_thickness-eps])
                 linear_extrude(height=depth_gauge_label_height+eps)
-                    text(str(depth_gauge_depths[index]),size=2.8,
+                    text(depth_gauge_label(depth_gauge_depths[index]),size=2.8,
                          font="Liberation Sans:style=Bold",halign="center");
     }
+}
+
+module printable_depth_gauge() {
+    if (depth_gauge_orientation == "edge_down") {
+        // Upright numbers above the pockets; depth is horizontal print Y.
+        translate([0,depth_gauge_base_thickness+depth_gauge_label_height,
+                   depth_gauge_length/2])
+            rotate([90,0,0]) magnet_depth_gauge();
+    } else if (depth_gauge_orientation == "floor_down") {
+        magnet_depth_gauge();
+    } else assert(false,"Unknown depth_gauge_orientation");
 }
 
 module fit_test_plate() {
@@ -374,9 +398,9 @@ module fit_test_plate() {
     translate([0,0,-floor_bottom]) floor_coupon();
     translate([outer_root_width/2 + 6 +
                len(depth_gauge_depths)*depth_gauge_pitch/2,
-               back_y-slice_depth/2+depth_gauge_length/2,
-               -floor_bottom])
-        magnet_depth_gauge();
+               back_y-slice_depth/2+
+               (depth_gauge_orientation=="floor_down" ? depth_gauge_length/2 : 0),0])
+        printable_depth_gauge();
 }
 
 module printable_guard() {
@@ -401,6 +425,6 @@ if (part=="guard") printable_guard();
 else if (part=="fit_coupon") translate([0,0,-floor_bottom]) fit_coupon();
 else if (part=="magnet_gauge") translate([0,0,-floor_bottom]) magnet_gauge();
 else if (part=="floor_coupon") translate([0,0,-floor_bottom]) floor_coupon();
-else if (part=="depth_gauge") translate([0,0,-floor_bottom]) magnet_depth_gauge();
+else if (part=="depth_gauge") printable_depth_gauge();
 else if (part=="fit_test_plate") fit_test_plate();
 else assert(false,"Unknown part");
