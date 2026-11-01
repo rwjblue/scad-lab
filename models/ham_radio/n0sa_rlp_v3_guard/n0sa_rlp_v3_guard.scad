@@ -24,7 +24,7 @@
  */
 
 // PART SELECTION
-part = "guard";                    // [guard,fit_coupon,magnet_gauge]
+part = "guard";                    // [guard,fit_coupon,magnet_gauge,floor_coupon]
 print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
 
 // DIMENSIONS FROM OWNER'S CALIPER PHOTOS (mm)
@@ -78,6 +78,15 @@ pocket_diameter_extra = 0.20;       // 6.20 mm opening for 6 mm discs
 pocket_depth_extra = 0.15;         // 1.65 mm or 2.15 mm pocket
 // At floor_thickness=3.30, remaining floor = 1.65 mm / 1.15 mm.
 // Both inserts have the same face recess when fully seated.
+
+// OPEN FLOOR FIT TEST (November 1): the owner reported good magnet diameter,
+// alignment and stop contact, but slightly proud magnets and ~2.5 mm excess
+// shell height. Test deeper pockets and exposed tip clearance before changing
+// the full guard. These controls affect floor_coupon ONLY.
+floor_coupon_depth_increase = 0.25; // 2.40 mm pocket with 2 mm inserts
+floor_coupon_marks = true;         // solid: inside nose; dashed: measured tips
+floor_coupon_mark_depth = 0.30;
+floor_coupon_mark_width = 0.60;
 
 
 // STOPS: shoulders on the outer edges of the stationary lower plate.
@@ -200,13 +209,59 @@ module fixed_body_stop_pads() {
                 cube([stop_pad_width,stop_pad_depth,stop_pad_height],center=true);
 }
 
-module magnet_pockets() {
+module magnet_pockets(depth = pocket_depth) {
     // Blind pockets accessible from the key-facing surface of the common floor.
     // Install magnets with polarities individually matched to attract key magnets.
     for (x = [-magnet_spacing/2,magnet_spacing/2])
         translate([x,magnet_y,
-                   floor_top - pocket_depth])
-            cylinder(d=pocket_d,h=pocket_depth + eps);
+                   floor_top - depth])
+            cylinder(d=pocket_d,h=depth + eps);
+}
+
+module floor_coupon_references() {
+    if (floor_coupon_marks) {
+        assert(floor_coupon_mark_depth > 0 &&
+               floor_coupon_mark_depth < floor_thickness - 0.8,
+               "Floor reference engraving is too deep");
+        // The cavity's last centered loft slice ends 0.06 mm beyond its
+        // nominal Y coordinate. Mark the actual central inside nose plane.
+        translate([-inner_tip_width/2,
+                   inner_tip_y + slice_depth/2 - floor_coupon_mark_width/2,
+                   floor_top - floor_coupon_mark_depth])
+            cube([inner_tip_width, floor_coupon_mark_width,
+                  floor_coupon_mark_depth + eps]);
+        // Dashed line is a measured datum, not an assertion of seated fit.
+        // Actual tip position shifts when the key seats against the stops.
+        for (fraction = [-0.8,-0.4,0,0.4,0.8])
+            translate([fraction*inner_tip_width/2 - 1.5,
+                       paddle_projection - floor_coupon_mark_width/2,
+                       floor_top - floor_coupon_mark_depth])
+                cube([3.0, floor_coupon_mark_width,
+                      floor_coupon_mark_depth + eps]);
+    }
+}
+
+module floor_coupon() {
+    trial_depth = pocket_depth + floor_coupon_depth_increase;
+    assert(floor_coupon_depth_increase >= 0,
+           "Floor coupon pocket increase must be nonnegative");
+    assert(trial_depth < floor_thickness - 0.8,
+           "Maintain at least 0.8 mm below the trial pockets");
+    difference() {
+        union() {
+            // Exact exterior floor from the guard, clipped at its mating
+            // surface. No roof, side guides or raised front bumper.
+            intersection() {
+                shroud_outer();
+                translate([-outer_root_width, back_y-1, floor_bottom-eps])
+                    cube([2*outer_root_width, outer_tip_y-back_y+2,
+                          floor_thickness+eps]);
+            }
+            fixed_body_stop_pads();
+        }
+        magnet_pockets(depth=trial_depth);
+        floor_coupon_references();
+    }
 }
 
 module full_guard() {
@@ -277,4 +332,5 @@ module printable_guard() {
 if (part=="guard") printable_guard();
 else if (part=="fit_coupon") translate([0,0,-floor_bottom]) fit_coupon();
 else if (part=="magnet_gauge") translate([0,0,-floor_bottom]) magnet_gauge();
+else if (part=="floor_coupon") translate([0,0,-floor_bottom]) floor_coupon();
 else assert(false,"Unknown part");
