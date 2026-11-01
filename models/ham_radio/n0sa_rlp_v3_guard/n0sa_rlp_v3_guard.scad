@@ -96,6 +96,10 @@ depth_gauge_pitch = 13.0;
 depth_gauge_length = 16.0;
 depth_gauge_label_height = 0.50;
 
+// TEST PARTS ONLY: push a pin through the underside to recover trial magnets.
+// The full guard never receives these holes. Set 0 to disable them in tests.
+test_pushout_diameter = 2.0;
+
 // STOPS: shoulders on the outer edges of the stationary lower plate.
 // Carry impact into the rigid body, not the moving paddles.
 enable_stop_pads = true;
@@ -216,13 +220,24 @@ module fixed_body_stop_pads() {
                 cube([stop_pad_width,stop_pad_depth,stop_pad_height],center=true);
 }
 
-module magnet_pockets(depth = pocket_depth) {
-    // Blind pockets accessible from the key-facing surface of the common floor.
+module test_magnet_pushout(x,y) {
+    assert(test_pushout_diameter >= 0 &&
+           test_pushout_diameter < insert_diameter - 2,
+           "Leave at least a 1 mm wide magnet seating ring");
+    if (test_pushout_diameter > 0)
+        translate([x,y,floor_bottom-eps])
+            cylinder(d=test_pushout_diameter,h=floor_thickness+2*eps);
+}
+
+module magnet_pockets(depth = pocket_depth, with_pushouts = false) {
+    // Guard pockets are blind; coupons explicitly request underside pin holes.
     // Install magnets with polarities individually matched to attract key magnets.
-    for (x = [-magnet_spacing/2,magnet_spacing/2])
+    for (x = [-magnet_spacing/2,magnet_spacing/2]) {
         translate([x,magnet_y,
                    floor_top - depth])
             cylinder(d=pocket_d,h=depth + eps);
+        if (with_pushouts) test_magnet_pushout(x,magnet_y);
+    }
 }
 
 module floor_coupon_references() {
@@ -266,7 +281,7 @@ module floor_coupon() {
             }
             fixed_body_stop_pads();
         }
-        magnet_pockets(depth=trial_depth);
+        magnet_pockets(depth=trial_depth,with_pushouts=true);
         floor_coupon_references();
     }
 }
@@ -294,7 +309,7 @@ module fit_coupon() {
             coupon_floor(front_y=0);
             coupon_side_guides(front_limit=0);
         }
-        magnet_pockets();
+        magnet_pockets(with_pushouts=true);
     }
 }
 
@@ -311,6 +326,7 @@ module magnet_gauge() {
                 cylinder(d=insert_diameter + pocket_diameter_extra +
                            (x>0 ? 0.20 : -0.10),
                          h=pocket_depth + eps);
+            test_magnet_pushout(x,0);
         }
         // Small semicircular edge notch identifies the looser (+X) pocket.
         translate([gauge_x/2,0,floor_bottom-eps])
@@ -333,10 +349,13 @@ module magnet_depth_gauge() {
             translate([0,0,floor_bottom])
                 linear_extrude(height=floor_thickness)
                     round_rect(gauge_width,depth_gauge_length,1.0);
-            for (index = [0:count-1])
-                translate([(index-(count-1)/2)*depth_gauge_pitch,-2,
+            for (index = [0:count-1]) {
+                x = (index-(count-1)/2)*depth_gauge_pitch;
+                translate([x,-2,
                            floor_top-depth_gauge_depths[index]])
                     cylinder(d=pocket_d,h=depth_gauge_depths[index]+eps);
+                test_magnet_pushout(x,-2);
+            }
             // Notch identifies the shallow end without relying on the labels.
             translate([-gauge_width/2,0,floor_bottom-eps])
                 cylinder(r=1,h=floor_thickness+2*eps);

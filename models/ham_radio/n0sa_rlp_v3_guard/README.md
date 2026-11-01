@@ -14,30 +14,32 @@ The repository tracks the OpenSCAD source; use the commands below to generate ST
 - `rlp_v3_guard_6x1p5.stl` / `rlp_v3_guard_6x2p0.stl` (`part="guard"`) — full nose shroud with pockets sized for either supplied magnet thickness.
 - `rlp_v3_fit_coupon_6x1p5.stl` / `rlp_v3_fit_coupon_6x2p0.stl` (`part="fit_coupon"`) — thin replica of just the continuous floor's rear overlap, two magnet pockets, and shallow alignment lips. Use this to check underside fit, magnet spacing and polarity with minimal filament.
 - `rlp_v3_magnet_gauge_6x1p5.stl` / `rlp_v3_magnet_gauge_6x2p0.stl` (`part="magnet_gauge"`) — tiny two-pocket gauge for testing magnet diameter/tolerance. The **notched +X end is the looser pocket**; the unmarked end is the tighter one.
-- `rlp_v3_floor_coupon_6x2p0_depth2p40.stl` (`part="floor_coupon"`) — open floor with the **same two stops**, **unchanged 6.20 mm pocket diameters and magnet centers**, and **2.40 mm deep trial pockets**. It includes the forward floor so the paddle tips are visible against engraved nose/tip reference lines. No roof or side guides are included.
-- `rlp_v3_depth_gauge_2p15-2p45.stl` (`part="depth_gauge"`) — a small labeled strip with four **6.20 mm diameter** pockets at **2.15, 2.25, 2.35 and 2.45 mm depth**. The notched end is shallowest.
-- `rlp_v3_fit_test_plate_6x2p0.stl` (`part="fit_test_plate"`) — the open floor coupon and depth strip together, separated by 6 mm, ready for one print. The STL contains **two independent parts**. The floor coupon still has 2.40 mm pockets; the four selectable depths are on the strip.
+- `rlp_v3_floor_coupon_6x2p0_depth2p40_pushout.stl` (`part="floor_coupon"`) — open floor with the **same two stops**, **unchanged 6.20 mm pocket diameters and magnet centers**, and **2.40 mm deep trial pockets**. It includes the forward floor so the paddle tips are visible against engraved nose/tip reference lines. No roof or side guides are included.
+- `rlp_v3_depth_gauge_2p15-2p45_pushout.stl` (`part="depth_gauge"`) — a small labeled strip with four **6.20 mm diameter** pockets at **2.15, 2.25, 2.35 and 2.45 mm depth**. The notched end is shallowest.
+- `rlp_v3_fit_test_plate_6x2p0_pushout.stl` (`part="fit_test_plate"`) — the open floor coupon and depth strip together, separated by 6 mm, ready for one print. The STL contains **two independent parts**. The floor coupon still has 2.40 mm pockets; the four selectable depths are on the strip. The `_pushout` filenames distinguish these recoverable-magnet versions from earlier downloads.
 
 Each individual part is a one-piece print; the combined test plate contains two separate parts. The magnets are the only separately installed hardware.
 
+**Recoverable test magnets:** every coupon and gauge now has a **2.0 mm push-out hole beneath each magnet pocket**. The combined plate has six: two in the floor coupon and four in the depth strip. Test without glue, remove the part from the key, and gently push each magnet out from the underside using a pin or punch smaller than the printed hole. The magnet still seats on an annular floor at the labeled depth. The **full guard retains closed pocket bottoms**. `test_pushout_diameter=0` disables these holes in test parts; this control never affects the guard.
+
 ## Test four pocket depths in one print
 
-Print **`rlp_v3_fit_test_plate_6x2p0.stl`** for both tests on one plate, or print only **`rlp_v3_depth_gauge_2p15-2p45.stl`** if the floor coupon is already underway. Keep the parts **flat, floor-down, at 100% scale with supports off**. Use **0.10 mm layers** for this depth comparison: at 0.20 mm layers, adjacent 0.10 mm depth steps may slice to the same printed floor height. Check the sliced preview; the labels are nominal CAD depths, and printed depths still follow layer boundaries.
+Print **`rlp_v3_fit_test_plate_6x2p0_pushout.stl`** for both tests on one plate, or print only **`rlp_v3_depth_gauge_2p15-2p45_pushout.stl`** if the floor coupon is already underway. Keep the parts **flat, floor-down, at 100% scale with supports off**. Use **0.10 mm layers** for this depth comparison: at 0.20 mm layers, adjacent 0.10 mm depth steps may slice to the same printed floor height. Check the sliced preview; the labels are nominal CAD depths, and printed depths still follow layer boundaries.
 
 All four holes retain the successful **6.20 mm diameter**. Raised labels give depth in millimeters; the notch identifies the **2.15 mm baseline** end. The 3.30 mm base leaves 1.15, 1.05, 0.95 and 0.85 mm below the four pockets respectively. The label area sits away from the pocket row, so a nonmagnetic plastic card laid across a hole can help show whether the test magnet stands proud.
 
-Try the **same actual magnet** in each pocket, without glue, and choose the shallowest one that leaves it flush or slightly recessed. Use another magnet to lift it out between trials. Check the other insert too. The strip tests depth only; use the unchanged floor coupon's two stops and engraved lines for actual key alignment and tip clearance. The full guard's sideways-printed pockets still need their own seating check after the chosen depth is applied.
+Try the **same actual magnet** in each pocket, without glue, and choose the shallowest one that leaves it flush or slightly recessed. Push it out through the underside hole between trials, then check the other insert too. The strip tests depth only; use the floor coupon's two stops and engraved lines for actual key alignment and tip clearance. The full guard's sideways-printed pockets still need their own seating check after the chosen depth is applied.
 
 ```sh
 openscad --backend=Manifold --hardwarnings --export-format=binstl \
   -D 'part="fit_test_plate"' -D 'insert_thickness=2.0' \
-  -o output/rlp_v3_fit_test_plate_6x2p0.stl \
+  -o output/rlp_v3_fit_test_plate_6x2p0_pushout.stl \
   models/ham_radio/n0sa_rlp_v3_guard/n0sa_rlp_v3_guard.scad
 ```
 
 ## Open floor coupon: next fit test
 
-Use **`rlp_v3_floor_coupon_6x2p0_depth2p40.stl`** for the current 2 mm magnet trial. Print it **flat floor-down at 100% scale, supports off**, using the same PETG, 0.4 mm nozzle and 0.20 mm layer height. It exports with its base at Z=0. Only the original stop pads rise above the floor. This is a fit tool, not a transport guard.
+Use **`rlp_v3_floor_coupon_6x2p0_depth2p40_pushout.stl`** for the current 2 mm magnet trial. Print it **flat floor-down at 100% scale, supports off**, using the same PETG, 0.4 mm nozzle and 0.20 mm layer height. It exports with its base at Z=0. Only the original stop pads rise above the floor. This is a fit tool, not a transport guard.
 
 - **Pocket depth:** 2.40 mm, which is 0.25 mm deeper than the 2.15 mm pockets in the 6 × 2 mm V6 guard. The 3.30 mm floor leaves **0.90 mm of plastic beneath each pocket**. The diameter and positions that fit well are preserved. With otherwise identical seating, that increase would turn the estimated 0.10–0.15 mm protrusion into approximately 0.10–0.15 mm recess. This is a trial allowance; actual magnet thickness and printed pocket depth still determine seating.
 - **Solid engraved line:** actual central **inside nose wall plane**, Y=29.17 mm. The outside front edge is 2 mm farther forward at Y=31.17 mm. Measure from the actual paddle tips to the **center of the solid groove**, not to the outer edge.
@@ -50,7 +52,7 @@ From the repository root:
 ```sh
 openscad --backend=Manifold --hardwarnings --export-format=binstl \
   -D 'part="floor_coupon"' -D 'insert_thickness=2.0' \
-  -o output/rlp_v3_floor_coupon_6x2p0_depth2p40.stl \
+  -o output/rlp_v3_floor_coupon_6x2p0_depth2p40_pushout.stl \
   models/ham_radio/n0sa_rlp_v3_guard/n0sa_rlp_v3_guard.scad
 ```
 
