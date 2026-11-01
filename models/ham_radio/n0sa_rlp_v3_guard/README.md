@@ -1,76 +1,95 @@
-# N0SA RLP V3 magnetic nose guard
+# N0SA RLP V3 magnetic paddle guard
 
-One-piece, tapered PETG nose shroud for the N0SA RLP V3 dual-lever CW paddle. A closed bumper protects the finger pieces, two added magnets align with the key’s front magnet pair, and two stops seat against the stationary body. The roof, sides and continuous bottom share one straight rear plane.
+A small cover for the exposed finger pieces on an N0SA RLP V3 Morse-code paddle. It slides over the front of the key and stays in place with two magnets, keeping the paddles covered while the key is in a field bag. Pull it off when you are ready to operate.
 
-**Current print: 2.95 mm magnet pockets.** Magnet diameter/alignment, stop contact and length have passed physical fit checks. The complete guard incorporates the reported height correction, a thicker bottom and shallow glue dimples. Its lowered roof still needs a physical fit check.
+## About the key
 
-## Current full print
+The RLP V3 is a lightweight iambic paddle made by Larry Naumann, N0SA, for portable amateur-radio use. It connects to an electronic keyer, often built into the radio: one lever requests dots and the other requests dashes. Its small size makes it a good companion for Parks on the Air (POTA) and Summits on the Air (SOTA).
 
-Print **`rlp_v3_guard.stl`** at **100% scale**, keeping its supplied **nose-down orientation**, with the closed bumper against the plate and the rear opening facing up. Start with **PETG, a 0.4 mm nozzle, 0.20 mm layers, three walls and supports off**. An earlier guard printed successfully nose-down without supports. Inspect the sideways pockets and stop-pad overhangs in the slicer preview. Avoid Auto Orient if it flips the guard onto its bottom.
+![N0SA RLP V3 paddle, with its two finger pieces extending from the front](images/rlp-v3-key.jpg)
+
+*The RLP V3 without a guard. Photo and product reference: [N0SA’s original QRZ listing](https://forums.qrz.com/index.php?threads/n0sa-sota-pota-paddles.1007636/).*
+
+The listing gives the key’s size as **72 × 35 × 25 mm** and its weight as **48 g**. It has a Richlite body, four precision ball bearings, adjustable magnetic return and a 3.5 mm stereo jack. Four magnets in the base allow it to attach to a steel surface. The guard lines up with the **two base magnets closest to the paddles**; the key keeps all four of its magnets.
+
+## What the guard does
+
+The guard covers the finger pieces with a closed nose, roof, sides and bottom. Two small stops meet the stationary body so the guard seats against the key rather than the moving levers. The rear edge is straight all the way around, with no projecting tongue underneath.
+
+It prints as one piece. There are no clips, screws or modifications to the key. This model is sized for the **RLP V3**; check dimensions before trying it on another paddle.
+
+**Prototype fit note:** check the complete guard on your key before gluing in the magnets. Both levers should move freely, with room around their tips and under the roof.
+
+## What you need
+
+- **One printed guard:** `rlp_v3_guard.stl`.
+- **Two neodymium disc magnets:** **6 mm diameter, approximately 3 mm thick**, magnetized through the thickness.
+- A small amount of **cyanoacrylate (super glue)** suitable for the printed plastic and magnet coating.
+
+The pockets are **6.20 mm wide and 2.95 mm deep**. Magnet dimensions vary, so check the actual discs before gluing. The fit dimensions use a **2.96 mm thick magnet**, which is nominally 0.01 mm proud of a 2.95 mm seat. A disc that measures a full 3.00 mm will stand 0.05 mm proud unless the pocket is adjusted. The optional depth gauge makes this easier to check without committing a whole guard.
+
+Use metric 6 mm magnets; a true ¼-inch disc is 6.35 mm and will not fit these pockets. Scale the print at **100%**. If your magnets need a different pocket size, change that dimension in OpenSCAD rather than scaling the entire guard.
+
+## Printing
+
+The guard STL is already oriented **nose-down**, with the closed end on the build plate and the rear opening facing up. Keep that orientation.
+
+| Setting | Starting point |
+|---|---|
+| Material | PETG |
+| Nozzle | 0.4 mm |
+| Layer height | 0.20 mm |
+| Walls | 3 |
+| Supports | Off |
+| Scale | 100% |
+
+Nose-down printing avoids a wide roof bridge. Look over the pocket ceilings and the two small stops in the sliced preview, and remove any loose strands before fitting the key. The print occupies about **41.67 × 32.57 mm** on the plate and stands **41.47 mm** tall.
+
+## Fit and assembly
+
+1. **Try the empty guard first.** Slide it over the paddle end until both stops meet the stationary body. Move each lever through its full travel and check the roof, sides and nose for contact.
+2. **Try both magnets without glue.** They should sit fully in their pockets. Clean away any printing debris rather than forcing a tight magnet into place.
+3. **Check each magnet’s polarity separately.** Hold it against its matching key magnet and mark which face belongs inside the pocket. Each one must attract the key.
+4. **Glue the magnets into the guard.** Put a tiny amount of glue in each shallow center recess and press the magnet fully onto the surrounding flat seat. Wipe away squeeze-out and let the glue cure with the guard off the key.
+5. **Check the finished fit.** The guard should attach and come off smoothly, and the paddles should remain clear of the shell. Check retention with gentle handling before packing it in a bag.
+
+The center recess gives a little space for glue while the flat ring around it sets the magnet’s seating depth. The finished guard has closed pocket bottoms. Test coupons have small holes underneath so a pin can push the magnets back out between trials.
+
+## Dimensions
+
+All dimensions are in millimeters. The key specifications above describe the paddle; these dimensions describe the **guard**.
 
 | Feature | Dimension |
 |---|---:|
-| Pocket diameter | 6.20 mm |
-| Pocket seating depth | **2.95 mm**, selected after depth testing |
-| Glue dimple in each seat | **2.50 mm diameter × 0.10 mm deeper** |
-| Total bottom thickness | **4.25 mm** |
-| Plastic below the ordinary seating annulus | **1.30 mm** |
-| Plastic below the deepest glue dimple | **1.20 mm** |
-| Side wall / roof / nose wall | **1.80 / 2.00 / 2.00 mm** |
-| External floor-to-roof height | **32.57 mm** |
-| Width / front-to-back length | **41.67 / 41.47 mm** |
-| Exported STL footprint × print height | **41.67 × 32.57 × 41.47 mm** |
+| Overall width × length × height, fitted orientation | **41.67 × 41.47 × 32.57** |
+| Rear opening, central width × height | **38.07 × 26.32** |
+| Magnet pockets | **Ø6.20 × 2.95 deep** |
+| Magnet center-to-center spacing | **15.51** |
+| Magnet centers behind the key’s front body edge | **4.50** |
+| Glue recess in each pocket | **Ø2.50 × 0.10 additional depth** |
+| Bottom thickness | **4.25** |
+| Plastic beneath the magnet seating ring | **1.30** |
+| Plastic beneath the glue recess | **1.20** |
+| Side / roof / nose wall thickness | **1.80 / 2.00 / 2.00** |
+| Clearance above the floor to the key underside | **0.25** |
+| Central paddle-tip clearance when seated against the stops | About **1.9** |
+| Each stop, width × depth × height | **3.30 × 1.60 × 3.20** |
 
-The final pockets are **blind**. Removal holes remain exclusive to coupons and gauges. Each dimple leaves a broad, flat annular seat so adhesive can occupy a small recess without deliberately raising the whole magnet. This is a design starting point, not a measured bond-strength result.
+The thicker bottom accommodates the magnets; the top and sides stay thinner to keep the cover compact. The 1.20 mm backing is a conservative design choice, rather than a tested minimum thickness.
 
-The thicker bottom grows **outward/downward**, preserving the key-facing floor at Z=−0.25 mm. The roof moves down **3.45 mm**: 2.50 mm for the requested net height reduction plus 0.95 mm to compensate for the extra bottom thickness. Root and nose ceilings move together, retaining the taper and wall thicknesses. This is a **net external height correction**, rather than simply reducing the internal cavity by 2.5 mm.
+For CAD reference, the key underside is Z=0, its front body edge is Y=0, and +Y points toward the paddle tips. Pocket centers are X=±7.755, Y=−4.50. The floor is at Z=−0.25, the central rear ceiling at Z=26.07, the rear rim at Y=−10.30, and the inside/outside nose faces at Y=29.17/31.17. The paddle-tip reference is Y=27.11. The opening has rounded corners, so its central width and height do not describe the clearance at those corners.
 
-The photo-derived `key_height=28.92` is retained as a reference, with the later physical-fit correction applied separately. The revised central rear cavity ceiling is **Z=26.07 mm above the key underside**, and its outer roof is Z=28.07 mm. This differs from that original height measurement; dry-fit the actual key and both moving paddles under the revised roof before gluing. At the original paddle-tip datum, the central cavity ceiling is approximately Z=21.03 mm; no measured paddle height/travel envelope is available to establish that clearance numerically.
+## Optional fit tools
 
-## Magnets and assembly
+`rlp_v3_floor_coupon.stl` leaves the top open so you can see the paddle tips while checking magnet alignment and stop contact. The solid line marks the inside nose wall; the dashed line marks the paddle-tip reference. Measure tip clearance to the **center of the solid line**, rather than the outside edge of the print.
 
-Hardware: **two disc magnets fitting the tested 6.20 mm pockets**, with the current pair measured by the owner at **2.96 mm thick**, plus a small amount of cyanoacrylate glue. These are approximately 6 × 3 mm discs. The exact purchase listing and magnetic grade remain unconfirmed.
+`rlp_v3_depth_gauge.stl` has five labeled 6.20 mm pockets at **2.50, 2.65, 2.80, 2.95 and 3.00 mm** deep. Try the same magnet in each pocket without glue, then use a pin through the underside hole to remove it. The notched end is shallowest. Print it in its supplied edge-down orientation at **0.10 mm layers**, supports off; pocket depth then runs horizontally, so tiny differences are not rounded to the layer height.
 
-The chosen **2.95 mm seating depth is exact**; the model does not silently add another glue allowance. A truly 2.96 mm magnet in a perfect 2.95 mm pocket would be **0.01 mm proud** before adhesive. Printed fit determined the owner’s selection. Confirm both actual magnets sit as intended; a glue film or debris can still lift them.
+These are separate fit tools, not pieces of the finished guard. The source also includes a smaller alignment coupon, a diameter gauge and a combined test plate.
 
-1. Dry-fit the guard without magnets first. Seat against both stops and operate both levers through their full movement. Check the lower roof and tapered nose for contact.
-2. Test each magnet’s polarity against its corresponding key magnet, then mark its outward-facing side before bonding. Both must attract the key independently.
-3. Clean the pocket and magnet bonding face. Use a tiny amount of CA in the dimple, seat the magnet fully against the annulus, and remove squeeze-out. Keep the guard separate from the key while the glue cures according to its instructions.
-4. Once cured, check seating, removal and gentle handling retention. Avoid forcing a magnet or pressing on the moving paddles.
+## Editable source
 
-CA is a reasonable starting adhesive for this combination: [Prusa’s bonding guide](https://blog.prusa3d.com/the-great-guide-to-gluing-and-assembling-3d-prints_44908/) discusses CA for PETG, and [K&J’s magnet bonding guide](https://www.kjmagnetics.com/blog/sticky-business-how-to-glue-neodymium-magnets) lists CA and epoxy for neodymium magnets. The 1.20 mm backing is a conservative starting choice, not an experimentally established minimum. The glue-dimple dimensions are also design choices, rather than dimensions specified by those sources. Keep the rest of the shell thin; matching the top and sides to the magnet-bearing bottom would add bulk without helping pocket backing.
-
-## Geometry and accepted fit data
-
-Coordinates: X is width, +Y points toward the paddle tips, the stationary body’s front edge is Y=0, and the key underside is Z=0. These fit-critical dimensions are retained:
-
-| Datum | Value / basis |
-|---|---|
-| Key width | 36.77 mm, caliper photo |
-| Original key-height input | 28.92 mm, caliper photo; later physical height correction is separate |
-| Paddle projection | **27.11 mm**, owner measured |
-| Pocket centers | **X=±7.755 mm, Y=−4.50 mm**, physically reported aligned |
-| Magnet center spacing | **15.51 mm**, from 21.51 mm outer span minus 6 mm diameter |
-| Original near-edge estimate | 1.50 mm behind the body edge, used only to retain pocket Y |
-| Later far-edge measurement | 8.24 mm behind the body edge |
-| Rear margin | 2.00 mm behind that measured far edge |
-| Rear shell plane | Nominal Y=−10.24 mm; rendered Y=−10.30 mm |
-| Underbody gap | 0.25 mm |
-| Side clearance | 0.65 mm each |
-| Stops | Two 3.30 mm wide × 1.60 mm deep × 3.20 mm tall pads |
-| Actual stop bounds | X=±15.735…19.035 mm, Y=0.15…1.75 mm, Z=−0.29…2.91 mm |
-| Actual inside / outside nose planes | Central Y=29.17 / 31.17 mm |
-| Nominal tip gap / nose wall | 2.00 / 2.00 mm |
-
-The 0.12 mm centered loft slices add 0.06 mm at the ends, explaining the nominal/rendered plane differences. Stop seating can permit about 0.15 mm extra insertion, giving approximately 1.91 mm central axial tip clearance. The owner’s exposed length check was satisfactory, so this revision does not move the nose or stops.
-
-The approximate near/far magnet-edge measurements disagree by 0.74 mm. Pocket centers are intentionally preserved because they fit; the later far-edge measurement independently sets the rear margin. Do not derive new centers from it.
-
-Nose-down transforms assembled `(x,y,z)` to `(x,z+4.50,31.17−y)`. The closed nose sits at print Z=0 and the open rear rim at Z=41.47 mm. `print_orientation="as_used"` preserves assembled coordinates, including a floor bottom at Z=−4.50 mm; it is an inspection orientation, not the support-free print orientation.
-
-## Regenerating the full guard
-
-The source defaults to 2.95 mm pockets and nose-down printing:
+The self-contained `n0sa_rlp_v3_guard.scad` exports the guard in its print orientation by default:
 
 ```sh
 openscad --backend=Manifold --hardwarnings --export-format=binstl \
@@ -78,18 +97,6 @@ openscad --backend=Manifold --hardwarnings --export-format=binstl \
   models/ham_radio/n0sa_rlp_v3_guard/n0sa_rlp_v3_guard.scad
 ```
 
-`production_pocket_depth`, `glue_relief_depth`, `glue_relief_diameter`, `magnet_min_floor` and `roof_lowering` control the new construction. Bottom thickness derives from the selected pocket, dimple and minimum backing. The roof adjustment is independent of backing thickness, so a later thinner-backing trial removes material from the outside while preserving the fitted ceiling and magnet seats. Assertions reject a guard with inadequate backing below its glue wells.
+Set `part="floor_coupon"` or `part="depth_gauge"` for the main fit tools. `print_orientation="as_used"` shows the full guard in its fitted position for inspection.
 
-## Recoverable test parts
-
-The same source supports `guard`, `fit_coupon`, `magnet_gauge`, `floor_coupon`, `depth_gauge` and `fit_test_plate`.
-
-- `fit_coupon`: floor overlap, two magnet seats and shallow side guides.
-- `magnet_gauge`: two diameter-tolerance pockets; the notched +X end is looser.
-- `floor_coupon`: exposed floor and the same stops, with a solid engraved inside-nose reference and dashed original paddle-tip datum. It uses 2.95 mm seats; it omits the glue dimples.
-- `depth_gauge`: the five labeled depths **2.50, 2.65, 2.80, 2.95 and 3.00 mm**, all at 6.20 mm diameter. Its independent 4.00 mm base leaves at least 1.00 mm of seating material. The notched end is shallowest.
-- `fit_test_plate`: separate floor coupon and depth strip arranged on one plate, without joining tabs.
-
-Every test pocket has a **2.00 mm push-out hole** under its seating annulus. Test without glue, remove the part from the key, and use a pin smaller than the hole to recover the magnet. `test_pushout_diameter=0` disables these holes in test parts; it never affects the full guard.
-
-The depth strip defaults to **edge-down**, with upright labels and horizontally measured pocket depths, matching the nose-down guard. Print it at 100% scale, PETG, 0.4 mm nozzle, 0.10 mm layers and supports off. The optional `depth_gauge_orientation="floor_down"` lays it flat, but small depth differences may quantize to layer heights. Both exports start at print Z=0. The other coupons export floor-down.
+The main adjustments are `body_internal_width`, `body_internal_height`, `production_pocket_depth`, `pocket_diameter_extra`, `magnet_min_floor` and `tip_clearance`. The pocket depth and backing thickness are separate, so reducing the backing removes material from the outside without moving the magnet seat or roof.

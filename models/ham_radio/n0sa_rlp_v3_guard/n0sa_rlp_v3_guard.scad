@@ -9,20 +9,13 @@
  * Coordinates: +Y points toward the paddle tips. The front edge of the rigid
  * body is at Y=0; the underside of its bottom plate is at Z=0.
  *
- * Owner print fit report October 30: overall envelope and magnet alignment
- * looked good; the front nose was too short. Paddle tip projection is now
- * measured from the same fixed-body front edge as the key shell: 27.11 mm.
- * The far edge of the front magnets was measured 8.24 mm behind that edge.
- * Existing pocket centers are intentionally preserved because they aligned
- * in the first printed trial. Check all clearances before gluing magnets.
+ * Pocket centers match the key's front base magnets. Check paddle clearance
+ * and magnet seating on the actual key before bonding the magnets.
  *
  * PRINT ORIENTATION: by default, guard exports nose-down with the closed
  * face against the build plate and the open rear end facing upward.
  * This avoids a ~38 mm unsupported PETG roof bridge. A small ~6 mm
  * magnet-pocket overhang and stop pads remain: check slicer preview.
- * November 1: owner selected 2.95 mm pockets for measured 2.96 mm discs.
- * Blind glue dimples and a thicker floor accompany a net 2.5 mm reduction
- * in external floor-to-roof height. Proven length, stops and centers stay.
  * Coupons export floor-down; the depth strip defaults to edge-down.
  */
 
@@ -30,16 +23,12 @@
 part = "guard";                    // [guard,fit_coupon,magnet_gauge,floor_coupon,depth_gauge,fit_test_plate]
 print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
 
-// DIMENSIONS FROM OWNER'S CALIPER PHOTOS (mm)
-key_width = 36.77;
-key_height = 28.92;
-paddle_projection = 27.11;          // owner-measured from body front edge to paddle tips
+// INTERNAL ENVELOPE (mm): these are clearances in the guard, not key specs.
+body_internal_width = 38.07;
+body_internal_height = 26.32;        // from key-facing floor to rear ceiling
+paddle_projection = 27.11;          // body front edge to paddle tips
 
-// OWNER'S OCT 30 CALIPER MEASUREMENTS: the pair nearest the paddles.
-// Span = from outside edge of one magnet to outside edge of the other.
-// The edge margin is from the key's *front plastic edge* to the nearer
-// circumferential edge of each magnet. Confirm this coordinate datum on
-// the physical key before gluing the magnets.
+// FRONT BASE MAGNETS: outside span and edge margin determine centers.
 key_magnet_diameter = 6.0;
 key_magnet_outer_span = 21.51;
 key_magnet_front_margin = 1.5;
@@ -48,36 +37,29 @@ magnet_spacing = key_magnet_outer_span - key_magnet_diameter; // 15.51 mm
 magnet_y = -(key_magnet_front_margin + key_magnet_diameter/2); // -4.50 mm
 
 // CLEARANCES AND WALLS (adjust after test fit)
-body_side_clearance = 0.65;          // each side at the key-body overlap
-body_top_clearance = 0.60;
 underbody_gap = 0.25;               // continuous floor to key underside
 // Thicken only the bottom, outward from the unchanged key-facing plane.
 // Backing is measured BELOW the deepest glue dimple. The 1.20 mm default
 // is a conservative trial choice, not a physically established minimum.
-production_pocket_depth = 2.95;     // owner-selected seating depth, not including dimple
+production_pocket_depth = 2.95;     // magnet seating depth, not including dimple
 magnet_min_floor = 1.20;
 glue_relief_diameter = 2.50;
 glue_relief_depth = 0.10;           // shallow reservoir, preserves flat seating annulus
 floor_thickness = production_pocket_depth + glue_relief_depth + magnet_min_floor;
-// Keep the fitted ceiling independent of future bottom-thickness trials.
-roof_lowering = 3.45;               // fit correction from the photo-height reference
 side_wall = 1.80;
 roof_wall = 2.00;
 nose_wall = 2.00;
 tip_clearance = 2.00;               // paddle ends to inside nose wall
 
 // GEOMETRY — uniform rear extent for roof, sides, and magnetic underside.
-// Owner's October 30 measurement: 8.24 mm from fixed-body front edge to
-// FAR edge of the existing front magnet. Add a 2 mm rearward shell margin.
-// Intentionally do NOT infer new pocket centers from this: the original
-// magnet pockets were reported to line up. Previous near-edge measurement
-// was approximate and differs from this far-edge measurement by 0.74 mm.
+// Rear opening extends 2 mm beyond the far edge of the front base magnets.
+// Pocket positions and rear overlap are independent dimensions.
 measured_magnet_far_edge = 8.24;
 magnet_rear_margin = 2.00;
 back_overlap = measured_magnet_far_edge + magnet_rear_margin;  // 10.24 mm
 taper_start = 5.5;                  // full-size enclosure over lever roots
 tip_outer_width = 32.4;            // outer cross-section at front bumper
-tip_outer_top = 26.0;              // relative to underside of key
+tip_ceiling_above_key_base = 20.55; // inner ceiling at front, relative to key underside
 nose_extra = tip_clearance + nose_wall;  // 27.11 + 2 + 2 = 31.11 mm from front
 corner_radius = 1.6;               // rounded cross-sections, mm
 
@@ -87,19 +69,15 @@ corner_radius = 1.6;               // rounded cross-sections, mm
 insert_diameter = 6.0;
 pocket_diameter_extra = 0.20;       // 6.20 mm opening for 6 mm discs
 
-// OPEN FLOOR FIT TEST (November 1): the owner reported good magnet diameter,
-// alignment and stop contact, but slightly proud magnets and ~2.5 mm excess
-// shell height. Length fit then passed, and the owner selected 2.95 mm depth.
-// The floor coupon uses that seat, with an optional trial depth increase.
-// These controls affect floor_coupon ONLY.
+// OPEN FLOOR COUPON: exposes the paddle tips, stops and magnet seats.
+// The optional depth increase affects only this fit tool.
 floor_coupon_depth_increase = 0;
 floor_coupon_marks = true;         // solid: inside nose; dashed: measured tips
 floor_coupon_mark_depth = 0.30;
 floor_coupon_mark_width = 0.60;
 
-// DEPTH LADDER: owner measured 2.96 mm magnets and confirmed length fit.
-// Keep the proven diameter. A separate thicker base leaves at least 1 mm
-// of seating annulus. Edge-down puts depth in XY, matching the guard.
+// DEPTH LADDER: a thicker base preserves the annular seat around each hole.
+// Edge-down puts pocket depth in XY, matching the nose-down guard.
 depth_gauge_depths = [2.50,2.65,2.80,2.95,3.00];
 depth_gauge_base_thickness = 4.00;
 depth_gauge_min_floor = 1.00;
@@ -129,16 +107,14 @@ eps = 0.03;
 slice_depth = 0.12; // thickness of loft boundary slices
 
 // Derived coordinates
-inner_root_width = key_width + 2 * body_side_clearance;
+inner_root_width = body_internal_width;
 outer_root_width = inner_root_width + 2 * side_wall;
-// Keep the original photo measurement as history; apply the owner's later
-// physical height correction separately, at root AND nose to retain taper.
-inner_root_top = key_height + body_top_clearance - roof_lowering;
+inner_root_top = body_internal_height - underbody_gap;
 outer_root_top = inner_root_top + roof_wall;
 floor_bottom = -underbody_gap - floor_thickness;
 floor_top = -underbody_gap;
-outer_tip_top = tip_outer_top - roof_lowering;
-inner_tip_top = outer_tip_top - roof_wall;
+inner_tip_top = tip_ceiling_above_key_base;
+outer_tip_top = inner_tip_top + roof_wall;
 inner_tip_width = tip_outer_width - 2 * side_wall;
 outer_tip_y = paddle_projection + nose_extra;
 inner_tip_y = outer_tip_y - nose_wall;
@@ -163,8 +139,8 @@ assert(part != "guard" ||
         glue_relief_diameter <= insert_diameter - 2 &&
         floor_thickness - pocket_depth - glue_relief_depth >= magnet_min_floor - 0.001),
     "Maintain the seating annulus and minimum floor below the glue relief");
-assert(roof_lowering >= 0 && inner_root_top > stop_pad_height,
-    "Height correction leaves insufficient root clearance");
+assert(inner_root_top > stop_pad_height,
+    "Rear opening leaves insufficient clearance above the stops");
 assert(inner_tip_width > 0 && inner_tip_top > 0,
     "Tip dimensions must be positive");
 
