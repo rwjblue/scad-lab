@@ -24,7 +24,7 @@
  */
 
 // PART SELECTION
-part = "guard";                    // [guard,fit_coupon,magnet_gauge,floor_coupon]
+part = "guard";                    // [guard,fit_coupon,magnet_gauge,floor_coupon,depth_gauge,fit_test_plate]
 print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
 
 // DIMENSIONS FROM OWNER'S CALIPER PHOTOS (mm)
@@ -88,6 +88,13 @@ floor_coupon_marks = true;         // solid: inside nose; dashed: measured tips
 floor_coupon_mark_depth = 0.30;
 floor_coupon_mark_width = 0.60;
 
+// DEPTH LADDER: all holes keep the proven diameter; only their depth changes.
+// Print at 0.10 mm layers to resolve the 0.10 mm steps. This gauge and the
+// combined fit_test_plate do not change the guard's default pocket depth.
+depth_gauge_depths = [2.15,2.25,2.35,2.45];
+depth_gauge_pitch = 13.0;
+depth_gauge_length = 16.0;
+depth_gauge_label_height = 0.50;
 
 // STOPS: shoulders on the outer edges of the stationary lower plate.
 // Carry impact into the rigid body, not the moving paddles.
@@ -311,6 +318,48 @@ module magnet_gauge() {
     }
 }
 
+module magnet_depth_gauge() {
+    count = len(depth_gauge_depths);
+    gauge_width = count * depth_gauge_pitch;
+    assert(count > 0 && depth_gauge_pitch > pocket_d + 4,
+           "Depth gauge pockets need adequate spacing");
+    assert(depth_gauge_length >= pocket_d + 8,
+           "Depth gauge needs room for the labels");
+    for (depth = depth_gauge_depths)
+        assert(depth > 0 && depth < floor_thickness - 0.8,
+               "Maintain at least 0.8 mm floor below all trial pockets");
+    union() {
+        difference() {
+            translate([0,0,floor_bottom])
+                linear_extrude(height=floor_thickness)
+                    round_rect(gauge_width,depth_gauge_length,1.0);
+            for (index = [0:count-1])
+                translate([(index-(count-1)/2)*depth_gauge_pitch,-2,
+                           floor_top-depth_gauge_depths[index]])
+                    cylinder(d=pocket_d,h=depth_gauge_depths[index]+eps);
+            // Notch identifies the shallow end without relying on the labels.
+            translate([-gauge_width/2,0,floor_bottom-eps])
+                cylinder(r=1,h=floor_thickness+2*eps);
+        }
+        for (index = [0:count-1])
+            translate([(index-(count-1)/2)*depth_gauge_pitch,3,floor_top-eps])
+                linear_extrude(height=depth_gauge_label_height+eps)
+                    text(str(depth_gauge_depths[index]),size=2.8,
+                         font="Liberation Sans:style=Bold",halign="center");
+    }
+}
+
+module fit_test_plate() {
+    // Two separate, flat parts in one STL. A 6 mm gap leaves room for slicing
+    // them as individual objects, without breakaway tabs or extra fit surfaces.
+    translate([0,0,-floor_bottom]) floor_coupon();
+    translate([outer_root_width/2 + 6 +
+               len(depth_gauge_depths)*depth_gauge_pitch/2,
+               back_y-slice_depth/2+depth_gauge_length/2,
+               -floor_bottom])
+        magnet_depth_gauge();
+}
+
 module printable_guard() {
     if (print_orientation == "nose_down") {
         // Rotation about X: new Z = -old Y. Place maximum old Y at Z=0,
@@ -333,4 +382,6 @@ if (part=="guard") printable_guard();
 else if (part=="fit_coupon") translate([0,0,-floor_bottom]) fit_coupon();
 else if (part=="magnet_gauge") translate([0,0,-floor_bottom]) magnet_gauge();
 else if (part=="floor_coupon") translate([0,0,-floor_bottom]) floor_coupon();
+else if (part=="depth_gauge") translate([0,0,-floor_bottom]) magnet_depth_gauge();
+else if (part=="fit_test_plate") fit_test_plate();
 else assert(false,"Unknown part");

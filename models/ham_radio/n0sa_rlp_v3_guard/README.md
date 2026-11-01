@@ -10,13 +10,30 @@ One-piece, front-only protective shroud for the N0SA RLP V3 dual-lever CW paddle
 
 The repository tracks the OpenSCAD source; use the commands below to generate STL outputs for either magnet thickness. Prebuilt STLs are supplied separately in the prototype download package. The original six outputs differ where the magnet pocket depths change; the open floor coupon is an additional diagnostic part.
 
-- `n0sa_rlp_v3_guard.scad` — one parametric source for all four parts. Set `part` at the top or override with `-D`. The full guard now exports in the recommended **nose-down print orientation** by default (`print_orientation="nose_down"`). Set `print_orientation="as_used"` for a key-mounted visualization (not recommended for support-free printing).
+- `n0sa_rlp_v3_guard.scad` — one parametric source for all six part selections. Set `part` at the top or override with `-D`. The full guard now exports in the recommended **nose-down print orientation** by default (`print_orientation="nose_down"`). Set `print_orientation="as_used"` for a key-mounted visualization (not recommended for support-free printing).
 - `rlp_v3_guard_6x1p5.stl` / `rlp_v3_guard_6x2p0.stl` (`part="guard"`) — full nose shroud with pockets sized for either supplied magnet thickness.
 - `rlp_v3_fit_coupon_6x1p5.stl` / `rlp_v3_fit_coupon_6x2p0.stl` (`part="fit_coupon"`) — thin replica of just the continuous floor's rear overlap, two magnet pockets, and shallow alignment lips. Use this to check underside fit, magnet spacing and polarity with minimal filament.
 - `rlp_v3_magnet_gauge_6x1p5.stl` / `rlp_v3_magnet_gauge_6x2p0.stl` (`part="magnet_gauge"`) — tiny two-pocket gauge for testing magnet diameter/tolerance. The **notched +X end is the looser pocket**; the unmarked end is the tighter one.
 - `rlp_v3_floor_coupon_6x2p0_depth2p40.stl` (`part="floor_coupon"`) — open floor with the **same two stops**, **unchanged 6.20 mm pocket diameters and magnet centers**, and **2.40 mm deep trial pockets**. It includes the forward floor so the paddle tips are visible against engraved nose/tip reference lines. No roof or side guides are included.
+- `rlp_v3_depth_gauge_2p15-2p45.stl` (`part="depth_gauge"`) — a small labeled strip with four **6.20 mm diameter** pockets at **2.15, 2.25, 2.35 and 2.45 mm depth**. The notched end is shallowest.
+- `rlp_v3_fit_test_plate_6x2p0.stl` (`part="fit_test_plate"`) — the open floor coupon and depth strip together, separated by 6 mm, ready for one print. The STL contains **two independent parts**. The floor coupon still has 2.40 mm pockets; the four selectable depths are on the strip.
 
-All variants are one-piece prints. The magnets are the only separately installed parts.
+Each individual part is a one-piece print; the combined test plate contains two separate parts. The magnets are the only separately installed hardware.
+
+## Test four pocket depths in one print
+
+Print **`rlp_v3_fit_test_plate_6x2p0.stl`** for both tests on one plate, or print only **`rlp_v3_depth_gauge_2p15-2p45.stl`** if the floor coupon is already underway. Keep the parts **flat, floor-down, at 100% scale with supports off**. Use **0.10 mm layers** for this depth comparison: at 0.20 mm layers, adjacent 0.10 mm depth steps may slice to the same printed floor height. Check the sliced preview; the labels are nominal CAD depths, and printed depths still follow layer boundaries.
+
+All four holes retain the successful **6.20 mm diameter**. Raised labels give depth in millimeters; the notch identifies the **2.15 mm baseline** end. The 3.30 mm base leaves 1.15, 1.05, 0.95 and 0.85 mm below the four pockets respectively. The label area sits away from the pocket row, so a nonmagnetic plastic card laid across a hole can help show whether the test magnet stands proud.
+
+Try the **same actual magnet** in each pocket, without glue, and choose the shallowest one that leaves it flush or slightly recessed. Use another magnet to lift it out between trials. Check the other insert too. The strip tests depth only; use the unchanged floor coupon's two stops and engraved lines for actual key alignment and tip clearance. The full guard's sideways-printed pockets still need their own seating check after the chosen depth is applied.
+
+```sh
+openscad --backend=Manifold --hardwarnings --export-format=binstl \
+  -D 'part="fit_test_plate"' -D 'insert_thickness=2.0' \
+  -o output/rlp_v3_fit_test_plate_6x2p0.stl \
+  models/ham_radio/n0sa_rlp_v3_guard/n0sa_rlp_v3_guard.scad
+```
 
 ## Open floor coupon: next fit test
 
@@ -68,6 +85,8 @@ STL bounding boxes measured from the rendered binary meshes (same for both inser
 | Guard, **nose-down STL on build plate** | **41.67 × 35.07 × 41.47 mm** |
 | Magnet-fit coupon | **41.67 × 10.24 × 5.42 mm** |
 | Open floor coupon, including stops | **41.67 × 41.47 × 6.46 mm** |
+| Four-depth strip, including labels | **52.00 × 16.00 × 3.80 mm** |
+| Combined floor coupon and depth strip | **99.67 × 41.47 × 6.46 mm** |
 | Magnet pocket gauge | 28.00 × 14.00 × 3.30 mm |
 
 These are *part* dimensions, not the total key plus guard. The outside of the protective nose extends **4.0 mm past the measured paddle tips**, consisting of 2.0 mm free interior clearance and a 2.0 mm nose wall. Its outer nose is **31.11 mm forward of the fixed-body front edge**. The **entire shell** extends **10.24 mm behind the front plastic edge** (8.24 mm measured far magnet edge plus 2 mm margin), preserving the uniform rear opening. The overall Y-length in assembled orientation is therefore about **41.35 mm** (about **41.47 mm** including the modeling slices); it is roughly **9.1 mm longer than V5**.
