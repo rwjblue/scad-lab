@@ -18,6 +18,7 @@ output/dipole-link/
 models/ham_radio/modular_dipole/*.zip
 models/ham_radio/modular_dipole/review/generated/
 output/printables/modular-dipole/
+output/printables/n0sa-rlp-v3-guard/
 # Keep the current modular dipole print set.
 !models/ham_radio/modular_dipole/center.stl
 !models/ham_radio/modular_dipole/winder.stl
