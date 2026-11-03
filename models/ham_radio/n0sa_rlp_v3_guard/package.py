@@ -20,15 +20,11 @@ PHOTO = HERE / "images/rlp-v3-key.jpg"
 OUTPUT = ROOT / "output/printables/n0sa-rlp-v3-guard"
 PARTS = {
     "guard": ([41.67, 33.07, 41.47], "The complete cover. Print one, nose-down, at 0.20 mm layers; supports off."),
-    "height_coupon": ([41.67, 33.07, 12.80], "Optional short collar for screw-head clearance and seating. Stand as supplied on its cut rim; 0.20 mm layers."),
-    "floor_coupon": ([41.67, 41.47, 7.41], "Optional open floor to check alignment, stops and paddle-tip clearance. Print flat."),
-    "depth_gauge": ([65, 4.5, 16], "Optional five-depth magnet gauge with push-out holes. Keep edge-down; 0.10 mm layers."),
 }
 VIEWS = {
     "hero": ("65,-85,70,0,3,13", "The guard's open rear, magnet pockets and stops. CAD render."),
     "nose": ("65,90,55,0,8,12", "Closed nose and tapered sides. CAD render."),
     "print_orientation": ("70,-90,75,0,17,20", "Print with the closed nose on the plate and opening upward. CAD render."),
-    "height_coupon": ("60,-85,75,0,15,6", "Short fit collar with the guard's roof, magnet seats and stops. Print standing as shown. CAD render."),
 }
 
 
@@ -75,7 +71,7 @@ def magnet_diagram():
 <rect width="1400" height="760" fill="#f7f7f5"/>
 <g font-family="Arial, sans-serif" fill="#252b31">
 <text x="75" y="90" font-size="42" font-weight="700">A flat magnet seat, with a little room for glue</text>
-<text x="75" y="140" font-size="26">Two 6 mm disc magnets per guard · fit and check polarity before gluing</text>
+<text x="75" y="140" font-size="26">Two 6 mm disc magnets per guard · check polarity before inserting</text>
 <path d="M100 220H202V456H350V464H550V456H698V220H800V560H100Z" fill="#c75929"/>
 <rect x="210" y="219.2" width="480" height="236.8" fill="#aab2bd"/>
 <rect x="350" y="456" width="200" height="8" fill="#2f7792"/>
@@ -89,7 +85,7 @@ def magnet_diagram():
 <text y="220">Backing below recess: 1.20 mm</text>
 </g>
 <text x="75" y="645" font-size="25">The surrounding flat ring sets the seat. Use a tiny amount of glue in the center recess.</text>
-<text x="75" y="700" font-size="23" fill="#606973">Cross-section through one pocket. Diagram only; check the printed fit of your actual magnets.</text>
+<text x="75" y="700" font-size="23" fill="#606973">Cross-section through one pocket. Diagram only; measure your magnets before installing.</text>
 </g></svg>'''
 
 
@@ -111,6 +107,10 @@ def main():
     input_hashes = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
                     for path in inputs if path.is_file()}
     OUTPUT.mkdir(parents=True, exist_ok=True)
+    for obsolete in ("rlp_v3_height_coupon.stl", "rlp_v3_floor_coupon.stl",
+                     "rlp_v3_depth_gauge.stl", "height_coupon.png",
+                     "README.md", "print-and-fit.txt"):
+        (OUTPUT / obsolete).unlink(missing_ok=True)
     metadata = json.loads((MARKETING / "metadata.json").read_text())
     require(len(metadata["summary"]) <= 120, "Printables summaries are limited to 120 characters")
     with ThreadPoolExecutor(max_workers=3) as pool:
@@ -127,14 +127,12 @@ def main():
     description = (MARKETING / "printables.html").read_text()
     (OUTPUT / "description.html").write_text(description)
     (OUTPUT / SOURCE.name).write_bytes(SOURCE.read_bytes())
-    (OUTPUT / "README.md").write_bytes((HERE / "README.md").read_bytes())
-    (OUTPUT / "print-and-fit.txt").write_bytes((HERE / "README.md").read_bytes())
     (OUTPUT / "images").mkdir(exist_ok=True)
     (OUTPUT / "images/rlp-v3-key.jpg").write_bytes(PHOTO.read_bytes())
     (OUTPUT / "metadata.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n")
     (OUTPUT / "file-descriptions.txt").write_text("\n\n".join(
         f"{entry['file']}\n{entry['description']}" for entry in meshes) +
-        f"\n\n{SOURCE.name}\nEditable source for the guard and fit tools.\n")
+        f"\n\n{SOURCE.name}\nEditable OpenSCAD source.\n")
     figures = {view: f'<figure><img src="{view}.png" alt="{escape(caption)}">'
                f'<figcaption>{escape(caption)}</figcaption></figure>'
                for view, (_, caption) in VIEWS.items()}
@@ -155,16 +153,16 @@ img{{display:block;width:100%;height:auto}}figcaption{{color:#5b626b;font-size:1
 <p><a class="download" href="rlp_v3_guard.stl">Download the guard STL</a> &nbsp; <a href="rlp-v3-guard.zip">All print files and source</a></p>
 <div class="gallery"><figure><img src="images/rlp-v3-key.jpg" alt="N0SA RLP V3 Morse-code paddle, without a guard"><figcaption>{escape(metadata['photo_caption'])} <a href="{escape(metadata['paddle_reference'])}">Original listing</a>.</figcaption></figure>{figures['hero']}</div>
 {description}
-<h3>Print orientation and details</h3><div class="gallery">{figures['nose']}{figures['print_orientation']}{figures['height_coupon']}</div>
+<div class="gallery">{figures['nose']}{figures['print_orientation']}</div>
 <figure><img src="magnet-pocket.svg" alt="Magnet pocket with a flat seating ring and shallow center glue recess"></figure>
-<hr><p><a href="README.md">Full print guide</a> · <a href="file-descriptions.txt">File notes</a> · <a href="metadata.json">Listing settings</a> · <a href="manifest.json">Build checks</a></p></main></html>'''
+<hr><p><a href="file-descriptions.txt">File notes</a> · <a href="metadata.json">Listing settings</a> · <a href="manifest.json">Build checks</a></p></main></html>'''
     (OUTPUT / "preview.html").write_text(preview)
     for relative, digest in input_hashes.items():
         require(hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() == digest,
                 f"Input changed while packaging: {relative}")
     files = [entry["file"] for entry in meshes] + [f"{v}.png" for v in VIEWS] + [
         "magnet-pocket.svg", "magnet-pocket.png", "description.html", SOURCE.name, "metadata.json",
-        "README.md", "print-and-fit.txt", "images/rlp-v3-key.jpg", "file-descriptions.txt", "preview.html"]
+        "images/rlp-v3-key.jpg", "file-descriptions.txt", "preview.html"]
     hashes = {name: hashlib.sha256((OUTPUT / name).read_bytes()).hexdigest() for name in files}
     manifest = {"status": "prototype", "input_sha256": input_hashes,
                 "output_sha256": hashes, "meshes": meshes}
