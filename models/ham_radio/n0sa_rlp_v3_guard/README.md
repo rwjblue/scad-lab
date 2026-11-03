@@ -48,12 +48,12 @@ Nose-down printing avoids a wide roof bridge. Look over the pocket ceilings and 
 ## Fit and assembly
 
 1. **Try the empty guard first.** Slide it over the paddle end until both stops meet the stationary body. Check clearance over the top screw heads while sliding it on, then move each lever through its full travel and check the roof, sides and nose for contact.
-2. **Try both magnets without glue.** They should sit fully in their pockets. Clean away any printing debris rather than forcing a tight magnet into place.
-3. **Check each magnet’s polarity separately.** Hold it against its matching key magnet and mark which face belongs inside the pocket. Each one must attract the key.
+2. **Clean the pockets.** Remove any loose printing strands or debris.
+3. **Check polarity before inserting either magnet.** Check each one against its matching key magnet and mark the face that will point toward the key. The opposite face goes into the pocket. Each one must attract the key.
 4. **Glue the magnets into the guard.** Put a tiny amount of glue in each shallow center recess and press the magnet fully onto the surrounding flat seat. Wipe away squeeze-out and let the glue cure with the guard off the key.
 5. **Check the finished fit.** The guard should attach and come off smoothly, and the paddles should remain clear of the shell. Check retention with gentle handling before packing it in a bag.
 
-The center recess gives a little space for glue while the flat ring around it sets the magnet’s seating depth. The finished guard has closed pocket bottoms. Test coupons have small holes underneath so a pin can push the magnets back out between trials.
+The center recess gives a little space for glue while the flat ring around it sets the magnet’s seating depth. Check polarity before pressing the magnets in: the finished guard has closed pocket bottoms, and a seated magnet can be difficult to remove even without glue. Test coupons have small holes underneath so a pin can push the magnets back out between trials.
 
 ## Dimensions
 
