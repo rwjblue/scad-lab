@@ -110,6 +110,7 @@ def main():
                     for path in inputs if path.is_file()}
     OUTPUT.mkdir(parents=True, exist_ok=True)
     metadata = json.loads((MARKETING / "metadata.json").read_text())
+    require(len(metadata["summary"]) <= 120, "Printables summaries are limited to 120 characters")
     with ThreadPoolExecutor(max_workers=3) as pool:
         meshes = list(pool.map(export_mesh, PARTS))
     for view, (camera, _) in VIEWS.items():
@@ -125,6 +126,7 @@ def main():
     (OUTPUT / "description.html").write_text(description)
     (OUTPUT / SOURCE.name).write_bytes(SOURCE.read_bytes())
     (OUTPUT / "README.md").write_bytes((HERE / "README.md").read_bytes())
+    (OUTPUT / "print-and-fit.txt").write_bytes((HERE / "README.md").read_bytes())
     (OUTPUT / "images").mkdir(exist_ok=True)
     (OUTPUT / "images/rlp-v3-key.jpg").write_bytes(PHOTO.read_bytes())
     (OUTPUT / "metadata.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n")
@@ -160,7 +162,7 @@ img{{display:block;width:100%;height:auto}}figcaption{{color:#5b626b;font-size:1
                 f"Input changed while packaging: {relative}")
     files = [entry["file"] for entry in meshes] + [f"{v}.png" for v in VIEWS] + [
         "magnet-pocket.svg", "magnet-pocket.png", "description.html", SOURCE.name, "metadata.json",
-        "README.md", "images/rlp-v3-key.jpg", "file-descriptions.txt", "preview.html"]
+        "README.md", "print-and-fit.txt", "images/rlp-v3-key.jpg", "file-descriptions.txt", "preview.html"]
     hashes = {name: hashlib.sha256((OUTPUT / name).read_bytes()).hexdigest() for name in files}
     manifest = {"status": "prototype", "input_sha256": input_hashes,
                 "output_sha256": hashes, "meshes": meshes}
