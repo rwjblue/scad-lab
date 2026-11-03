@@ -1,0 +1,31 @@
+{
+  "title": "N0SA RLP V3 Magnetic Paddle Guard",
+  "summary": "A magnetic travel cover for the N0SA RLP V3 paddle. One-piece print, two 6 × 3 mm magnets, nose-down, supports off.",
+  "status": "Prototype — check fit before gluing magnets",
+  "category": "Hobby & Makers / Electronics",
+  "tags": [
+    "hamradio",
+    "cw",
+    "morse",
+    "paddle",
+    "n0sa",
+    "rlp",
+    "pota",
+    "sota",
+    "portable",
+    "openscad",
+    "magnet"
+  ],
+  "suggested_license": "CC BY-NC-SA 4.0",
+  "paddle_reference": "https://forums.qrz.com/index.php?threads/n0sa-sota-pota-paddles.1007636/",
+  "photo_caption": "N0SA RLP V3 paddle, shown without the guard. Photo reference: N0SA’s QRZ listing.",
+  "magnets": {
+    "quantity": 2,
+    "diameter_mm": 6.0,
+    "nominal_thickness_mm": 3.0,
+    "fit_reference_thickness_mm": 2.96,
+    "magnetization": "axial",
+    "pocket_diameter_mm": 6.2,
+    "pocket_depth_mm": 2.95
+  }
+}
