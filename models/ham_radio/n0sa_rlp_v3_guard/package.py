@@ -19,7 +19,8 @@ SOURCE = HERE / "n0sa_rlp_v3_guard.scad"
 PHOTO = HERE / "images/rlp-v3-key.jpg"
 OUTPUT = ROOT / "output/printables/n0sa-rlp-v3-guard"
 PARTS = {
-    "guard": ([41.67, 32.57, 41.47], "The complete cover. Print one, nose-down, at 0.20 mm layers; supports off."),
+    "guard": ([41.67, 33.07, 41.47], "The complete cover. Print one, nose-down, at 0.20 mm layers; supports off."),
+    "height_coupon": ([41.67, 33.07, 12.80], "Optional short collar for screw-head clearance and seating. Stand as supplied on its cut rim; 0.20 mm layers."),
     "floor_coupon": ([41.67, 41.47, 7.41], "Optional open floor to check alignment, stops and paddle-tip clearance. Print flat."),
     "depth_gauge": ([65, 4.5, 16], "Optional five-depth magnet gauge with push-out holes. Keep edge-down; 0.10 mm layers."),
 }
@@ -27,6 +28,7 @@ VIEWS = {
     "hero": ("65,-85,70,0,3,13", "The guard's open rear, magnet pockets and stops. CAD render."),
     "nose": ("65,90,55,0,8,12", "Closed nose and tapered sides. CAD render."),
     "print_orientation": ("70,-90,75,0,17,20", "Print with the closed nose on the plate and opening upward. CAD render."),
+    "height_coupon": ("60,-85,75,0,15,6", "Short fit collar with the guard's roof, magnet seats and stops. Print standing as shown. CAD render."),
 }
 
 
@@ -153,7 +155,7 @@ img{{display:block;width:100%;height:auto}}figcaption{{color:#5b626b;font-size:1
 <p><a class="download" href="rlp_v3_guard.stl">Download the guard STL</a> &nbsp; <a href="rlp-v3-guard.zip">All print files and source</a></p>
 <div class="gallery"><figure><img src="images/rlp-v3-key.jpg" alt="N0SA RLP V3 Morse-code paddle, without a guard"><figcaption>{escape(metadata['photo_caption'])} <a href="{escape(metadata['paddle_reference'])}">Original listing</a>.</figcaption></figure>{figures['hero']}</div>
 {description}
-<h3>Print orientation and details</h3><div class="gallery">{figures['nose']}{figures['print_orientation']}</div>
+<h3>Print orientation and details</h3><div class="gallery">{figures['nose']}{figures['print_orientation']}{figures['height_coupon']}</div>
 <figure><img src="magnet-pocket.svg" alt="Magnet pocket with a flat seating ring and shallow center glue recess"></figure>
 <hr><p><a href="README.md">Full print guide</a> · <a href="file-descriptions.txt">File notes</a> · <a href="metadata.json">Listing settings</a> · <a href="manifest.json">Build checks</a></p></main></html>'''
     (OUTPUT / "preview.html").write_text(preview)

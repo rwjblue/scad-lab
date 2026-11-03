@@ -8,7 +8,7 @@ Build the upload files and a local browser preview from the repository root:
 mise run rlp-v3-guard:package
 ```
 
-The output is in `output/printables/n0sa-rlp-v3-guard/`. It includes the full guard, two optional fit tools, editable source, README, an uploadable text guide, key photo, CAD views, pocket diagram, listing text and one download bundle. STL filenames stay the same as the design evolves.
+The output is in `output/printables/n0sa-rlp-v3-guard/`. It includes the full guard, three optional fit tools, editable source, README, an uploadable text guide, key photo, CAD views, pocket diagram, listing text and one download bundle. STL filenames stay the same as the design evolves.
 
 The package task builds local files. Save the listing as a draft on Printables, check the license and category in the editor, and add photographs of the printed guard on the key before publication. The key reference photo shows the paddle on its own; the guard illustrations are labeled CAD renders.
 
