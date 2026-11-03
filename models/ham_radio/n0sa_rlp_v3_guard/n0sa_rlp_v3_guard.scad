@@ -16,16 +16,17 @@
  * face against the build plate and the open rear end facing upward.
  * This avoids a ~38 mm unsupported PETG roof bridge. A small ~6 mm
  * magnet-pocket overhang and stop pads remain: check slicer preview.
- * Coupons export floor-down; the depth strip defaults to edge-down.
+ * Floor coupons export floor-down; the height collar stands on its open
+ * front rim, and the depth strip defaults to edge-down.
  */
 
 // PART SELECTION
-part = "guard";                    // [guard,fit_coupon,magnet_gauge,floor_coupon,depth_gauge,fit_test_plate]
+part = "guard";                    // [guard,height_coupon,fit_coupon,magnet_gauge,floor_coupon,depth_gauge,fit_test_plate]
 print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
 
 // INTERNAL ENVELOPE (mm): these are clearances in the guard, not key specs.
 body_internal_width = 38.07;
-body_internal_height = 26.32;        // from key-facing floor to rear ceiling
+body_internal_height = 26.82;        // includes clearance for the top screw heads
 paddle_projection = 27.11;          // body front edge to paddle tips
 
 // FRONT BASE MAGNETS: outside span and edge margin determine centers.
@@ -59,7 +60,7 @@ magnet_rear_margin = 2.00;
 back_overlap = measured_magnet_far_edge + magnet_rear_margin;  // 10.24 mm
 taper_start = 5.5;                  // full-size enclosure over lever roots
 tip_outer_width = 32.4;            // outer cross-section at front bumper
-tip_ceiling_above_key_base = 20.55; // inner ceiling at front, relative to key underside
+tip_ceiling_above_key_base = 21.05; // inner ceiling at front, relative to key underside
 nose_extra = tip_clearance + nose_wall;  // 27.11 + 2 + 2 = 31.11 mm from front
 corner_radius = 1.6;               // rounded cross-sections, mm
 
@@ -98,6 +99,10 @@ stop_pad_height = 3.2;
 stop_pad_depth = 1.6;
 stop_pad_back_y = 0.15; // 0.15 mm seating travel from the nominal body datum
 
+// HEIGHT FIT COLLAR: retain the roof, sides, floor, magnets and stops.
+// The open front ends just beyond the stops so the paddles pass through.
+height_coupon_front_margin = 0.75;
+
 // SIDE GUIDES are shallow and deliberately loose; no clip-on force
 side_guide_height = 2.2;
 side_guide_length = 10.0;
@@ -123,6 +128,7 @@ shroud_y = back_y;                  // entire shell shares the same rear plane
 
 pocket_d = insert_diameter + pocket_diameter_extra;
 pocket_depth = production_pocket_depth;
+height_coupon_front_y = stop_pad_back_y + stop_pad_depth + height_coupon_front_margin;
 
 assert(back_y < magnet_y - pocket_d/2 - 1,
     "Back overlap too short for magnet pockets");
@@ -302,6 +308,27 @@ module full_guard() {
     }
 }
 
+module height_coupon() {
+    assert(height_coupon_front_margin > 0 && height_coupon_front_y < taper_start,
+           "Height collar must include the stops and end before the roof taper");
+    difference() {
+        intersection() {
+            full_guard();
+            translate([-outer_root_width,back_y-1,floor_bottom-eps])
+                cube([2*outer_root_width,height_coupon_front_y-back_y+1,
+                      outer_root_top-floor_bottom+2*eps]);
+        }
+        for (x = [-magnet_spacing/2,magnet_spacing/2])
+            test_magnet_pushout(x,magnet_y);
+    }
+}
+
+module printable_height_coupon() {
+    // Stand on the cut front rim. Both ends remain open, with no roof bridge.
+    translate([0,-floor_bottom,height_coupon_front_y])
+        rotate([-90,0,0]) height_coupon();
+}
+
 module fit_coupon() {
     // Same full-width floor overlap and magnet seats,
     // and same shallow side guides, but omits all paddle-enclosing material.
@@ -418,6 +445,7 @@ module printable_guard() {
 }
 
 if (part=="guard") printable_guard();
+else if (part=="height_coupon") printable_height_coupon();
 else if (part=="fit_coupon") translate([0,0,-floor_bottom]) fit_coupon();
 else if (part=="magnet_gauge") translate([0,0,-floor_bottom]) magnet_gauge();
 else if (part=="floor_coupon") translate([0,0,-floor_bottom]) floor_coupon();

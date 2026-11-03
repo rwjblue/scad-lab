@@ -18,7 +18,7 @@ The guard covers the finger pieces with a closed nose, roof, sides and bottom. T
 
 It prints as one piece. There are no clips, screws or modifications to the key. This model is sized for the **RLP V3**; check dimensions before trying it on another paddle.
 
-**Prototype fit note:** check the complete guard on your key before gluing in the magnets. Both levers should move freely, with room around their tips and under the roof.
+**Prototype fit note:** check the complete guard on your key before gluing in the magnets. The roof needs to clear the button head screws as the guard slides on, and both levers should move freely once it is seated.
 
 ## What you need
 
@@ -43,11 +43,11 @@ The guard STL is already oriented **nose-down**, with the closed end on the buil
 | Supports | Off |
 | Scale | 100% |
 
-Nose-down printing avoids a wide roof bridge. Look over the pocket ceilings and the two small stops in the sliced preview, and remove any loose strands before fitting the key. The print occupies about **41.67 × 32.57 mm** on the plate and stands **41.47 mm** tall.
+Nose-down printing avoids a wide roof bridge. Look over the pocket ceilings and the two small stops in the sliced preview, and remove any loose strands before fitting the key. The print occupies about **41.67 × 33.07 mm** on the plate and stands **41.47 mm** tall.
 
 ## Fit and assembly
 
-1. **Try the empty guard first.** Slide it over the paddle end until both stops meet the stationary body. Move each lever through its full travel and check the roof, sides and nose for contact.
+1. **Try the empty guard first.** Slide it over the paddle end until both stops meet the stationary body. Check clearance over the top screw heads while sliding it on, then move each lever through its full travel and check the roof, sides and nose for contact.
 2. **Try both magnets without glue.** They should sit fully in their pockets. Clean away any printing debris rather than forcing a tight magnet into place.
 3. **Check each magnet’s polarity separately.** Hold it against its matching key magnet and mark which face belongs inside the pocket. Each one must attract the key.
 4. **Glue the magnets into the guard.** Put a tiny amount of glue in each shallow center recess and press the magnet fully onto the surrounding flat seat. Wipe away squeeze-out and let the glue cure with the guard off the key.
@@ -61,8 +61,8 @@ All dimensions are in millimeters. The key specifications above describe the pad
 
 | Feature | Dimension |
 |---|---:|
-| Overall width × length × height, fitted orientation | **41.67 × 41.47 × 32.57** |
-| Rear opening, central width × height | **38.07 × 26.32** |
+| Overall width × length × height, fitted orientation | **41.67 × 41.47 × 33.07** |
+| Rear opening, central width × height | **38.07 × 26.82** |
 | Magnet pockets | **Ø6.20 × 2.95 deep** |
 | Magnet center-to-center spacing | **15.51** |
 | Magnet centers behind the key’s front body edge | **4.50** |
@@ -77,9 +77,13 @@ All dimensions are in millimeters. The key specifications above describe the pad
 
 The thicker bottom accommodates the magnets; the top and sides stay thinner to keep the cover compact. The 1.20 mm backing is a conservative design choice, rather than a tested minimum thickness.
 
-For CAD reference, the key underside is Z=0, its front body edge is Y=0, and +Y points toward the paddle tips. Pocket centers are X=±7.755, Y=−4.50. The floor is at Z=−0.25, the central rear ceiling at Z=26.07, the rear rim at Y=−10.30, and the inside/outside nose faces at Y=29.17/31.17. The paddle-tip reference is Y=27.11. The opening has rounded corners, so its central width and height do not describe the clearance at those corners.
+For CAD reference, the key underside is Z=0, its front body edge is Y=0, and +Y points toward the paddle tips. Pocket centers are X=±7.755, Y=−4.50. The floor is at Z=−0.25, the central rear ceiling at Z=26.57, the rear rim at Y=−10.30, and the inside/outside nose faces at Y=29.17/31.17. The paddle-tip reference is Y=27.11. The opening has rounded corners, so its central width and height do not describe the clearance at those corners.
 
 ## Optional fit tools
+
+`rlp_v3_height_coupon.stl` is a short collar with the same roof, sides, magnet seats and stops as the guard. Both ends are open so the paddles can pass through. Use it to check screw-head clearance and seating before printing the full cover. Slide it straight onto the key and check that the screw heads clear the roof throughout insertion.
+
+Keep the collar’s supplied orientation, standing on its cut front rim, and use the same 0.20 mm PETG settings with supports off. Its footprint is **41.67 × 33.07 mm**, but it is only **12.80 mm tall**. Two 2 mm holes let you push the trial magnets back out without glue.
 
 `rlp_v3_floor_coupon.stl` leaves the top open so you can see the paddle tips while checking magnet alignment and stop contact. The solid line marks the inside nose wall; the dashed line marks the paddle-tip reference. Measure tip clearance to the **center of the solid line**, rather than the outside edge of the print.
 
@@ -97,6 +101,6 @@ openscad --backend=Manifold --hardwarnings --export-format=binstl \
   models/ham_radio/n0sa_rlp_v3_guard/n0sa_rlp_v3_guard.scad
 ```
 
-Set `part="floor_coupon"` or `part="depth_gauge"` for the main fit tools. `print_orientation="as_used"` shows the full guard in its fitted position for inspection.
+Set `part="height_coupon"`, `part="floor_coupon"` or `part="depth_gauge"` for the main fit tools. `print_orientation="as_used"` shows the full guard in its fitted position for inspection.
 
 The main adjustments are `body_internal_width`, `body_internal_height`, `production_pocket_depth`, `pocket_diameter_extra`, `magnet_min_floor` and `tip_clearance`. The pocket depth and backing thickness are separate, so reducing the backing removes material from the outside without moving the magnet seat or roof.
