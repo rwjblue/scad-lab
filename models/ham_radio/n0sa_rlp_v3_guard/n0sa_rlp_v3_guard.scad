@@ -26,7 +26,7 @@ print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
 
 // INTERNAL ENVELOPE (mm): these are clearances in the guard, not key specs.
 body_internal_width = 38.07;
-body_internal_height = 26.92;        // includes clearance for the top screw heads
+body_internal_height = 27.07;        // includes clearance for the top screw heads
 paddle_projection = 27.11;          // body front edge to paddle tips
 
 // FRONT BASE MAGNETS: outside span and edge margin determine centers.
@@ -60,7 +60,7 @@ magnet_rear_margin = 2.00;
 back_overlap = measured_magnet_far_edge + magnet_rear_margin;  // 10.24 mm
 taper_start = 5.5;                  // full-size enclosure over lever roots
 tip_outer_width = 32.4;            // outer cross-section at front bumper
-tip_ceiling_above_key_base = 21.15; // inner ceiling at front, relative to key underside
+tip_ceiling_above_key_base = 21.30; // inner ceiling at front, relative to key underside
 nose_extra = tip_clearance + nose_wall;  // 27.11 + 2 + 2 = 31.11 mm from front
 corner_radius = 1.6;               // rounded cross-sections, mm
 
