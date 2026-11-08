@@ -27,7 +27,10 @@ print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
 // INTERNAL ENVELOPE (mm): these are clearances in the guard, not key specs.
 body_internal_width = 38.07;
 body_internal_height = 27.07;        // includes clearance for the top screw heads
+
+// MOVING PADDLES: references from the fixed-body front and key underside.
 paddle_projection = 27.11;          // body front edge to paddle tips
+paddle_top_above_key_base = 25.24;  // top edge of the finger pieces
 
 // FRONT BASE MAGNETS: outside span and edge margin determine centers.
 key_magnet_diameter = 6.0;
@@ -51,6 +54,7 @@ side_wall = 1.80;
 roof_wall = 2.00;
 nose_wall = 2.00;
 tip_clearance = 2.00;               // paddle ends to inside nose wall
+paddle_roof_clearance = 0.50;       // nominal vertical headroom at nose centerline
 
 // GEOMETRY — uniform rear extent for roof, sides, and magnetic underside.
 // Rear opening extends 2 mm beyond the far edge of the front base magnets.
@@ -60,7 +64,7 @@ magnet_rear_margin = 2.00;
 back_overlap = measured_magnet_far_edge + magnet_rear_margin;  // 10.24 mm
 taper_start = 5.5;                  // full-size enclosure over lever roots
 tip_outer_width = 32.4;            // outer cross-section at front bumper
-tip_ceiling_above_key_base = 21.30; // inner ceiling at front, relative to key underside
+tip_ceiling_above_key_base = paddle_top_above_key_base + paddle_roof_clearance;
 nose_extra = tip_clearance + nose_wall;  // 27.11 + 2 + 2 = 31.11 mm from front
 corner_radius = 1.6;               // rounded cross-sections, mm
 
@@ -149,6 +153,10 @@ assert(inner_root_top > stop_pad_height,
     "Rear opening leaves insufficient clearance above the stops");
 assert(inner_tip_width > 0 && inner_tip_top > 0,
     "Tip dimensions must be positive");
+assert(paddle_roof_clearance >= 0 &&
+       min(inner_root_top,inner_tip_top) >=
+           paddle_top_above_key_base + paddle_roof_clearance - 0.001,
+    "Centerline roof must clear the paddle top throughout the taper");
 
 module round_rect(w,h,r) {
     // r small enough not to change nominal envelope

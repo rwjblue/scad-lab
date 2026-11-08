@@ -63,6 +63,7 @@ All dimensions are in millimeters. The key specifications above describe the pad
 |---|---:|
 | Overall width × length × height, fitted orientation | **41.67 × 41.47 × 33.32** |
 | Rear opening, central width × height | **38.07 × 27.07** |
+| Finger piece top / nose ceiling, above key underside | **25.24 / 25.74** |
 | Magnet pockets | **Ø6.20 × 2.95 deep** |
 | Magnet center-to-center spacing | **15.51** |
 | Magnet centers behind the key’s front body edge | **4.50** |
@@ -77,11 +78,13 @@ All dimensions are in millimeters. The key specifications above describe the pad
 
 The thicker bottom accommodates the magnets; the top and sides stay thinner to keep the cover compact. The 1.20 mm backing is a conservative design choice, rather than a tested minimum thickness.
 
+The inside floor stays flat. The roof slopes down gently over the finger pieces, with 0.50 mm of nominal headroom at the nose centerline and about 0.59 mm at the paddle-tip reference. The rear opening and the nose ceiling are separate dimensions.
+
 For CAD reference, the key underside is Z=0, its front body edge is Y=0, and +Y points toward the paddle tips. Pocket centers are X=±7.755, Y=−4.50. The floor is at Z=−0.25, the central rear ceiling at Z=26.82, the rear rim at Y=−10.30, and the inside/outside nose faces at Y=29.17/31.17. The paddle-tip reference is Y=27.11. The opening has rounded corners, so its central width and height do not describe the clearance at those corners.
 
 ## Optional fit tools
 
-`rlp_v3_height_coupon.stl` is a short collar with the same roof, sides, magnet seats and stops as the guard. Both ends are open so the paddles can pass through. Use it to check screw-head clearance and seating before printing the full cover. Slide it straight onto the key and check that the screw heads clear the roof throughout insertion.
+`rlp_v3_height_coupon.stl` is a short collar with the same rear roof, sides, magnet seats and stops as the guard. Both ends are open so the paddles can pass through. Use it to check screw-head clearance and seating before printing the full cover. Slide it straight onto the key and check that the screw heads clear the roof throughout insertion. It ends before the taper; check clearance over the finger pieces with the full guard.
 
 Keep the collar’s supplied orientation, standing on its cut front rim, and use the same 0.20 mm PETG settings with supports off. Its footprint is **41.67 × 33.32 mm**, but it is only **12.80 mm tall**. Two 2 mm holes let you push the trial magnets back out without glue.
 
@@ -103,4 +106,4 @@ openscad --backend=Manifold --hardwarnings --export-format=binstl \
 
 Set `part="height_coupon"`, `part="floor_coupon"` or `part="depth_gauge"` for the main fit tools. `print_orientation="as_used"` shows the full guard in its fitted position for inspection.
 
-The main adjustments are `body_internal_width`, `body_internal_height`, `production_pocket_depth`, `pocket_diameter_extra`, `magnet_min_floor` and `tip_clearance`. The pocket depth and backing thickness are separate, so reducing the backing removes material from the outside without moving the magnet seat or roof.
+The main adjustments are `body_internal_width`, `body_internal_height`, `paddle_top_above_key_base`, `paddle_roof_clearance`, `production_pocket_depth`, `pocket_diameter_extra`, `magnet_min_floor` and `tip_clearance`. Set the nose ceiling from the finger-piece height and desired headroom. The pocket depth and backing thickness are separate, so reducing the backing removes material from the outside without moving the magnet seat or roof.
