@@ -43,7 +43,7 @@ The guard STL is already oriented **nose-down**, with the closed end on the buil
 | Supports | Off |
 | Scale | 100% |
 
-Nose-down printing avoids a wide roof bridge. Look over the pocket ceilings and the two small stops in the sliced preview, and remove any loose strands before fitting the key. The print occupies about **41.67 × 33.07 mm** on the plate and stands **41.47 mm** tall.
+Nose-down printing avoids a wide roof bridge. Look over the pocket ceilings and the two small stops in the sliced preview, and remove any loose strands before fitting the key. The print occupies about **41.67 × 33.17 mm** on the plate and stands **41.47 mm** tall.
 
 ## Fit and assembly
 
@@ -61,8 +61,8 @@ All dimensions are in millimeters. The key specifications above describe the pad
 
 | Feature | Dimension |
 |---|---:|
-| Overall width × length × height, fitted orientation | **41.67 × 41.47 × 33.07** |
-| Rear opening, central width × height | **38.07 × 26.82** |
+| Overall width × length × height, fitted orientation | **41.67 × 41.47 × 33.17** |
+| Rear opening, central width × height | **38.07 × 26.92** |
 | Magnet pockets | **Ø6.20 × 2.95 deep** |
 | Magnet center-to-center spacing | **15.51** |
 | Magnet centers behind the key’s front body edge | **4.50** |
@@ -77,13 +77,13 @@ All dimensions are in millimeters. The key specifications above describe the pad
 
 The thicker bottom accommodates the magnets; the top and sides stay thinner to keep the cover compact. The 1.20 mm backing is a conservative design choice, rather than a tested minimum thickness.
 
-For CAD reference, the key underside is Z=0, its front body edge is Y=0, and +Y points toward the paddle tips. Pocket centers are X=±7.755, Y=−4.50. The floor is at Z=−0.25, the central rear ceiling at Z=26.57, the rear rim at Y=−10.30, and the inside/outside nose faces at Y=29.17/31.17. The paddle-tip reference is Y=27.11. The opening has rounded corners, so its central width and height do not describe the clearance at those corners.
+For CAD reference, the key underside is Z=0, its front body edge is Y=0, and +Y points toward the paddle tips. Pocket centers are X=±7.755, Y=−4.50. The floor is at Z=−0.25, the central rear ceiling at Z=26.67, the rear rim at Y=−10.30, and the inside/outside nose faces at Y=29.17/31.17. The paddle-tip reference is Y=27.11. The opening has rounded corners, so its central width and height do not describe the clearance at those corners.
 
 ## Optional fit tools
 
 `rlp_v3_height_coupon.stl` is a short collar with the same roof, sides, magnet seats and stops as the guard. Both ends are open so the paddles can pass through. Use it to check screw-head clearance and seating before printing the full cover. Slide it straight onto the key and check that the screw heads clear the roof throughout insertion.
 
-Keep the collar’s supplied orientation, standing on its cut front rim, and use the same 0.20 mm PETG settings with supports off. Its footprint is **41.67 × 33.07 mm**, but it is only **12.80 mm tall**. Two 2 mm holes let you push the trial magnets back out without glue.
+Keep the collar’s supplied orientation, standing on its cut front rim, and use the same 0.20 mm PETG settings with supports off. Its footprint is **41.67 × 33.17 mm**, but it is only **12.80 mm tall**. Two 2 mm holes let you push the trial magnets back out without glue.
 
 `rlp_v3_floor_coupon.stl` leaves the top open so you can see the paddle tips while checking magnet alignment and stop contact. The solid line marks the inside nose wall; the dashed line marks the paddle-tip reference. Measure tip clearance to the **center of the solid line**, rather than the outside edge of the print.
 
