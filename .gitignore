@@ -52,3 +52,6 @@ models/luggage_tag/luggage_tag_user.stl
 # Separate 13-turn prototype winding cup.
 !models/ham_radio/balun_dipole_center/winding_guide.stl
 !models/ham_radio/balun_dipole_center/winding_guide_coupon.stl
+
+# Final N0SA RLP V3 paddle guard.
+!models/ham_radio/n0sa_rlp_v3_guard/rlp_v3_guard.stl
