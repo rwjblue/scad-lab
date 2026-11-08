@@ -19,7 +19,7 @@ SOURCE = HERE / "n0sa_rlp_v3_guard.scad"
 PHOTO = HERE / "images/rlp-v3-key.jpg"
 OUTPUT = ROOT / "output/printables/n0sa-rlp-v3-guard"
 PARTS = {
-    "guard": ([41.67, 33.17, 41.47], "The complete cover. Print one, nose-down, at 0.20 mm layers; supports off."),
+    "guard": ([41.67, 33.32, 41.47], "The complete cover. Print one, nose-down, at 0.20 mm layers; supports off."),
 }
 VIEWS = {
     "hero": ("65,-85,70,0,3,13", "The guard's open rear, magnet pockets and stops. CAD render."),
