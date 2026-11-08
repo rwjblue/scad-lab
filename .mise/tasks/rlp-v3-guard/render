@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#MISE description="Export the final RLP V3 magnetic paddle guard STL"
+set -euo pipefail
+exec openscad --backend=Manifold --hardwarnings --export-format=binstl \
+  -D 'print_orientation="nose_down"' \
+  -o models/ham_radio/n0sa_rlp_v3_guard/rlp_v3_guard.stl \
+  models/ham_radio/n0sa_rlp_v3_guard/n0sa_rlp_v3_guard.scad

@@ -16,13 +16,10 @@
  * face against the build plate and the open rear end facing upward.
  * This avoids a ~38 mm unsupported PETG roof bridge. A small ~6 mm
  * magnet-pocket overhang and stop pads remain: check slicer preview.
- * Floor coupons export floor-down; the height collar stands on its open
- * front rim, and the depth strip defaults to edge-down.
  */
 
-// PART SELECTION
-part = "guard";                    // [guard,height_coupon,fit_coupon,magnet_gauge,floor_coupon,depth_gauge,fit_test_plate]
-print_orientation = "nose_down";   // [nose_down,as_used] (guard only)
+// PRINT AND INSPECTION ORIENTATION
+print_orientation = "nose_down";   // [nose_down,as_used]
 
 // INTERNAL ENVELOPE (mm): these are clearances in the guard, not key specs.
 body_internal_width = 38.07;
@@ -40,11 +37,10 @@ key_magnet_front_margin = 1.5;
 magnet_spacing = key_magnet_outer_span - key_magnet_diameter; // 15.51 mm
 magnet_y = -(key_magnet_front_margin + key_magnet_diameter/2); // -4.50 mm
 
-// CLEARANCES AND WALLS (adjust after test fit)
+// CLEARANCES AND WALLS (mm)
 underbody_gap = 0.25;               // continuous floor to key underside
-// Thicken only the bottom, outward from the unchanged key-facing plane.
-// Backing is measured BELOW the deepest glue dimple. The 1.20 mm default
-// is a conservative trial choice, not a physically established minimum.
+// The thicker floor leaves 1.20 mm of backing below the deepest glue recess.
+// Its key-facing surface stays at the underside clearance plane.
 production_pocket_depth = 2.95;     // magnet seating depth, not including dimple
 magnet_min_floor = 1.20;
 glue_relief_diameter = 2.50;
@@ -74,27 +70,6 @@ corner_radius = 1.6;               // rounded cross-sections, mm
 insert_diameter = 6.0;
 pocket_diameter_extra = 0.20;       // 6.20 mm opening for 6 mm discs
 
-// OPEN FLOOR COUPON: exposes the paddle tips, stops and magnet seats.
-// The optional depth increase affects only this fit tool.
-floor_coupon_depth_increase = 0;
-floor_coupon_marks = true;         // solid: inside nose; dashed: measured tips
-floor_coupon_mark_depth = 0.30;
-floor_coupon_mark_width = 0.60;
-
-// DEPTH LADDER: a thicker base preserves the annular seat around each hole.
-// Edge-down puts pocket depth in XY, matching the nose-down guard.
-depth_gauge_depths = [2.50,2.65,2.80,2.95,3.00];
-depth_gauge_base_thickness = 4.00;
-depth_gauge_min_floor = 1.00;
-depth_gauge_orientation = "edge_down"; // [edge_down,floor_down]
-depth_gauge_pitch = 13.0;
-depth_gauge_length = 16.0;
-depth_gauge_label_height = 0.50;
-
-// TEST PARTS ONLY: push a pin through the underside to recover trial magnets.
-// The full guard never receives these holes. Set 0 to disable them in tests.
-test_pushout_diameter = 2.0;
-
 // STOPS: shoulders on the outer edges of the stationary lower plate.
 // Carry impact into the rigid body, not the moving paddles.
 enable_stop_pads = true;
@@ -102,14 +77,6 @@ stop_pad_width = 3.3;
 stop_pad_height = 3.2;
 stop_pad_depth = 1.6;
 stop_pad_back_y = 0.15; // 0.15 mm seating travel from the nominal body datum
-
-// HEIGHT FIT COLLAR: retain the roof, sides, floor, magnets and stops.
-// The open front ends just beyond the stops so the paddles pass through.
-height_coupon_front_margin = 0.75;
-
-// SIDE GUIDES are shallow and deliberately loose; no clip-on force
-side_guide_height = 2.2;
-side_guide_length = 10.0;
 
 $fn = 48;
 eps = 0.03;
@@ -132,7 +99,6 @@ shroud_y = back_y;                  // entire shell shares the same rear plane
 
 pocket_d = insert_diameter + pocket_diameter_extra;
 pocket_depth = production_pocket_depth;
-height_coupon_front_y = stop_pad_back_y + stop_pad_depth + height_coupon_front_margin;
 
 assert(back_y < magnet_y - pocket_d/2 - 1,
     "Back overlap too short for magnet pockets");
@@ -141,13 +107,12 @@ assert(outer_tip_y - nose_wall - paddle_projection >= tip_clearance - 0.01,
 assert(magnet_y + pocket_d/2 < 0,
     "Front magnet pocket extends past the fixed body front edge");
 assert(pocket_depth > 0, "Magnet pocket depth must be positive");
-assert(part=="depth_gauge" || pocket_depth < floor_thickness - 0.8,
+assert(pocket_depth < floor_thickness - 0.8,
     "Maintain at least 0.8 mm floor below magnet pockets");
-assert(part != "guard" ||
-       (production_pocket_depth > 0 && magnet_min_floor > 0 &&
-        glue_relief_depth >= 0 && glue_relief_diameter > 0 &&
-        glue_relief_diameter <= insert_diameter - 2 &&
-        floor_thickness - pocket_depth - glue_relief_depth >= magnet_min_floor - 0.001),
+assert(production_pocket_depth > 0 && magnet_min_floor > 0 &&
+       glue_relief_depth >= 0 && glue_relief_diameter > 0 &&
+       glue_relief_diameter <= insert_diameter - 2 &&
+       floor_thickness - pocket_depth - glue_relief_depth >= magnet_min_floor - 0.001,
     "Maintain the seating annulus and minimum floor below the glue relief");
 assert(inner_root_top > stop_pad_height,
     "Rear opening leaves insufficient clearance above the stops");
@@ -198,31 +163,9 @@ module shroud_inner() {
     }
 }
 
-module coupon_floor(front_y = 0) {
-    // Flat, straight-edged underside plate for the fit-test coupon ONLY.
-    // The full guard already has a continuous floor across its whole length.
-    // Coupon extends to Y=0 so magnet pockets remain fully enclosed.
-    translate([-outer_root_width/2, back_y, floor_bottom])
-        cube([outer_root_width, front_y-back_y, floor_thickness]);
-}
-
-module coupon_side_guides(front_limit = 0) {
-    // Coupon-only side guides check the fit against the fixed bottom plate.
-    // The full guard has continuous, full-height side walls instead.
-    guide_start_y = back_y + 2.0;
-    guide_length = min(side_guide_length, front_limit-guide_start_y);
-    assert(guide_length > 0, "Side guide length too small");
-    for (side = [-1,1]) {
-        translate([side*(inner_root_width/2 + side_wall/2),
-                   guide_start_y + guide_length/2,
-                   floor_top + side_guide_height/2-0.08])
-            cube([side_wall,guide_length,side_guide_height],center=true);
-    }
-}
-
 module fixed_body_stop_pads() {
     // Small end stops at the extreme outer corners of the *fixed* lower
-    // plate; no tab crosses the central lever pathway. Check on real key!
+    // plate; no tab crosses the central lever pathway.
     if (enable_stop_pads)
         for (side = [-1,1])
             translate([side*(inner_root_width/2 - stop_pad_width/2),
@@ -231,73 +174,16 @@ module fixed_body_stop_pads() {
                 cube([stop_pad_width,stop_pad_depth,stop_pad_height],center=true);
 }
 
-module test_magnet_pushout(x,y,bottom=floor_bottom,thickness=floor_thickness) {
-    assert(test_pushout_diameter >= 0 &&
-           test_pushout_diameter < insert_diameter - 2,
-           "Leave at least a 1 mm wide magnet seating ring");
-    if (test_pushout_diameter > 0)
-        translate([x,y,bottom-eps])
-            cylinder(d=test_pushout_diameter,h=thickness+2*eps);
-}
-
-module magnet_pockets(depth = pocket_depth, with_pushouts = false,
-                      with_glue_relief = false) {
-    // Guard pockets are blind; coupons explicitly request underside pin holes.
+module magnet_pockets() {
+    // Blind pockets retain the magnets, with a shallow center glue recess.
     // Install magnets with polarities individually matched to attract key magnets.
     for (x = [-magnet_spacing/2,magnet_spacing/2]) {
         translate([x,magnet_y,
-                   floor_top - depth])
-            cylinder(d=pocket_d,h=depth + eps);
-        if (with_glue_relief && glue_relief_depth > 0)
-            translate([x,magnet_y,floor_top-depth-glue_relief_depth])
+                   floor_top - pocket_depth])
+            cylinder(d=pocket_d,h=pocket_depth + eps);
+        if (glue_relief_depth > 0)
+            translate([x,magnet_y,floor_top-pocket_depth-glue_relief_depth])
                 cylinder(d=glue_relief_diameter,h=glue_relief_depth+eps);
-        if (with_pushouts) test_magnet_pushout(x,magnet_y);
-    }
-}
-
-module floor_coupon_references() {
-    if (floor_coupon_marks) {
-        assert(floor_coupon_mark_depth > 0 &&
-               floor_coupon_mark_depth < floor_thickness - 0.8,
-               "Floor reference engraving is too deep");
-        // The cavity's last centered loft slice ends 0.06 mm beyond its
-        // nominal Y coordinate. Mark the actual central inside nose plane.
-        translate([-inner_tip_width/2,
-                   inner_tip_y + slice_depth/2 - floor_coupon_mark_width/2,
-                   floor_top - floor_coupon_mark_depth])
-            cube([inner_tip_width, floor_coupon_mark_width,
-                  floor_coupon_mark_depth + eps]);
-        // Dashed line is a measured datum, not an assertion of seated fit.
-        // Actual tip position shifts when the key seats against the stops.
-        for (fraction = [-0.8,-0.4,0,0.4,0.8])
-            translate([fraction*inner_tip_width/2 - 1.5,
-                       paddle_projection - floor_coupon_mark_width/2,
-                       floor_top - floor_coupon_mark_depth])
-                cube([3.0, floor_coupon_mark_width,
-                      floor_coupon_mark_depth + eps]);
-    }
-}
-
-module floor_coupon() {
-    trial_depth = pocket_depth + floor_coupon_depth_increase;
-    assert(floor_coupon_depth_increase >= 0,
-           "Floor coupon pocket increase must be nonnegative");
-    assert(trial_depth < floor_thickness - 0.8,
-           "Maintain at least 0.8 mm below the trial pockets");
-    difference() {
-        union() {
-            // Exact exterior floor from the guard, clipped at its mating
-            // surface. No roof, side guides or raised front bumper.
-            intersection() {
-                shroud_outer();
-                translate([-outer_root_width, back_y-1, floor_bottom-eps])
-                    cube([2*outer_root_width, outer_tip_y-back_y+2,
-                          floor_thickness+eps]);
-            }
-            fixed_body_stop_pads();
-        }
-        magnet_pockets(depth=trial_depth,with_pushouts=true);
-        floor_coupon_references();
     }
 }
 
@@ -312,126 +198,8 @@ module full_guard() {
             // all terminate at back_y. Keep only impact stops here.
             fixed_body_stop_pads();
         }
-        magnet_pockets(with_glue_relief=true);
+        magnet_pockets();
     }
-}
-
-module height_coupon() {
-    assert(height_coupon_front_margin > 0 && height_coupon_front_y < taper_start,
-           "Height collar must include the stops and end before the roof taper");
-    difference() {
-        intersection() {
-            full_guard();
-            translate([-outer_root_width,back_y-1,floor_bottom-eps])
-                cube([2*outer_root_width,height_coupon_front_y-back_y+1,
-                      outer_root_top-floor_bottom+2*eps]);
-        }
-        for (x = [-magnet_spacing/2,magnet_spacing/2])
-            test_magnet_pushout(x,magnet_y);
-    }
-}
-
-module printable_height_coupon() {
-    // Stand on the cut front rim. Both ends remain open, with no roof bridge.
-    translate([0,-floor_bottom,height_coupon_front_y])
-        rotate([-90,0,0]) height_coupon();
-}
-
-module fit_coupon() {
-    // Same full-width floor overlap and magnet seats,
-    // and same shallow side guides, but omits all paddle-enclosing material.
-    difference() {
-        union() {
-            coupon_floor(front_y=0);
-            coupon_side_guides(front_limit=0);
-        }
-        magnet_pockets(with_pushouts=true);
-    }
-}
-
-module magnet_gauge() {
-    // Optional pocket-size gauge: same thickness, 2 holes with slightly
-    // different tolerances for testing the exact magnets before using glue.
-    gauge_x=28;
-    gauge_y=14;
-    difference() {
-        translate([-gauge_x/2,-gauge_y/2,floor_bottom])
-            cube([gauge_x,gauge_y,floor_thickness]);
-        for (x=[-7,7]) { // left: tighter; right (notched edge): looser
-            translate([x,0,floor_top - pocket_depth])
-                cylinder(d=insert_diameter + pocket_diameter_extra +
-                           (x>0 ? 0.20 : -0.10),
-                         h=pocket_depth + eps);
-            test_magnet_pushout(x,0);
-        }
-        // Small semicircular edge notch identifies the looser (+X) pocket.
-        translate([gauge_x/2,0,floor_bottom-eps])
-            cylinder(r=1.2,h=floor_thickness+2*eps);
-    }
-}
-
-function depth_gauge_label(depth) =
-    let(hundredths=round(depth*100), fraction=hundredths%100)
-        str(floor(hundredths/100),".",fraction<10 ? "0" : "",fraction);
-
-module magnet_depth_gauge() {
-    count = len(depth_gauge_depths);
-    gauge_width = count * depth_gauge_pitch;
-    assert(count > 0 && depth_gauge_pitch > pocket_d + 4,
-           "Depth gauge pockets need adequate spacing");
-    assert(depth_gauge_length >= pocket_d + 8,
-           "Depth gauge needs room for the labels");
-    assert(depth_gauge_min_floor >= 0.8,
-           "Depth gauge needs at least 0.8 mm of seating material");
-    for (depth = depth_gauge_depths)
-        assert(depth > 0 &&
-               depth <= depth_gauge_base_thickness-depth_gauge_min_floor+0.001,
-               "Depth gauge base is too thin for the requested pockets");
-    union() {
-        difference() {
-            linear_extrude(height=depth_gauge_base_thickness)
-                round_rect(gauge_width,depth_gauge_length,1.0);
-            for (index = [0:count-1]) {
-                x = (index-(count-1)/2)*depth_gauge_pitch;
-                translate([x,-2,
-                           depth_gauge_base_thickness-depth_gauge_depths[index]])
-                    cylinder(d=pocket_d,h=depth_gauge_depths[index]+eps);
-                test_magnet_pushout(x,-2,bottom=0,
-                                    thickness=depth_gauge_base_thickness);
-            }
-            // Notch identifies the shallow end without relying on the labels.
-            translate([-gauge_width/2,0,-eps])
-                cylinder(r=1,h=depth_gauge_base_thickness+2*eps);
-        }
-        for (index = [0:count-1])
-            translate([(index-(count-1)/2)*depth_gauge_pitch,3,
-                       depth_gauge_base_thickness-eps])
-                linear_extrude(height=depth_gauge_label_height+eps)
-                    text(depth_gauge_label(depth_gauge_depths[index]),size=2.8,
-                         font="Liberation Sans:style=Bold",halign="center");
-    }
-}
-
-module printable_depth_gauge() {
-    if (depth_gauge_orientation == "edge_down") {
-        // Upright numbers above the pockets; depth is horizontal print Y.
-        translate([0,depth_gauge_base_thickness+depth_gauge_label_height,
-                   depth_gauge_length/2])
-            rotate([90,0,0]) magnet_depth_gauge();
-    } else if (depth_gauge_orientation == "floor_down") {
-        magnet_depth_gauge();
-    } else assert(false,"Unknown depth_gauge_orientation");
-}
-
-module fit_test_plate() {
-    // Two separate, flat parts in one STL. A 6 mm gap leaves room for slicing
-    // them as individual objects, without breakaway tabs or extra fit surfaces.
-    translate([0,0,-floor_bottom]) floor_coupon();
-    translate([outer_root_width/2 + 6 +
-               len(depth_gauge_depths)*depth_gauge_pitch/2,
-               back_y-slice_depth/2+
-               (depth_gauge_orientation=="floor_down" ? depth_gauge_length/2 : 0),0])
-        printable_depth_gauge();
 }
 
 module printable_guard() {
@@ -452,11 +220,4 @@ module printable_guard() {
     }
 }
 
-if (part=="guard") printable_guard();
-else if (part=="height_coupon") printable_height_coupon();
-else if (part=="fit_coupon") translate([0,0,-floor_bottom]) fit_coupon();
-else if (part=="magnet_gauge") translate([0,0,-floor_bottom]) magnet_gauge();
-else if (part=="floor_coupon") translate([0,0,-floor_bottom]) floor_coupon();
-else if (part=="depth_gauge") printable_depth_gauge();
-else if (part=="fit_test_plate") fit_test_plate();
-else assert(false,"Unknown part");
+printable_guard();

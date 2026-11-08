@@ -18,7 +18,6 @@ output/dipole-link/
 models/ham_radio/modular_dipole/*.zip
 models/ham_radio/modular_dipole/review/generated/
 output/printables/modular-dipole/
-output/printables/n0sa-rlp-v3-guard/
 # Keep the current modular dipole print set.
 !models/ham_radio/modular_dipole/center.stl
 !models/ham_radio/modular_dipole/winder.stl
@@ -53,3 +52,6 @@ models/luggage_tag/luggage_tag_user.stl
 # Separate 13-turn prototype winding cup.
 !models/ham_radio/balun_dipole_center/winding_guide.stl
 !models/ham_radio/balun_dipole_center/winding_guide_coupon.stl
+
+# Final N0SA RLP V3 paddle guard.
+!models/ham_radio/n0sa_rlp_v3_guard/rlp_v3_guard.stl
